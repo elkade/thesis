@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9FC1B7
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityWebsite.Services", "UniversityWebsite.Services\UniversityWebsite.Services.csproj", "{8C9BB222-D4E1-4AFA-8E3B-38EAE2D7A1D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{8F57D573-D799-4811-B14B-E3540E864784}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F57D573-D799-4811-B14B-E3540E864784}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F57D573-D799-4811-B14B-E3540E864784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9BB222-D4E1-4AFA-8E3B-38EAE2D7A1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C9BB222-D4E1-4AFA-8E3B-38EAE2D7A1D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C9BB222-D4E1-4AFA-8E3B-38EAE2D7A1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C9BB222-D4E1-4AFA-8E3B-38EAE2D7A1D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

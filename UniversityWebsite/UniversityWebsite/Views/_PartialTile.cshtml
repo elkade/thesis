@@ -1,0 +1,16 @@
+﻿@model UniversityWebsite.ViewModels.TileVm
+
+<article class="col-sm-4 tile">
+    <a href="@Model.Href">
+        <span style="background-image: url('upload/images/8560a858bcdb1d.png')"></span>
+        <div>
+            <time datetime="2015-09-29 14:35:23">@Model.Date</time>
+            <header>
+                @Model.Header
+            </header>
+            <p>
+                @Model.Paragraph
+            </p>
+        </div>
+    </a>
+</article>
