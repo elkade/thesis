@@ -10,13 +10,9 @@ namespace UniversityWebsite
         public static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
-
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-
             builder.RegisterFilterProvider();
-
             builder.RegisterSource(new ViewRegistrationSource());
-
             builder.RegisterModule(new ServiceModule());
 
             var container = builder.Build();
@@ -28,7 +24,6 @@ namespace UniversityWebsite
             protected override void Load(ContainerBuilder builder)
             {
                 builder.RegisterType<TilesServiceMock>().As<ITilesService>().InstancePerRequest();
-
                 base.Load(builder);
             }
         }

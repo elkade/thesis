@@ -1,4 +1,4 @@
-﻿@model List<UniversityWebsite.ViewModels.TileVm>
+﻿@model UniversityWebsite.Domain.Page
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -45,10 +45,7 @@
 </head>
     <body>
         <div class="container">
-            @foreach (var tile in Model)
-            {
-                Html.RenderPartial("../_PartialTile", tile);
-            }
+            
         </div>
     </body>
 </html>

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using UniversityWebsite.Domain;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 
@@ -16,15 +17,10 @@ namespace UniversityWebsite.Controllers
 
         public ActionResult Index()
         {
-            var tiles = _tilesService.GetTiles().Select(t => new TileVm
-            {
-                Date = t.Date,
-                Href = t.Href,
-                Header = t.Header,
-                Paragraph = t.Paragraph
-            })
-                .ToList();
-            return View(tiles);
+            var context = new DomainContext();
+
+
+            return View(context.Pages.FirstOrDefault());
         }
     }
 }
