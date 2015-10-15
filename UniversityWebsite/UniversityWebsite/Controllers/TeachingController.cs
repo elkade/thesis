@@ -6,19 +6,20 @@ using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite.Controllers
 {
-    public class PageController : Controller
+    public class TeachingController : Controller
     {
-        public PageController()
+        public TeachingController()
         {
-            
+
         }
 
         [HttpGet]
-        public ActionResult Index(string pageName)
+        public Subject GetSubject(string subjectName)
         {
-            var service = new PageService();
-
-            return View(service.FindPage(pageName));
+            return new Subject
+            {
+                Name = "dasdasd"
+            };
         }
     }
 }

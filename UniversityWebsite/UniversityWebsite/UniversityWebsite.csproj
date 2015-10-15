@@ -116,6 +116,7 @@
     <Compile Include="App_Start\AutofacConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Controllers\TeachingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -129,6 +130,7 @@
     <Content Include="packages.config" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\_PartialTile.cshtml" />
+    <Content Include="Views\Teaching\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
