@@ -8,10 +8,6 @@ namespace UniversityWebsite.Controllers
 {
     public class PageController : Controller
     {
-        public PageController()
-        {
-            
-        }
 
         [HttpGet]
         public ActionResult Index(string pageName)

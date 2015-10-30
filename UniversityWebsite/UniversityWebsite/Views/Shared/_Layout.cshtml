@@ -1,0 +1,22 @@
+﻿@using UniversityWebsite.ViewModels
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    @{
+        Html.RenderAction("MainMenu","Layout");
+    }
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

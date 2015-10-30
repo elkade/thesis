@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using UniversityWebsite.Domain;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite
@@ -13,17 +14,29 @@ namespace UniversityWebsite
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterFilterProvider();
             builder.RegisterSource(new ViewRegistrationSource());
+            builder.RegisterModule(new EfModule());
             builder.RegisterModule(new ServiceModule());
 
             var container = builder.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
-        public class ServiceModule : Module
+
+        private class ServiceModule : Module
         {
             protected override void Load(ContainerBuilder builder)
             {
                 builder.RegisterType<TilesServiceMock>().As<ITilesService>().InstancePerRequest();
+                builder.RegisterType<MenuService>().As<IMenuService>().InstancePerRequest();
+                base.Load(builder);
+            }
+        }
+
+        private class EfModule : Module
+        {
+            protected override void Load(ContainerBuilder builder)
+            {
+                builder.RegisterType(typeof(DomainContext)).As(typeof(IDomainContext)).InstancePerLifetimeScope();
                 base.Load(builder);
             }
         }

@@ -1,51 +1,7 @@
 ﻿@model UniversityWebsite.Domain.Page
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <title>Tile</title>
-    <style type="text/css">
-        .tile {
-            background: pink;
-        }
-
-        div.tile div.tile-content {
-            background: green;
-            float: right;
-        }
-
-        div.tile div.tile-date {
-            background: blue;
-        }
-
-        div.tile div.tile-title {
-            background: red;
-        }
-
-        div.tile div.tile-text {
-            background: brown;
-        }
-
-        div.tile div.tile-img {
-            background: yellow;
-            float: left;
-        }
-    </style>
-</head>
-    <body>
-        <div class="container">
-            <div>@Model.Name</div>
-        </div>
-    </body>
-</html>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+<div class="container">
+    <h1>
+        STRONA
+    </h1>
+</div>
