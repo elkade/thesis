@@ -8,9 +8,7 @@ namespace UniversityWebsite.Domain
         [Key]
         public int Id { get; set; }
 
-        public int LangGroup { get; set; }
+        public string CountryCode { get; set; }
         public ICollection<Page> Items { get; set; }
-
- 
     }
 }

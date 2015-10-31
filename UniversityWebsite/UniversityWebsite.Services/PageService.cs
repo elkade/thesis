@@ -4,7 +4,12 @@ using UniversityWebsite.Domain;
 
 namespace UniversityWebsite.Services
 {
-    public class PageService
+    public interface IPageService
+    {
+        Page FindPage(string pageName);
+    }
+
+    public class PageService : IPageService
     {
         private IDomainContext _context;
 
@@ -19,13 +24,14 @@ namespace UniversityWebsite.Services
             {
                 CountryCode = "32424",
                 LangGroup = 1,
-                Name = "test",
+                Title = "test",
                 Parent = null,
             };
             //page = _context.Pages.Add(page);
             //_context.SaveChanges();
 
-            return _context.Pages.FirstOrDefault(p => p.Name == pageName);
+            return _context.Pages.FirstOrDefault(
+                p => System.String.Compare(p.UrlName, pageName, System.StringComparison.OrdinalIgnoreCase)==0);
         }
     }
 }

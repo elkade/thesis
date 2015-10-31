@@ -13,9 +13,9 @@ namespace UniversityWebsite.Controllers
             _menuService = menuService;
         }
 
-        public ActionResult MainMenu()
+        public ActionResult MainMenu(string lang)
         {
-            var mainMenuData = _menuService.GetMainMenu(1);
+            var mainMenuData = _menuService.GetMainMenuCached(lang);
             MenuViewModel menu = new MenuViewModel(mainMenuData);
             return PartialView("_MainMenu",menu);
         }

@@ -1,6 +1,7 @@
-﻿@using UniversityWebsite.ViewModels
-<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
+@{
+    var lang = ViewBag.Language ?? "pl";
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -13,7 +14,7 @@
 </head>
 <body>
     @{
-        Html.RenderAction("MainMenu","Layout");
+        Html.RenderAction("MainMenu","Layout",new {lang=lang});
     }
     <div>
         @RenderBody()

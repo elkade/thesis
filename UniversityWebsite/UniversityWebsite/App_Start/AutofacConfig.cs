@@ -29,6 +29,7 @@ namespace UniversityWebsite
             {
                 builder.RegisterType<TilesServiceMock>().As<ITilesService>().InstancePerRequest();
                 builder.RegisterType<MenuService>().As<IMenuService>().InstancePerRequest();
+                builder.RegisterType<PageService>().As<IPageService>().InstancePerRequest();
                 base.Load(builder);
             }
         }

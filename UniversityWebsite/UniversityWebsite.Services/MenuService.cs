@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Runtime.Caching;
+using System.Linq;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Services.Helpers;
 
 namespace UniversityWebsite.Services
 {
     public interface IMenuService
     {
-        Menu GetMainMenu(int langId);
+        Menu GetMainMenu(string lang);
+        Menu GetMainMenuCached(string lang);
     }
     public class MenuService : IMenuService
     {
@@ -20,22 +22,20 @@ namespace UniversityWebsite.Services
             _context = context;
             _menus = _context.Menus;
         }
-        public Menu GetMainMenu(int langId)
+        public Menu GetMainMenu(string lang)
         {
-            return new Menu { MenuItems = new List<MenuItem>
-            {
-                new MenuItem{Href = "abc", Text = "Home", Title = "Strona główna"},
-                new MenuItem{Href = "abc", Text = "Dydaktyka", Title = ""},
-                new MenuItem{Href = "abc", Text = "Badania", Title = ""},
-                new MenuItem{Href = "abc", Text = "Forum", Title = ""},
-                new MenuItem{Href = "abc", Text = "Kontakt", Title = ""},
-            }};
+            var menu = _menus.Include(m=>m.Items).Single(m => m.CountryCode == lang);
+            var returnMenu = new Menu{MenuItems = new List<MenuItem>()};
+            foreach (var page in menu.Items)
+                returnMenu.MenuItems.Add(new MenuItem {Text = page.Title, Href = page.UrlName});
+            return returnMenu;
         }
-        public Menu GetMainMenuCached(int langId)
+        public Menu GetMainMenuCached(string lang)
         {
-            Menu mainMenu = (Menu)MemoryCache.Default.Get("MainMenu");
-            if (mainMenu == null)
-                return new Menu {};
+            Menu mainMenu = CacheHelper.GetOrInvoke<Menu>(
+                "MainMenu"+lang,
+                () => GetMainMenu(lang),
+                TimeSpan.FromSeconds(10));//Todo
             return mainMenu;
         }
     }

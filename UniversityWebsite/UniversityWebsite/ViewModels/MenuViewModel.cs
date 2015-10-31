@@ -8,7 +8,8 @@ namespace UniversityWebsite.ViewModels
     {
         public MenuViewModel(Menu menuData)
         {
-            MenuItems = menuData.MenuItems.Select(mi=>new MenuItemViewModel{Href = mi.Href, Text = mi.Text, Title = mi.Title}).ToList();
+            MenuItems = menuData.MenuItems.Select(
+                mi=>new MenuItemViewModel{Href = mi.Href, Text = mi.Text, Title = mi.Title}).ToList();
         }
 
         public List<MenuItemViewModel> MenuItems = new List<MenuItemViewModel>();
