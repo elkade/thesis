@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Runtime.Caching;
+using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
 
 namespace UniversityWebsite.Services

@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.Migrations;
 
-namespace UniversityWebsite.Domain.Migrations
+namespace UniversityWebsite.Core.Migrations
 {
     public class Configuration : DbMigrationsConfiguration<DomainContext>
     {
@@ -8,6 +8,12 @@ namespace UniversityWebsite.Domain.Migrations
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
+        }
+
+        protected override void Seed(DomainContext context)
+        {
+            base.Seed(context);
+            new Core.Migrations.InitialDataLoader(context).WithDefault();
         }
     }
 }

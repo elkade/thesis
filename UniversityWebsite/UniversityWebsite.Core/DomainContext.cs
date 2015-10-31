@@ -1,31 +1,40 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
-using UniversityWebsite.Domain.Migrations;
+using Microsoft.AspNet.Identity.EntityFramework;
+using UniversityWebsite.Domain;
+using Configuration = UniversityWebsite.Core.Migrations.Configuration;
 
-namespace UniversityWebsite.Domain
+namespace UniversityWebsite.Core
 {
     public interface IDomainContext
     {
         IDbSet<Page> Pages { get; set; }
         IDbSet<Subject> Subjects { get; set; }
         IDbSet<NavigationMenu> Menus { get; set; }
+        IDbSet<ApplicationUser> Users { get; set; }
+        IDbSet<IdentityRole> Roles { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
     }
 
-    public class DomainContext : DbContext, IDomainContext
+    public class DomainContext : ApplicationDbContext, IDomainContext
     {
         static DomainContext()
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DomainContext, Configuration>("DomainContext"));
         }
 
-        public DomainContext() : base("name=DomainContext")
+        public DomainContext() 
         {
         }
 
         public virtual IDbSet<Page> Pages { get; set; }
         public virtual IDbSet<Subject> Subjects { get; set; }
         public virtual IDbSet<NavigationMenu> Menus { get; set; }
+
+        public static DomainContext Create()
+        {
+            return new DomainContext();
+        }
     }
 }
