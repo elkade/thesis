@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
+using UniversityWebsite.Core.Migrations;
 using UniversityWebsite.Domain;
 using Configuration = UniversityWebsite.Core.Migrations.Configuration;
 
@@ -21,7 +22,8 @@ namespace UniversityWebsite.Core
     {
         static DomainContext()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DomainContext, Configuration>("DomainContext"));
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DomainContext, Configuration>("DomainContext"));
+            Database.SetInitializer(new DomainContextInitializer());
         }
 
         public DomainContext() 

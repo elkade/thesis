@@ -90,6 +90,7 @@
     <Compile Include="DomainContext.cs" />
     <Compile Include="IdentityConfig.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\DomainContextInitializer.cs" />
     <Compile Include="Migrations\InitialDataLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

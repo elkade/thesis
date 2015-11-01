@@ -23,8 +23,8 @@ namespace UniversityWebsite.Core.Migrations
         };
 
         private readonly IDomainContext _context;
-        private ApplicationUserManager _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationUserManager _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public InitialDataLoader(DomainContext domainContext)
         {
@@ -38,18 +38,15 @@ namespace UniversityWebsite.Core.Migrations
             WithRoles();
             WithUsers();
             WithAdmin(Admin);
-            //AddPagesAndMenus();
-
+            AddPagesAndMenus();
 
             _context.SaveChanges();
-
         }
-
 
         private void AddPagesAndMenus()
         {
-            Language pl = new Language {Name = "polski", CountryCode = "pl"};
-            Language en = new Language {Name = "english", CountryCode = "en"};
+            var pl = new Language {Name = "polski", CountryCode = "pl"};
+            var en = new Language {Name = "english", CountryCode = "en"};
             var pagesPl = new List<Page>
             {
                 new Page
@@ -109,7 +106,6 @@ namespace UniversityWebsite.Core.Migrations
 
             _context.Menus.Add(menu1);
             _context.Menus.Add(menu2);
-
         }
 
         public void WithRoles()
