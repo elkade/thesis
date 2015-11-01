@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
 
@@ -7,6 +9,7 @@ namespace UniversityWebsite.Services
     public interface IPageService
     {
         Page FindPage(string pageName);
+        IEnumerable<Page> GetTranslations(int pageId);
     }
 
     public class PageService : IPageService
@@ -22,7 +25,7 @@ namespace UniversityWebsite.Services
         {
             var page = new Page
             {
-                CountryCode = "32424",
+                //CountryCode = "32424",
                 LangGroup = 1,
                 Title = "test",
                 Parent = null,
@@ -32,6 +35,12 @@ namespace UniversityWebsite.Services
 
             return _context.Pages.FirstOrDefault(
                 p => System.String.Compare(p.UrlName, pageName, System.StringComparison.OrdinalIgnoreCase)==0);
+        }
+
+        public IEnumerable<Page> GetTranslations(int pageId)
+        {
+            var page = _context.Pages.Single(p => p.Id == pageId);
+            return _context.Pages.Include(p => p.Language).Where(p => p.LangGroup == page.LangGroup);
         }
     }
 }

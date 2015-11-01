@@ -48,7 +48,8 @@ namespace UniversityWebsite.Core.Migrations
 
         private void AddPagesAndMenus()
         {
-
+            Language pl = new Language {Name = "polski", CountryCode = "pl"};
+            Language en = new Language {Name = "english", CountryCode = "en"};
             var pagesPl = new List<Page>
             {
                 new Page
@@ -56,21 +57,21 @@ namespace UniversityWebsite.Core.Migrations
                     Title = "Kontakt",
                     UrlName = "Kontakt",
                     LangGroup = 1,
-                    CountryCode = "pl"
+                    Language = pl
                 },
                 new Page
                 {
                     Title = "Badania",
                     UrlName = "Badania",
-                    CountryCode = "pl",
-                    LangGroup = 1,
+                    Language = pl,
+                    LangGroup = 2,
                 },
                 new Page
                 {
                     Title = "Kadra",
                     UrlName = "Kadra",
-                    CountryCode = "pl",
-                    LangGroup = 1,
+                    Language = pl,
+                    LangGroup = 3,
                 }
             };
             foreach (var p in pagesPl)
@@ -81,14 +82,14 @@ namespace UniversityWebsite.Core.Migrations
                 new Page
                 {
                     Title = "Contact",
-                    CountryCode = "en",
+                    Language = en,
                     UrlName = "Contact",
-                    LangGroup = 2,
+                    LangGroup = 1,
                 },
                 new Page
                 {
                     Title = "Research",
-                    CountryCode = "en",
+                    Language = en,
                     UrlName = "Research",
                     LangGroup = 2,
                 },
@@ -96,15 +97,15 @@ namespace UniversityWebsite.Core.Migrations
                 {
                     Title = "Staff",
                     UrlName = "Staff",
-                    CountryCode = "en",
-                    LangGroup = 2,
+                    Language = en,
+                    LangGroup = 3,
                 }
             };
             foreach (var p in pagesPl)
                 _context.Pages.Add(p);
 
-            var menu1 = new NavigationMenu { CountryCode = "pl", Items = pagesPl };
-            var menu2 = new NavigationMenu { CountryCode = "en", Items = pagesEn };
+            var menu1 = new NavigationMenu { Language = pl, Items = pagesPl };
+            var menu2 = new NavigationMenu { Language = en, Items = pagesEn };
 
             _context.Menus.Add(menu1);
             _context.Menus.Add(menu2);

@@ -24,10 +24,10 @@ namespace UniversityWebsite.Services
         }
         public Menu GetMainMenu(string lang)
         {
-            var menu = _menus.Include(m=>m.Items).Single(m => m.CountryCode == lang);
+            var menu = _menus.Include(m=>m.Items).Include(m=>m.Language).Single(m => m.Language.CountryCode == lang);
             var returnMenu = new Menu{MenuItems = new List<MenuItem>()};
-            foreach (var page in menu.Items)
-                returnMenu.MenuItems.Add(new MenuItem {Text = page.Title, Href = page.UrlName});
+            foreach (var page in menu.Items.OrderBy(mi=>mi.Id))//todo
+                returnMenu.MenuItems.Add(new MenuItem { Text = page.Title, Href = page.UrlName });
             return returnMenu;
         }
         public Menu GetMainMenuCached(string lang)
@@ -50,5 +50,6 @@ namespace UniversityWebsite.Services
         public string Text { get; set; }
         public string Href { get; set; }
         public string Title { get; set; }
+        public int Type { get; set; }
     }
 }

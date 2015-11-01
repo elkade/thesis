@@ -10,9 +10,9 @@ namespace UniversityWebsite
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Page",
-                url: "{pageName}",
-                defaults: new { controller = "Page", action = "Index" }
+                name: "Home",
+                url: "Home",
+                defaults: new { controller = "Home", action = "Index" }
             );
 
             routes.MapRoute(
@@ -20,6 +20,12 @@ namespace UniversityWebsite
                 url: "Teaching/Subject/{subjectName}",
                 defaults: new { controller = "Teaching", action = "GetSubject" }
             );
+
+            routes.MapRoute(
+                name: "Page",
+                url: "{pageName}",
+                defaults: new {controller = "Page", action = "Index"}
+                );
 
             routes.MapRoute(
                 name: "Default",

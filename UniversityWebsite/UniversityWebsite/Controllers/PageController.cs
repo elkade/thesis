@@ -14,12 +14,14 @@ namespace UniversityWebsite.Controllers
         [HttpGet]
         public ActionResult Index(string pageName)
         {
+            //todo ustawić cookie
             var page = _pageService.FindPage(pageName);
             if (page == null)
                 return View(new PageViewModel{Name = "NotFound"});
-            var pageVm = new PageViewModel { Name = page.Title, Language = page.CountryCode};
+            var pageVm = new PageViewModel { Name = page.Title, Language = page.Language.CountryCode};
 
-            ViewBag.Language = page.CountryCode;
+            ViewBag.Language = page.Language.CountryCode;
+            ViewBag.PageId = page.Id;
             ViewBag.Title = page.Title;
 
             return View(pageVm);

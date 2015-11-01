@@ -9,7 +9,7 @@ namespace UniversityWebsite.Domain
         public string Title { get; set; }
         public string UrlName { get; set; }
         public int LangGroup { get; set; }
-        public string CountryCode { get; set; }
+        public virtual Language Language { get; set; }
         public virtual Page Parent { get; set; }
     }
 }

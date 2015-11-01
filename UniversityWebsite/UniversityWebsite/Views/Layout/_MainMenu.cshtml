@@ -2,12 +2,23 @@
 <nav class="main-menu">
     <ul>
         @*<li id="home"><a href="stronaglowna"><i class="icon-home"></i></a></li>*@
+        <li>
+            <a class="ext_link" href="@Url.Action("Index", "Home")" title="Home">Home</a>
+        </li>
+
         @foreach (var menuItem in Model.MenuItems)
         {
+            
             <li>
-                <a class="ext_link" href="@Url.Action("Index", "Page", new { pagename = menuItem.Href })" title="@menuItem.Title">@menuItem.Text</a>
+            @{
+                string href = Url.Action("Index", "Page", new {pagename = menuItem.Href});
+            }
+                <a class="ext_link" href="@href" title="@menuItem.Title">@menuItem.Text</a>
             </li>
         }
+        <li>
+            <a class="ext_link" href="@Url.Action("Login", "Account")" title="Login">Login</a>
+        </li>
     </ul>
 
 </nav>

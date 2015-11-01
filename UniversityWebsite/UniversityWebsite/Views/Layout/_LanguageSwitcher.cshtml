@@ -1,0 +1,25 @@
+﻿@model UniversityWebsite.ViewModels.Layout.LanguageSwitcherViewModel
+<nav class="main-menu">
+    <ul>
+
+        @foreach (var language in Model.Languages)
+        {
+            <li>
+            @{
+                string href = null;
+                if (language.IsPage)
+                {
+                    href = Url.Action("Index", "Page", new {pagename = language.Page});
+                }
+                else
+                {
+                    href = Url.Action(language.Action, language.Controller, new { pagename = language.Page });
+                }
+            }
+                <a class="ext_link" href="@href" title="@language.CountryCode">@language.CountryCode</a>
+            </li>
+        }
+
+    </ul>
+
+</nav>

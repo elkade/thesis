@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 @{
     var lang = ViewBag.Language ?? "pl";
+    var pageId = ViewBag.PageId ?? 0;
 }
 <html>
 <head>
@@ -11,13 +12,16 @@
             background-color: red;
         }
     </style>
+    @RenderSection("Styles", false)
 </head>
 <body>
     @{
-        Html.RenderAction("MainMenu","Layout",new {lang=lang});
+        Html.RenderAction("MainMenu", "Layout", new { lang = lang});
+        Html.RenderAction("LanguageSwitcher", "Layout", new { lang = lang, pageId = pageId });
     }
     <div>
         @RenderBody()
     </div>
 </body>
+@RenderSection("Scripts", false)
 </html>
