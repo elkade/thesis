@@ -51,8 +51,8 @@ namespace UniversityWebsite.Controllers
         }
 
         //
-        // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        // GET: /Manage/General
+        public async Task<ActionResult> General(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."

@@ -17,8 +17,9 @@
             </li>
         }
         <li>
-            <a class="ext_link" href="@Url.Action("Login", "Account")" title="Login">Login</a>
+            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
         </li>
+        @Html.Partial("_LoginPartial")
     </ul>
 
 </nav>
