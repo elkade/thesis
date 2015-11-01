@@ -18,25 +18,25 @@ namespace UniversityWebsite.Controllers
             _pageService = pageService;
         }
 
-        public ActionResult MainMenu(string lang)
-        {
-            var mainMenuData = _menuService.GetMainMenuCached(lang);
-            MenuViewModel menu = new MenuViewModel(mainMenuData);
-            return PartialView("_MainMenu",menu);
-        }
+        //public ActionResult MainMenu(string lang)
+        //{
+        //    var mainMenuData = _menuService.GetMainMenuCached(lang);
+        //    MenuViewModel menu = new MenuViewModel(mainMenuData);
+        //    return PartialView("_MainMenu",menu);
+        //}
 
-        public ActionResult LanguageSwitcher(string currentLang, int pageId)
-        {
-            if (pageId <= 0) return PartialView("_LanguageSwitcher", new LanguageSwitcherViewModel());
+        //public ActionResult LanguageSwitcher(string currentLang, int pageId)
+        //{
+        //    if (pageId <= 0) return PartialView("_LanguageSwitcher", new LanguageSwitcherViewModel());
             
-            var translations = _pageService.GetTranslations(pageId);
+        //    var translations = _pageService.GetTranslations(pageId);
 
-            LanguageSwitcherViewModel switcher = new LanguageSwitcherViewModel();
+        //    LanguageSwitcherViewModel switcher = new LanguageSwitcherViewModel();
 
-            switcher.Languages = translations.Where(t=>t.Language.CountryCode!=currentLang).Select(
-                t => new LanguageButtonViewModel {IsPage = true, CountryCode = t.Language.CountryCode, Page = t.UrlName}).ToList();
+        //    switcher.Languages = translations.Where(t=>t.Language.CountryCode!=currentLang).Select(
+        //        t => new LanguageButtonViewModel {IsPage = true, CountryCode = t.Language.CountryCode, Page = t.UrlName}).ToList();
 
-            return PartialView("_LanguageSwitcher", switcher);
-        }
+        //    return PartialView("_LanguageSwitcher", switcher);
+        //}
 	}
 }

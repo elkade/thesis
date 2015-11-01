@@ -217,7 +217,7 @@
     <Content Include="Views\_PartialTile.cshtml" />
     <Content Include="Views\Teaching\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Layout\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -241,7 +241,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Layout\_LanguageSwitcher.cshtml" />
+    <Content Include="Views\Shared\_LanguageSwitcher.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -251,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Layout\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniversityWebsite.Core\UniversityWebsite.Core.csproj">

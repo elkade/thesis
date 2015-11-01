@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(IMenuService menuService, IPageService pageService)
+            : base(menuService, pageService)
+        {
+        }
         public ActionResult Index()
         {
             return View();

@@ -4,10 +4,11 @@ using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite.Controllers
 {
-    public class PageController : Controller
+    public class PageController : BaseController
     {
         private IPageService _pageService;
-        public PageController(IPageService pageService)
+        public PageController(IMenuService menuService, IPageService pageService)
+            : base(menuService, pageService)
         {
             _pageService = pageService;
         }
@@ -20,10 +21,10 @@ namespace UniversityWebsite.Controllers
                 return View(new PageViewModel{Name = "NotFound"});
             var pageVm = new PageViewModel { Name = page.Title, Language = page.Language.CountryCode};
 
-            ViewBag.Language = page.Language.CountryCode;
-            ViewBag.PageId = page.Id;
-            ViewBag.Title = page.Title;
+            Lang = page.Language.CountryCode;
+            PageId = page.Id;
 
+            ViewBag.Title = page.Title;
             return View(pageVm);
         }
     }
