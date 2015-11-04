@@ -74,8 +74,11 @@ namespace UniversityWebsite.Controllers
 
             LanguageSwitcherViewModel switcher = new LanguageSwitcherViewModel();
 
-            switcher.Languages = translations.Where(t => t.Language.CountryCode != _lang).Select(
-                t => new LanguageButtonViewModel { IsPage = true, CountryCode = t.Language.CountryCode, Page = t.UrlName }).ToList();
+            switcher.Languages = translations
+                .Where(t => t.Language.CountryCode != _lang)
+                .Select(t => 
+                    new LanguageButtonViewModel { IsPage = true, CountryCode = t.Language.CountryCode, Page = t.UrlName })
+                .ToList();
             ViewData["langSw"] = switcher;
         }
 

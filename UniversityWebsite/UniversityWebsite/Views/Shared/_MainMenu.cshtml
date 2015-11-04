@@ -1,10 +1,14 @@
 ﻿@model UniversityWebsite.ViewModels.MenuViewModel
-<nav class="main-menu">
-    <ul>
+@{
+    var languageSwitcherViewModel = ViewData["langSw"];
+}
+<nav class="main-menu large-9 columns">
+    <ul class="right button-group"> 
         @*<li id="home"><a href="stronaglowna"><i class="icon-home"></i></a></li>*@
-        <li>
-            <a class="ext_link" href="@Url.Action("Index", "Home")" title="Home">Home</a>
-        </li>
+
+        <li><a href="@Url.Action("Index", "Home")" class="button">Home</a></li>
+
+        
 
         @foreach (var menuItem in Model.MenuItems)
         {
@@ -13,13 +17,18 @@
             @{
                 string href = Url.Action("Index", "Page", new {pagename = menuItem.Href});
             }
-                <a class="ext_link" href="@href" title="@menuItem.Title">@menuItem.Text</a>
+                <a class="button" href="@href" title="@menuItem.Title">@menuItem.Text</a>
             </li>
         }
-        <li>
-            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-        </li>
+
+        @*<li><a href="@Url.Action("Register", "Account")" class="button">Register</a></li>*@
+        
         @Html.Partial("_LoginPartial")
+        
+        @{
+            Html.RenderPartial("_LanguageSwitcher", languageSwitcherViewModel);
+        }
+        
     </ul>
 
 </nav>
