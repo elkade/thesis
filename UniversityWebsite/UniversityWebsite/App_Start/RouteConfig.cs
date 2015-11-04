@@ -24,8 +24,9 @@ namespace UniversityWebsite
             routes.MapRoute(
                 name: "Page",
                 url: "{pageName}",
-                defaults: new {controller = "Page", action = "Index"}
+                defaults: new { controller = "Page", action = "Index" }
                 );
+
 
             routes.MapRoute(
                 name: "Default",

@@ -14,6 +14,7 @@ namespace UniversityWebsite.Core
         IDbSet<NavigationMenu> Menus { get; set; }
         IDbSet<ApplicationUser> Users { get; set; }
         IDbSet<IdentityRole> Roles { get; set; }
+        IDbSet<Language> Languages { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
     }
@@ -33,6 +34,7 @@ namespace UniversityWebsite.Core
         public virtual IDbSet<Page> Pages { get; set; }
         public virtual IDbSet<Subject> Subjects { get; set; }
         public virtual IDbSet<NavigationMenu> Menus { get; set; }
+        public virtual IDbSet<Language> Languages { get; set; }
 
         public static DomainContext Create()
         {

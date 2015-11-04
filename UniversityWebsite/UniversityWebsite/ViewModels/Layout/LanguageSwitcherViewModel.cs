@@ -8,10 +8,9 @@ namespace UniversityWebsite.ViewModels.Layout
     }
     public class LanguageButtonViewModel
     {
-        public string Action { get; set; }
-        public string Controller { get; set; }
-        public string Page { get; set; }
+        public string Title { get; set; }
         public string CountryCode { get; set; }
+        public string UrlName { get; set; }
         public bool IsPage { get; set; }
     }
 }

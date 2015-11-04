@@ -39,7 +39,9 @@ namespace UniversityWebsite.Services
 
         public IEnumerable<Page> GetTranslations(int pageId)
         {
-            var page = _context.Pages.Single(p => p.Id == pageId);
+            var page = _context.Pages.SingleOrDefault(p => p.Id == pageId);
+            if (page == null)
+                return Enumerable.Empty<Page>();
             return _context.Pages.Include(p => p.Language).Where(p => p.LangGroup == page.LangGroup);
         }
     }

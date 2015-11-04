@@ -5,18 +5,14 @@
         @foreach (var language in Model.Languages)
         {
             <li>
-            @{
-                string href = null;
-                if (language.IsPage)
+                @if (!language.IsPage)
                 {
-                    href = Url.Action("Index", "Page", new {pagename = language.Page});
+                    @Html.ActionLink(@language.CountryCode, ViewContext.RouteData.Values["action"].ToString(), new {language = language.CountryCode});
                 }
                 else
                 {
-                    href = Url.Action(language.Action, language.Controller, new { pagename = language.Page });
+                    @Html.ActionLink(@language.CountryCode, "Index", new {pagename=language.UrlName});
                 }
-            }
-                <a class="ext_link" href="@href" title="@language.CountryCode">@language.CountryCode</a>
             </li>
         }
 

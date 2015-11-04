@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UniversityWebsite.Domain;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 using UniversityWebsite.ViewModels.Layout;
@@ -19,7 +21,7 @@ namespace UniversityWebsite.Controllers
             _pageService = pageService;
         }
 
-        private string _lang;
+        private string _lang = null;
 
         private const string CookieKeyLang = "lang";
         private const string DefaultLanguage = "pl";
@@ -34,13 +36,23 @@ namespace UniversityWebsite.Controllers
             }
             set
             {
+                if (_lang != null)
+                    return;
                 _lang = value;
                 SetCookie(CookieKeyLang, value);
             }
         }
 
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+            string lang = filterContext.HttpContext.Request.Params["language"];
+            if (!string.IsNullOrEmpty(lang)) Lang = lang; //todo walidacja
+        }
+
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            base.OnActionExecuted(filterContext);
             UpdateLanguage();
 
             AddMenu();
@@ -52,7 +64,7 @@ namespace UniversityWebsite.Controllers
             if (_lang == null)
                 _lang = GetCookie(CookieKeyLang);
             if (_lang == null)
-                _lang = DefaultLanguage;//TODO
+                _lang = DefaultLanguage;//TODO walidacja cookie
         }
 
         private void AddMenu()
@@ -64,18 +76,18 @@ namespace UniversityWebsite.Controllers
 
         private void AddLanguageSwitcher()
         {
-            if (PageId <= 0)
-            {
-                ViewData["langSw"] = new LanguageSwitcherViewModel();
-                return;
-            }
+            var switcher = new LanguageSwitcherViewModel();
 
-            var translations = _pageService.GetTranslations(PageId);
+            var languages = _menuService.GetLanguagesCached();
 
-            LanguageSwitcherViewModel switcher = new LanguageSwitcherViewModel();
+            var translations = _pageService.GetTranslations(PageId).ToList();
 
-            switcher.Languages = translations.Where(t => t.Language.CountryCode != _lang).Select(
-                t => new LanguageButtonViewModel { IsPage = true, CountryCode = t.Language.CountryCode, Page = t.UrlName }).ToList();
+            var query = from language in languages
+                        join page in translations on language.CountryCode equals page.Language.CountryCode into gj
+                        from page2 in gj.DefaultIfEmpty()
+                        select new LanguageButtonViewModel { IsPage = (page2 != null), CountryCode = language.CountryCode, Title = language.Name, UrlName = page2 == null ? null : page2.UrlName };
+            switcher.Languages = query.ToList();
+
             ViewData["langSw"] = switcher;
         }
 
