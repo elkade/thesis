@@ -12,6 +12,7 @@ namespace UniversityWebsite.Services
     {
         Menu GetMainMenu(string lang);
         Menu GetMainMenuCached(string lang);
+        List<Language> GetLanguagesCached();
     }
     public class MenuService : IMenuService
     {
@@ -37,6 +38,15 @@ namespace UniversityWebsite.Services
                 () => GetMainMenu(lang),
                 TimeSpan.FromSeconds(10));//Todo
             return mainMenu;
+        }
+
+        public List<Language> GetLanguagesCached()
+        {
+            List<Language> languages = CacheHelper.GetOrInvoke<List<Language>>(
+                "Languages",
+                () => _context.Languages.ToList(),
+                TimeSpan.FromSeconds(10));//Todo
+            return languages;
         }
     }
 
