@@ -9,9 +9,10 @@ namespace UniversityWebsite.Controllers
             : base(menuService, pageService)
         {
         }
+
         public ActionResult Index()
         {
-            return View();
+            return View(_pageService.GetHomeTiles(Lang));
         }
 	}
 }

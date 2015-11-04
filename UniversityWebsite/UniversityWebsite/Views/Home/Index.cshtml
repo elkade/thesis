@@ -1,4 +1,4 @@
-﻿
+﻿@model List<UniversityWebsite.Domain.Page>
 @{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,5 +6,20 @@
 @section Styles {
     <link href="@Url.Content("~/Resources/Styles/home-style.css")" rel="stylesheet" type="text/css" />
 }
-<h2>Witaj na naszej stronie</h2>
+
+@foreach(var page in Model)
+{   
+    <div class="medium-4 columns">
+        <div class="card">
+            <a href="@page.UrlName"><img src="http://www.klbjfm.com/sites/g/files/exi626/f/article-images-featured/267731-147736.jpg"/></a>
+            <div class="card-divider"></div>
+            <div class="content">
+                <span class="title">@page.Title</span>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi iusto reprehenderit voluptatem odio deleniti provident aliquam qui magnam aspernatur necessitatibus.</p>
+            </div>
+        </div>
+    </div>
+}
+
+
 

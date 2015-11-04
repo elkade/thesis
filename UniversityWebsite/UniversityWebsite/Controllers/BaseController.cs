@@ -13,7 +13,7 @@ namespace UniversityWebsite.Controllers
     public class BaseController : Controller
     {
         private readonly IMenuService _menuService;
-        private readonly IPageService _pageService;
+        protected readonly IPageService _pageService;
 
         public BaseController(IMenuService menuService, IPageService pageService)
         {
@@ -32,7 +32,7 @@ namespace UniversityWebsite.Controllers
         {
             get
             {
-                return _lang;
+                return _lang ?? DefaultLanguage; //TODO: I want default language but not null
             }
             set
             {

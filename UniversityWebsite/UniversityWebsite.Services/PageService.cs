@@ -10,6 +10,7 @@ namespace UniversityWebsite.Services
     {
         Page FindPage(string pageName);
         IEnumerable<Page> GetTranslations(int pageId);
+        ICollection<Page> GetHomeTiles(string lang);
     }
 
     public class PageService : IPageService
@@ -23,16 +24,6 @@ namespace UniversityWebsite.Services
 
         public Page FindPage(string pageName)
         {
-            var page = new Page
-            {
-                //CountryCode = "32424",
-                LangGroup = 1,
-                Title = "test",
-                Parent = null,
-            };
-            //page = _context.Pages.Add(page);
-            //_context.SaveChanges();
-
             return _context.Pages.FirstOrDefault(
                 p => System.String.Compare(p.UrlName, pageName, System.StringComparison.OrdinalIgnoreCase)==0);
         }
@@ -43,6 +34,11 @@ namespace UniversityWebsite.Services
             if (page == null)
                 return Enumerable.Empty<Page>();
             return _context.Pages.Include(p => p.Language).Where(p => p.LangGroup == page.LangGroup);
+        }
+
+        public ICollection<Page> GetHomeTiles(string lang)
+        {
+            return _context.Pages.Where(p => p.Parent == null && p.Language.CountryCode == lang).ToList();
         }
     }
 }
