@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryService.cs" />
     <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="MenuService.cs" />
     <Compile Include="Models\Tile.cs" />
