@@ -3,25 +3,89 @@
     var mainMenuViewModel = ViewData["menu"];
     var languageSwitcherViewModel = ViewData["langSw"];
 }
-<html>
+<html class="no-js">
 <head>
-    <meta name="viewport" content="width=device-width" />
+    @*Set the viewport width to device width for mobile *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    @RenderSection("head", required: false)
+    @Styles.Render("~/Content/foundation/css")
+    @Scripts.Render("~/bundles/modernizr")
+    
+    @Styles.Render("~/Content/css")
+
     <title>@ViewBag.Title</title>
-    <style>
-        body {
-            background-color: red;
-        }
-    </style>
     @RenderSection("Styles", false)
 </head>
+
+
 <body>
-    @{
-        Html.RenderPartial("_MainMenu", mainMenuViewModel);
-        Html.RenderPartial("_LanguageSwitcher", languageSwitcherViewModel);
-    }
-    <div>
+    <div class="row">
+        <div class="large-3 columns">
+            <h1><img src="https://www.pw.edu.pl/design/pl_mob_merge/images/pw_logo_naglowek.png"/></h1>
+        </div>
+        @{
+            Html.RenderPartial("_MainMenu", mainMenuViewModel);
+        }
+    </div>
+      
+    <div class="row">
+        <div class="large-12 columns">
+            <div id="slider">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/Polish_Wikinews_header_image.png"/>
+            </div>
+            <hr/>
+        </div>
+    </div>
+            
+    <div class="row">
         @RenderBody()
     </div>
+
+    @*<div class="row">
+        <div class="large-12 columns">
+        
+            <div class="panel">
+                <h4>Get in touch!</h4>
+                
+                <div class="row">
+                    <div class="large-9 columns">
+                        <p>We'd love to hear from you, you attractive person you.</p>
+                    </div>
+                    <div class="large-3 columns">
+                        <a href="#" class="radius button right">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>*@
+     
+    <footer class="row">
+        <div class="large-12 columns">
+            <hr/>
+            <div class="row">
+                <div class="large-6 columns">
+                  <p>© Copyright no one at all. Go to town.</p>
+                </div>
+                <div class="large-6 columns">
+                  <ul class="inline-list right">
+                    <li><a href="#">Link 1</a></li>
+                    <li><a href="#">Link 2</a></li>
+                    <li><a href="#">Link 3</a></li>
+                    <li><a href="#">Link 4</a></li>
+                  </ul>
+                </div>
+            </div>
+        </div> 
+    </footer>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/foundation")
+    <script>
+        $(document).foundation();
+    </script>
+    @RenderSection("Scripts", false)
 </body>
-@RenderSection("Scripts", false)
+
 </html>
