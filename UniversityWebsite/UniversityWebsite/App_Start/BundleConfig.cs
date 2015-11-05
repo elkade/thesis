@@ -1,4 +1,5 @@
 ﻿using System.Web.Optimization;
+using UniversityWebsite.App_Start.Bundles;
 
 namespace UniversityWebsite
 {
@@ -26,6 +27,9 @@ namespace UniversityWebsite
 
             bundles.Add(Foundation.Styles());
             bundles.Add(Foundation.Scripts());
+
+            bundles.Add(Admin.Styles());
+            bundles.Add(Admin.Scripts());
         }  
     }
 }
