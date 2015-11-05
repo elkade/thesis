@@ -1,17 +1,17 @@
 ﻿@model List<UniversityWebsite.Domain.Page>
-@{
+@using UniversityWebsite.Helper@{
     ViewBag.Title = "Home";
+    string lang = (string)ViewData["lang"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
-    <link href="@Url.Content("~/Resources/Styles/home-style.css")" rel="stylesheet" type="text/css" />
 }
-
+<h2>@{ Html.RenderPhrase("witaj", lang);}</h2>
 @foreach(var page in Model)
 {   
     <div class="medium-4 columns">
         <div class="card">
-            <a href="@page.UrlName"><img src="http://www.klbjfm.com/sites/g/files/exi626/f/article-images-featured/267731-147736.jpg"/></a>
+            <a href="@page.UrlName"></a>
             <div class="card-divider"></div>
             <div class="content">
                 <span class="title">@page.Title</span>

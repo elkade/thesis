@@ -21,9 +21,13 @@ namespace UniversityWebsite.Controllers
             _pageService = pageService;
         }
 
+        public BaseController()
+        {
+            
+        }
         private string _lang = null;
 
-        private const string CookieKeyLang = "lang";
+        protected const string CookieKeyLang = "lang";
         private const string DefaultLanguage = "pl";
 
         protected int PageId = 0;//Todo
@@ -57,6 +61,7 @@ namespace UniversityWebsite.Controllers
 
             AddMenu();
             AddLanguageSwitcher();
+            ViewData["lang"] = Lang;
         }
 
         private void UpdateLanguage()
@@ -69,6 +74,7 @@ namespace UniversityWebsite.Controllers
 
         private void AddMenu()
         {
+            if (_menuService == null) return;
             var mainMenuData = _menuService.GetMainMenuCached(_lang);
             MenuViewModel menu = new MenuViewModel(mainMenuData);
             ViewData["menu"] = menu;
@@ -76,6 +82,7 @@ namespace UniversityWebsite.Controllers
 
         private void AddLanguageSwitcher()
         {
+            if (_pageService == null) return;
             var switcher = new LanguageSwitcherViewModel();
 
             var languages = _menuService.GetLanguagesCached();

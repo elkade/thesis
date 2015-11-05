@@ -106,6 +106,10 @@ namespace UniversityWebsite.Core.Migrations
 
             _context.Menus.Add(menu1);
             _context.Menus.Add(menu2);
+
+            _context.Phrases.Add(new Phrase { Group = "witaj", Language = pl, Text = "Witaj!" });
+            _context.Phrases.Add(new Phrase { Group = "witaj", Language = en, Text = "Welcome!" });
+
         }
 
         public void WithRoles()

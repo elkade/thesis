@@ -28,6 +28,7 @@ namespace UniversityWebsite
             protected override void Load(ContainerBuilder builder)
             {
                 builder.RegisterType<TilesServiceMock>().As<ITilesService>().InstancePerRequest();
+                builder.RegisterType<DictionaryService>().As<IDictionaryService>().InstancePerRequest();
                 builder.RegisterType<MenuService>().As<IMenuService>().InstancePerRequest();
                 builder.RegisterType<PageService>().As<IPageService>().InstancePerRequest();
                 base.Load(builder);
