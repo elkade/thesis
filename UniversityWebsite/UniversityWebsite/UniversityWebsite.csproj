@@ -162,15 +162,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\admin\climacons.css" />
+    <Content Include="Content\admin\component.css" />
+    <Content Include="Content\admin\component2.css" />
+    <Content Include="Content\admin\default.css" />
     <Content Include="Content\foundation\foundation.css" />
     <Content Include="Content\foundation\foundation.mvc.css" />
     <Content Include="Content\foundation\normalize.css" />
     <Content Include="Content\site.css" />
+    <Content Include="fonts\climacons-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="App_Readme\Foundation for sites\readme.md" />
+    <Content Include="fonts\climacons-webfont.ttf" />
+    <Content Include="fonts\climacons-webfont.eot" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
+    <Content Include="Scripts\admin\boxgrid.example2.js" />
+    <Content Include="Scripts\admin\boxgrid.js" />
+    <Content Include="Scripts\admin\jquery.fittext.js" />
+    <Content Include="Scripts\admin\modernizr.custom.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\foundation\fastclick.js" />
@@ -204,10 +215,12 @@
   <ItemGroup>
     <Compile Include="App_Start\AutofacConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\Bundles\Admin.cs" />
     <Compile Include="App_Start\Bundles\Foundation.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -262,6 +275,7 @@
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LanguageSwitcher.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

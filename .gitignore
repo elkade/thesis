@@ -157,3 +157,4 @@ $RECYCLE.BIN/
 
 *.exe
 !NuGet.exe
+/UniversityWebsite/UniversityWebsite/App_Readme/Foundation for sites/readme.md

@@ -6,13 +6,11 @@
     <ul class="right button-group"> 
         @*<li id="home"><a href="stronaglowna"><i class="icon-home"></i></a></li>*@
 
-        <li><a href="@Url.Action("Index", "Home")" class="button">Home</a></li>
+        @*<li><a href="@Url.Action("Index", "Home")" class="button">Home</a></li>*@
 
         
-
         @foreach (var menuItem in Model.MenuItems)
         {
-            
             <li>
             @{
                 string href = Url.Action("Index", "Page", new {pagename = menuItem.Href});
