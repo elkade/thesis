@@ -164,7 +164,6 @@
   <ItemGroup>
     <Content Include="Content\admin\climacons.css" />
     <Content Include="Content\admin\component.css" />
-    <Content Include="Content\admin\component2.css" />
     <Content Include="Content\admin\default.css" />
     <Content Include="Content\foundation\foundation.css" />
     <Content Include="Content\foundation\foundation.mvc.css" />
@@ -178,10 +177,10 @@
     <Content Include="fonts\climacons-webfont.eot" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
-    <Content Include="Scripts\admin\boxgrid.example2.js" />
     <Content Include="Scripts\admin\boxgrid.js" />
     <Content Include="Scripts\admin\jquery.fittext.js" />
     <Content Include="Scripts\admin\modernizr.custom.js" />
+    <Content Include="Scripts\app\dashboardController.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\foundation\fastclick.js" />
@@ -228,6 +227,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\TeachingController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
