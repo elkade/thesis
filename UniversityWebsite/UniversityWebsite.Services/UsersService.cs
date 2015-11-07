@@ -1,13 +1,26 @@
 ﻿using System;
+using UniversityWebsite.Core;
 using UniversityWebsite.Services.Models;
+using System.Linq;
+using UniversityWebsite.Domain;
 
 namespace UniversityWebsite.Services
 {
     public class UserService
     {
-        public User GetUser(string login)
+        private IDomainContext _context;
+        private ApplicationUserManager _userManager;
+
+        public UserService(IDomainContext context, ApplicationUserManager userManager)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _userManager = userManager;
+        }
+
+        public ApplicationUser FindUser(string login)
+        {
+                      
+           return _context.Users.FirstOrDefault(user => user.UserName == login);
         }
     }
 }

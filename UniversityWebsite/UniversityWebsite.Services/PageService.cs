@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Security.Permissions;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
 
@@ -12,9 +13,8 @@ namespace UniversityWebsite.Services
         Page FindPage(string pageName);
         IEnumerable<Page> GetTranslations(int pageId);
         ICollection<Page> GetHomeTiles(string lang);
-        void UpdateContent(Page page);
-        void Add(Page page);
-    }
+ICollection<Page> GetAll();void UpdateContent(Page page);
+        void Add(Page page);    }
 
     public class PageService : IPageService
     {
@@ -43,8 +43,10 @@ namespace UniversityWebsite.Services
         {
             return _context.Pages.Where(p => p.Parent == null && p.Language.CountryCode == lang).ToList();
         }
-
-        public void UpdateContent(Page page)
+        public ICollection<Page> GetAll()
+        {
+            return _context.Pages.ToList();
+        } public void UpdateContent(Page page)
         {
             var dbPage = _context
                 .Pages
@@ -59,6 +61,5 @@ namespace UniversityWebsite.Services
         {
             _context.Pages.Add(page);
             _context.SaveChanges();
-        }
-    }
+        }    }
 }

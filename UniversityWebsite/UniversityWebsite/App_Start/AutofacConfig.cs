@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
 using UniversityWebsite.Services;
 
