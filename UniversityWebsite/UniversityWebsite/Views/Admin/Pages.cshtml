@@ -1,0 +1,11 @@
+﻿@model ICollection<UniversityWebsite.Domain.Page>
+
+<h2>Pages</h2>
+
+<ul>
+    @foreach (var page in Model)
+    {
+        <li>@page.Title</li>
+    }
+
+</ul>
