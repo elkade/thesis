@@ -164,7 +164,6 @@
   <ItemGroup>
     <Content Include="Content\admin\climacons.css" />
     <Content Include="Content\admin\component.css" />
-    <Content Include="Content\admin\component2.css" />
     <Content Include="Content\admin\default.css" />
     <Content Include="Content\foundation\foundation.css" />
     <Content Include="Content\foundation\foundation.mvc.css" />
@@ -178,10 +177,14 @@
     <Content Include="fonts\climacons-webfont.eot" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
-    <Content Include="Scripts\admin\boxgrid.example2.js" />
+    <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\admin\boxgrid.js" />
+    <Content Include="Scripts\app\controllers.js" />
     <Content Include="Scripts\admin\jquery.fittext.js" />
     <Content Include="Scripts\admin\modernizr.custom.js" />
+    <Content Include="Scripts\app\controllers\landingPageController.js" />
+    <Content Include="Scripts\app\factories\AuthHttpResponseInterceptor.js" />
+    <Content Include="Scripts\app\services.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\foundation\fastclick.js" />
@@ -210,6 +213,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <None Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +233,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\TeachingController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -275,7 +281,10 @@
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LanguageSwitcher.cshtml" />
-    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\Pages.cshtml" />
+    <Content Include="Views\Admin\Subjects.cshtml" />
+    <Content Include="Views\Admin\NavigationMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

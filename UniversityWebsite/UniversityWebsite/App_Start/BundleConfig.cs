@@ -30,6 +30,11 @@ namespace UniversityWebsite
 
             bundles.Add(Admin.Styles());
             bundles.Add(Admin.Scripts());
+
+            bundles.Add(new ScriptBundle("~/bundles/configApp")
+                .IncludeDirectory("~/Scripts/app/controllers", "*.js")
+                .IncludeDirectory("~/Scripts/app/factories", "*.js")
+                .Include("~/Scripts/app/app.js"));
         }  
     }
 }

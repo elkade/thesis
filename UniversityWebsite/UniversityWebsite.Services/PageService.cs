@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Permissions;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
 
@@ -11,6 +12,7 @@ namespace UniversityWebsite.Services
         Page FindPage(string pageName);
         IEnumerable<Page> GetTranslations(int pageId);
         ICollection<Page> GetHomeTiles(string lang);
+        ICollection<Page> GetAll();
     }
 
     public class PageService : IPageService
@@ -40,5 +42,10 @@ namespace UniversityWebsite.Services
         {
             return _context.Pages.Where(p => p.Parent == null && p.Language.CountryCode == lang).ToList();
         }
+
+        public ICollection<Page> GetAll()
+        {
+            return _context.Pages.ToList();
+        } 
     }
 }

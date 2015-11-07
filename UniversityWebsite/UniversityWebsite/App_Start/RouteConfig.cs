@@ -16,6 +16,12 @@ namespace UniversityWebsite
             );
 
             routes.MapRoute(
+                name: "Admin",
+                url: "Admin",
+                defaults: new { controller = "Admin", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Teaching",
                 url: "Teaching/Subject/{subjectName}",
                 defaults: new { controller = "Teaching", action = "GetSubject" }
