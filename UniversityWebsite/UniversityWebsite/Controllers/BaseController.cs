@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 using UniversityWebsite.ViewModels.Layout;
@@ -12,13 +9,13 @@ namespace UniversityWebsite.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly IMenuService _menuService;
-        protected readonly IPageService _pageService;
+        protected readonly IMenuService MenuService;
+        protected readonly IPageService PageService;
 
         public BaseController(IMenuService menuService, IPageService pageService)
         {
-            _menuService = menuService;
-            _pageService = pageService;
+            MenuService = menuService;
+            PageService = pageService;
         }
 
         public BaseController()
@@ -50,7 +47,7 @@ namespace UniversityWebsite.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            string lang = filterContext.HttpContext.Request.Params["language"];
+            string lang = filterContext.HttpContext.Request.Unvalidated["language"];
             if (!string.IsNullOrEmpty(lang)) Lang = lang; //todo walidacja
         }
 
@@ -74,20 +71,20 @@ namespace UniversityWebsite.Controllers
 
         private void AddMenu()
         {
-            if (_menuService == null) return;
-            var mainMenuData = _menuService.GetMainMenuCached(_lang);
+            if (MenuService == null) return;
+            var mainMenuData = MenuService.GetMainMenuCached(_lang);
             MenuViewModel menu = new MenuViewModel(mainMenuData);
             ViewData["menu"] = menu;
         }
 
         private void AddLanguageSwitcher()
         {
-            if (_pageService == null) return;
+            if (PageService == null) return;
             var switcher = new LanguageSwitcherViewModel();
 
-            var languages = _menuService.GetLanguagesCached();
+            var languages = MenuService.GetLanguagesCached();
 
-            var translations = _pageService.GetTranslations(PageId).ToList();
+            var translations = PageService.GetTranslations(PageId).ToList();
 
             var query = from language in languages
                         join page in translations on language.CountryCode equals page.Language.CountryCode into gj

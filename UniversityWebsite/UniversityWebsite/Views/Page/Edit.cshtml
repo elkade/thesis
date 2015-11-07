@@ -1,0 +1,35 @@
+﻿@using System.Web.Services.Protocols
+@model UniversityWebsite.ViewModels.PageViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            theme: "modern",
+            height: 300
+        });
+    </script>
+}
+<h2>@Model.Name</h2>
+@using (Ajax.BeginForm("Edit", new AjaxOptions()
+{
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "post"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(p=>p.Name)
+    @Html.HiddenFor(p=>p.Language)
+    @Html.TextAreaFor(p=>p.Content, new{id = "mytextarea"})
+    <p>
+        <input type="submit" value="Submit" />
+    </p>
+}

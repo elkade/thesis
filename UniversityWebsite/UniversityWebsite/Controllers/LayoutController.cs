@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using UniversityWebsite.Services;
-using UniversityWebsite.ViewModels;
-using UniversityWebsite.ViewModels.Layout;
 
 namespace UniversityWebsite.Controllers
 {
@@ -20,7 +17,7 @@ namespace UniversityWebsite.Controllers
 
         //public ActionResult MainMenu(string lang)
         //{
-        //    var mainMenuData = _menuService.GetMainMenuCached(lang);
+        //    var mainMenuData = MenuService.GetMainMenuCached(lang);
         //    MenuViewModel menu = new MenuViewModel(mainMenuData);
         //    return PartialView("_MainMenu",menu);
         //}
@@ -29,7 +26,7 @@ namespace UniversityWebsite.Controllers
         //{
         //    if (pageId <= 0) return PartialView("_LanguageSwitcher", new LanguageSwitcherViewModel());
             
-        //    var translations = _pageService.GetTranslations(pageId);
+        //    var translations = PageService.GetTranslations(pageId);
 
         //    LanguageSwitcherViewModel switcher = new LanguageSwitcherViewModel();
 

@@ -22,6 +22,12 @@ namespace UniversityWebsite
             );
 
             routes.MapRoute(
+                name: "PageEdit",
+                url: "Page/Edit/{pageName}",
+                defaults: new { controller = "Page", action = "Edit" }
+                );
+
+            routes.MapRoute(
                 name: "Page",
                 url: "{pageName}",
                 defaults: new { controller = "Page", action = "Index" }

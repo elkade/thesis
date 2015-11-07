@@ -2,7 +2,6 @@
 using Autofac;
 using Autofac.Integration.Mvc;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite
@@ -39,7 +38,7 @@ namespace UniversityWebsite
         {
             protected override void Load(ContainerBuilder builder)
             {
-                builder.RegisterType(typeof(DomainContext)).As(typeof(IDomainContext)).InstancePerLifetimeScope();
+                builder.RegisterType(typeof(DomainContext)).As(typeof(IDomainContext)).InstancePerRequest();
                 base.Load(builder);
             }
         }

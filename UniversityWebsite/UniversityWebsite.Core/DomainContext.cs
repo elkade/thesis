@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core.Migrations;
@@ -18,6 +19,7 @@ namespace UniversityWebsite.Core
         IDbSet<Phrase> Phrases { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
+        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     }
 
     public class DomainContext : ApplicationDbContext, IDomainContext
