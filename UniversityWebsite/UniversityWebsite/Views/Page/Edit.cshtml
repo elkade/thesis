@@ -9,6 +9,8 @@
 {
     <script src="~/Scripts/jquery-2.1.4.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/foundation/foundation.js"></script>
+    <script src="~/Scripts/foundation/foundation.alert.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({
@@ -22,14 +24,26 @@
 @using (Ajax.BeginForm("Edit", new AjaxOptions()
 {
     InsertionMode = InsertionMode.Replace,
-    HttpMethod = "post"
+    HttpMethod = "post",
+    OnFailure = "$('#edit-failure').removeClass('hide');",
+    OnSuccess = "$('#edit-success').removeClass('hide');",
 }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(p=>p.Name)
-    @Html.HiddenFor(p=>p.Language)
-    @Html.TextAreaFor(p=>p.Content, new{id = "mytextarea"})
+    @Html.HiddenFor(p => p.Name)
+    @Html.HiddenFor(p => p.Language)
+    @Html.TextAreaFor(p => p.Content, new { id = "mytextarea" })
     <p>
         <input type="submit" value="Submit" />
     </p>
 }
+
+<div id="edit-success" data-alert class="alert-box success hide">
+    Zaktualizowano
+    <a href="#" class="close">&times;</a>
+</div>
+
+<div id="edit-failure" data-alert class="alert-box alert hide">
+    Wystąpił błąd
+  <a href="#" class="close">&times;</a>
+</div>

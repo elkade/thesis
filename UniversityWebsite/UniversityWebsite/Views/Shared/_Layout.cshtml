@@ -82,10 +82,10 @@
     
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/foundation")
+    @RenderSection("Scripts", false)
     <script>
         $(document).foundation();
     </script>
-    @RenderSection("Scripts", false)
 </body>
 
 </html>
