@@ -9,6 +9,7 @@ namespace UniversityWebsite
 {
     public class AutofacConfig
     {
+        public static IContainer Container { get; private set; }
         public static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
@@ -18,9 +19,9 @@ namespace UniversityWebsite
             builder.RegisterModule(new EfModule());
             builder.RegisterModule(new ServiceModule());
 
-            var container = builder.Build();
+            Container = builder.Build();
 
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
         }
 
         private class ServiceModule : Module

@@ -1,0 +1,19 @@
+﻿
+<div class="row fullWidth">
+    <div class="large-2 columns">
+        <h3>Pages</h3>
+        <ul class="custom-side-nav">
+            <li ng-animate="'animate'" ng-repeat="page in pages">
+                <a ui-sref="pages.edit({pageName:page.Name})">{{page.Name}}</a>
+            </li>
+        </ul>
+    </div>
+
+    
+    <div class="large-10 columns">
+        <div ui-view class="slide"></div>
+    </div>
+
+</div>
+
+

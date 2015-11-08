@@ -5,7 +5,6 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
-    [Authorize]
     public class AdminController : Controller
     {
         private readonly IPageService _pageService;
@@ -27,15 +26,15 @@ namespace UniversityWebsite.Controllers
             return View();
         }
 
-        public ActionResult Users()
-        {
-            return View(_domainContext.Users.ToList());
-        }
+        //public ActionResult Users()
+        //{
+        //    return View(_domainContext.Users.ToList());
+        //}
 
-        public ActionResult Pages()
-        {
-            return View(_pageService.GetAll());
-        }
+        //public ActionResult Pages()
+        //{
+        //    return View(_pageService.GetAll());
+        //}
 
         public ActionResult Subjects()
         {

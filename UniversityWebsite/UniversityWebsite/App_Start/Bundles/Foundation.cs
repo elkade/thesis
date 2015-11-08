@@ -7,9 +7,10 @@ namespace UniversityWebsite
         public static Bundle Styles()
         {
             return new StyleBundle("~/Content/foundation/css").Include(
-                       "~/Content/foundation/foundation.css",
-                       "~/Content/foundation/foundation.mvc.css",
-                       "~/Content/foundation/app.css");
+                       //"~/Content/foundation/foundation.css",
+                       //"~/Content/foundation/foundation.mvc.css",
+                       //"~/Content/foundation/app.css", 
+                       "~/sass/Site.css");
         }
 
         public static Bundle Scripts()

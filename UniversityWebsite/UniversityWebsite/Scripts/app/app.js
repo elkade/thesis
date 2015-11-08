@@ -1,32 +1,53 @@
-﻿var configApp = angular.module('configApp', ['ngRoute']);
+﻿angular.module('configApp', [
+    'ui.tinymce',
+    'configApp.pages',
+    'configApp.pages.service',
+    'configApp.utils.service',
+    'ui.router',
+    'ngResource',
+    'ngAnimate'])
 
-configApp.controller('LandingPageController', LandingPageController);
+.run( 
+    [            '$rootScope', '$state', '$stateParams', 
+        function ($rootScope,   $state,   $stateParams) {
 
-configApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+}])
 
-var configFunction = function ($routeProvider, $httpProvider) {
-    $routeProvider.
-        when('/dashboard', {
+.config(
+[            '$stateProvider', '$urlRouterProvider',
+    function ($stateProvider,   $urlRouterProvider) {
+
+      /////////////////////////////
+      // Redirects and Otherwise //
+      /////////////////////////////
+
+      // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
+      $urlRouterProvider
+
+        // The `when` method says if the url is ever the 1st param, then redirect to the 2nd param
+        // Here we are just setting up some convenience urls.
+        .when('/p?id', '/pages/:pageName')
+
+        // If the url is ever invalid, e.g. '/asdf', then redirect to '/' aka the home state
+        .otherwise('/');
+
+
+      //////////////////////////
+      // State Configurations //
+      //////////////////////////
+
+      // Use $stateProvider to configure your states.
+    $stateProvider
+        .state("dashboard", {
+            url: "/",
             templateUrl: 'admin/dashboard'
-        }).
-        when('/users', {
-            templateUrl: 'admin/users'
-        }).
-        when('/pages', {
-            templateUrl: 'admin/pages'
-        }).
-        when('/subjects', {
-            templateUrl: 'admin/subjects'
-        }).
-        when('/navigationMenu', {
-            templateUrl: 'admin/navigationMenu'
-        }).
-        otherwise({
-            redirectTo: '/dashboard'
-        });
+        })
+        .state('users', {
+            url: '/users',
+            templateUrl: 'scripts/app/views/users.html'
+        })
+}])
 
-    $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
-}
-configFunction.$inject = ['$routeProvider', '$httpProvider'];
 
-configApp.config(configFunction);

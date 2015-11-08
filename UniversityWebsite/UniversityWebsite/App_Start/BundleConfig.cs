@@ -31,9 +31,14 @@ namespace UniversityWebsite
             bundles.Add(Admin.Styles());
             bundles.Add(Admin.Scripts());
 
+            bundles.Add(new StyleBundle("~/tinymce/css")
+                .IncludeDirectory("~/Scripts/tinymce/skins/lightgray", "*.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/configApp")
+                .IncludeDirectory("~/Scripts/app/common", "*.js")
                 .IncludeDirectory("~/Scripts/app/controllers", "*.js")
                 .IncludeDirectory("~/Scripts/app/factories", "*.js")
+                .IncludeDirectory("~/Scripts/app/pages", "*.js")
                 .Include("~/Scripts/app/app.js"));
         }  
     }

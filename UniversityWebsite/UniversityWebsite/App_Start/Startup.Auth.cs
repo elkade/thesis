@@ -63,6 +63,8 @@ namespace UniversityWebsite
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            WebApiConfig.Register(app);
         }
     }
 

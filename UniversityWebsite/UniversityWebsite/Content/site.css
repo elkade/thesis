@@ -80,3 +80,11 @@ html, body {
       color: #fff; }
     .card .image img {
       border-radius: 2px 2px 0 0; }
+
+.fullWidth {
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
+   max-width: initial;
+}
+
