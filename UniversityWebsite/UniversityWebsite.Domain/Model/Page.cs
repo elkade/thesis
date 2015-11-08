@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace UniversityWebsite.Domain
+namespace UniversityWebsite.Domain.Model
 {
     public class Page
     {
@@ -10,6 +11,8 @@ namespace UniversityWebsite.Domain
         public string UrlName { get; set; }
         public string Content { get; set; }
         public int LangGroup { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime LastUpdateDate { get; set; }
         public virtual Language Language { get; set; }
         public virtual Page Parent { get; set; }
     }

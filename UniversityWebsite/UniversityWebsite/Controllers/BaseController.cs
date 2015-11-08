@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 using UniversityWebsite.ViewModels.Layout;
@@ -11,11 +12,13 @@ namespace UniversityWebsite.Controllers
     {
         protected readonly IMenuService MenuService;
         protected readonly IPageService PageService;
+        protected readonly ILanguageService LanguageService;
 
-        public BaseController(IMenuService menuService, IPageService pageService)
+        public BaseController(IMenuService menuService, IPageService pageService, ILanguageService languageService)
         {
             MenuService = menuService;
             PageService = pageService;
+            LanguageService = languageService;
         }
 
         public BaseController()
@@ -73,7 +76,7 @@ namespace UniversityWebsite.Controllers
         {
             if (MenuService == null) return;
             var mainMenuData = MenuService.GetMainMenuCached(_lang);
-            MenuViewModel menu = new MenuViewModel(mainMenuData);
+            MenuViewModel menu = Mapper.Map<MenuViewModel>(mainMenuData);
             ViewData["menu"] = menu;
         }
 
@@ -82,7 +85,7 @@ namespace UniversityWebsite.Controllers
             if (PageService == null) return;
             var switcher = new LanguageSwitcherViewModel();
 
-            var languages = MenuService.GetLanguagesCached();
+            var languages = LanguageService.GetLanguagesCached();
 
             var translations = PageService.GetTranslations(PageId).ToList();
 

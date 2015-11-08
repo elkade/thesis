@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using AutoMapper;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 
@@ -9,8 +10,8 @@ namespace UniversityWebsite.Controllers
     [Authorize]
     public class PageController : BaseController
     {
-        public PageController(IMenuService menuService, IPageService pageService)
-            : base(menuService, pageService)
+        public PageController(IMenuService menuService, IPageService pageService, ILanguageService languageService)
+            : base(menuService, pageService, languageService)
         {
         }
         [AllowAnonymous]
@@ -21,10 +22,11 @@ namespace UniversityWebsite.Controllers
             var page = PageService.FindPage(pageName);
             if (page == null)
                 return View(new PageViewModel{Name = "NotFound"});
-            var pageVm = Mapper.Map<PageViewModel>(page);
-
             Lang = page.Language.CountryCode;
             PageId = page.Id;
+
+            var pageVm = Mapper.Map<PageViewModel>(page);
+
 
             ViewBag.Title = page.Title;
             return View(pageVm);

@@ -19,14 +19,14 @@ namespace UniversityWebsite.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController(IMenuService menuService, IPageService pageService, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-            : base(menuService, pageService)
+        public AccountController(IMenuService menuService, IPageService pageService, ILanguageService languageService, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+            : base(menuService, pageService, languageService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public AccountController(IMenuService menuService, IPageService pageService): base(menuService, pageService)
+        public AccountController(IMenuService menuService, IPageService pageService, ILanguageService languageService): base(menuService, pageService, languageService)
         {
         }
 

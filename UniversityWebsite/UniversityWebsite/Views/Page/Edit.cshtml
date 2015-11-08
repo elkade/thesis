@@ -14,12 +14,27 @@
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({
-            selector: "textarea",
+            selector: "#my_editor",
             theme: "modern",
-            height: 300
+            height: 300,
+            plugins: ["image"],
+            //file_browser_callback: function (field_name, url, type, win) {
+            //    if (type == 'image') $('#my_form input').click();
+            //}
         });
     </script>
 }
+@*<script>
+    function uploadSuccess(data) {
+        $('.mce-btn.mce-open')
+            .parent()
+            .find('.mce-textbox')
+            .val( "/File/Index?id=" + data.id);
+            //.closest('.mce-window')
+            //.find('.mce-primary')
+            //.click();
+    }
+</script>*@
 <h2>@Model.Name</h2>
 @using (Ajax.BeginForm("Edit", new AjaxOptions()
 {
@@ -32,12 +47,19 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(p => p.Name)
     @Html.HiddenFor(p => p.Language)
-    @Html.TextAreaFor(p => p.Content, new { id = "mytextarea" })
+    @Html.TextAreaFor(p => p.Content, new { id = "my_editor" })
     <p>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" class="button"/>
     </p>
 }
-
+@*<textarea id="my_editor"></textarea>
+<iframe id="form_target" name="form_target" style="display:none"></iframe>
+<form id="my_form" action="/File/Upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0;height:0;overflow:hidden">
+    <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
+</form>*@
+@*<form  action="#" method="post" enctype="multipart/form-data">
+    <input name="image" type="file" onchange="this.value='';sub();">
+</form>*@
 <div id="edit-success" data-alert class="alert-box success hide">
     Zaktualizowano
     <a href="#" class="close">&times;</a>

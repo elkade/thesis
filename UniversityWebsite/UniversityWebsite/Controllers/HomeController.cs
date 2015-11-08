@@ -5,8 +5,8 @@ namespace UniversityWebsite.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IMenuService menuService, IPageService pageService)
-            : base(menuService, pageService)
+        public HomeController(IMenuService menuService, IPageService pageService, ILanguageService languageService)
+            : base(menuService, pageService, languageService)
         {
         }
 

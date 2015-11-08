@@ -1,17 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UniversityWebsite.Services;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.ViewModels
 {
     public class MenuViewModel
     {
-        public MenuViewModel(Menu menuData)
-        {
-            MenuItems = menuData.MenuItems.Select(
-                mi=>new MenuItemViewModel{Href = mi.Href, Text = mi.Text, Title = mi.Title, Type = mi.Type}).ToList();
-        }
-
         public List<MenuItemViewModel> MenuItems = new List<MenuItemViewModel>();
     }
 
