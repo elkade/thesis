@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Core.Migrations
 {
@@ -54,7 +55,9 @@ namespace UniversityWebsite.Core.Migrations
                     Title = "Kontakt",
                     UrlName = "Kontakt",
                     LangGroup = 1,
-                    Language = pl
+                    Language = pl,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
                 },
                 new Page
                 {
@@ -62,6 +65,8 @@ namespace UniversityWebsite.Core.Migrations
                     UrlName = "Badania",
                     Language = pl,
                     LangGroup = 2,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
                 },
                 new Page
                 {
@@ -69,6 +74,8 @@ namespace UniversityWebsite.Core.Migrations
                     UrlName = "Kadra",
                     Language = pl,
                     LangGroup = 3,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
                 }
             };
             foreach (var p in pagesPl)
@@ -82,6 +89,8 @@ namespace UniversityWebsite.Core.Migrations
                     Language = en,
                     UrlName = "Contact",
                     LangGroup = 1,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
                 },
                 new Page
                 {
@@ -89,6 +98,8 @@ namespace UniversityWebsite.Core.Migrations
                     Language = en,
                     UrlName = "Research",
                     LangGroup = 2,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
                 },
                 new Page
                 {
@@ -96,6 +107,8 @@ namespace UniversityWebsite.Core.Migrations
                     UrlName = "Staff",
                     Language = en,
                     LangGroup = 3,
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
                 }
             };
             foreach (var p in pagesPl)
@@ -107,8 +120,8 @@ namespace UniversityWebsite.Core.Migrations
             _context.Menus.Add(menu1);
             _context.Menus.Add(menu2);
 
-            _context.Phrases.Add(new Phrase { Group = "witaj", Language = pl, Text = "Witaj!" });
-            _context.Phrases.Add(new Phrase { Group = "witaj", Language = en, Text = "Welcome!" });
+            _context.Phrases.Add(new Phrase { GroupId = 1, Language = pl, Text = "Witaj!" });
+            _context.Phrases.Add(new Phrase { GroupId = 1, Language = en, Text = "Welcome!" });
 
         }
 

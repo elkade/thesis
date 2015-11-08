@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace UniversityWebsite.Domain
 {
@@ -11,6 +12,7 @@ namespace UniversityWebsite.Domain
         [StringLength(100)]
         public string ContentType { get; set; }
         public byte[] Content { get; set; }
+        public DateTime UploadDate { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
 }

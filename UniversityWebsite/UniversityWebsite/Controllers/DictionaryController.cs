@@ -12,7 +12,7 @@ namespace UniversityWebsite.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult Index(string id, string l)
+        public ActionResult Index(int id, string l)
         {
             if (string.IsNullOrEmpty(l))
                 l = GetCookie(CookieKeyLang);

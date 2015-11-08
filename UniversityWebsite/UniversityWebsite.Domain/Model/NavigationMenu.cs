@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Domain
 {

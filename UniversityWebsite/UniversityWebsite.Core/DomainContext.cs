@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core.Migrations;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 using Configuration = UniversityWebsite.Core.Migrations.Configuration;
 
 namespace UniversityWebsite.Core

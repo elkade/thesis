@@ -7,7 +7,7 @@ namespace UniversityWebsite.Services
 {
     public interface IDictionaryService
     {
-        string GetTranslation(string id, string lang);
+        string GetTranslation(int id, string lang);
     }
     public class DictionaryService : IDictionaryService
     {
@@ -17,9 +17,9 @@ namespace UniversityWebsite.Services
         {
             Phrases = domainContext.Phrases;
         }
-        public string GetTranslation(string id, string lang)
+        public string GetTranslation(int id, string lang)
         {
-            var phrase = Phrases.SingleOrDefault(p=>p.Group == id && p.Language.CountryCode == lang);
+            var phrase = Phrases.SingleOrDefault(p=>p.GroupId == id && p.Language.CountryCode == lang);
             return phrase == null ? null : phrase.Text;
         }
     }

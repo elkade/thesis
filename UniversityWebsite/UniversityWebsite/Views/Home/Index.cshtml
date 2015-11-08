@@ -1,4 +1,4 @@
-﻿@model List<UniversityWebsite.Domain.Page>
+﻿@model List<UniversityWebsite.Domain.Model.Page>
 @using UniversityWebsite.Helper@{
     ViewBag.Title = "Home";
     string lang = (string)ViewData["lang"];
@@ -6,7 +6,7 @@
 }
 @section Styles {
 }
-<h2>@{ Html.RenderPhrase("witaj", lang);}</h2>
+<h2>@{ Html.RenderPhrase("1", lang);}</h2>
 @foreach(var page in Model)
 {   
     <div class="medium-4 columns">

@@ -1,6 +1,4 @@
-﻿using System;
-using UniversityWebsite.Core;
-using UniversityWebsite.Services.Models;
+﻿using UniversityWebsite.Core;
 using System.Linq;
 using UniversityWebsite.Domain;
 

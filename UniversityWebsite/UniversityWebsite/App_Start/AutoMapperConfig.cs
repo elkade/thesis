@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite
@@ -8,7 +9,12 @@ namespace UniversityWebsite
     {
         public static void Configure()
         {
-            Mapper.Initialize(cfg => cfg.AddProfile(new PageProfile()));
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile(new PageProfile());
+                cfg.AddProfile(new MenuProfile());
+                
+            });
         }
     }
 
@@ -20,14 +26,28 @@ namespace UniversityWebsite
             {
                 Content = p.Content,
                 Language = p.Language.CountryCode,
-                Name = p.Title
+                Name = p.Title,
+                LastUpdateDate = p.LastUpdateDate,
+                CreationDate = p.CreationDate
             });
             Mapper.CreateMap<PageViewModel, Page>().ConvertUsing(vm => new Page
             {
                 Content = vm.Content,
                 Language = new Language{CountryCode = vm.Language},
-                Title = vm.Name
+                Title = vm.Name,
+                LastUpdateDate = vm.LastUpdateDate,
+                CreationDate = vm.CreationDate
+
             });
+        }
+    }
+
+    public class MenuProfile : Profile
+    {
+        protected override void Configure()
+        {
+            Mapper.CreateMap<Services.Model.MenuItemDto, ViewModels.MenuItemViewModel>();
+            Mapper.CreateMap<Services.Model.MenuDto, ViewModels.MenuViewModel>();
         }
     }
 }

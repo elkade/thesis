@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 namespace UniversityWebsite.ViewModels
 {
@@ -8,5 +9,7 @@ namespace UniversityWebsite.ViewModels
         public string Language { get; set; }
         [AllowHtml]
         public string Content { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime LastUpdateDate { get; set; }
     }
 }

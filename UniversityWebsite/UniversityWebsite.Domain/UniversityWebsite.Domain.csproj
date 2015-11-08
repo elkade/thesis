@@ -62,14 +62,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationUser.cs" />
-    <Compile Include="File.cs" />
-    <Compile Include="Language.cs" />
-    <Compile Include="NavigationMenu.cs" />
-    <Compile Include="Page.cs" />
-    <Compile Include="Phrase.cs" />
+    <Compile Include="Model\ApplicationUser.cs" />
+    <Compile Include="Model\File.cs" />
+    <Compile Include="Model\Language.cs" />
+    <Compile Include="Model\NavigationMenu.cs" />
+    <Compile Include="Model\Page.cs" />
+    <Compile Include="Model\Phrase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Subject.cs" />
+    <Compile Include="Model\Subject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
