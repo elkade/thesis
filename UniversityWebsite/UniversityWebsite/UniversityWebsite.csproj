@@ -390,6 +390,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -468,6 +469,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Dictionary\" />
+    <Folder Include="Views\Files\" />
     <Folder Include="Views\Layout\" />
   </ItemGroup>
   <ItemGroup>

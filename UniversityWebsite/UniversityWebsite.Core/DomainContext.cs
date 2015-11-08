@@ -17,6 +17,7 @@ namespace UniversityWebsite.Core
         IDbSet<IdentityRole> Roles { get; set; }
         IDbSet<Language> Languages { get; set; }
         IDbSet<Phrase> Phrases { get; set; }
+        IDbSet<File> Files { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
@@ -39,6 +40,7 @@ namespace UniversityWebsite.Core
         public virtual IDbSet<NavigationMenu> Menus { get; set; }
         public virtual IDbSet<Language> Languages { get; set; }
         public virtual IDbSet<Phrase> Phrases { get; set; }
+        public virtual IDbSet<File> Files { get; set; }
 
         public static DomainContext Create()
         {

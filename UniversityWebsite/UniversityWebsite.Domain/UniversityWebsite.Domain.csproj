@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NavigationMenu.cs" />
     <Compile Include="Page.cs" />
