@@ -8,8 +8,11 @@ namespace UniversityWebsite.Domain.Model
         [Key, Column(Order = 0)]
         public int GroupId { get; set; }
         [Key, Column(Order = 1), ForeignKey("Language")]
-        public int LanguageId { get; set; }
+        public int Language_Id { get; set; }
+        [Required]
         public virtual Language Language { get; set; }
+        [Required]
+        [StringLength(512)]
         public string Text { get; set; }
     }
 }

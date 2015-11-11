@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -13,9 +15,9 @@ namespace UniversityWebsite.Core.Migrations
         private readonly static string AdminRole = "Administrator";
         private static readonly string Admin = "su@su.su";
         private readonly static string[] RoleNames = { AdminRole, "Student", "Teacher" };
-        private readonly ApplicationUser[] Users =
+        private readonly User[] Users =
         {
-            new ApplicationUser
+            new User
             {
                 UserName = Admin,
                 Email = "su@su.su",
@@ -30,18 +32,36 @@ namespace UniversityWebsite.Core.Migrations
         public InitialDataLoader(DomainContext domainContext)
         {
             _context = domainContext;
-            _userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(domainContext));
+            _userManager = new ApplicationUserManager(new UserStore<User>(domainContext));
             _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(domainContext));
         }
 
         public void WithDefault()
         {
+            try
+{
             WithRoles();
             WithUsers();
             WithAdmin(Admin);
             AddPagesAndMenus();
 
             _context.SaveChanges();
+}
+            catch (DbEntityValidationException e)
+            {
+                string s = string.Empty;
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    s+=string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:\n",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        s+=string.Format("- Property: \"{0}\", Error: \"{1}\"\n",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw new Exception(s);
+            }
         }
 
         private void AddPagesAndMenus()
@@ -57,7 +77,7 @@ namespace UniversityWebsite.Core.Migrations
                     LangGroup = 1,
                     Language = pl,
                     CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    LastUpdateDate = DateTime.Now,
                 },
                 new Page
                 {
@@ -66,7 +86,7 @@ namespace UniversityWebsite.Core.Migrations
                     Language = pl,
                     LangGroup = 2,
                     CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    LastUpdateDate = DateTime.Now,
                 },
                 new Page
                 {
@@ -75,7 +95,7 @@ namespace UniversityWebsite.Core.Migrations
                     Language = pl,
                     LangGroup = 3,
                     CreationDate = DateTime.Now,
-                    LastUpdateDate = DateTime.Now
+                    LastUpdateDate = DateTime.Now,
                 }
             };
             foreach (var p in pagesPl)
@@ -114,8 +134,8 @@ namespace UniversityWebsite.Core.Migrations
             foreach (var p in pagesPl)
                 _context.Pages.Add(p);
 
-            var menu1 = new NavigationMenu { Language = pl, Items = pagesPl };
-            var menu2 = new NavigationMenu { Language = en, Items = pagesEn };
+            var menu1 = new Menu { Language = pl, Items = pagesPl };
+            var menu2 = new Menu { Language = en, Items = pagesEn };
 
             _context.Menus.Add(menu1);
             _context.Menus.Add(menu2);

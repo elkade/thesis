@@ -12,8 +12,11 @@ namespace UniversityWebsite.Domain.Model
 
         [Key]
         public int Id { get; set; }
+        [Required]
         public virtual Student Student { get; set; }
+        [Required]
         public virtual Subject Subject { get; set; }
+        [Required]
         public RequestStatus Status { get; set; }
 
         public void Approve()

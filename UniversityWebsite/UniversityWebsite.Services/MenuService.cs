@@ -18,7 +18,7 @@ namespace UniversityWebsite.Services
     public class MenuService : IMenuService
     {
         protected IDomainContext _context;
-        protected IDbSet<NavigationMenu> _menus;
+        protected IDbSet<Menu> _menus;
         public MenuService(IDomainContext context)
         {
             _context = context;

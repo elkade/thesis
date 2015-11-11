@@ -4,7 +4,7 @@ using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Domain
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext()
             : base("DomainContext", throwIfV1Schema: false)

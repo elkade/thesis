@@ -63,11 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\ArticleStatus.cs" />
-    <Compile Include="Model\ApplicationUser.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Model\Article.cs" />
     <Compile Include="Model\File.cs" />
     <Compile Include="Model\Language.cs" />
-    <Compile Include="Model\NavigationMenu.cs" />
+    <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\Page.cs" />
     <Compile Include="Model\Phrase.cs" />
     <Compile Include="Enums\RequestStatus.cs" />

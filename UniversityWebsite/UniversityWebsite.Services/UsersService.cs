@@ -16,7 +16,7 @@ namespace UniversityWebsite.Services
             _userManager = userManager;
         }
 
-        public ApplicationUser FindUser(string login)
+        public User FindUser(string login)
         {
                       
            return _context.Users.FirstOrDefault(user => user.UserName == login);

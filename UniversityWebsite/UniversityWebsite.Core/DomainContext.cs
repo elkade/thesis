@@ -12,8 +12,8 @@ namespace UniversityWebsite.Core
     {
         IDbSet<Page> Pages { get; set; }
         IDbSet<Subject> Subjects { get; set; }
-        IDbSet<NavigationMenu> Menus { get; set; }
-        IDbSet<ApplicationUser> Users { get; set; }
+        IDbSet<Menu> Menus { get; set; }
+        IDbSet<User> Users { get; set; }
         IDbSet<IdentityRole> Roles { get; set; }
         IDbSet<Language> Languages { get; set; }
         IDbSet<Phrase> Phrases { get; set; }
@@ -44,7 +44,7 @@ namespace UniversityWebsite.Core
         public virtual IDbSet<Semester> Semester { get; set; }
         public virtual IDbSet<Page> Pages { get; set; }
         public virtual IDbSet<Subject> Subjects { get; set; }
-        public virtual IDbSet<NavigationMenu> Menus { get; set; }
+        public virtual IDbSet<Menu> Menus { get; set; }
         public virtual IDbSet<Language> Languages { get; set; }
         public virtual IDbSet<Phrase> Phrases { get; set; }
         public virtual IDbSet<File> Files { get; set; }

@@ -7,13 +7,17 @@ namespace UniversityWebsite.Domain.Model
     {
         [Key]
         public int Id { get; set; }
-        [StringLength(255)]
+        [Required]
+        [StringLength(256)]
         public string FileName { get; set; }
-        [StringLength(100)]
+        [Required]
+        [StringLength(128)]
         public string ContentType { get; set; }
+        [Required]
         public byte[] Content { get; set; }
+        [Required]
         public DateTime UploadDate { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual User User { get; set; }
     }
 }
 
