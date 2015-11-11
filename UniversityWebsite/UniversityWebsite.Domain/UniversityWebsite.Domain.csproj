@@ -70,6 +70,7 @@
     <Compile Include="Model\NavigationMenu.cs" />
     <Compile Include="Model\Page.cs" />
     <Compile Include="Model\Phrase.cs" />
+    <Compile Include="Enums\RequestStatus.cs" />
     <Compile Include="Model\Semester.cs" />
     <Compile Include="Model\SignUpRequest.cs" />
     <Compile Include="Model\Student.cs" />

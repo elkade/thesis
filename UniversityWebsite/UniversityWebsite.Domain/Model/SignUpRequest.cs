@@ -1,4 +1,7 @@
-﻿namespace UniversityWebsite.Domain.Model
+﻿using System.ComponentModel.DataAnnotations;
+using UniversityWebsite.Domain.Enums;
+
+namespace UniversityWebsite.Domain.Model
 {
     public class SignUpRequest
     {
@@ -7,9 +10,10 @@
             Status = RequestStatus.Submitted;
         }
 
+        [Key]
         public int Id { get; set; }
-        public Student Student { get; set; }
-        public Subject Subject { get; set; }
+        public virtual Student Student { get; set; }
+        public virtual Subject Subject { get; set; }
         public RequestStatus Status { get; set; }
 
         public void Approve()
@@ -18,11 +22,5 @@
             Subject.Students.Add(Student);
         }
 
-    }
-
-    public enum RequestStatus
-    {
-        Submitted = 0,
-        Approved,
     }
 }

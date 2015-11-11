@@ -13,7 +13,7 @@ namespace UniversityWebsite.Controllers
         {
             _db = db;
         }
-        private IDomainContext _db = new DomainContext();
+        private readonly IDomainContext _db;
         
         [HttpGet]
         public ActionResult Index(int id)

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UniversityWebsite.Domain
+namespace UniversityWebsite.Domain.Model
 {
     public class Phrase
     {

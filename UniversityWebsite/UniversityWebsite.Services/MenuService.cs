@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Helpers;
 using UniversityWebsite.Services.Model;
 

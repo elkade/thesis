@@ -5,7 +5,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core.Migrations;
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
-using Configuration = UniversityWebsite.Core.Migrations.Configuration;
 
 namespace UniversityWebsite.Core
 {
@@ -21,6 +20,7 @@ namespace UniversityWebsite.Core
         IDbSet<File> Files { get; set; }
         IDbSet<Teacher> Teachers { get; set; }
         IDbSet<Student> Students { get; set; }
+        IDbSet<SignUpRequest> SignUpRequests { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
@@ -39,8 +39,8 @@ namespace UniversityWebsite.Core
 
         }
 
-        public IDbSet<Teacher> Teachers { get; set; }
-        public IDbSet<Student> Students { get; set; }
+        public virtual IDbSet<Teacher> Teachers { get; set; }
+        public virtual IDbSet<Student> Students { get; set; }
         public virtual IDbSet<Semester> Semester { get; set; }
         public virtual IDbSet<Page> Pages { get; set; }
         public virtual IDbSet<Subject> Subjects { get; set; }
@@ -48,6 +48,7 @@ namespace UniversityWebsite.Core
         public virtual IDbSet<Language> Languages { get; set; }
         public virtual IDbSet<Phrase> Phrases { get; set; }
         public virtual IDbSet<File> Files { get; set; }
+        public virtual IDbSet<SignUpRequest> SignUpRequests { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

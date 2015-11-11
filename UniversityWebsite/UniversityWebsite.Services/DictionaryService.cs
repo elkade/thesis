@@ -2,6 +2,7 @@
 using System.Linq;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Services
 {

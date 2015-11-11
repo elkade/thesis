@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UniversityWebsite.Domain
+namespace UniversityWebsite.Domain.Model
 {
     public class Language
     {
