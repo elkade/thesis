@@ -19,6 +19,8 @@ namespace UniversityWebsite.Core
         IDbSet<Language> Languages { get; set; }
         IDbSet<Phrase> Phrases { get; set; }
         IDbSet<File> Files { get; set; }
+        IDbSet<Teacher> Teachers { get; set; }
+        IDbSet<Student> Students { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
@@ -32,16 +34,26 @@ namespace UniversityWebsite.Core
             Database.SetInitializer(new DomainContextInitializer());
         }
 
-        public DomainContext() 
+        public DomainContext()
         {
+
         }
 
+        public IDbSet<Teacher> Teachers { get; set; }
+        public IDbSet<Student> Students { get; set; }
+        public virtual IDbSet<Semester> Semester { get; set; }
         public virtual IDbSet<Page> Pages { get; set; }
         public virtual IDbSet<Subject> Subjects { get; set; }
         public virtual IDbSet<NavigationMenu> Menus { get; set; }
         public virtual IDbSet<Language> Languages { get; set; }
         public virtual IDbSet<Phrase> Phrases { get; set; }
         public virtual IDbSet<File> Files { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Article>();
+        }
 
         public static DomainContext Create()
         {

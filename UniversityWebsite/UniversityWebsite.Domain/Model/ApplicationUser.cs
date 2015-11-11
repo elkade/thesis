@@ -1,9 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace UniversityWebsite.Domain
+namespace UniversityWebsite.Domain.Model
 {
     public class ApplicationUser : IdentityUser
     {
@@ -15,4 +17,5 @@ namespace UniversityWebsite.Domain
             return userIdentity;
         }
     }
+
 }

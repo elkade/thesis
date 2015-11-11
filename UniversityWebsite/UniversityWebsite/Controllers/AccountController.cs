@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 

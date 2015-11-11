@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 

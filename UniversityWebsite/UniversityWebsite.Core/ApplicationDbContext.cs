@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
+using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Domain
 {
@@ -13,5 +15,8 @@ namespace UniversityWebsite.Domain
         //{
         //    return new ApplicationDbContext();
         //}
+
     }
+
+    
 }

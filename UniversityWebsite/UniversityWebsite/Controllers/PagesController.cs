@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Helpers;
 using System.Web.Http;
-using System.Web.Http.Results;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using AutoMapper;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
-using WebGrease.Css.Extensions;
 
 namespace UniversityWebsite.Controllers
 {
@@ -31,7 +23,7 @@ namespace UniversityWebsite.Controllers
             return _pageService.GetAll().Select(Mapper.Map<PageViewModel>);
         }
 
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public PageViewModel GetPage(string pageName)
         {
             var page = _pageService.FindPage(pageName);
@@ -41,7 +33,7 @@ namespace UniversityWebsite.Controllers
             return pageVm;
         }
 
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         public bool Put(PageViewModel pageVm)
         {
             if (_pageService.FindPage(pageVm.Name) == null)

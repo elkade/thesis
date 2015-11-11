@@ -4,7 +4,7 @@
 
 <div >
     <form name="form" novalidate ng-submit="update()">
-        <textarea data-ui-tinymce data-ng-model="page.Content" rows="25"></textarea>
+        <textarea ui-tinymce="tinymceOptions" data-ng-model="page.Content" class="mousetrap"></textarea>
         <button type="submit" class="button button-positive button-block">Update</button>
     </form>
 </div>

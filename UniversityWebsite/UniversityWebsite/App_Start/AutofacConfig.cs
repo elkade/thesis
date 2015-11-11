@@ -1,6 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
 using UniversityWebsite.Services;
@@ -21,6 +23,7 @@ namespace UniversityWebsite
 
             Container = builder.Build();
 
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(Container);
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
         }
 

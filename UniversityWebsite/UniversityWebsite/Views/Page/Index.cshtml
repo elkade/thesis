@@ -1,10 +1,9 @@
 ﻿@model UniversityWebsite.ViewModels.PageViewModel
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
-<div class="container">
-    <h1>
-        STRONA o nazwie @Model.Name i języku @Model.Language
-    </h1>
-    <article>
-        @Html.Raw(Model.Content)
-    </article>
-</div>
+
+<h1>
+    STRONA o nazwie @Model.Name i języku @Model.Language
+</h1>
+<article>
+    @Html.Raw(Model.Content)
+</article>

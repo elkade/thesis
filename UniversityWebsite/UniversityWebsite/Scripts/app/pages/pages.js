@@ -47,6 +47,17 @@
                                     }
 
                                     $scope.page = utils.findByName($scope.pages, $stateParams.pageName);
+
+                                    $scope.tinymceOptions = {
+                                        height: 500,
+                                        plugins: 'textcolor link code',
+                                        toolbar: "undo redo styleselect bold italic forecolor backcolor code",
+                                        menu: { // this is the complete default configuration
+                                            edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
+                                            insert: { title: 'Insert', items: 'link media | template hr' },
+                                            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
+                                        }
+                                    };
                                 }
                             ]
                         },
