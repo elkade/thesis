@@ -71,6 +71,7 @@
     <Compile Include="Model\Page.cs" />
     <Compile Include="Model\Phrase.cs" />
     <Compile Include="Model\Semester.cs" />
+    <Compile Include="Model\SignUpRequest.cs" />
     <Compile Include="Model\Student.cs" />
     <Compile Include="Model\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
