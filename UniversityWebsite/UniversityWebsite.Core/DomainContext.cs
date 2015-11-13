@@ -54,6 +54,8 @@ namespace UniversityWebsite.Core
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Article>();
+            modelBuilder.Entity<Student>();
+            modelBuilder.Entity<Teacher>();
         }
 
         public static DomainContext Create()

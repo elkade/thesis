@@ -39,14 +39,14 @@ namespace UniversityWebsite.Core.Migrations
         public void WithDefault()
         {
             try
-{
-            WithRoles();
-            WithUsers();
-            WithAdmin(Admin);
-            AddPagesAndMenus();
-
-            _context.SaveChanges();
-}
+            {
+                WithRoles();
+                WithUsers();
+                WithAdmin(Admin);
+                AddPagesAndMenus();
+                WithSubjects();
+                _context.SaveChanges();
+            }
             catch (DbEntityValidationException e)
             {
                 string s = string.Empty;
@@ -142,7 +142,19 @@ namespace UniversityWebsite.Core.Migrations
 
             _context.Phrases.Add(new Phrase { GroupId = 1, Language = pl, Text = "Witaj!" });
             _context.Phrases.Add(new Phrase { GroupId = 1, Language = en, Text = "Welcome!" });
+        }
 
+        public void WithSubjects()
+        {
+            string[] subjects = {"Analiza 1", "Analiza 2", "Podstawy programowania"};
+            foreach (var subject in subjects)
+            {
+                _context.Subjects.Add(new Subject
+                {
+                    Name = subject,
+                    Semester = new Semester { Description = "1"}
+                });
+            }
         }
 
         public void WithRoles()

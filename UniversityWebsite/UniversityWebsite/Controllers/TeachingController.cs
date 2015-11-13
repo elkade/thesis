@@ -1,17 +1,13 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using UniversityWebsite.Domain;
+﻿using System.Web.Mvc;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
-using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite.Controllers
 {
-    public class TeachingController : Controller
+    public class TeachingController : BaseController
     {
-        public TeachingController()
+        public TeachingController(IMenuService menuService, IPageService pageService, ILanguageService languageService) : base(menuService, pageService, languageService)
         {
-
         }
 
         [HttpGet]
@@ -21,6 +17,12 @@ namespace UniversityWebsite.Controllers
             {
                 Name = "dasdasd"
             };
+        }
+
+        [HttpGet]
+        public ActionResult SubjectTemp()
+        {
+            return View();
         }
     }
 }

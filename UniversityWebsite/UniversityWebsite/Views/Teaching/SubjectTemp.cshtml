@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+
+@using UniversityWebsite.Helper@{
+    ViewBag.Title = "Home";
+    string lang = (string)ViewData["lang"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+        .accordion .accordion-navigation{
+            margin-bottom: 20px !important;
+        }
+    </style>
+}
+
+
+<div class="large-12 columns">
+    <div class="row">
+        <div class="medium-5 columns">
+            <h3>Nazwa przedmiotu</h3>
+        </div>
+        <div class="medium-7 columns right">
+            <ul class="inline-list">
+                <li><a>Aktualnosci</a></li>
+                <li><a>Plan zajec</a></li>
+                <li><a>Sylabus</a></li>
+                <li><a>Materialy dydaktyczne</a></li>
+                <li><a>Wyniki</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <ul class="accordion" data-accordion style="margin-left: 0">
+
+        <li class="accordion-navigation">
+            <a href="#panel1a">Aktualnosci</a>
+            <div id="panel1a" class="content active">
+                Panel 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </div>
+        </li>
+        <li class="accordion-navigation">
+            <a href="#panel2a">Plan zajec</a>
+            <div id="panel2a" class="content active">
+                Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </div>
+        </li>
+        <li class="accordion-navigation">
+            <a href="#panel3a">Sylabus</a>
+            <div id="panel3a" class="content active">
+                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </div>
+        </li>
+        <li class="accordion-navigation">
+            <a href="#panel4a">Materialy dydaktyczne</a>
+            <div id="panel4a" class="content active">
+                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </div>
+        </li>
+        <li class="accordion-navigation">
+            <a href="#panel5a">Wyniki</a>
+            <div id="panel5a" class="content active">
+                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </div>
+        </li>
+    </ul>
+</div>
+

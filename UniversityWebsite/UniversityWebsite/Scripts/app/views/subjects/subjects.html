@@ -1,0 +1,17 @@
+﻿
+<div class="row fullWidth">
+    <div class="medium-2 columns">
+        <h3>Subjects</h3>
+        <ul class="custom-side-nav">
+            <li ng-animate="'animate'" ng-repeat="subject in subjects">
+                <a ui-sref="subjects.edit({subjectName:subject.Name})">{{subject.Name}}</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div ui-view class="medium-10 columns slide">
+        
+    </div>
+
+</div>

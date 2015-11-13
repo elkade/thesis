@@ -1,4 +1,4 @@
-﻿angular.module('configApp.pages', ['ui.router'])
+﻿angular.module('configApp.pages', ['ui.router', 'configApp.pages.service'])
     .factory('post', function ($resource) {
         return $resource('/api/pages/:id');
     })
@@ -9,12 +9,12 @@
             $stateProvider
                 .state('pages', {
                     url: '/pages',
-                    templateUrl: 'scripts/app/views/pages.html',
+                    templateUrl: 'scripts/app/views/pages/pages.html',
 
                     resolve: {
                         pages: [
                             'pages',
-                            function(pages) {
+                            function (pages) {
                                 return pages.all();
                             }
                         ]
@@ -33,7 +33,7 @@
 
                     views: {
                         '': {
-                            templateUrl: 'scripts/app/views/pages.edit.html',
+                            templateUrl: 'scripts/app/views/pages/pages.edit.html',
                             controller: [
                                 '$scope', '$stateParams', 'utils', 'post',
                                 function ($scope, $stateParams, utils, post) {

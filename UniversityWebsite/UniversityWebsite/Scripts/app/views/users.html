@@ -1,9 +1,17 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+﻿
+<div class="row fullWidth">
+    <div class="medium-2 columns">
+        <h3>Users</h3>
+        <ul class="custom-side-nav">
+            <li ng-animate="'animate'" ng-repeat="user in users">
+                <a ui-sref="user.edit({user:user.Login})">{{user.Login}}</a>
+            </li>
+        </ul>
+    </div>
 
-</body>
-</html>
+
+    <div class="medium-10 columns">
+        <div ui-view class="slide"></div>
+    </div>
+
+</div>

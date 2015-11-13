@@ -8,6 +8,7 @@ namespace UniversityWebsite.Controllers
         public HomeController(IMenuService menuService, IPageService pageService, ILanguageService languageService)
             : base(menuService, pageService, languageService)
         {
+            
         }
 
         public ActionResult Index()

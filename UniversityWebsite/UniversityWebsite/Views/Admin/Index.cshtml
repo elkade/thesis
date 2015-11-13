@@ -9,7 +9,6 @@
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/tinymce/css")
-    <script src="/Scripts/admin/modernizr.custom.js"></script>
     
 </head>
 <body>
@@ -49,21 +48,20 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-resource.min.js"></script>
 
-    @Scripts.Render("~/bundles/jquery")
+
     @Scripts.Render("~/bundles/configApp")
-    @Scripts.Render("~/bundles/foundation")
     
-<script>
+@*<script>
     $(document).foundation();
-</script>
-    <pre>
+</script>*@
+    @*<pre>
       <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
       $state = {{$state.current.name}}
       $stateParams = {{$stateParams}}
       $state full url = {{ $state.$current.url.source }}
       <!-- $state.$current is not a public api, we are using it to
            display the full url for learning purposes-->
-    </pre>
+    </pre>*@
 </body>
 </html>
 

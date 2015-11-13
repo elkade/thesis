@@ -260,20 +260,48 @@
     <Content Include="sass\_normalize.scss" />
     <Content Include="sass\_foundation.scss" />
     <Content Include="sass\_foundation.mvc.scss" />
+    <Content Include="Scripts\app\modules\mm-foundation-0.8.0.js" />
+    <Content Include="Scripts\app\modules\template\accordion\accordion-group.html" />
+    <Content Include="Scripts\app\modules\template\accordion\accordion.html" />
+    <Content Include="Scripts\app\modules\template\alert\alert.html" />
+    <Content Include="Scripts\app\modules\template\modal\backdrop.html" />
+    <Content Include="Scripts\app\modules\template\modal\window.html" />
+    <Content Include="Scripts\app\modules\template\pagination\pager.html" />
+    <Content Include="Scripts\app\modules\template\pagination\pagination.html" />
+    <Content Include="Scripts\app\modules\template\popover\popover.html" />
+    <Content Include="Scripts\app\modules\template\progressbar\bar.html" />
+    <Content Include="Scripts\app\modules\template\progressbar\progress.html" />
+    <Content Include="Scripts\app\modules\template\progressbar\progressbar.html" />
+    <Content Include="Scripts\app\modules\template\rating\rating.html" />
+    <Content Include="Scripts\app\modules\template\tabs\tab.html" />
+    <Content Include="Scripts\app\modules\template\tabs\tabset.html" />
+    <Content Include="Scripts\app\modules\template\tooltip\tooltip-html-unsafe-popup.html" />
+    <Content Include="Scripts\app\modules\template\tooltip\tooltip-popup.html" />
+    <Content Include="Scripts\app\modules\template\topbar\has-dropdown.html" />
+    <Content Include="Scripts\app\modules\template\topbar\toggle-top-bar.html" />
+    <Content Include="Scripts\app\modules\template\topbar\top-bar-dropdown.html" />
+    <Content Include="Scripts\app\modules\template\topbar\top-bar-section.html" />
+    <Content Include="Scripts\app\modules\template\topbar\top-bar.html" />
+    <Content Include="Scripts\app\modules\template\tour\tour.html" />
+    <Content Include="Scripts\app\modules\template\typeahead\typeahead-match.html" />
+    <Content Include="Scripts\app\modules\template\typeahead\typeahead-popup.html" />
+    <Content Include="Scripts\app\subjects\subjects-service.js" />
+    <Content Include="Scripts\app\views\dashboard.html" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
     <Content Include="Scripts\app\app.js" />
-    <Content Include="Scripts\admin\boxgrid.js" />
-    <Content Include="Scripts\app\common\tinymce.js" />
+    <Content Include="Scripts\app\modules\tinymce.js" />
     <Content Include="Scripts\app\common\util-service.js" />
     <Content Include="Scripts\app\controllers.js" />
-    <Content Include="Scripts\admin\jquery.fittext.js" />
-    <Content Include="Scripts\admin\modernizr.custom.js" />
     <Content Include="Scripts\app\controllers\landingPageController.js" />
     <Content Include="Scripts\app\factories\AuthHttpResponseInterceptor.js" />
     <Content Include="Scripts\app\pages\pages.js" />
     <Content Include="Scripts\app\pages\pages-service.js" />
     <Content Include="Scripts\app\services.js" />
+    <Content Include="Scripts\app\subjects\subjects.js" />
+    <Content Include="Scripts\app\views\navigationMenu.html" />
+    <Content Include="Scripts\app\views\subjects\subjects.edit.html" />
+    <Content Include="Scripts\app\views\subjects\subjects.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\foundation\fastclick.js" />
@@ -306,7 +334,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <None Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -468,7 +495,6 @@
     <Compile Include="App_Start\AutofacConfig.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\Bundles\Admin.cs" />
     <Compile Include="App_Start\Bundles\Foundation.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -483,6 +509,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
+    <Compile Include="Controllers\SubjectsController.cs" />
     <Compile Include="Controllers\TeachingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -496,6 +523,7 @@
     <Compile Include="ViewModels\ManageViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModel.cs" />
     <Compile Include="ViewModels\TileVm.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -532,10 +560,7 @@
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LanguageSwitcher.cshtml" />
-    <Content Include="Views\Admin\Users.cshtml" />
-    <Content Include="Scripts\app\views\pages.html" />
-    <Content Include="Views\Admin\Subjects.cshtml" />
-    <Content Include="Views\Admin\NavigationMenu.cshtml" />
+    <Content Include="Scripts\app\views\pages\pages.html" />
     <Content Include="Views\Page\Edit.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
@@ -547,7 +572,8 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Scripts\app\views\pages.edit.html" />
+    <Content Include="Scripts\app\views\pages\pages.edit.html" />
+    <Content Include="Views\Teaching\SubjectTemp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

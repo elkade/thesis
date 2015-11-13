@@ -1,7 +1,9 @@
 ﻿angular.module('configApp', [
     'ui.tinymce',
+    'mm.foundation',
+    'mm.foundation.accordion',
     'configApp.pages',
-    'configApp.pages.service',
+    'configApp.subjects',
     'configApp.utils.service',
     'ui.router',
     'ngResource',
@@ -42,11 +44,15 @@
     $stateProvider
         .state("dashboard", {
             url: "/",
-            templateUrl: 'admin/dashboard'
+            templateUrl: 'scripts/app/views/dashboard.html'
         })
         .state('users', {
             url: '/users',
             templateUrl: 'scripts/app/views/users.html'
+        })
+        .state('navigationMenu', {
+            url: '/navigationMenu',
+            templateUrl: 'scripts/app/views/navigationMenu.html'
         })
 }])
 

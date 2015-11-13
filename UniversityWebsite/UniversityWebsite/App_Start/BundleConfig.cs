@@ -1,5 +1,4 @@
 ﻿using System.Web.Optimization;
-using UniversityWebsite.App_Start.Bundles;
 
 namespace UniversityWebsite
 {
@@ -28,17 +27,16 @@ namespace UniversityWebsite
             bundles.Add(Foundation.Styles());
             bundles.Add(Foundation.Scripts());
 
-            bundles.Add(Admin.Styles());
-            bundles.Add(Admin.Scripts());
-
             bundles.Add(new StyleBundle("~/tinymce/css")
                 .IncludeDirectory("~/Scripts/tinymce/skins/lightgray", "*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/configApp")
                 .IncludeDirectory("~/Scripts/app/common", "*.js")
+                .IncludeDirectory("~/Scripts/app/modules", "*.js")
                 .IncludeDirectory("~/Scripts/app/controllers", "*.js")
                 .IncludeDirectory("~/Scripts/app/factories", "*.js")
                 .IncludeDirectory("~/Scripts/app/pages", "*.js")
+                .IncludeDirectory("~/Scripts/app/subjects", "*.js")
                 .Include("~/Scripts/app/app.js"));
         }  
     }

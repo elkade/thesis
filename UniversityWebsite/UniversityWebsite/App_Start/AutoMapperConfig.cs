@@ -13,7 +13,7 @@ namespace UniversityWebsite
             {
                 cfg.AddProfile(new PageProfile());
                 cfg.AddProfile(new MenuProfile());
-                
+                cfg.AddProfile(new SubjectProfile());
             });
         }
     }
@@ -38,6 +38,21 @@ namespace UniversityWebsite
                 LastUpdateDate = vm.LastUpdateDate,
                 CreationDate = vm.CreationDate
 
+            });
+        }
+    }
+
+    public class SubjectProfile : Profile
+    {
+        protected override void Configure()
+        {
+            Mapper.CreateMap<Subject, SubjectViewModel>().ConvertUsing(p => new SubjectViewModel
+            {
+                Name = p.Name,
+            });
+            Mapper.CreateMap<SubjectViewModel, Subject>().ConvertUsing(vm => new Subject
+            {
+                Name = vm.Name,
             });
         }
     }
