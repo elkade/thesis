@@ -43,7 +43,15 @@ p.title {
 
 @import url(//fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900);
 html, body {
-  background: #FAFAFA; }
+  background: #F6F6FA; }
+
+.light-color {
+    background: #FCFCFF;
+}
+
+.row {
+    max-width: 72.5rem;
+}
 
 .card {
   font-family: 'Roboto', sans-serif;

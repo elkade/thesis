@@ -1,24 +1,25 @@
 ﻿@model UniversityWebsite.ViewModels.Layout.LanguageSwitcherViewModel
 
-
-<button href="#" data-dropdown="langs" aria-controls="langs" aria-expanded="false" class="button dropdown">Lang</button>
+<button id="langButton" href="#" data-dropdown="langs" aria-controls="langs" aria-expanded="false" class="button dropdown">@ViewData["lang"]</button>
 <ul id="langs" data-dropdown-content class="f-dropdown" aria-hidden="true">
 
     @foreach (var language in Model.Languages)
     {
         <li>
-        @{
-            string href = null;
-            if (!language.IsPage)
-            {
-                @Html.ActionLink(@language.CountryCode, ViewContext.RouteData.Values["action"].ToString(), new {language = language.CountryCode});
+            @{
+                string href = null;
+                if (!language.IsPage)
+                {
+                    @Html.ActionLink(@language.CountryCode, ViewContext.RouteData.Values["action"].ToString(), new {language = language.CountryCode})
+                    ;
+                }
+                else
+                {
+                    @Html.ActionLink(@language.CountryCode, "Index", new {pagename = language.UrlName})
+                    ;
+                }
             }
-            else
-            {
-                @Html.ActionLink(@language.CountryCode, "Index", new {pagename=language.UrlName});
-            }
-        }
-            
+
         </li>
     }
 </ul>

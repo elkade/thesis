@@ -3,19 +3,21 @@
 {
     @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>*@
 
-    <button href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button dropdown">@User.Identity.Name</button>
-    <ul id="user-items" data-dropdown-content class="f-dropdown" aria-hidden="true">
-        <li><a href="@Url.Action("Index", "Admin")">Zarządzaj</a></li>
-        <li>
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-            {
-                @Html.AntiForgeryToken()
-                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-            }
-        </li>
-    </ul>
+    <li>
+        <a href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button dropdown">@User.Identity.Name</a>
+        <ul id="user-items" data-dropdown-content class="f-dropdown" aria-hidden="true">
+            <li><a href="@Url.Action("Index", "Admin")">Zarządzaj</a></li>
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                }
+            </li>
+        </ul>
+    </li>
 }
 else
-{       <li><a class="button" href="@Url.Action("Login", "Account")" id="loginLink">Log in</a></li>
-        @*<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+{   
+    <li><a class="button" href="@Url.Action("Login", "Account")" id="loginLink">Log in</a></li>
 }

@@ -13,6 +13,7 @@
     @Scripts.Render("~/bundles/modernizr")
     
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
 
     <title>@ViewBag.Title</title>
     @RenderSection("Styles", false)
@@ -20,13 +21,15 @@
 
 
 <body>
-    <div class="row">
-        <div class="large-3 columns">
-            <h1><a href="@Url.Action("Index", "Home")"><img src="https://www.pw.edu.pl/design/pl_mob_merge/images/pw_logo_naglowek.png"/></a></h1>
+    <div class="container light-color">
+        <div class="row ">
+            <div class="large-3 columns">
+                <h1><a href="@Url.Action("Index", "Home")"><img src="https://www.pw.edu.pl/design/pl_mob_merge/images/pw_logo_naglowek.png" /></a></h1>
+            </div>
+            @{
+                Html.RenderPartial("_MainMenu", mainMenuViewModel);
+            }
         </div>
-        @{
-            Html.RenderPartial("_MainMenu", mainMenuViewModel);
-        }
     </div>
       
     <div class="row">
@@ -37,10 +40,13 @@
             <hr/>
         </div>
     </div>
-            
-    <div class="row">
-        @RenderBody()
+
+    <div class="row light-color">
+        <div class="large-12 columns">
+            @RenderBody()
+        </div>
     </div>
+
 
     @*<div class="row">
         <div class="large-12 columns">
@@ -66,7 +72,7 @@
             <hr/>
             <div class="row">
                 <div class="large-6 columns">
-                  <p>© Copyright no one at all. Go to town.</p>
+                    <p>© Copyright no one at all. Go to town.</p>
                 </div>
                 <div class="large-6 columns">
                   <ul class="inline-list right">
@@ -80,7 +86,7 @@
         </div> 
     </footer>
     
-    @Scripts.Render("~/bundles/jquery")
+    
     @Scripts.Render("~/bundles/foundation")
     @RenderSection("Scripts", false)
 <script>

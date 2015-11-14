@@ -1,6 +1,13 @@
 ﻿<h3>{{subject.Name}}</h3>
 
-
+<style>
+    .mousetrap {
+        height: 100px;
+    }
+    .accordion dd {
+        margin-bottom: 20px !important;
+    }
+</style>
 
 <accordion>
     <accordion-group heading="Aktualnosci">
@@ -11,9 +18,30 @@
             <div class="medium-2 columns">
                 <input type="text" placeholder="rrrr-mm-dd"/>
             </div>
-            <div class="medium-8 columns"></div>
+            <div class="small-2 columns">
+                <button type="submit">Filtruj</button>
+            </div>
+            <div class="medium-5 columns"></div>
         </div>
-        <accordion>
+        <div class="row">
+            <span>News 4</span>
+            <div>
+                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
+            </div>
+            <span>News 3</span>
+            <div>
+                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
+            </div>
+            <span>News 2</span>
+            <div>
+                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
+            </div>
+            <span>News 1</span>
+            <div>
+                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
+            </div>
+        </div>
+        <!--<accordion>
             <accordion-group heading="Post 4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2015-11-10">
                 <div>
                     <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap">
@@ -35,7 +63,7 @@
                     Panel 1. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
                 </div>
             </accordion-group>
-        </accordion>
+        </accordion>-->
     </accordion-group>
     <accordion-group heading="Plan zajec">
         <div>
