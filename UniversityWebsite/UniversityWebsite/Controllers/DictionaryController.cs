@@ -12,11 +12,11 @@ namespace UniversityWebsite.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult Index(int id, string l)
+        public ActionResult Index(int id, string lang)
         {
-            if (string.IsNullOrEmpty(l))
-                l = GetCookie(CookieKeyLang);
-            string result = _dictionaryService.GetTranslation(id, l);
+            if (string.IsNullOrEmpty(lang))
+                lang = GetCookie(CookieKeyLang);
+            string result = _dictionaryService.GetTranslation(id, lang);
             return Content(result);
         }
 	}

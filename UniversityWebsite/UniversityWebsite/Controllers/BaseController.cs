@@ -92,7 +92,13 @@ namespace UniversityWebsite.Controllers
             var query = from language in languages
                         join page in translations on language.CountryCode equals page.Language.CountryCode into gj
                         from page2 in gj.DefaultIfEmpty()
-                        select new LanguageButtonViewModel { IsPage = (page2 != null), CountryCode = language.CountryCode, Title = language.Name, UrlName = page2 == null ? null : page2.UrlName };
+                        select new LanguageButtonViewModel
+                        {
+                            IsPage = (page2 != null), 
+                            CountryCode = language.CountryCode, 
+                            Title = language.Name, 
+                            UrlName = page2 == null ? null : page2.UrlName
+                        };
             switcher.Languages = query.ToList();
 
             ViewData["langSw"] = switcher;
