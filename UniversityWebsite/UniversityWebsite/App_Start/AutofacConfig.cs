@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Reflection;
+using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -6,6 +7,7 @@ using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
 using UniversityWebsite.Services;
+using Module = Autofac.Module;
 
 namespace UniversityWebsite
 {
@@ -16,6 +18,7 @@ namespace UniversityWebsite
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterFilterProvider();
             builder.RegisterSource(new ViewRegistrationSource());
             builder.RegisterModule(new EfModule());

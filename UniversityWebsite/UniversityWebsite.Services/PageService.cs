@@ -18,6 +18,7 @@ namespace UniversityWebsite.Services
         ICollection<Page> GetHomeTiles(string lang);
         ICollection<Page> GetAll(); void UpdateContent(Page page);
         void Add(Page page);
+        void UpdatePage(Page page);
     }
 
     public class PageService : IPageService
@@ -79,6 +80,21 @@ namespace UniversityWebsite.Services
         public void Add(Page page)
         {
             _context.Pages.Add(page);
+            _context.SaveChanges();
+        }
+
+        public void UpdatePage(Page page)
+        {
+            var dbPage = _context
+                .Pages
+                .Include(p => p.Language)
+                .Single(p => p.Title == page.Title && p.Language.CountryCode == page.Language.CountryCode);
+            dbPage.Content = page.Content;
+            dbPage.LastUpdateDate = DateTime.Now;
+            dbPage.Title = page.Title;
+            dbPage.UrlName = page.UrlName;
+            dbPage.Parent = page.Parent;
+            _context.Entry(dbPage).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
