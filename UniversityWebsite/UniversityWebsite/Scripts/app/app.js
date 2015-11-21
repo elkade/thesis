@@ -10,9 +10,15 @@
     'ngResource',
     'ngAnimate'])
 
+.directive('ncgRequestVerificationToken', ['$http', function ($http) {
+    return function (scope, element, attrs) {
+        $http.defaults.headers.common['RequestVerificationToken'] = attrs.ncgRequestVerificationToken || "no request verification token";
+    };
+}])
+
 .run( 
-    [            '$rootScope', '$state', '$stateParams', 
-        function ($rootScope,   $state,   $stateParams) {
+    [            '$http', '$rootScope', '$state', '$stateParams', 
+        function ($http, $rootScope,   $state,   $stateParams) {
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;

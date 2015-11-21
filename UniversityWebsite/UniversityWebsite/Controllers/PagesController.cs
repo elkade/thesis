@@ -4,6 +4,7 @@ using System.Web.Http;
 using AutoMapper;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
+using UniversityWebsite.Helper;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 
@@ -18,6 +19,7 @@ namespace UniversityWebsite.Controllers
             _pageService = new PageService(new DomainContext());
         }
 
+        [AntiForgeryValidate]
         public IEnumerable<PageViewModel> GetAllPages()
         {
             return _pageService.GetAll().Select(page =>
@@ -29,6 +31,7 @@ namespace UniversityWebsite.Controllers
         }
 
         [HttpGet]
+        [AntiForgeryValidate]
         public PageViewModel GetPage(string pageName)
         {
             var page = _pageService.FindPage(pageName);
