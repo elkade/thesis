@@ -11,5 +11,6 @@ namespace UniversityWebsite.ViewModels
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
+        public string ParentName { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace UniversityWebsite
                        //"~/Content/foundation/foundation.css",
                        //"~/Content/foundation/foundation.mvc.css",
                        //"~/Content/foundation/app.css", 
+                       "~/Content/foundation/foundation-icons.css", 
                        "~/sass/Site.css");
         }
 

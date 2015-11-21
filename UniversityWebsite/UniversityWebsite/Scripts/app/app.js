@@ -2,6 +2,7 @@
     'ui.tinymce',
     'mm.foundation',
     'mm.foundation.accordion',
+    'mm.foundation.modal',
     'configApp.pages',
     'configApp.subjects',
     'configApp.utils.service',

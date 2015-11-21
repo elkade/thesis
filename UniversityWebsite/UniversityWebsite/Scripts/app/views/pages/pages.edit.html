@@ -1,23 +1,170 @@
-﻿
-<h3>{{page.Name}}</h3>
+﻿<style>
+    label > i { font-size: 1.3em; }
 
+    .right-panel {
+        max-width: 320px;
+    }
 
-<div >
-    <form name="form" novalidate ng-submit="update()">
-        <textarea ui-tinymce="tinymceOptions" data-ng-model="page.Content" class="mousetrap"></textarea>
-        <button type="submit" class="button button-positive button-block">Update</button>
-    </form>
+    .page-title input {
+        font-size: 1.9em;
+        padding-top: 1em;   
+        padding-bottom: 1em;
+        font-weight: bold; 
+    }
+
+    .box {
+        border-radius: 3px;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        padding: 10px 25px;
+        display: block;
+        margin-top: 60px;
+    }
+
+    .box-icon {
+        background-color: #333333;
+        border-radius: 50%;
+        display: table;
+        height: 100px;
+        margin: 0 auto;
+        width: 100px;
+        margin-top: -61px;
+        margin-bottom: 10px;
+        font-size: 3rem;
+    }
+
+    .box-icon span {
+        color: #fff;
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .info h4 {
+        font-size: 26px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .info p {
+        color: #717171;
+        font-size: 16px;
+        padding-top: 10px;
+    }
+
+    .info a {
+        border-radius: 2px;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        transition: all 0.5s ease 0s;
+    }
+
+    .info a:hover {
+        box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+        transition: all 0.5s ease 0s;
+    }
+
+</style>
+
+<div>
+    <script type="text/ng-template" id="myModalContent.html">
+        <h3>I'm a modal!</h3>
+        <ul>
+            <li ng-repeat="item in items">
+                <a ng-click="selected.item = item">{{ item }}</a>
+            </li>
+        </ul>
+        <p>Selected: <b>{{ selected.item }}</b></p>
+        <button class="button secondary" ng-click="reposition()">Reset top position</button>
+        <button class="button" ng-click="ok()">OK</button>
+        <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
+    </script>
+
+    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
 </div>
+<form name="form" novalidate ng-submit="update()">
+    
+    <div class="large-9 columns">
+        <div class="row">
+            <div class="medium-12 columns page-title">
+                <label>
+                    <input type="text" placeholder="Title" ng-model="page.Name" class="title-input">
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-12 columns">
+                <textarea ui-tinymce="tinymceOptions" data-ng-model="page.Content" class="mousetrap"></textarea>
 
 
+                <div ng-show="state == 'success'" data-alert class="alert-box success">
+                    Zaktualizowano
+                    <a href="#" class="close">&times;</a>
+                </div>
 
-<div ng-show="state == 'success'" data-alert class="alert-box success">
-    Zaktualizowano
-    <a href="#" class="close">&times;</a>
-</div>
+                <div data-alert class="alert-box alert ng-hide" ng-show="state == 'error'">
+                    Wystąpił błąd
+                    <a href="#" class="close">&times;</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div data-alert class="alert-box alert ng-hide" ng-show="state == 'error'">
-    Wystąpił błąd
-    <a href="#" class="close">&times;</a>
-</div>
 
+    <div class="large-3 columns right-panel">
+
+        <div class="box">
+            <div class="box-icon">
+                <span class="fi-wrench"></span>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <button type="submit" class="button success round">Update</button>
+                </div>
+                <div class="medium-5 columns">
+                    <div class="button alert round" ng-click="open()"><i class="fi-trash"></i></div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>
+                        <i class="fi-calendar"></i> Created: {{page.CreationDate | date:'dd/MM/yyyy&nbsp;@&nbsp;hh:mm'}}
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>
+                        <i class="fi-calendar"></i> Last updated: {{page.LastUpdateDate | date:'dd/MM/yyyy&nbsp;@&nbsp;hh:mm'}}
+                    </label>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>
+                        Parent
+                        <select ng-model="page.ParentName"
+                                ng-options="option.Name as option.Name for option in pages">
+                            <option value="">---</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>
+                        Language
+                        <select ng-model="page.Language">
+                            <option value="pl">pl</option>
+                            <option value="en">en</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</form>

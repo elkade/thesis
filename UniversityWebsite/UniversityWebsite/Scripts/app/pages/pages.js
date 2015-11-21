@@ -35,13 +35,11 @@
                         '': {
                             templateUrl: 'scripts/app/views/pages/pages.edit.html',
                             controller: [
-                                '$scope', '$stateParams', 'utils', 'post',
-                                function ($scope, $stateParams, utils, post) {
+                                '$scope', '$stateParams', 'utils', 'post', '$modal',
+                                function ($scope, $stateParams, utils, post, $modal) {
                                     $scope.update = function() {
                                         var pos = new post($scope.page);
                                         pos.$save(function(response) {
-                                            console.log(response.$resolved);
-                                            
                                             $scope.state = response.$resolved ? 'success' : 'error';
                                         });
                                     }
@@ -58,6 +56,31 @@
                                             format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
                                         }
                                     };
+
+                                    $scope.items = ['item1', 'item2', 'item3'];
+
+                                    $scope.open = function () {
+
+                                        var modalInstance = $modal.open({
+                                            templateUrl: 'scripts/app/views/pages/deletePageModal.html',
+                                            controller: [
+                                                '$scope', '$modalInstance', 'pages',
+                                                function($scope, $modalInstance, pages) {
+                                                    $scope.cancel = function () {
+                                                        $modalInstance.dismiss('cancel');
+                                                    };
+
+                                                    $scope.ok = function () {
+                                                        $modalInstance.close("ok");
+                                                    };
+                                                }
+
+                                            ]
+                                        });
+
+                                    };
+
+                                    
                                 }
                             ]
                         },
