@@ -33,10 +33,11 @@ namespace UniversityWebsite
             bundles.Add(new ScriptBundle("~/bundles/configApp")
                 .IncludeDirectory("~/Scripts/app/common", "*.js")
                 .IncludeDirectory("~/Scripts/app/modules", "*.js")
-                .IncludeDirectory("~/Scripts/app/controllers", "*.js")
-                .IncludeDirectory("~/Scripts/app/factories", "*.js")
                 .IncludeDirectory("~/Scripts/app/pages", "*.js")
+                .IncludeDirectory("~/Scripts/app/pages/controllers", "*.js")
                 .IncludeDirectory("~/Scripts/app/subjects", "*.js")
+                .IncludeDirectory("~/Scripts/app/menus", "*.js")
+                .IncludeDirectory("~/Scripts/app/users", "*.js")
                 .Include("~/Scripts/app/app.js"));
         }  
     }

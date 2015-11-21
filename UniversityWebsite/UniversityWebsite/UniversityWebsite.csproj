@@ -195,14 +195,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\admin\climacons.css" />
-    <Content Include="Content\admin\component.css" />
-    <Content Include="Content\admin\default.css" />
     <Content Include="Content\foundation\foundation.css" />
     <Content Include="Content\foundation\foundation.mvc.css" />
     <Content Include="Content\foundation\normalize.css" />
     <Content Include="Content\site.css" />
-    <Content Include="fonts\climacons-webfont.svg" />
     <Content Include="Content\foundation\foundation-icons.css" />
     <Content Include="fonts\foundation\foundation-icons.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -491,8 +487,6 @@
     <Content Include="fonts\foundation\svgs\fi-zoom-out.svg" />
     <Content Include="Global.asax" />
     <Content Include="App_Readme\Foundation for sites\readme.md" />
-    <Content Include="fonts\climacons-webfont.ttf" />
-    <Content Include="fonts\climacons-webfont.eot" />
     <Content Include="sass\Site.css">
       <DependentUpon>Site.scss</DependentUpon>
     </Content>
@@ -572,7 +566,11 @@
     <Content Include="Scripts\app\modules\template\tour\tour.html" />
     <Content Include="Scripts\app\modules\template\typeahead\typeahead-match.html" />
     <Content Include="Scripts\app\modules\template\typeahead\typeahead-popup.html" />
+    <Content Include="Scripts\app\pages\controllers\deletePageModalController.js" />
+    <Content Include="Scripts\app\pages\controllers\pagesEditController.js" />
     <Content Include="Scripts\app\subjects\subjects-service.js" />
+    <Content Include="Scripts\app\users\users-service.js" />
+    <Content Include="Scripts\app\users\users.js" />
     <Content Include="Scripts\app\views\dashboard.html" />
     <Content Include="Scripts\app\views\menus\menus.edit.html" />
     <Content Include="fonts\foundation\foundation-icons.eot" />
@@ -584,14 +582,11 @@
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\modules\tinymce.js" />
     <Content Include="Scripts\app\common\util-service.js" />
-    <Content Include="Scripts\app\controllers.js" />
     <Content Include="Scripts\app\factories\AuthHttpResponseInterceptor.js" />
     <Content Include="Scripts\app\pages\pages.js" />
     <Content Include="Scripts\app\pages\pages-service.js" />
-    <Content Include="Scripts\app\services.js" />
     <Content Include="Scripts\app\subjects\subjects.js" />
     <Content Include="Scripts\app\views\menus\menus.html" />
-    <Content Include="Scripts\app\views\navigationMenu.html" />
     <Content Include="Scripts\app\views\pages\deletePageModal.html" />
     <Content Include="Scripts\app\views\subjects\subjects.edit.html" />
     <Content Include="Scripts\app\views\subjects\subjects.html" />
@@ -781,7 +776,7 @@
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
-    <Content Include="Scripts\app\views\users.html" />
+    <Content Include="Scripts\app\views\users\users.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -878,7 +873,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\app\controllers\" />
     <Folder Include="Views\Dictionary\" />
     <Folder Include="Views\Files\" />
     <Folder Include="Views\Layout\" />

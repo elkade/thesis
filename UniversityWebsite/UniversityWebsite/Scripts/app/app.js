@@ -5,6 +5,8 @@
     'mm.foundation.modal',
     'configApp.pages',
     'configApp.subjects',
+    'configApp.menus',
+    'configApp.users',
     'configApp.utils.service',
     'ui.router',
     'ngResource',
@@ -52,14 +54,6 @@
         .state("dashboard", {
             url: "/",
             templateUrl: 'scripts/app/views/dashboard.html'
-        })
-        .state('users', {
-            url: '/users',
-            templateUrl: 'scripts/app/views/users.html'
-        })
-        .state('navigationMenu', {
-            url: '/navigationMenu',
-            templateUrl: 'scripts/app/views/navigationMenu.html'
         })
 }])
 

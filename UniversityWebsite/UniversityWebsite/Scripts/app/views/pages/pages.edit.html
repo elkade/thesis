@@ -64,22 +64,6 @@
 
 </style>
 
-<div>
-    <script type="text/ng-template" id="myModalContent.html">
-        <h3>I'm a modal!</h3>
-        <ul>
-            <li ng-repeat="item in items">
-                <a ng-click="selected.item = item">{{ item }}</a>
-            </li>
-        </ul>
-        <p>Selected: <b>{{ selected.item }}</b></p>
-        <button class="button secondary" ng-click="reposition()">Reset top position</button>
-        <button class="button" ng-click="ok()">OK</button>
-        <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
-    </script>
-
-    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
-</div>
 <form name="form" novalidate ng-submit="update()">
     
     <div class="large-9 columns">
@@ -118,10 +102,10 @@
             </div>
             <div class="row">
                 <div class="medium-5 columns">
-                    <button type="submit" class="button success round">Update</button>
+                    <button type="submit" class="button success ">Update</button>
                 </div>
                 <div class="medium-5 columns">
-                    <div class="button alert round" ng-click="open()"><i class="fi-trash"></i></div>
+                    <div class="button alert " ng-click="open()"><i class="fi-trash"></i></div>
                 </div>
             </div>
             <hr/>
