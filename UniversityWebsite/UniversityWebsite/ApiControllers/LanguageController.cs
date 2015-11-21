@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite.ApiControllers
@@ -15,7 +16,7 @@ namespace UniversityWebsite.ApiControllers
         }
 
         // GET api/Language
-        public IEnumerable<string> GetLanguages()
+        public IEnumerable<Language> GetLanguages()
         {
             return _languageService.GetLanguagesCached();
         }

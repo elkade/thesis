@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMapperConfig.cs" />
+    <Compile Include="AutoMapperServiceConfig.cs" />
     <Compile Include="DictionaryService.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Helpers\CacheHelper.cs" />

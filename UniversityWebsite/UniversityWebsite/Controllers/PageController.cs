@@ -17,25 +17,19 @@ namespace UniversityWebsite.Controllers
         [HttpGet]
         public ActionResult Index(string name)
         {
-            try
-            {
-                //todo ustawić cookie
-                var page = PageService.FindPage(name);
-                if (page == null)
+            //todo ustawić cookie
+            var page = PageService.FindPage(name);
+            if (page == null)
+                throw new NotFoundException("Nie znaleziono strony: "+name);
+            Lang = page.CountryCode;
+            //PageId = page.Id;
 
-                    Lang = page.CountryCode;
-                PageId = page.Id;
-
-                var pageVm = Mapper.Map<PageViewModel>(page);
+            var pageVm = Mapper.Map<PageViewModel>(page);
 
 
-                ViewBag.Title = page.Title;
-                return View(pageVm);
-            }
-            catch (NotFoundException)
-            {
-                return null;//todo strona błędu
-            }
+            ViewBag.Title = page.Title;
+            return View(pageVm);
+
         }
 
         //[HttpGet]

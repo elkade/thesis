@@ -20,16 +20,17 @@ namespace UniversityWebsite.Domain.Model
         public DateTime CreationDate { get; set; }
         [Required]
         public DateTime LastUpdateDate { get; set; }
-        [Required]
-        [ForeignKey("Language")]
         public string CountryCode { get; set; }
+        [Required]
+        [ForeignKey("CountryCode")]
         public Language Language { get; set; }
         [Required]
-        [ForeignKey("PageGroup")]
         public int GroupId { get; set; }
+        [Required]
+        [ForeignKey("GroupId")]
         public PageGroup Group { get; set; }
-        [ForeignKey("Page")]
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
+        [ForeignKey("ParentId")]
         public virtual Page Parent { get; set; }
     }
 }

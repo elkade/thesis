@@ -30,8 +30,6 @@ namespace UniversityWebsite.Controllers
         protected const string CookieKeyLang = "lang";
         private const string DefaultLanguage = "pl";
 
-        protected int PageId = 0;//Todo
-
         protected string Lang
         {
             get
@@ -82,24 +80,24 @@ namespace UniversityWebsite.Controllers
 
         private void AddLanguageSwitcher()
         {
-            if (PageService == null) return;
+            //if (PageService == null) return;
             var switcher = new LanguageSwitcherViewModel();
 
-            var languages = LanguageService.GetLanguagesCached();
+            //var languages = LanguageService.GetLanguagesCached();
 
-            var translations = PageService.GetTranslations(PageId).ToList();
+            //var translations = PageService.GetTranslations(0).ToList();
 
-            var query = from language in languages
-                        join page in translations on language.CountryCode equals page.Language.CountryCode into gj
-                        from page2 in gj.DefaultIfEmpty()
-                        select new LanguageButtonViewModel
-                        {
-                            IsPage = (page2 != null), 
-                            CountryCode = language.CountryCode, 
-                            Title = language.Name, 
-                            UrlName = page2 == null ? null : page2.UrlName
-                        };
-            switcher.Languages = query.ToList();
+            //var query = from language in languages
+            //            join page in translations on language.CountryCode equals page.CountryCode into gj
+            //            from page2 in gj.DefaultIfEmpty()
+            //            select new LanguageButtonViewModel
+            //            {
+            //                IsPage = (page2 != null), 
+            //                CountryCode = language.CountryCode, 
+            //                Title = language.Name, 
+            //                UrlName = page2 == null ? null : page2.UrlName
+            //            };
+            //switcher.Languages = query.ToList();
 
             ViewData["langSw"] = switcher;
         }

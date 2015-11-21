@@ -11,6 +11,7 @@ namespace UniversityWebsite
         public static void Register(IAppBuilder app)
         {
             var config = new HttpConfiguration();
+            config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

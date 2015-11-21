@@ -135,11 +135,11 @@ namespace UniversityWebsite.Core.Migrations
                     LastUpdateDate = DateTime.Now
                 }
             };
-            foreach (var p in pagesPl)
+            foreach (var p in pagesEn)
                 _context.Pages.Add(p);
 
-            var menu1 = new Menu { Items = new List<MenuItem>(pagesPl.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
-            var menu2 = new Menu { Items = new List<MenuItem>(pagesEn.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
+            var menu1 = new Menu { Language = pl, Items = new List<MenuItem>(pagesPl.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
+            var menu2 = new Menu { Language = en, Items = new List<MenuItem>(pagesEn.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
 
             _context.Menus.Add(menu1);
             _context.Menus.Add(menu2);

@@ -1,16 +1,16 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
-using System.Collections.Generic;
-using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.ApiControllers
 {
+    [RoutePrefix("api/page")]
     public class PageController : ApiController
     {
         private readonly ILanguageService _languageService;
@@ -23,11 +23,12 @@ namespace UniversityWebsite.ApiControllers
         }
 
         // GET api/Page
+        [Route("")]
         public IEnumerable<PageDto> GetPages()
         {
             return _pageService.GetAll();
         }
-
+        [Route("{name}/availableLanguages")]
         public IEnumerable<Language> GetAvailableLanguages(string name)
         {
             var usedLanguages = _pageService.GetTranslationsLanguages(name);
@@ -37,7 +38,8 @@ namespace UniversityWebsite.ApiControllers
 
         // GET api/Page/5
         //[ValidateCustomAntiForgeryToken]
-        [ResponseType(typeof(Page))]
+        [Route("{name}", Name = "GetPage")]
+        [ResponseType(typeof(PageDto))]
         public IHttpActionResult GetPage(string name)
         {
             PageDto page = _pageService.FindPage(name);
@@ -48,29 +50,30 @@ namespace UniversityWebsite.ApiControllers
         }
 
         // PUT api/Page/5
-        public IHttpActionResult PutPage(string name, PageDto page)
+        [Route("{name}")]
+        public IHttpActionResult PutPage(PageDto page)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (name != page.UrlName)
-                return BadRequest();
+            page.UrlName = HttpUtility.UrlEncode(page.Title);
             _pageService.UpdatePage(page);
             return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST api/Page
-        [ResponseType(typeof(Page))]
+        [Route("")]
+        [ResponseType(typeof(PageDto))]
         public IHttpActionResult PostPage(PageDto page)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             page.UrlName = HttpUtility.UrlEncode(page.Title);
-            _pageService.Add(page);
-            return CreatedAtRoute("DefaultApi", new { name = page.UrlName }, page);
+            var createdPage = _pageService.Add(page);
+            return CreatedAtRoute("GetPage",new{ name = createdPage.UrlName}, createdPage);
         }
 
         // DELETE api/Page/5
-        [ResponseType(typeof(Page))]
+        [Route("{name}")]
         public IHttpActionResult DeletePage(string name)
         {
             _pageService.Delete(name);
