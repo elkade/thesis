@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http.Filters;
-using UniversityWebsite.Exceptions;
+using UniversityWebsite.Services.Exceptions;
 
 namespace UniversityWebsite.Filters
 {

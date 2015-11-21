@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Helpers;
 
@@ -10,13 +9,14 @@ namespace UniversityWebsite.Services
 {
     public interface ILanguageService
     {
-        void AddLanguage(Language language);
+        void AddLanguage(string countryCode);
         /// <summary>
         /// Trwale usuwa wszystkie encje z bazy istniejące w tym języku
         /// </summary>
         /// <param name="countryCode"></param>
         void DeleteLanguage(string countryCode);
-        List<Language> GetLanguagesCached();
+
+        IEnumerable<Language> GetLanguagesCached();
     }
     public class LanguageService : ILanguageService
     {
@@ -27,9 +27,9 @@ namespace UniversityWebsite.Services
 
         private IDomainContext _context;
 
-        public void AddLanguage(Language language)
+        public void AddLanguage(string countryCode)
         {
-            _context.Languages.Add(language);
+            _context.Languages.Add(new Language{CountryCode = countryCode});
             _context.SaveChanges();
         }
 
@@ -38,7 +38,7 @@ namespace UniversityWebsite.Services
             throw new NotImplementedException();
         }
 
-        public List<Language> GetLanguagesCached()
+        public IEnumerable<Language> GetLanguagesCached()
         {
             List<Language> languages = CacheHelper.GetOrInvoke<List<Language>>(
                 "Languages",

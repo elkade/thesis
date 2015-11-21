@@ -9,7 +9,6 @@ namespace UniversityWebsite.Domain.Model
         public int Id { get; set; }
 
         [Required]
-        public virtual Language Language { get; set; }
-        public virtual ICollection<Page> Items { get; set; }
+        public virtual ICollection<MenuItem> Items { get; set; }
     }
 }

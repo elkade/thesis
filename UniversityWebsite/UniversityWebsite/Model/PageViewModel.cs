@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace UniversityWebsite.ViewModels
+namespace UniversityWebsite.Model
 {
     public class PageViewModel
     {
-        public string Name { get; set; }
-        public string Language { get; set; }
+        public string Title { get; set; }
+        public string CountryCode { get; set; }
         [AllowHtml]
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }

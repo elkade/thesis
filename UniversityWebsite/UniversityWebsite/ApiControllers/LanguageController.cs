@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
-using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite.ApiControllers
@@ -16,23 +15,23 @@ namespace UniversityWebsite.ApiControllers
         }
 
         // GET api/Language
-        public IEnumerable<Language> GetLanguages()
+        public IEnumerable<string> GetLanguages()
         {
             return _languageService.GetLanguagesCached();
         }
 
         // POST api/Page
-        [ResponseType(typeof(Language))]
-        public IHttpActionResult LanguagePage(Language language)
+        [ResponseType(typeof(string))]
+        public IHttpActionResult AddLanguage(string countryCode)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _languageService.AddLanguage(language);
+            _languageService.AddLanguage(countryCode);
 
-            return CreatedAtRoute("DefaultApi", new { id = language.Id }, language);
+            return Ok(countryCode);
         }
 
     }

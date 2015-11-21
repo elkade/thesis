@@ -1,5 +1,5 @@
 ﻿@using System.Web.Services.Protocols
-@model UniversityWebsite.ViewModels.PageViewModel
+@model UniversityWebsite.Model.PageViewModel
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -35,7 +35,7 @@
             //.click();
     }
 </script>*@
-<h2>@Model.Name</h2>
+<h2>@Model.Title</h2>
 @using (Ajax.BeginForm("Edit", new AjaxOptions()
 {
     InsertionMode = InsertionMode.Replace,
@@ -45,8 +45,8 @@
 }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(p => p.Name)
-    @Html.HiddenFor(p => p.Language)
+    @Html.HiddenFor(p => p.Title)
+    @Html.HiddenFor(p => p.CountryCode)
     @Html.TextAreaFor(p => p.Content, new { id = "my_editor" })
     <p>
         <input type="submit" value="Submit" class="button"/>

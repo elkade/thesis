@@ -1,9 +1,8 @@
 ﻿using System.Web.Mvc;
 using AutoMapper;
-using UniversityWebsite.Domain;
-using UniversityWebsite.Domain.Model;
+using UniversityWebsite.Model;
 using UniversityWebsite.Services;
-using UniversityWebsite.ViewModels;
+using UniversityWebsite.Services.Exceptions;
 
 namespace UniversityWebsite.Controllers
 {
@@ -16,56 +15,63 @@ namespace UniversityWebsite.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Index(string pageName)
+        public ActionResult Index(string name)
         {
-            //todo ustawić cookie
-            var page = PageService.FindPage(pageName);
-            if (page == null)
-                return View(new PageViewModel{Name = "NotFound"});
-            Lang = page.Language.CountryCode;
-            PageId = page.Id;
+            try
+            {
+                //todo ustawić cookie
+                var page = PageService.FindPage(name);
+                if (page == null)
 
-            var pageVm = Mapper.Map<PageViewModel>(page);
+                    Lang = page.CountryCode;
+                PageId = page.Id;
+
+                var pageVm = Mapper.Map<PageViewModel>(page);
 
 
-            ViewBag.Title = page.Title;
-            return View(pageVm);
+                ViewBag.Title = page.Title;
+                return View(pageVm);
+            }
+            catch (NotFoundException)
+            {
+                return null;//todo strona błędu
+            }
         }
 
-        [HttpGet]
-        public ActionResult Edit(string pageName)
-        {
-            var page = PageService.FindPage(pageName);
-            if (page == null)
-                return View(new PageViewModel { Name = "NotFound" });
-            var pageVm = Mapper.Map<PageViewModel>(page);
-            return View(pageVm);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(PageViewModel pageVm)
-        {
-            if (PageService.FindPage(pageVm.Name) == null)
-                return Json(new {success = false});
-            var page = Mapper.Map<Page>(pageVm);
-            PageService.UpdateContent(page);
-            return Json(new { success = true });
-        }
-        [HttpPost]
-        public JsonResult Add(PageViewModel pageVm)
-        {
-            if (PageService.FindPage(pageVm.Name) != null)
-                return Json(new {success = false});
-            var page = Mapper.Map<Page>(pageVm);
-            PageService.Add(page);
-            return Json(new { success = true });
-        }
+        //[HttpGet]
+        //public ActionResult Edit(string name)
+        //{
+        //    var page = PageService.FindPage(name);
+        //    if (page == null)
+        //        return View(new PageViewModel { Name = "NotFound" });
+        //    var pageVm = Mapper.Map<PageViewModel>(page);
+        //    return View(pageVm);
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(PageViewModel pageVm)
+        //{
+        //    if (PageService.FindPage(pageVm.Name) == null)
+        //        return Json(new { success = false });
+        //    var page = Mapper.Map<Page>(pageVm);
+        //    PageService.UpdateContent(page);
+        //    return Json(new { success = true });
+        //}
+        //[HttpPost]
+        //public JsonResult Add(PageViewModel pageVm)
+        //{
+        //    if (PageService.FindPage(pageVm.Name) != null)
+        //        return Json(new { success = false });
+        //    var page = Mapper.Map<Page>(pageVm);
+        //    PageService.Add(page);
+        //    return Json(new { success = true });
+        //}
 
 
-        [HttpPost]
-        public ActionResult Delete(string pageName)
-        {
-            return Content("Delete");
-        }
+        //[HttpPost]
+        //public ActionResult Delete(string pageName)
+        //{
+        //    return Content("Delete");
+        //}
     }
 }

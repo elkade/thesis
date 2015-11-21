@@ -1,122 +1,80 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using UniversityWebsite.Domain.Model;
-using UniversityWebsite.Core;
 using UniversityWebsite.Services;
 using System.Collections.Generic;
-using UniversityWebsite.Validation;
+using UniversityWebsite.Services.Exceptions;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.ApiControllers
 {
     public class PageController : ApiController
     {
+        private readonly ILanguageService _languageService;
         private readonly IPageService _pageService;
-        private DomainContext db = new DomainContext();
 
-        public PageController(IPageService pageService)
+        public PageController(IPageService pageService, ILanguageService languageService)
         {
             _pageService = pageService;
+            _languageService = languageService;
         }
 
         // GET api/Page
-        public IEnumerable<Page> GetPages()
+        public IEnumerable<PageDto> GetPages()
         {
             return _pageService.GetAll();
         }
 
-        // GET api/Page/5
-        [ValidateCustomAntiForgeryToken]
-        [ResponseType(typeof(Page))]
-        public IHttpActionResult GetPage(string urlName)
+        public IEnumerable<Language> GetAvailableLanguages(string name)
         {
-            Page page = _pageService.FindPage(urlName);
+            var usedLanguages = _pageService.GetTranslationsLanguages(name);
+            var allLanguages = _languageService.GetLanguagesCached();
+            return allLanguages.Where(l => !usedLanguages.Contains(l.CountryCode));
+        }
+
+        // GET api/Page/5
+        //[ValidateCustomAntiForgeryToken]
+        [ResponseType(typeof(Page))]
+        public IHttpActionResult GetPage(string name)
+        {
+            PageDto page = _pageService.FindPage(name);
             if (page == null)
-            {
                 return NotFound();
-            }
 
             return Ok(page);
         }
 
         // PUT api/Page/5
-        public IHttpActionResult PutPage(int id, Page page)
+        public IHttpActionResult PutPage(string name, PageDto page)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-
-            if (id != page.Id)
-            {
+            if (name != page.UrlName)
                 return BadRequest();
-            }
             _pageService.UpdatePage(page);
             return StatusCode(HttpStatusCode.NoContent);
-            //try
-            //{
-            //    db.SaveChanges();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!PageExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
         }
 
         // POST api/Page
         [ResponseType(typeof(Page))]
-        public IHttpActionResult PostPage(Page page)
+        public IHttpActionResult PostPage(PageDto page)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-
-            db.Pages.Add(page);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = page.Id }, page);
+            page.UrlName = HttpUtility.UrlEncode(page.Title);
+            _pageService.Add(page);
+            return CreatedAtRoute("DefaultApi", new { name = page.UrlName }, page);
         }
 
         // DELETE api/Page/5
         [ResponseType(typeof(Page))]
-        public IHttpActionResult DeletePage(int id)
+        public IHttpActionResult DeletePage(string name)
         {
-            Page page = db.Pages.Find(id);
-            if (page == null)
-            {
-                return NotFound();
-            }
-
-            db.Pages.Remove(page);
-            db.SaveChanges();
-
-            return Ok(page);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool PageExists(int id)
-        {
-            return db.Pages.Count(e => e.Id == id) > 0;
+            _pageService.Delete(name);
+            return Ok();
         }
     }
 }

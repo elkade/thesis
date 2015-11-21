@@ -13,7 +13,7 @@ namespace UniversityWebsite.Controllers
 
         public ActionResult Index()
         {
-            return View(PageService.GetHomeTiles(Lang));
+            return View(PageService.GetParentlessPages(Lang));
         }
 	}
 }

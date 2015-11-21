@@ -803,24 +803,25 @@
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
-    <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\SubjectsController.cs" />
     <Compile Include="Controllers\TeachingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Filters\NotFoundExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\HtmlExtensions.cs" />
+    <Compile Include="Model\EditedPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Validation\ValidateCustomAntiForgeryTokenAttribute.cs" />
-    <Compile Include="ViewModels\AccountViewModel.cs" />
-    <Compile Include="ViewModels\Layout\LanguageSwitcherViewModel.cs" />
-    <Compile Include="ViewModels\ManageViewModel.cs" />
-    <Compile Include="ViewModels\MenuViewModel.cs" />
-    <Compile Include="ViewModels\PageViewModel.cs" />
-    <Compile Include="ViewModels\SubjectViewModel.cs" />
-    <Compile Include="ViewModels\TileVm.cs" />
+    <Compile Include="Model\AccountViewModel.cs" />
+    <Compile Include="Model\Layout\LanguageSwitcherViewModel.cs" />
+    <Compile Include="Model\ManageViewModel.cs" />
+    <Compile Include="Model\MenuViewModel.cs" />
+    <Compile Include="Model\PageViewModel.cs" />
+    <Compile Include="Model\SubjectViewModel.cs" />
+    <Compile Include="Model\TileVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">

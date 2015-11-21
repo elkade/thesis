@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UniversityWebsite.Services.Model
 {
@@ -8,10 +9,11 @@ namespace UniversityWebsite.Services.Model
         public string Title { get; set; }
         public string UrlName { get; set; }
         public string Content { get; set; }
-        public int LangGroup { get; set; }
-        public DateTime CreationDate { get; set; }
-        public DateTime LastUpdateDate { get; set; }
+        public int? GroupId { get; set; }
+        public DateTime? CreationDate { get; set; }
+        public DateTime? LastUpdateDate { get; set; }
         public string CountryCode { get; set; }
-        public string ParentUrlName { get; set; }
+        public ParentDto Parent { get; set; }
+        public List<string> AvailableTranslations;
     }
 }
