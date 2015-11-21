@@ -20,7 +20,12 @@ namespace UniversityWebsite.Controllers
 
         public IEnumerable<PageViewModel> GetAllPages()
         {
-            return _pageService.GetAll().Select(Mapper.Map<PageViewModel>);
+            return _pageService.GetAll().Select(page =>
+            {
+                var vm = Mapper.Map<PageViewModel>(page);
+                vm.ParentName = page.Parent != null ? page.Parent.Title : null;
+                return vm;
+            });
         }
 
         [HttpGet]

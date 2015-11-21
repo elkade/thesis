@@ -1,17 +1,33 @@
-﻿
+﻿<style>
+    .page-details {
+        margin-top: 2em;
+    }
+</style>
+
 <div class="row fullWidth">
-    <div class="medium-2 columns">
+    <div class="large-2 columns">
         <h3>Pages</h3>
-        <ul class="custom-side-nav">
-            <li ng-animate="'animate'" ng-repeat="page in pages">
-                <a ui-sref="pages.edit({pageName:page.Name})">{{page.Name}}</a>
-            </li>
-        </ul>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>
+                    <input type="text" placeholder="Search" ng-model="searchPage" />
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <ul class="custom-side-nav">
+                    <li ng-animate="'animate'" ng-repeat="page in pages | filter:searchPage">
+                        <a ui-sref="pages.edit({pageName:page.Name})">{{page.Name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     
-    <div class="medium-10 columns">
-        <div ui-view class="slide"></div>
+    <div class="large-10 columns page-details">
+        <div ui-view class="row"></div>
     </div>
 
 </div>

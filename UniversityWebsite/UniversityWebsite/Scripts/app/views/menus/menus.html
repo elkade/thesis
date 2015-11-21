@@ -1,0 +1,16 @@
+﻿<div class="row fullWidth">
+    <div class="medium-2 columns">
+        <h3>Menus</h3>
+        <ul class="custom-side-nav">
+            <li ng-animate="'animate'" ng-repeat="page in pages">
+                <a ui-sref="menus.edit({id:menu.Id})">{{menu}}</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="medium-10 columns">
+        <div ui-view class="slide"></div>
+    </div>
+
+</div>
