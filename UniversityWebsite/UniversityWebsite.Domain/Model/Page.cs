@@ -17,13 +17,20 @@ namespace UniversityWebsite.Domain.Model
         [Column(TypeName = "text")]
         public string Content { get; set; }
         [Required]
-        public int LangGroup { get; set; }
-        [Required]
         public DateTime CreationDate { get; set; }
         [Required]
         public DateTime LastUpdateDate { get; set; }
+        public string CountryCode { get; set; }
         [Required]
-        public virtual Language Language { get; set; }
+        [ForeignKey("CountryCode")]
+        public Language Language { get; set; }
+        [Required]
+        public int GroupId { get; set; }
+        [Required]
+        [ForeignKey("GroupId")]
+        public PageGroup Group { get; set; }
+        public int? ParentId { get; set; }
+        [ForeignKey("ParentId")]
         public virtual Page Parent { get; set; }
     }
 }

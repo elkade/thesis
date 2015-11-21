@@ -61,12 +61,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapperServiceConfig.cs" />
     <Compile Include="DictionaryService.cs" />
+    <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="LanguageService.cs" />
     <Compile Include="MenuService.cs" />
     <Compile Include="Model\MenuDto.cs" />
     <Compile Include="Model\PageDto.cs" />
+    <Compile Include="Model\ParentDto.cs" />
     <Compile Include="PageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersService.cs" />

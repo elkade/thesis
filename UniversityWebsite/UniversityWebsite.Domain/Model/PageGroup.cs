@@ -2,10 +2,9 @@
 
 namespace UniversityWebsite.Domain.Model
 {
-    public class Language
+    public class PageGroup
     {
         [Key]
-        public string CountryCode { get; set; }
-        public string Title { get; set; }
+        public int Id { get; set; }
     }
 }

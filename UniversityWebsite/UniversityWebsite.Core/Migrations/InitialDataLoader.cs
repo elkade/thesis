@@ -66,15 +66,19 @@ namespace UniversityWebsite.Core.Migrations
 
         private void AddPagesAndMenus()
         {
-            var pl = new Language {Name = "polski", CountryCode = "pl"};
-            var en = new Language {Name = "english", CountryCode = "en"};
+            var kontakt = new PageGroup();
+            var badania = new PageGroup();
+            var kadra = new PageGroup();
+
+            var pl = new Language { Title = "polski", CountryCode = "pl" };
+            var en = new Language { Title = "english", CountryCode = "en" };
             var pagesPl = new List<Page>
             {
                 new Page
                 {
                     Title = "Kontakt",
                     UrlName = "Kontakt",
-                    LangGroup = 1,
+                    Group = kontakt,
                     Language = pl,
                     CreationDate = DateTime.Now,
                     LastUpdateDate = DateTime.Now,
@@ -84,7 +88,7 @@ namespace UniversityWebsite.Core.Migrations
                     Title = "Badania",
                     UrlName = "Badania",
                     Language = pl,
-                    LangGroup = 2,
+                    Group = badania,
                     CreationDate = DateTime.Now,
                     LastUpdateDate = DateTime.Now,
                 },
@@ -93,7 +97,7 @@ namespace UniversityWebsite.Core.Migrations
                     Title = "Kadra",
                     UrlName = "Kadra",
                     Language = pl,
-                    LangGroup = 3,
+                    Group = kadra,
                     CreationDate = DateTime.Now,
                     LastUpdateDate = DateTime.Now,
                 }
@@ -108,7 +112,7 @@ namespace UniversityWebsite.Core.Migrations
                     Title = "Contact",
                     Language = en,
                     UrlName = "Contact",
-                    LangGroup = 1,
+                    Group = kontakt,
                     CreationDate = DateTime.Now,
                     LastUpdateDate = DateTime.Now
                 },
@@ -117,7 +121,7 @@ namespace UniversityWebsite.Core.Migrations
                     Title = "Research",
                     Language = en,
                     UrlName = "Research",
-                    LangGroup = 2,
+                    Group = badania,
                     CreationDate = DateTime.Now,
                     LastUpdateDate = DateTime.Now
                 },
@@ -126,22 +130,22 @@ namespace UniversityWebsite.Core.Migrations
                     Title = "Staff",
                     UrlName = "Staff",
                     Language = en,
-                    LangGroup = 3,
+                    Group = kadra,
                     CreationDate = DateTime.Now,
                     LastUpdateDate = DateTime.Now
                 }
             };
-            foreach (var p in pagesPl)
+            foreach (var p in pagesEn)
                 _context.Pages.Add(p);
 
-            var menu1 = new Menu { Language = pl, Items = pagesPl };
-            var menu2 = new Menu { Language = en, Items = pagesEn };
+            var menu1 = new Menu { Language = pl, Items = new List<MenuItem>(pagesPl.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
+            var menu2 = new Menu { Language = en, Items = new List<MenuItem>(pagesEn.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
 
             _context.Menus.Add(menu1);
             _context.Menus.Add(menu2);
 
-            _context.Phrases.Add(new Phrase { GroupId = 1, Language = pl, Text = "Witaj!" });
-            _context.Phrases.Add(new Phrase { GroupId = 1, Language = en, Text = "Welcome!" });
+            _context.Phrases.Add(new Phrase { Key = "powitanie", CountryCode = "pl", Value = "Witaj!" });
+            _context.Phrases.Add(new Phrase { Key = "powitanie", CountryCode = "en", Value = "Welcome!" });
         }
 
         public void WithSubjects()

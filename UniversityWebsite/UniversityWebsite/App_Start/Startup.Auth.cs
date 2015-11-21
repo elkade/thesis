@@ -5,7 +5,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite
@@ -65,7 +64,6 @@ namespace UniversityWebsite
             //    ClientSecret = ""
             //});
 
-            WebApiConfig.Register(app);
         }
     }
 

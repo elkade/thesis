@@ -10,6 +10,8 @@ namespace UniversityWebsite
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            WebApiConfig.Register(app);
         }
     }
 }

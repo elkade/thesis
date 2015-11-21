@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Autofac.Integration.WebApi;
 using Owin;
+using UniversityWebsite.Filters;
 
 namespace UniversityWebsite
 {
@@ -10,12 +11,13 @@ namespace UniversityWebsite
         public static void Register(IAppBuilder app)
         {
             var config = new HttpConfiguration();
+            config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            config.Filters.Add(new NotFoundExceptionFilterAttribute());
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
             config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
 

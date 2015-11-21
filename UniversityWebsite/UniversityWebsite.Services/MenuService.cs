@@ -12,7 +12,7 @@ namespace UniversityWebsite.Services
 {
     public interface IMenuService
     {
-        MenuDto GetMainMenu(string lang);
+        MenuDto GetMainMenu(string countryCode);
         MenuDto GetMainMenuCached(string lang);
     }
     public class MenuService : IMenuService
@@ -24,12 +24,12 @@ namespace UniversityWebsite.Services
             _context = context;
             _menus = _context.Menus;
         }
-        public MenuDto GetMainMenu(string lang)
+        public MenuDto GetMainMenu(string countryCode)
         {
-            var menu = _menus.Include(m=>m.Items).Include(m=>m.Language).Single(m => m.Language.CountryCode == lang);
+            var menu = _menus.Include(m=>m.Items).Single(m => m.CountryCode == countryCode);
             var returnMenu = new MenuDto{MenuItems = new List<MenuItemDto>()};
             foreach (var page in menu.Items.OrderBy(mi=>mi.Id))//todo
-                returnMenu.MenuItems.Add(new MenuItemDto { Text = page.Title, Href = page.UrlName });
+                returnMenu.MenuItems.Add(new MenuItemDto { Text = page.Text, Href = page.Url, Title = page.Text });
             return returnMenu;
         }
         public MenuDto GetMainMenuCached(string lang)

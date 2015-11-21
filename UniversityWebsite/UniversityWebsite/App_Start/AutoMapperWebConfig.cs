@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
+using UniversityWebsite.Model;
+using UniversityWebsite.Services.Model;
 using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite
@@ -22,19 +24,19 @@ namespace UniversityWebsite
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Page, PageViewModel>().ConvertUsing(p=>new PageViewModel
+            Mapper.CreateMap<PageDto, PageViewModel>().ConvertUsing(p=>new PageViewModel
             {
                 Content = p.Content,
-                Language = p.Language.CountryCode,
-                Name = p.Title,
+                CountryCode = p.CountryCode,
+                Title = p.Title,
                 LastUpdateDate = p.LastUpdateDate,
                 CreationDate = p.CreationDate
             });
-            Mapper.CreateMap<PageViewModel, Page>().ConvertUsing(vm => new Page
+            Mapper.CreateMap<PageViewModel, PageDto>().ConvertUsing(vm => new PageDto
             {
                 Content = vm.Content,
-                Language = new Language{CountryCode = vm.Language},
-                Title = vm.Name,
+                CountryCode = vm.CountryCode,
+                Title = vm.Title,
                 LastUpdateDate = vm.LastUpdateDate,
                 CreationDate = vm.CreationDate
 

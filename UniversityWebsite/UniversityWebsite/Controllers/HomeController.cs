@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using UniversityWebsite.Model;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
@@ -13,7 +15,9 @@ namespace UniversityWebsite.Controllers
 
         public ActionResult Index()
         {
-            return View(PageService.GetHomeTiles(Lang));
+            var pages = PageService.GetParentlessPages(Lang);
+            var tileList = pages.Select(p => new TileViewModel { Title = p.Title, UrlName = p.UrlName }).ToList();
+            return View(tileList);
         }
 	}
 }
