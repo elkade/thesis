@@ -30,5 +30,15 @@
                 }
             }
         },
+
+        parseErrors: function parseErrors(modelState) {
+            var errors = [];
+            for (var key in modelState) {
+                for (var i = 0; i < modelState[key].length; i++) {
+                    errors.push(modelState[key][i]);
+                }
+            }
+            return errors;
+        }
     };
 });

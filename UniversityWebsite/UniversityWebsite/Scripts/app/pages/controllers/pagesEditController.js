@@ -2,24 +2,45 @@
 
 .controller('pagesEditCtrl', function ($scope, $stateParams, utils, Pages, $modal) {
 
+    var errorHandler = function (response) {
+        $scope.errors = utils.parseErrors(response.data.ModelState);
+    }
+
+    var preUpdatePage = function(page) {
+        if (!page.UrlName) {
+            page.UrlName = null;
+        }
+    }
+
+    var showValidation = function(form) {
+        window.angular.forEach(form.$error, function (field) {
+            window.angular.forEach(field, function (errorField) {
+                errorField.$setTouched();
+            });
+        });
+    }
+
     $scope.update = function () {
+        $scope.errors = [];
+
         if ($scope.pageForm.$valid) {
-            if ($scope.page.UrlName != null) {
-                Pages.update({ id: $scope.page.UrlName }, $scope.page, function(response) {
+            preUpdatePage($scope.page);
+
+            if ($scope.page != null && $scope.page.Id != null) {
+                Pages.update({ id: $scope.page.Id }, $scope.page, function (response) {
                     $scope.state = response.$resolved ? 'success' : 'error';
-                });
+                    $scope.page = response;
+                }, errorHandler);
             } else {
-                Pages.post($scope.page, function(response) {
+                var page = $scope.page || new Object();
+                Pages.post(page, function (response) {
                     $scope.state = response.$resolved ? 'success' : 'error';
+                    $scope.page = response;
                     $scope.pages.push($scope.page);
-                });
+                }, errorHandler);
             }
         } else {
-            window.angular.forEach($scope.pageForm.$error, function (field) {
-                window.angular.forEach(field, function(errorField) {
-                    errorField.$setTouched();
-                });
-            });
+            showValidation($scope.pageForm);
         }
     }
 
