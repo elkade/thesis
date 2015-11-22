@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
@@ -14,19 +15,20 @@ namespace UniversityWebsite.Services
     public interface IPageService
     {
         PageDto FindPage(string name);
-        PageDto FindPage(string name, string countryCode);
+        PageDto FindPage(int id);
+        PageDto FindTranslation(string name, string countryCode);
+        PageDto FindTranslation(int id, string countryCode);
         IEnumerable<PageDto> GetTranslations(string name);
         IEnumerable<PageDto> GetParentlessPages(string countryCode);
         IEnumerable<PageDto> GetAll();
         void UpdateContent(PageDto page);
         PageDto Add(PageDto page);
-        string PrepareUniqueUrlName(string baseUrlName);
         PageDto UpdatePage(PageDto page);
-        void Delete(string name);
+        void Delete(int id);
 
-        void DeleteGroup(string name);//TODO transakcje
+        void DeleteGroup(int pageId);//TODO transakcje
 
-        IEnumerable<string> GetTranslationsLanguages(string name);
+        IEnumerable<string> GetTranslationsLanguages(int id);
     }
 
     public class PageService : IPageService
@@ -38,6 +40,12 @@ namespace UniversityWebsite.Services
             _context = context ?? new DomainContext();
         }
 
+        public PageDto FindPage(int id)
+        {
+            var pages = _context.Pages.Where(p => p.Id==id)
+                .ProjectTo<PageDto>();
+            return pages.SingleOrDefault();
+        }
         public PageDto FindPage(string name)
         {
             var pages = _context.Pages.Where(p => String.Compare(p.UrlName, name, StringComparison.OrdinalIgnoreCase) == 0)
@@ -45,7 +53,17 @@ namespace UniversityWebsite.Services
             return pages.SingleOrDefault();
         }
 
-        public PageDto FindPage(string name, string countryCode)
+        public PageDto FindTranslation(int id, string countryCode)
+        {
+            var page = _context.Pages.SingleOrDefault(p => p.Id == id);
+            if (page == null)
+                throw new NotFoundException("Page o id: " + id);
+            var foundPages = _context.Pages.Where(p => p.GroupId == page.GroupId && p.CountryCode == countryCode).ProjectTo<PageDto>();
+            if (!foundPages.Any())
+                throw new NotFoundException("Page o grupie: " + page.GroupId + " i id: " + id);
+            return foundPages.SingleOrDefault();
+        }
+        public PageDto FindTranslation(string name, string countryCode)
         {
             var page = _context.Pages.SingleOrDefault(p => String.Compare(p.UrlName, name, StringComparison.OrdinalIgnoreCase) == 0);
             if (page == null)
@@ -88,12 +106,11 @@ namespace UniversityWebsite.Services
         public void ValidateLanguageUniqueness(string countryCode, int groupId)
         {
             if (_context.Pages.Any(p => p.CountryCode == countryCode && p.GroupId == groupId))
-                throw new Exception("Page o countryCode: {0} i groupId: {1} już istnieje");
+                throw new PropertyValidationException("page.CountryCode",string.Format("Page o countryCode: {0} i groupId: {1} już istnieje", countryCode, groupId));
         }
 
         public PageDto Add(PageDto page)
         {
-
             Page newParent = null;
             if (page.Parent != null)
             {
@@ -123,7 +140,7 @@ namespace UniversityWebsite.Services
                 LastUpdateDate = DateTime.Now,
                 CreationDate = DateTime.Now,
                 Title = page.Title,
-                UrlName = PrepareUniqueUrlName(page.UrlName),
+                UrlName = page.UrlName??PrepareUniqueUrlName(page.Title),
                 Group = group
             };
             Page createdPage = _context.Pages.Add(newPage);
@@ -141,19 +158,20 @@ namespace UniversityWebsite.Services
                 if (!_context.Pages.Any(p => p.UrlName == bufName))
                     return bufName;
             }
-            throw new Exception("Przekroczono liczbę stron o tym samym tytule.");
+            throw new PropertyValidationException("page.UrlName", "Przekroczono liczbę stron o tym samym tytule.");
         }
 
         public PageDto UpdatePage(PageDto page)
         {
             var dbPage = _context
                 .Pages
-                .SingleOrDefault(p => p.UrlName == page.UrlName);
+                .SingleOrDefault(p => p.Id == page.Id);
             if (dbPage == null)
-                throw new NotFoundException("Page o urlName: " + page.UrlName);
+                throw new NotFoundException("Page o id: " + page.Id);
             if (page.CountryCode != null)
             {
-                //ValidateLanguageUniqueness(page.CountryCode, dbPage.GroupId);
+                if (dbPage.CountryCode != page.CountryCode || page.GroupId != dbPage.GroupId)
+                    ValidateLanguageUniqueness(page.CountryCode, dbPage.GroupId);
                 dbPage.CountryCode = page.CountryCode;
 
                 dbPage.Language = _context.Languages.FirstOrDefault(l => l.CountryCode == dbPage.CountryCode);
@@ -170,31 +188,30 @@ namespace UniversityWebsite.Services
                 dbPage.Content = page.Content;
             dbPage.LastUpdateDate = DateTime.Now;
             if (page.Title != null)
-            {
                 dbPage.Title = page.Title;
-                //dbPage.UrlName = PrepareUniqueUrlName(page.UrlName);
-            }
+            if (page.UrlName != null)
+                dbPage.UrlName = page.UrlName;
             _context.Entry(dbPage).State = EntityState.Modified;
 
             _context.SaveChanges();
             return Mapper.Map<PageDto>(dbPage);
         }
 
-        public void Delete(string name)
+        public void Delete(int id)
         {
-            Page page = _context.Pages.FirstOrDefault(p => p.UrlName == name);
+            Page page = _context.Pages.FirstOrDefault(p => p.Id == id);
             if (page == null)
-                throw new NotFoundException("Page o urlName: " + name);
+                throw new NotFoundException("Page o id: " + id);
             _context.Entry(page).State = EntityState.Deleted;
 
             _context.SaveChanges();
         }
 
-        public void DeleteGroup(string name)//TODO transakcje
+        public void DeleteGroup(int pageId)//TODO transakcje
         {
-            Page page = _context.Pages.Include(p1 => p1.Group).SingleOrDefault(p2 => p2.UrlName == name);
+            Page page = _context.Pages.Include(p1 => p1.Group).SingleOrDefault(p2 => p2.Id == pageId);
             if (page == null)
-                throw new NotFoundException("Page o urlName: " + name);
+                throw new NotFoundException("Page o id: " + pageId);
 
             var pagesToDelete = _context.Pages.Where(p => p.GroupId == page.GroupId);
             foreach (var dbPage in pagesToDelete)
@@ -205,11 +222,11 @@ namespace UniversityWebsite.Services
             _context.SaveChanges();
         }
 
-        public IEnumerable<string> GetTranslationsLanguages(string name)
+        public IEnumerable<string> GetTranslationsLanguages(int id)
         {
-            Page page = _context.Pages.FirstOrDefault(p => p.UrlName == name);
+            Page page = _context.Pages.FirstOrDefault(p => p.Id == id);
             if (page == null)
-                throw new NotFoundException("Page o urlName: " + name);
+                throw new NotFoundException("Page o id: " + id);
             return _context.Pages.Where(p => p.GroupId == page.GroupId).Select(p => p.CountryCode);
         }
     }

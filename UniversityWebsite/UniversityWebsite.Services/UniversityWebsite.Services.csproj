@@ -54,6 +54,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,7 @@
     <Compile Include="AutoMapperServiceConfig.cs" />
     <Compile Include="DictionaryService.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
+    <Compile Include="Exceptions\PropertyValidationException.cs" />
     <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="LanguageService.cs" />
     <Compile Include="MenuService.cs" />
@@ -73,6 +75,8 @@
     <Compile Include="PageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersService.cs" />
+    <Compile Include="Validation\NotEqualToAttribute.cs" />
+    <Compile Include="Validation\UrlParameterAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniversityWebsite.Core\UniversityWebsite.Core.csproj">
