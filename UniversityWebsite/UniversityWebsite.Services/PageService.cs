@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -23,7 +21,7 @@ namespace UniversityWebsite.Services
         void UpdateContent(PageDto page);
         PageDto Add(PageDto page);
         string PrepareUniqueUrlName(string baseUrlName);
-        void UpdatePage(PageDto page);
+        PageDto UpdatePage(PageDto page);
         void Delete(string name);
 
         void DeleteGroup(string name);//TODO transakcje
@@ -146,7 +144,7 @@ namespace UniversityWebsite.Services
             throw new Exception("Przekroczono liczbę stron o tym samym tytule.");
         }
 
-        public void UpdatePage(PageDto page)
+        public PageDto UpdatePage(PageDto page)
         {
             var dbPage = _context
                 .Pages
@@ -179,6 +177,7 @@ namespace UniversityWebsite.Services
             _context.Entry(dbPage).State = EntityState.Modified;
 
             _context.SaveChanges();
+            return Mapper.Map<PageDto>(dbPage);
         }
 
         public void Delete(string name)

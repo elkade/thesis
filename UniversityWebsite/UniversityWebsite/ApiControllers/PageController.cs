@@ -59,8 +59,8 @@ namespace UniversityWebsite.ApiControllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             page.UrlName = HttpUtility.UrlEncode(page.Title);
-            _pageService.UpdatePage(page);
-            return StatusCode(HttpStatusCode.NoContent);
+            var updatedPage = _pageService.UpdatePage(page);
+            return CreatedAtRoute("GetPage", new { name = updatedPage.UrlName }, updatedPage);
         }
 
         // POST api/Page
