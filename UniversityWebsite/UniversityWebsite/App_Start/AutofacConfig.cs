@@ -6,6 +6,7 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
+using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
 using Module = Autofac.Module;
 
@@ -23,6 +24,7 @@ namespace UniversityWebsite
             builder.RegisterSource(new ViewRegistrationSource());
             builder.RegisterModule(new EfModule());
             builder.RegisterModule(new ServiceModule());
+            builder.RegisterModule(new FiltersModule());
 
             Container = builder.Build();
 
@@ -47,6 +49,14 @@ namespace UniversityWebsite
             protected override void Load(ContainerBuilder builder)
             {
                 builder.RegisterType(typeof(DomainContext)).As(typeof(IDomainContext)).InstancePerRequest();
+                base.Load(builder);
+            }
+        }
+        private class FiltersModule : Module
+        {
+            protected override void Load(ContainerBuilder builder)
+            {
+                builder.RegisterType(typeof(LanguageFilterAttribute)).AsActionFilterFor<Controller>().InstancePerRequest();
                 base.Load(builder);
             }
         }

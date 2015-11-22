@@ -6,7 +6,7 @@ namespace UniversityWebsite.Controllers
 {
     public class TeachingController : BaseController
     {
-        public TeachingController(IMenuService menuService, IPageService pageService, ILanguageService languageService) : base(menuService, pageService, languageService)
+        public TeachingController(IMenuService menuService) : base(menuService)
         {
         }
 
