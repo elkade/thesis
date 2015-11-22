@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using UniversityWebsite.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 using UniversityWebsite.ViewModels.Layout;

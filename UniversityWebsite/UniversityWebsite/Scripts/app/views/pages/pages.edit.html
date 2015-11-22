@@ -70,7 +70,7 @@
         <div class="row">
             <div class="medium-12 columns page-title">
                 <label>
-                    <input type="text" placeholder="Title" ng-model="page.Name" class="title-input">
+                    <input type="text" placeholder="Title" ng-model="page.Title" class="title-input">
                 </label>
             </div>
         </div>
@@ -128,8 +128,8 @@
                 <div class="large-12 columns">
                     <label>
                         Parent
-                        <select ng-model="page.ParentName"
-                                ng-options="option.Name as option.Name for option in pages">
+                        <select ng-model="page.Parent.Title"
+                                ng-options="option.Title as option.Title for option in pages">
                             <option value="">---</option>
                         </select>
                     </label>
@@ -139,7 +139,7 @@
                 <div class="large-12 columns">
                     <label>
                         Language
-                        <select ng-model="page.Language">
+                        <select ng-model="page.CountryCode">
                             <option value="pl">pl</option>
                             <option value="en">en</option>
                         </select>

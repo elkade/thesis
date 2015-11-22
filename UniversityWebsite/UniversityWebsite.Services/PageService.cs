@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -153,8 +155,11 @@ namespace UniversityWebsite.Services
                 throw new NotFoundException("Page o urlName: " + page.UrlName);
             if (page.CountryCode != null)
             {
-                ValidateLanguageUniqueness(page.CountryCode, dbPage.GroupId);
+                //ValidateLanguageUniqueness(page.CountryCode, dbPage.GroupId);
                 dbPage.CountryCode = page.CountryCode;
+
+                dbPage.Language = _context.Languages.FirstOrDefault(l => l.CountryCode == dbPage.CountryCode);
+                dbPage.Group = _context.PageGroups.FirstOrDefault(g => g.Id == dbPage.GroupId);
             }
             if (page.Parent != null)
             {
@@ -169,9 +174,10 @@ namespace UniversityWebsite.Services
             if (page.Title != null)
             {
                 dbPage.Title = page.Title;
-                dbPage.UrlName = PrepareUniqueUrlName(page.UrlName);
+                //dbPage.UrlName = PrepareUniqueUrlName(page.UrlName);
             }
             _context.Entry(dbPage).State = EntityState.Modified;
+
             _context.SaveChanges();
         }
 

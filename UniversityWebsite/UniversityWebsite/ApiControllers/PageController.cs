@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using UniversityWebsite.Domain.Model;
+using UniversityWebsite.Helper;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
@@ -24,6 +25,7 @@ namespace UniversityWebsite.ApiControllers
 
         // GET api/Page
         [Route("")]
+        [AntiForgeryValidate]
         public IEnumerable<PageDto> GetPages()
         {
             return _pageService.GetAll();
@@ -37,7 +39,7 @@ namespace UniversityWebsite.ApiControllers
         }
 
         // GET api/Page/5
-        //[ValidateCustomAntiForgeryToken]
+        [AntiForgeryValidate]
         [Route("{name}", Name = "GetPage")]
         [ResponseType(typeof(PageDto))]
         public IHttpActionResult GetPage(string name)
@@ -51,6 +53,7 @@ namespace UniversityWebsite.ApiControllers
 
         // PUT api/Page/5
         [Route("{name}")]
+        [AntiForgeryValidate]
         public IHttpActionResult PutPage(PageDto page)
         {
             if (!ModelState.IsValid)
@@ -62,6 +65,7 @@ namespace UniversityWebsite.ApiControllers
 
         // POST api/Page
         [Route("")]
+        [AntiForgeryValidate]
         [ResponseType(typeof(PageDto))]
         public IHttpActionResult PostPage(PageDto page)
         {
@@ -74,6 +78,7 @@ namespace UniversityWebsite.ApiControllers
 
         // DELETE api/Page/5
         [Route("{name}")]
+        [AntiForgeryValidate]
         public IHttpActionResult DeletePage(string name)
         {
             _pageService.Delete(name);

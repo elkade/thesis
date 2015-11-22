@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using UniversityWebsite.Services.Model;
 
-namespace UniversityWebsite.ViewModels
+namespace UniversityWebsite.Model
 {
     public class MenuViewModel
     {

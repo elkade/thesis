@@ -3,7 +3,7 @@
 ])
 
 .factory('pages', ['$http', 'utils', function ($http, utils) {
-    var path = "/api/pages";
+    var path = "/api/page";
     //var http = function() {
     //    return $http({
     //        method: "GET",

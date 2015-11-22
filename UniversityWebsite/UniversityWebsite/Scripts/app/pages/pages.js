@@ -1,7 +1,13 @@
 ﻿angular.module('configApp.pages', ['ui.router', 'configApp.pages.service'])
-    .factory('post', function ($resource) {
-        return $resource('/api/pages/:id');
-    })
+    .factory('Pages', ['$resource', function ($resource) {
+        return $resource('api/page/:id', {}, {
+            query: { method: 'GET'},
+            post: { method: 'POST' },
+            update: { method: 'PUT'},
+            remove: { method: 'DELETE' }
+        });
+    }])
+
     .config(
     [
         '$stateProvider', '$urlRouterProvider',
@@ -14,7 +20,7 @@
                     resolve: {
                         pages: [
                             'pages',
-                            function (pages) {
+                            function(pages) {
                                 return pages.all();
                             }
                         ]
@@ -25,13 +31,13 @@
                         function($scope, $state, pages, $location) {
                             $scope.pages = pages;
 
-                            $scope.add = function () {
+                            $scope.add = function() {
                                 $scope.page = {};
                                 $location.path('pages/newPage');
                             };
                         }
                     ]
-                        
+
                 })
                 .state('pages.edit', {
                     url: '/:pageName',

@@ -1,16 +1,21 @@
 ﻿angular.module('configApp.pages')
 
-.controller('pagesEditCtrl', function ($scope, $stateParams, utils, post, $modal) {
+.controller('pagesEditCtrl', function ($scope, $stateParams, utils, Pages, $modal) {
     $scope.update = function () {
-        console.log($scope.page);
-        var pos = new post($scope.page);
-        pos.$save(function (response) {
-            $scope.state = response.$resolved ? 'success' : 'error';
-        });
+
+        if ($scope.page.UrlName != null) {
+            Pages.update({ id: $scope.page.Title }, $scope.page, function(response) {
+                $scope.state = response.$resolved ? 'success' : 'error';
+            });
+        } else {
+            Pages.post($scope.page, function (response) {
+                $scope.state = response.$resolved ? 'success' : 'error';
+                $scope.pages.push($scope.page);
+            });
+        }
     }
 
-    //$scope.page = utils.findByName($scope.pages, $stateParams.pageName);
-        console.log($scope.page);
+    $scope.page = utils.findByTitle($scope.pages, $stateParams.pageName);
 
     $scope.tinymceOptions = {
         height: 500,
@@ -24,10 +29,17 @@
     };
 
     $scope.open = function () {
-
         var modalInstance = $modal.open({
             templateUrl: 'scripts/app/views/pages/deletePageModal.html',
-            controller: 'deletePageModalCtrl'
+            controller: 'deletePageModalCtrl',
+            resolve: {
+                page: function() {
+                    return $scope.page;
+                },
+                pages: function() {
+                    return $scope.pages;
+                }
+            }
         });
 
     };

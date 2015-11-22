@@ -1,19 +1,15 @@
-﻿@model UniversityWebsite.ViewModels.MenuViewModel
+﻿@model UniversityWebsite.Model.MenuViewModel
 @{
     var languageSwitcherViewModel = ViewData["langSw"];
 }
 <nav class="main-menu large-9 columns">
     <ul class="right button-group"> 
-        @*<li id="home"><a href="stronaglowna"><i class="icon-home"></i></a></li>*@
-
-        @*<li><a href="@Url.Action("Index", "Home")" class="button">Home</a></li>*@
-
         
         @foreach (var menuItem in Model.MenuItems)
         {
             <li>
             @{
-                string href = Url.Action("Index", "Page", new {pagename = menuItem.Href});
+                string href = Url.Action("Index", "Page", new {name = menuItem.Href});
             }
                 <a class="button" href="@href" title="@menuItem.Title">@menuItem.Text</a>
             </li>

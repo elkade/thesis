@@ -16,5 +16,19 @@
             }
             return null;
         },
+        findByTitle: function findByTitle(a, title) {
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].Title == title) return a[i];
+            }
+            return null;
+        },
+
+        removeByTitle: function removeByTitle(a, title) {
+            for (var i = a.length - 1; i >= 0; i--) {
+                if (a[i].Title == title) {
+                    a.splice(i, 1);
+                }
+            }
+        },
     };
 });

@@ -63,8 +63,8 @@ namespace UniversityWebsite
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Services.Model.MenuItemDto, ViewModels.MenuItemViewModel>();
-            Mapper.CreateMap<Services.Model.MenuDto, ViewModels.MenuViewModel>();
+            Mapper.CreateMap<MenuItemDto, MenuItemViewModel>();
+            Mapper.CreateMap<MenuDto, MenuViewModel>();
         }
     }
 }
