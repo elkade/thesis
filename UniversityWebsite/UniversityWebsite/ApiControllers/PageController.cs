@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AutoMapper;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Helper;
+using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
@@ -25,26 +25,26 @@ namespace UniversityWebsite.ApiControllers
 
         // GET api/Page
         [Route("")]
-        [AntiForgeryValidate]
+        //[AntiForgeryValidate]
         public IEnumerable<PageDto> GetPages()
         {
             return _pageService.GetAll();
         }
-        [Route("{name}/availableLanguages")]
-        public IEnumerable<Language> GetAvailableLanguages(string name)
+        [Route("{id:int}/availableLanguages")]
+        public IEnumerable<Language> GetAvailableLanguages(int id)
         {
-            var usedLanguages = _pageService.GetTranslationsLanguages(name);
+            var usedLanguages = _pageService.GetTranslationsLanguages(id);
             var allLanguages = _languageService.GetLanguagesCached();
             return allLanguages.Where(l => !usedLanguages.Contains(l.CountryCode));
         }
 
         // GET api/Page/5
-        [AntiForgeryValidate]
-        [Route("{name}", Name = "GetPage")]
+        //[AntiForgeryValidate]
+        [Route("{id:int}", Name = "GetPage")]
         [ResponseType(typeof(PageDto))]
-        public IHttpActionResult GetPage(string name)
+        public IHttpActionResult GetPage(int id)
         {
-            PageDto page = _pageService.FindPage(name);
+            PageDto page = _pageService.FindPage(id);
             if (page == null)
                 return NotFound();
 
@@ -53,35 +53,34 @@ namespace UniversityWebsite.ApiControllers
 
         // PUT api/Page/5
         [Route("{name}")]
-        [AntiForgeryValidate]
-        public IHttpActionResult PutPage(PageDto page)
+        //[AntiForgeryValidate]
+        [ResponseType(typeof(PageDto))]
+        public IHttpActionResult PutPage(PagePut page)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            page.UrlName = HttpUtility.UrlEncode(page.Title);
-            var updatedPage = _pageService.UpdatePage(page);
-            return CreatedAtRoute("GetPage", new { name = updatedPage.UrlName }, updatedPage);
+            var updatedPage = _pageService.UpdatePage(Mapper.Map<PageDto>(page));
+            return CreatedAtRoute("GetPage", new { id = updatedPage.Id }, updatedPage);
         }
 
         // POST api/Page
         [Route("")]
-        [AntiForgeryValidate]
+        //[AntiForgeryValidate]
         [ResponseType(typeof(PageDto))]
-        public IHttpActionResult PostPage(PageDto page)
+        public IHttpActionResult PostPage(PagePosted page)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            page.UrlName = HttpUtility.UrlEncode(page.Title);
-            var createdPage = _pageService.Add(page);
-            return CreatedAtRoute("GetPage",new{ name = createdPage.UrlName}, createdPage);
+            var createdPage = _pageService.Add(Mapper.Map<PageDto>(page));
+            return CreatedAtRoute("GetPage",new{ id = createdPage.Id}, createdPage);
         }
 
         // DELETE api/Page/5
         [Route("{name}")]
-        [AntiForgeryValidate]
-        public IHttpActionResult DeletePage(string name)
+        //[AntiForgeryValidate]
+        public IHttpActionResult DeletePage(int id)
         {
-            _pageService.Delete(name);
+            _pageService.Delete(id);
             return Ok();
         }
     }

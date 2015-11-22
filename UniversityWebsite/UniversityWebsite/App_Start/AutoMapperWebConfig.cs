@@ -2,6 +2,7 @@
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
+using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services.Model;
 using UniversityWebsite.ViewModels;
 
@@ -24,7 +25,7 @@ namespace UniversityWebsite
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<PageDto, PageViewModel>().ConvertUsing(p=>new PageViewModel
+            Mapper.CreateMap<PageDto, PageViewModel>().ConvertUsing(p => new PageViewModel
             {
                 Content = p.Content,
                 CountryCode = p.CountryCode,
@@ -39,7 +40,25 @@ namespace UniversityWebsite
                 Title = vm.Title,
                 LastUpdateDate = vm.LastUpdateDate,
                 CreationDate = vm.CreationDate
-
+            });
+            Mapper.CreateMap<PagePut, PageDto>().ConvertUsing(p => new PageDto
+            {
+                Content = p.Content,
+                CountryCode = p.CountryCode,
+                Title = p.Title,
+                GroupId = p.GroupId,
+                Id = p.Id,
+                Parent = p.ParentId==null?null:new ParentDto{Id = p.ParentId.Value},
+                UrlName = p.UrlName
+            });
+            Mapper.CreateMap<PagePosted, PageDto>().ConvertUsing(p => new PageDto
+            {
+                Content = p.Content,
+                CountryCode = p.CountryCode,
+                Title = p.Title,
+                GroupId = p.GroupId,
+                Parent = p.ParentId == null ? null : new ParentDto { Id = p.ParentId.Value },
+                UrlName = p.UrlName,
             });
         }
     }

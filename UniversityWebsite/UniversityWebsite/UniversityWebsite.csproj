@@ -803,14 +803,15 @@
     <Compile Include="Controllers\SubjectsController.cs" />
     <Compile Include="Controllers\TeachingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Filters\NotFoundExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\AntiForgeryExtension.cs" />
     <Compile Include="Helper\AntiForgeryValidate.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
-    <Compile Include="Model\EditedPage.cs" />
+    <Compile Include="Model\Page\PagePosted.cs" />
+    <Compile Include="Model\Page\PagePut.cs" />
     <Compile Include="Model\TileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
