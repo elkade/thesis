@@ -1,16 +1,24 @@
 ﻿angular.module('configApp.pages')
 
 .controller('pagesEditCtrl', function ($scope, $stateParams, utils, Pages, $modal) {
-    $scope.update = function () {
 
-        if ($scope.page.UrlName != null) {
-            Pages.update({ id: $scope.page.Title }, $scope.page, function(response) {
-                $scope.state = response.$resolved ? 'success' : 'error';
-            });
+    $scope.update = function () {
+        if ($scope.pageForm.$valid) {
+            if ($scope.page.UrlName != null) {
+                Pages.update({ id: $scope.page.UrlName }, $scope.page, function(response) {
+                    $scope.state = response.$resolved ? 'success' : 'error';
+                });
+            } else {
+                Pages.post($scope.page, function(response) {
+                    $scope.state = response.$resolved ? 'success' : 'error';
+                    $scope.pages.push($scope.page);
+                });
+            }
         } else {
-            Pages.post($scope.page, function (response) {
-                $scope.state = response.$resolved ? 'success' : 'error';
-                $scope.pages.push($scope.page);
+            window.angular.forEach($scope.pageForm.$error, function (field) {
+                window.angular.forEach(field, function(errorField) {
+                    errorField.$setTouched();
+                });
             });
         }
     }

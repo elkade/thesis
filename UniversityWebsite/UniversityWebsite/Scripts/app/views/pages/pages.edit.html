@@ -1,15 +1,13 @@
 ﻿<style>
     label > i { font-size: 1.3em; }
 
-    .right-panel {
-        max-width: 320px;
-    }
+    .right-panel { max-width: 320px; }
 
     .page-title input {
         font-size: 1.9em;
-        padding-top: 1em;   
+        padding-top: 1em;
         padding-bottom: 1em;
-        font-weight: bold; 
+        font-weight: bold;
     }
 
     .box {
@@ -62,16 +60,39 @@
         transition: all 0.5s ease 0s;
     }
 
+    .css-form input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
+        background: #fff url(/../Content/images/invalid.png) no-repeat 98% center;
+        border: 2px solid #b03535;
+        box-shadow: 0 0 5px #d45252;
+    }
+
+    .css-form input.ng-valid.ng-touched, select.ng-valid.ng-touched { }
+
+    .css-form .permalink {
+        font-size: 0.875rem;
+        color: #4d4d4d;
+        margin-bottom: 10px;
+    }
+
 </style>
 
-<form name="form" novalidate ng-submit="update()">
-    
+<form name="pageForm" novalidate class="css-form" ng-submit="update()">
+
     <div class="large-9 columns">
         <div class="row">
             <div class="medium-12 columns page-title">
                 <label>
-                    <input type="text" placeholder="Title" ng-model="page.Title" class="title-input">
+                    <input name="title" type="text" placeholder="Title" ng-model="page.Title" class="title-input" required>
                 </label>
+            </div>
+        </div>
+
+        <div class="row permalink">
+            <div class="medium-12 columns bottom">
+                <span class=" text">
+                    <strong>Permalink:</strong> http://dummypage.pl/ 
+                    <input name="urlName" ng-model="page.UrlName" ng-pattern="/^[a-zA-Z][a-zA-Z0-9\-][a-zA-Z0-9]*$/" />
+                </span>
             </div>
         </div>
 
@@ -102,10 +123,12 @@
             </div>
             <div class="row">
                 <div class="medium-5 columns">
-                    <button type="submit" class="button success ">Update</button>
+                    <button type="submit" class="button success" value="Save">Update</button>
                 </div>
                 <div class="medium-5 columns">
-                    <div class="button alert " ng-click="open()"><i class="fi-trash"></i></div>
+                    <div class="button alert " ng-click="open()">
+                        <i class="fi-trash"></i>
+                    </div>
                 </div>
             </div>
             <hr/>
@@ -139,10 +162,18 @@
                 <div class="large-12 columns">
                     <label>
                         Language
-                        <select ng-model="page.CountryCode">
+                        <select ng-model="page.CountryCode" name="lang" required>
                             <option value="pl">pl</option>
                             <option value="en">en</option>
                         </select>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>
+                        Url
+                        <input ng-model="page.UrlName" name="url" required disabled type="text"/>
                     </label>
                 </div>
             </div>
