@@ -16,6 +16,7 @@ namespace UniversityWebsite.Services
         /// <param name="countryCode"></param>
         void DeleteLanguage(string countryCode);
 
+        bool Exists(string countryCode);
         IEnumerable<Language> GetLanguagesCached();
     }
     public class LanguageService : ILanguageService
@@ -36,6 +37,11 @@ namespace UniversityWebsite.Services
         public void DeleteLanguage(string countryCode)
         {
             throw new NotImplementedException();
+        }
+
+        public bool Exists(string countryCode)
+        {
+            return GetLanguagesCached().Select(l => l.CountryCode).Contains(countryCode);
         }
 
         public IEnumerable<Language> GetLanguagesCached()

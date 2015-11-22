@@ -1,6 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using UniversityWebsite.Modules;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite
@@ -16,5 +18,11 @@ namespace UniversityWebsite
             AutoMapperConfig.Configure();
             AutoMapperServiceConfig.Configure();
         }
+        //protected void Session_Start(object sender, EventArgs e)
+        //{
+        //    // Code that runs when a new session is started
+        //    Session.Add(LanguageModule.Constants.SessionLanguage,
+        //      System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+        //}
     }
 }

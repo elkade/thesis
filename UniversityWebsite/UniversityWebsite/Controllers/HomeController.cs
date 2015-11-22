@@ -7,15 +7,17 @@ namespace UniversityWebsite.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IMenuService menuService, IPageService pageService, ILanguageService languageService)
-            : base(menuService, pageService, languageService)
+        public IPageService PageService { get; set; }
+
+        public HomeController(IMenuService menuService, IPageService pageService)
+            : base(menuService)
         {
-            
+            PageService = pageService;
         }
 
         public ActionResult Index()
         {
-            var pages = PageService.GetParentlessPages(Lang);
+            var pages = PageService.GetParentlessPages((string)Session[Consts.SessionKeyLang]);
             var tileList = pages.Select(p => new TileViewModel { Title = p.Title, UrlName = p.UrlName }).ToList();
             return View(tileList);
         }
