@@ -190,7 +190,12 @@ namespace UniversityWebsite.Services
             if (page.Title != null)
                 dbPage.Title = page.Title;
             if (page.UrlName != null)
-                dbPage.UrlName = page.UrlName;
+            {
+                if(!_context.Pages.Any(p=>p.UrlName==page.UrlName && p.Id!=page.Id))
+                    dbPage.UrlName = page.UrlName;
+                else throw new PropertyValidationException("page.UrlName", "Strona o podanym urlu już istnieje.");
+            }
+            else page.UrlName = PrepareUniqueUrlName(page.Title);
             _context.Entry(dbPage).State = EntityState.Modified;
 
             _context.SaveChanges();

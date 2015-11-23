@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using UniversityWebsite.Helper;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.ApiControllers
 {
     [RoutePrefix("api/menu")]
-    [AntiForgeryValidate]
+    //[AntiForgeryValidate]
     public class MenuController : ApiController
     {
         private readonly IMenuService _menuService;
@@ -18,9 +17,15 @@ namespace UniversityWebsite.ApiControllers
         }
 
         [Route("")]
-        public IEnumerable<PageDto> GetPages()
+        public IEnumerable<MenuDto> GetAll()
         {
             return _menuService.GetAll();
+        }
+
+        [Route("{lang}")]
+        public MenuDto GetMenu(string lang)
+        {
+            return _menuService.GetMainMenuCached(lang);
         }
     }
 }

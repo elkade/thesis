@@ -14,6 +14,7 @@ namespace UniversityWebsite.Services
     {
         MenuDto GetMainMenu(string countryCode);
         MenuDto GetMainMenuCached(string lang);
+        IEnumerable<MenuDto> GetAll();
     }
     public class MenuService : IMenuService
     {
@@ -39,6 +40,11 @@ namespace UniversityWebsite.Services
                 () => GetMainMenu(lang),
                 TimeSpan.FromSeconds(10));//Todo
             return mainMenu;
+        }
+
+        public IEnumerable<MenuDto> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }
