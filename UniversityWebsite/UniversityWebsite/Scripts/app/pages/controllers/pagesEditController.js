@@ -1,17 +1,46 @@
 ﻿angular.module('configApp.pages')
 
 .controller('pagesEditCtrl', function ($scope, $stateParams, utils, Pages, $modal) {
-    $scope.update = function () {
 
-        if ($scope.page.UrlName != null) {
-            Pages.update({ id: $scope.page.Title }, $scope.page, function(response) {
-                $scope.state = response.$resolved ? 'success' : 'error';
+    var errorHandler = function (response) {
+        $scope.errors = utils.parseErrors(response.data.ModelState);
+    }
+
+    var preUpdatePage = function(page) {
+        if (!page.UrlName) {
+            page.UrlName = null;
+        }
+    }
+
+    var showValidation = function(form) {
+        window.angular.forEach(form.$error, function (field) {
+            window.angular.forEach(field, function (errorField) {
+                errorField.$setTouched();
             });
+        });
+    }
+
+    $scope.update = function () {
+        $scope.errors = [];
+
+        if ($scope.pageForm.$valid) {
+            preUpdatePage($scope.page);
+
+            if ($scope.page != null && $scope.page.Id != null) {
+                Pages.update({ id: $scope.page.Id }, $scope.page, function (response) {
+                    $scope.state = response.$resolved ? 'success' : 'error';
+                    $scope.page = response;
+                }, errorHandler);
+            } else {
+                var page = $scope.page || new Object();
+                Pages.post(page, function (response) {
+                    $scope.state = response.$resolved ? 'success' : 'error';
+                    $scope.page = response;
+                    $scope.pages.push($scope.page);
+                }, errorHandler);
+            }
         } else {
-            Pages.post($scope.page, function (response) {
-                $scope.state = response.$resolved ? 'success' : 'error';
-                $scope.pages.push($scope.page);
-            });
+            showValidation($scope.pageForm);
         }
     }
 

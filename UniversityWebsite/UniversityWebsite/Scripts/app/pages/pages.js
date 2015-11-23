@@ -32,7 +32,9 @@
                             $scope.pages = pages;
 
                             $scope.add = function() {
-                                $scope.page = {};
+                                $scope.page = new Object();
+                                $scope.page.Id = null;
+                                console.log($scope.page);
                                 $location.path('pages/newPage');
                             };
                         }
