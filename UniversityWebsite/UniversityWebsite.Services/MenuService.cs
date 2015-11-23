@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
+using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Helpers;
 using UniversityWebsite.Services.Model;
 
@@ -14,6 +15,7 @@ namespace UniversityWebsite.Services
         MenuDto GetMainMenuCached(string lang);
         IEnumerable<MenuDto> GetAll();
         //List<MenuItemDto> GetMainMenuItemsCached();
+        MenuDto UpdateMenu(MenuDto menu);
     }
     public class MenuService : IMenuService
     {
@@ -44,6 +46,15 @@ namespace UniversityWebsite.Services
         public IEnumerable<MenuDto> GetAll()
         {
             throw new NotImplementedException();
+        }
+
+        public MenuDto UpdateMenu(MenuDto menu)
+        {
+            throw new NotImplementedException();
+            //var dbMenu = _context.Menus.SingleOrDefault(m => m.CountryCode == menu.CountryCode);
+            //if(dbMenu==null)
+            //    throw new NotFoundException("No such menu in db. CountryCode: "+menu.CountryCode);
+            //dbMenu.Items = menu.MenuItems.Select()
         }
     }
 }

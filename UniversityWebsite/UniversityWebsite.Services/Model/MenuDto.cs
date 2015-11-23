@@ -5,6 +5,7 @@ namespace UniversityWebsite.Services.Model
     public class MenuDto
     {
         public List<MenuItemDto> MenuItems = new List<MenuItemDto>();
+        public string CountryCode { get; set; }
     }
 
     public class MenuItemDto
