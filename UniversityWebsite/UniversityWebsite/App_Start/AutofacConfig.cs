@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Services;

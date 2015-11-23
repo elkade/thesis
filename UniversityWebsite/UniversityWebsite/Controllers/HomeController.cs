@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
-    public class HomeController : BaseController
+    [MainMenu]
+    public class HomeController : Controller
     {
         public IPageService PageService { get; set; }
 
         public HomeController(IMenuService menuService, IPageService pageService)
-            : base(menuService)
         {
             PageService = pageService;
         }

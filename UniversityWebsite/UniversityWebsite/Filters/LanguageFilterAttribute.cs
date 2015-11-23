@@ -4,7 +4,7 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Filters
 {
-    public class LanguageFilterAttribute : ActionFilterAttribute, IActionFilter //zarejestrować
+    public class LanguageFilterAttribute : ActionFilterAttribute, IActionFilter
     {
         private readonly ILanguageService _languageService;
 

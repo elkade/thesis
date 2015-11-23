@@ -795,7 +795,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -808,12 +807,15 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
     <Compile Include="Filters\LanguageFilterAttribute.cs" />
+    <Compile Include="Filters\MainMenuAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\AntiForgeryExtension.cs" />
     <Compile Include="Helper\AntiForgeryValidate.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
+    <Compile Include="Model\Menu\LanguageMenuItemViewModel.cs" />
+    <Compile Include="Model\Menu\MainMenuViewModel.cs" />
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
     <Compile Include="Model\TileViewModel.cs" />
@@ -822,9 +824,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Validation\ValidateCustomAntiForgeryTokenAttribute.cs" />
     <Compile Include="Model\AccountViewModel.cs" />
-    <Compile Include="Model\Layout\LanguageSwitcherViewModel.cs" />
+    <Compile Include="Model\Menu\LanguageMenuViewModel.cs" />
     <Compile Include="Model\ManageViewModel.cs" />
-    <Compile Include="Model\Menu\MenuViewModel.cs" />
     <Compile Include="Model\Page\PageViewModel.cs" />
     <Compile Include="Model\SubjectViewModel.cs" />
     <Compile Include="Model\TileVm.cs" />
@@ -838,7 +839,7 @@
     <Content Include="Views\_PartialTile.cshtml" />
     <Content Include="Views\Teaching\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Menu\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -890,6 +891,7 @@
     <Folder Include="Views\Files\" />
     <Folder Include="Views\Language\" />
     <Folder Include="Views\Layout\" />
+    <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniversityWebsite.Core\UniversityWebsite.Core.csproj">

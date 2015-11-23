@@ -1,0 +1,22 @@
+﻿@model UniversityWebsite.Model.Menu.MainMenuViewModel
+
+<nav class="main-menu large-9 columns">
+    <ul class="right button-group"> 
+        
+        @foreach (var menuItem in Model.MainMenuItems)
+        {
+            <li>
+                @Html.ActionLink(menuItem.Title, "Index", "Page", new{name=menuItem.PageName}, new{@class="button"})
+                @*<a class="button" href="@menuItem.Href" title="@menuItem.Title">@menuItem.Text</a>*@
+            </li>
+        }
+
+        @*<li><a href="@Url.Action("Register", "Account")" class="button">Register</a></li>*@
+        
+        @Html.Partial("_LoginPartial")
+        
+        @{Html.RenderPartial("_LanguageSwitcher", Model.LanguageMenu);}
+        
+    </ul>
+
+</nav>

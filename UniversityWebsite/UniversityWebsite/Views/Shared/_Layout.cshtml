@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 @{
-    //var mainMenuViewModel = ViewData["menu"];
-    //var languageSwitcherViewModel = ViewData["langSw"];
+    var mainMenuViewModel = ViewData[Consts.MainMenuKey];
 }
 <html class="no-js">
 <head>
@@ -26,8 +25,9 @@
             <div class="large-3 columns">
                 <h1><a href="@Url.Action("Index", "Home")"><img src="https://www.pw.edu.pl/design/pl_mob_merge/images/pw_logo_naglowek.png" /></a></h1>
             </div>
-            @{
-                Html.RenderAction("Index", "Menu");
+            @if (mainMenuViewModel!=null)
+            {
+                Html.RenderPartial("_MainMenu", mainMenuViewModel);
             }
         </div>
     </div>

@@ -4,12 +4,8 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
-    public class TeachingController : BaseController
+    public class TeachingController : Controller
     {
-        public TeachingController(IMenuService menuService) : base(menuService)
-        {
-        }
-
         [HttpGet]
         public Subject GetSubject(string subjectName)
         {

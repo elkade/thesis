@@ -9,7 +9,6 @@ namespace UniversityWebsite.Domain.Model
         [Key]
         public int Id { get; set; }
         public string CountryCode { get; set; }
-        [Required]
         [ForeignKey("CountryCode")]
         public virtual Language Language { get; set; }
         [Required]

@@ -9,9 +9,7 @@ namespace UniversityWebsite.Services.Model
 
     public class MenuItemDto
     {
-        public string Text { get; set; }
-        public string Href { get; set; }
+        public string PageName { get; set; }
         public string Title { get; set; }
-        public int Type { get; set; }
     }
 }

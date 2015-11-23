@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
@@ -138,11 +139,14 @@ namespace UniversityWebsite.Core.Migrations
             foreach (var p in pagesEn)
                 _context.Pages.Add(p);
 
-            var menu1 = new Menu { Language = pl, Items = new List<MenuItem>(pagesPl.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
-            var menu2 = new Menu { Language = en, Items = new List<MenuItem>(pagesEn.Select(p => new MenuItem { Text = p.Title, Url = p.UrlName })) };
+            var menuPl = new Menu {Language = pl};
+            var menuEn = new Menu {Language = en};
 
-            _context.Menus.Add(menu1);
-            _context.Menus.Add(menu2);
+            menuPl.Items = pagesPl.Select((p, i) => new MenuItem { Page = p, Order = i }).ToList();
+            menuEn.Items = pagesEn.Select((p, i) => new MenuItem { Page = p, Order = i }).ToList();
+
+            _context.Menus.Add(menuPl);
+            _context.Menus.Add(menuEn);
 
             _context.Phrases.Add(new Phrase { Key = "powitanie", CountryCode = "pl", Value = "Witaj!" });
             _context.Phrases.Add(new Phrase { Key = "powitanie", CountryCode = "en", Value = "Welcome!" });

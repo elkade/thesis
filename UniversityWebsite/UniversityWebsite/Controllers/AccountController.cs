@@ -7,29 +7,27 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
+using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
-using UniversityWebsite.Services;
-using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite.Controllers
 {
+    [MainMenu]
     [Authorize]
-    public class AccountController : BaseController
+    public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController(IMenuService menuService, IPageService pageService, ILanguageService languageService, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-            : base(menuService)
+        public AccountController()
+        {
+                
+        }
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-        }
-
-        public AccountController(IMenuService menuService, IPageService pageService, ILanguageService languageService): base(menuService)
-        {
         }
 
         public ApplicationSignInManager SignInManager

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
+using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
-using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Helpers;
 using UniversityWebsite.Services.Model;
 
@@ -15,23 +13,24 @@ namespace UniversityWebsite.Services
         MenuDto GetMainMenu(string countryCode);
         MenuDto GetMainMenuCached(string lang);
         IEnumerable<MenuDto> GetAll();
+        //List<MenuItemDto> GetMainMenuItemsCached();
     }
     public class MenuService : IMenuService
     {
-        protected IDomainContext _context;
-        protected IDbSet<Menu> _menus;
+        private readonly IDomainContext _context;
         public MenuService(IDomainContext context)
         {
             _context = context;
-            _menus = _context.Menus;
         }
         public MenuDto GetMainMenu(string countryCode)
         {
-            var menu = _menus.Include(m=>m.Items).Single(m => m.CountryCode == countryCode);
-            var returnMenu = new MenuDto{MenuItems = new List<MenuItemDto>()};
-            foreach (var page in menu.Items.OrderBy(mi=>mi.Id))//todo
-                returnMenu.MenuItems.Add(new MenuItemDto { Text = page.Text, Href = page.Url, Title = page.Text });
-            return returnMenu;
+            var menu = _context.Menus.SingleOrDefault(m => m.CountryCode == countryCode);
+            if (menu == null) return new MenuDto();
+            var items = _context.MenuItems
+                .Where(mi=>mi.MenuId == menu.Id)
+                .OrderBy(mi=>mi.Order)
+                .ProjectTo<MenuItemDto>();
+            return new MenuDto{MenuItems = items.ToList()};
         }
         public MenuDto GetMainMenuCached(string lang)
         {
