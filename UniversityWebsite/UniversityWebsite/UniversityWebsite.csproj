@@ -781,6 +781,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\LanguageController.cs" />
+    <Compile Include="ApiControllers\MenuController.cs" />
     <Compile Include="ApiControllers\PageController.cs" />
     <Compile Include="App_Start\AutofacConfig.cs" />
     <Compile Include="App_Start\AutoMapperWebConfig.cs" />
@@ -821,8 +822,8 @@
     <Compile Include="Model\AccountViewModel.cs" />
     <Compile Include="Model\Layout\LanguageSwitcherViewModel.cs" />
     <Compile Include="Model\ManageViewModel.cs" />
-    <Compile Include="Model\MenuViewModel.cs" />
-    <Compile Include="Model\PageViewModel.cs" />
+    <Compile Include="Model\Menu\MenuViewModel.cs" />
+    <Compile Include="Model\Page\PageViewModel.cs" />
     <Compile Include="Model\SubjectViewModel.cs" />
     <Compile Include="Model\TileVm.cs" />
   </ItemGroup>

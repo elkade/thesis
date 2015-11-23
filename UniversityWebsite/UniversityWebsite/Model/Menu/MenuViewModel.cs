@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UniversityWebsite.Model
+namespace UniversityWebsite.Model.Menu
 {
     public class MenuViewModel
     {

@@ -2,6 +2,7 @@
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
+using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services.Model;
 using UniversityWebsite.ViewModels;
