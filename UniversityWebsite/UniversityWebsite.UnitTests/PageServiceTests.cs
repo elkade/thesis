@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
+using UniversityWebsite.Services.Exceptions;
 
 namespace UniversityWebsite.UnitTests
 {
@@ -52,6 +53,7 @@ namespace UniversityWebsite.UnitTests
         {
             Data = new List<Page>();
         }
+        #region FindPageById
         [Test]
         public void FindPageById_Finds()
         {
@@ -69,6 +71,9 @@ namespace UniversityWebsite.UnitTests
 
             Assert.AreEqual(null, result);
         }
+        #endregion
+
+        #region FindPageByUrlName
         [Test]
         public void FindPageByUrlName_Finds()
         {
@@ -86,5 +91,116 @@ namespace UniversityWebsite.UnitTests
 
             Assert.AreEqual(null, result);
         }
+        #endregion
+
+        #region FindTranslationByName
+        [Test]
+        public void FindTranslationByName_Finds()
+        {
+            var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
+            var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
+            var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
+            Data.Add(translation1);
+            Data.Add(translation2);
+            Data.Add(translation3);
+
+            var result = _pageService.FindTranslation(translation1.UrlName, "de");
+
+            Assert.AreEqual(translation3.Id, result.Id);
+        }
+        [Test]
+        public void FindTranslationByName_CantFindTranslation()
+        {
+            var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
+            var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
+            var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
+            Data.Add(translation1);
+            Data.Add(translation2);
+            Data.Add(translation3);
+
+            TestDelegate dlgt = () => _pageService.FindTranslation(translation1.UrlName, "cz");
+
+            Assert.Throws<NotFoundException>(dlgt);
+        }
+        [Test]
+        public void FindTranslationByName_CantFindTranslated()
+        {
+            var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
+            var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
+            var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
+            Data.Add(translation1);
+            Data.Add(translation2);
+            Data.Add(translation3);
+
+            TestDelegate dlgt = () => _pageService.FindTranslation("abc4", "pl");
+
+            Assert.Throws<NotFoundException>(dlgt);
+        }
+        #endregion
+
+        #region FindTranslationById
+        [Test]
+        public void FindTranslationById_Finds()
+        {
+            var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
+            var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
+            var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
+            Data.Add(translation1);
+            Data.Add(translation2);
+            Data.Add(translation3);
+
+            var result = _pageService.FindTranslation(translation1.Id, "de");
+
+            Assert.AreEqual(translation3.UrlName, result.UrlName);
+        }
+        [Test]
+        public void FindTranslationById_CantFindTranslation()
+        {
+            var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
+            var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
+            var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
+            Data.Add(translation1);
+            Data.Add(translation2);
+            Data.Add(translation3);
+
+            TestDelegate dlgt = () => _pageService.FindTranslation(translation1.Id, "cz");
+
+            Assert.Throws<NotFoundException>(dlgt);
+        }
+        [Test]
+        public void FindTranslationById_CantFindTranslated()
+        {
+            var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
+            var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
+            var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
+            Data.Add(translation1);
+            Data.Add(translation2);
+            Data.Add(translation3);
+
+            TestDelegate dlgt = () => _pageService.FindTranslation(1219, "pl");
+
+            Assert.Throws<NotFoundException>(dlgt);
+        }
+        #endregion
+
+        #region GetTranslations
+        [Test]
+        public void GetTranslations_Gets()
+        {
+            var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
+            var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
+            var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
+            Data.Add(translation1);
+            Data.Add(translation2);
+            Data.Add(translation3);
+
+            var result = _pageService.GetTranslations(translation1.UrlName).Select(t=>t.UrlName).ToList();
+
+            Assert.Contains(translation1.UrlName, result);
+            Assert.Contains(translation2.UrlName, result);
+            Assert.Contains(translation3.UrlName, result);
+            Assert.AreEqual(3, result.Count);
+        }
+        #endregion
     }
 }
