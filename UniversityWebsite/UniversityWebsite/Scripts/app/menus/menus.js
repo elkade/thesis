@@ -1,7 +1,13 @@
 ﻿angular.module('configApp.menus', ['ui.router', 'configApp.menus.service'])
-    .factory('menusApi', function ($resource) {
-        return $resource('/api/menus/:id');
-    })
+    .factory('Menus', ['$resource', function ($resource) {
+        return $resource('api/menu/:id', {}, {
+            query: { method: 'GET' },
+            post: { method: 'POST' },
+            update: { method: 'PUT' },
+            remove: { method: 'DELETE' }
+        });
+    }])
+
     .config(
     [
         '$stateProvider', '$urlRouterProvider',
@@ -35,17 +41,8 @@
                         '': {
                             templateUrl: 'scripts/app/views/menus/menus.edit.html',
                             controller: [
-                                '$scope', '$stateParams', 'utils', 'menusApi',
-                                function ($scope, $stateParams, utils, menusApi) {
-                                    $scope.update = function() {
-                                        var pos = new post($scope.menu);
-                                        pos.$save(function(response) {
-                                            console.log(response.$resolved);
-                                            
-                                            $scope.state = response.$resolved ? 'success' : 'error';
-                                        });
-                                    }
-
+                                '$scope', '$stateParams', 'utils', 'Menus',
+                                function ($scope, $stateParams, utils, Menus) {
                                     $scope.menu = utils.findByName($scope.menus, $stateParams.id);
                                 }
                             ]
