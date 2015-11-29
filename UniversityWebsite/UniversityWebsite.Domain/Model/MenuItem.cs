@@ -11,7 +11,8 @@ namespace UniversityWebsite.Domain.Model
         [Required]
         [ForeignKey("PageId")]
         public virtual Page Page { get; set; }
-        public string File { get; set; }
+
+        public string ImagePath { get; set; }
 
         public int MenuId { get; set; }
         //[Required]

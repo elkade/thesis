@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\ArticleStatus.cs" />
+    <Compile Include="Model\MenuGroup.cs" />
     <Compile Include="Model\MenuItem.cs" />
     <Compile Include="Model\PageGroup.cs" />
     <Compile Include="Model\User.cs" />

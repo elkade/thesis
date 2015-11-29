@@ -32,5 +32,7 @@ namespace UniversityWebsite.Domain.Model
         public int? ParentId { get; set; }
         [ForeignKey("ParentId")]
         public virtual Page Parent { get; set; }
+
+        public int Order { get; set; }
     }
 }

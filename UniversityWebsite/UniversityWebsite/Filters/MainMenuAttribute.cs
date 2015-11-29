@@ -45,7 +45,7 @@ namespace UniversityWebsite.Filters
                     languageMenu.Current = language.Title;
             }
 
-            context.Controller.ViewData[Consts.MainMenuKey] = new MainMenuViewModel(mainMenu.MenuItems, languageMenu);
+            context.Controller.ViewData[Consts.MainMenuKey] = new MainMenuViewModel(mainMenu.Items, languageMenu);
         }
     }
 }

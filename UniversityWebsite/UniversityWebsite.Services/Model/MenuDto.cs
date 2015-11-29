@@ -1,16 +1,34 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace UniversityWebsite.Services.Model
 {
     public class MenuDto
     {
-        public List<MenuItemDto> MenuItems = new List<MenuItemDto>();
+        public List<MenuItemDto> Items = new List<MenuItemDto>();
         public string CountryCode { get; set; }
+        public int GroupId { get; set; }
     }
 
     public class MenuItemDto
     {
-        public string PageName { get; set; }
+        public string UrlName { get; set; }
         public string Title { get; set; }
+        public int Order { get; set; }
+        public int PageId { get; set; }
+    }
+
+    public class MenuData
+    {
+        public int? MenuId { get; set; }
+        public int? GroupId { get; set; }
+        public string CountryCode { get; set; }
+        public List<MenuItemData> Items { get; set; }
+    }
+
+    public class MenuItemData
+    {
+        public int PageId { get; set; }
+        public int Order { get; set; }
     }
 }

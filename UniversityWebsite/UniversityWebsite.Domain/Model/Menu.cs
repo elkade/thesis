@@ -11,7 +11,12 @@ namespace UniversityWebsite.Domain.Model
         public string CountryCode { get; set; }
         [ForeignKey("CountryCode")]
         public virtual Language Language { get; set; }
-        [Required]
+
         public virtual ICollection<MenuItem> Items { get; set; }
+
+        public int GroupId { get; set; }
+        [Required]
+        [ForeignKey("GroupId")]
+        public MenuGroup Group { get; set; }
     }
 }

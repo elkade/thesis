@@ -6,7 +6,7 @@
         @foreach (var menuItem in Model.MainMenuItems)
         {
             <li>
-                @Html.ActionLink(menuItem.Title, "Index", "Page", new{name=menuItem.PageName}, new{@class="button"})
+                @Html.ActionLink(menuItem.Title, "Index", "Page", new{name=menuItem.UrlName}, new{@class="button"})
                 @*<a class="button" href="@menuItem.Href" title="@menuItem.Title">@menuItem.Text</a>*@
             </li>
         }

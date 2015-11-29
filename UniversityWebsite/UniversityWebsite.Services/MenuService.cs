@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Helpers;
 using UniversityWebsite.Services.Model;
@@ -13,9 +14,9 @@ namespace UniversityWebsite.Services
     {
         MenuDto GetMainMenu(string countryCode);
         MenuDto GetMainMenuCached(string lang);
-        IEnumerable<MenuDto> GetAll();
+        IEnumerable<MenuDto> GetMainMenuGroup();
         //List<MenuItemDto> GetMainMenuItemsCached();
-        MenuDto UpdateMenu(MenuDto menu);
+        void UpdateMenuItems(MenuData menu);
     }
     public class MenuService : IMenuService
     {
@@ -26,13 +27,13 @@ namespace UniversityWebsite.Services
         }
         public MenuDto GetMainMenu(string countryCode)
         {
-            var menu = _context.Menus.SingleOrDefault(m => m.CountryCode == countryCode);
+            var menu = _context.Menus.SingleOrDefault(m => m.CountryCode == countryCode && m.GroupId==1);
             if (menu == null) return new MenuDto();
             var items = _context.MenuItems
                 .Where(mi=>mi.MenuId == menu.Id)
                 .OrderBy(mi=>mi.Order)
                 .ProjectTo<MenuItemDto>();
-            return new MenuDto{MenuItems = items.ToList()};
+            return new MenuDto{Items = items.ToList()};
         }
         public MenuDto GetMainMenuCached(string lang)
         {
@@ -43,18 +44,25 @@ namespace UniversityWebsite.Services
             return mainMenu;
         }
 
-        public IEnumerable<MenuDto> GetAll()
+        public IEnumerable<MenuDto> GetMainMenuGroup()
         {
-            throw new NotImplementedException();
+            return _context.Menus.Where(m => m.GroupId == 1).ProjectTo<MenuDto>();
         }
 
-        public MenuDto UpdateMenu(MenuDto menu)
+        public void UpdateMenuItems(MenuData menu)
         {
-            throw new NotImplementedException();
-            //var dbMenu = _context.Menus.SingleOrDefault(m => m.CountryCode == menu.CountryCode);
-            //if(dbMenu==null)
-            //    throw new NotFoundException("No such menu in db. CountryCode: "+menu.CountryCode);
-            //dbMenu.Items = menu.MenuItems.Select()
+            var dbMenu = _context.Menus.SingleOrDefault(m => m.GroupId == 1 && m.CountryCode == menu.CountryCode);
+            if(dbMenu==null)
+                throw new NotFoundException("No such menu in db. MenuId: " + menu.MenuId);
+
+            var itemsToDelete = dbMenu.Items.ToList();
+            foreach (var item in itemsToDelete)
+                _context.MenuItems.Remove(item);
+
+            foreach (var item in menu.Items)
+                dbMenu.Items.Add(new MenuItem{Menu = dbMenu, Order = item.Order, Page = _context.Pages.Single(p=>p.Id==item.PageId)});
+
+            _context.SaveChanges();
         }
     }
 }

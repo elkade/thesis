@@ -52,7 +52,7 @@ namespace UniversityWebsite.Controllers
                             Href = page2 == null ? null : page2.UrlName
                         };
             ViewData[Consts.MainMenuKey] = new MainMenuViewModel(
-                mainMenu.MenuItems,
+                mainMenu.Items,
                 new LanguageMenuViewModel
                 {
                     Current = languages.Single(l => l.CountryCode == page.CountryCode).Title,
