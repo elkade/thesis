@@ -76,7 +76,7 @@ namespace UniversityWebsite.ApiControllers
         }
 
         // DELETE api/Page/5
-        [Route("{name}")]
+        [Route("{id:int}")]
         //[AntiForgeryValidate]
         public IHttpActionResult DeletePage(int id)
         {
