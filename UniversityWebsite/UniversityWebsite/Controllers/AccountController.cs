@@ -59,6 +59,11 @@ namespace UniversityWebsite.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = "/Home";
+            }
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -397,7 +402,7 @@ namespace UniversityWebsite.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Page");
+            return RedirectToAction("Index", "Home");
         }
 
         //

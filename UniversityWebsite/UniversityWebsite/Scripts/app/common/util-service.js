@@ -23,6 +23,13 @@
             return null;
         },
 
+        findByCountryCode: function findByCountryCode(a, countryCode) {
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].CountryCode == countryCode) return a[i];
+            }
+            return null;
+        },
+
         removeByTitle: function removeByTitle(a, title) {
             for (var i = a.length - 1; i >= 0; i--) {
                 if (a[i].Title == title) {
@@ -30,6 +37,7 @@
                 }
             }
         },
+
 
         parseErrors: function parseErrors(modelState) {
             var errors = [];

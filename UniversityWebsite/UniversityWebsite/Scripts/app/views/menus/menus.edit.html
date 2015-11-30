@@ -1,1 +1,7 @@
-﻿<h3>{{menu.Id}}</h3>
+﻿<h3>{{menu.CountryCode}}</h3>
+
+<div class="row" ng-repeat="menuItem in menu.Items">
+    <div class="large-12 columns">
+        {{menuItem.Title}}
+    </div>
+</div>

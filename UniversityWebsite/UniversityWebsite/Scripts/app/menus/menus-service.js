@@ -2,7 +2,7 @@
 ])
 
 .factory('menus', ['$http', 'utils', function ($http, utils) {
-    var path = "/api/menu";
+    var path = "/api/menu/main";
 
     var menus = $http.get(path).then(function (resp) {
         return resp.data;
@@ -13,9 +13,9 @@
         return menus;
     };
 
-    factory.get = function (id) {
+    factory.get = function (lang) {
         return menus.then(function () {
-            return utils.findById(menus, id);
+            return utils.findByCountryCode(menus, lang);
         })
     };
 

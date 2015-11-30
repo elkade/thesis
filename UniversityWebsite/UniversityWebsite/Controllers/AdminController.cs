@@ -5,6 +5,7 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly IPageService _pageService;

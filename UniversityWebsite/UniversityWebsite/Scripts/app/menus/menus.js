@@ -1,6 +1,6 @@
 ﻿angular.module('configApp.menus', ['ui.router', 'configApp.menus.service'])
     .factory('Menus', ['$resource', function ($resource) {
-        return $resource('api/menu/:id', {}, {
+        return $resource('api/menu/main/:lang', {}, {
             query: { method: 'GET' },
             post: { method: 'POST' },
             update: { method: 'PUT' },
@@ -35,7 +35,7 @@
                         
                 })
                 .state('menus.edit', {
-                    url: '/:id',
+                    url: '/:lang',
 
                     views: {
                         '': {
@@ -43,7 +43,7 @@
                             controller: [
                                 '$scope', '$stateParams', 'utils', 'Menus',
                                 function ($scope, $stateParams, utils, Menus) {
-                                    $scope.menu = utils.findByName($scope.menus, $stateParams.id);
+                                    $scope.menu = utils.findByCountryCode($scope.menus, $stateParams.lang);
                                 }
                             ]
                         },
