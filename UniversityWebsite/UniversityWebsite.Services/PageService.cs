@@ -15,6 +15,7 @@ namespace UniversityWebsite.Services
     public interface IPageService
     {
         PageDto FindPage(string name);
+        IEnumerable<Page> FindSiblings(string name);
         PageDto FindPage(int id);
         PageDto FindTranslation(string name, string countryCode);
         PageDto FindTranslation(int id, string countryCode);
@@ -51,6 +52,16 @@ namespace UniversityWebsite.Services
             var pages = _context.Pages.Where(p => String.Compare(p.UrlName, name, StringComparison.OrdinalIgnoreCase) == 0)
                 .ProjectTo<PageDto>();
             return pages.SingleOrDefault();
+        }
+
+        public IEnumerable<Page> FindSiblings(string name)
+        {
+            var page =
+                _context.Pages.SingleOrDefault(p => String.Compare(p.UrlName, name, StringComparison.OrdinalIgnoreCase) == 0);
+            if (page == null)
+                throw new NotFoundException("Page with urlName: "+name);
+            var siblings = _context.Pages.Where(p => p.ParentId == page.ParentId && p.CountryCode == page.CountryCode);
+            return siblings.AsEnumerable();
         }
 
         public PageDto FindTranslation(int id, string countryCode)

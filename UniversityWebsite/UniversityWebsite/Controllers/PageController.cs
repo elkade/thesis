@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using UniversityWebsite.Model;
 using UniversityWebsite.Model.Menu;
+using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Exceptions;
 
@@ -28,6 +29,7 @@ namespace UniversityWebsite.Controllers
         public ActionResult Index(string name)
         {
             var page = _pageService.FindPage(name);
+            var siblings = _pageService.FindSiblings(name);
             if (page == null)
                 throw new NotFoundException("Nie znaleziono strony: " + name);
 
@@ -36,6 +38,8 @@ namespace UniversityWebsite.Controllers
             var mainMenu = _menuService.GetMainMenuCached(page.CountryCode);
 
             var pageVm = Mapper.Map<PageViewModel>(page);
+
+            pageVm.Siblings = siblings.Select(s => new PageMenuItemVm {Title = s.Title, UrlName = s.UrlName}).ToList();
 
             var languages = _languageService.GetLanguagesCached().ToList();
 

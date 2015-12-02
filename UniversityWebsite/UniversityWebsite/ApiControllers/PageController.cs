@@ -16,11 +16,13 @@ namespace UniversityWebsite.ApiControllers
     {
         private readonly ILanguageService _languageService;
         private readonly IPageService _pageService;
+        private readonly IMenuService _menuService;
 
-        public PageController(IPageService pageService, ILanguageService languageService)
+        public PageController(IPageService pageService, ILanguageService languageService, IMenuService menuService)
         {
             _pageService = pageService;
             _languageService = languageService;
+            _menuService = menuService;
         }
 
         // GET api/Page
@@ -72,6 +74,8 @@ namespace UniversityWebsite.ApiControllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var createdPage = _pageService.Add(Mapper.Map<PageDto>(page));
+            if (page.IsTile)
+                _menuService.AddToTilesMenuIfNotExists(createdPage.Id);
             return CreatedAtRoute("GetPage",new{ id = createdPage.Id}, createdPage);
         }
 

@@ -33,16 +33,6 @@ namespace UniversityWebsite.ApiControllers
         {
             return Ok(_menuService.GetMainMenuCached(lang));
         }
-        //[Route("main/{lang}")]
-        //[HttpPut]
-        //[ResponseType(typeof(MenuDto))]
-        //public IHttpActionResult PutMenu(MenuDto menu)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-        //    var updatedMenu = _menuService.UpdateItem(Mapper.Map<MenuDto>(menu));
-        //    return CreatedAtRoute("GetMenu", new { lang = updatedMenu.CountryCode }, updatedMenu);
-        //}
         [Route("main/{lang}")]
         [HttpPut]
         [HttpPost]
