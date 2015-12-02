@@ -14,5 +14,6 @@ namespace UniversityWebsite.Model.Page
         [Required]
         public string CountryCode { get; set; }
         public int? ParentId { get; set; }
+        public bool IsTile { get; set; }
     }
 }

@@ -7,5 +7,6 @@
         public const string ParamKeyLang = "l";
         public const string DefaultLanguage = "pl";
         public const string MainMenuKey = "mainMenu";
+        public const int TilesMenuGroup = 1;
     }
 }

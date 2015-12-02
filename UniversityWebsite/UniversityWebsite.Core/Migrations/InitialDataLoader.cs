@@ -139,13 +139,20 @@ namespace UniversityWebsite.Core.Migrations
             foreach (var p in pagesEn)
                 _context.Pages.Add(p);
 
-            var mainMenu = new MenuGroup();
+            var mainMenu = new MenuGroup{Id=1};
+            var tileMenu = new MenuGroup{Id=2};
+
+            var tileMenuPl = new Menu { Language = pl, Group = tileMenu };
+            var tileMenuEn = new Menu { Language = en, Group = tileMenu };
 
             var menuPl = new Menu {Language = pl, Group = mainMenu};
             var menuEn = new Menu {Language = en, Group = mainMenu};
 
             menuPl.Items = pagesPl.Select((p, i) => new MenuItem { Page = p, Order = i }).ToList();
             menuEn.Items = pagesEn.Select((p, i) => new MenuItem { Page = p, Order = i }).ToList();
+
+            _context.Menus.Add(tileMenuPl);
+            _context.Menus.Add(tileMenuEn);
 
             _context.Menus.Add(menuPl);
             _context.Menus.Add(menuEn);

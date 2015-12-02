@@ -819,6 +819,7 @@
     <Compile Include="Model\Menu\LanguageMenuItemViewModel.cs" />
     <Compile Include="Model\Menu\MainMenuViewModel.cs" />
     <Compile Include="Model\Menu\MenuItemPut.cs" />
+    <Compile Include="Model\Page\PageMenuItemVm.cs" />
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
     <Compile Include="Model\TileViewModel.cs" />

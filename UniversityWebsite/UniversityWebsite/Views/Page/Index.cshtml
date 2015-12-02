@@ -1,6 +1,13 @@
-﻿@model UniversityWebsite.Model.PageViewModel
+﻿@model UniversityWebsite.Model.Page.PageViewModel
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
-
+<nav id="MENU-STRONY">
+    <ul>
+        @foreach (var item in Model.Siblings)
+        {
+            <li>@Html.ActionLink(item.Title, "Index", "Page", new{name=item.UrlName}, new{@class="button"})</li>
+        }
+    </ul>
+</nav>
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">

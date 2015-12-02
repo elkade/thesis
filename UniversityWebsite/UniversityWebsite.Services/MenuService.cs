@@ -17,9 +17,12 @@ namespace UniversityWebsite.Services
         IEnumerable<MenuDto> GetMainMenuGroup();
         //List<MenuItemDto> GetMainMenuItemsCached();
         void UpdateMenuItems(MenuData menu);
+        void AddToTilesMenuIfNotExists(int pageId);
+        IEnumerable<Tile> GetTilesMenu(string countryCode);
     }
     public class MenuService : IMenuService
     {
+        public const int TilesMenuGroupId = 2;
         private readonly IDomainContext _context;
         public MenuService(IDomainContext context)
         {
@@ -63,6 +66,24 @@ namespace UniversityWebsite.Services
                 dbMenu.Items.Add(new MenuItem{Menu = dbMenu, Order = item.Order, Page = _context.Pages.Single(p=>p.Id==item.PageId)});
 
             _context.SaveChanges();
+        }
+
+        public void AddToTilesMenuIfNotExists(int pageId)
+        {
+            if (_context.MenuItems.Any(mi => mi.PageId == pageId))
+                return;
+            var page = _context.Pages.Find(pageId);
+            if(page==null)
+                throw new NotFoundException("Page with pageId: "+pageId);
+            var menu = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == page.CountryCode);
+            menu.Items.Add(new MenuItem { Menu = menu, Page = page, Order = menu.Items.Max(m=>m.Order)+1});//uwaga na przepełnienie
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Tile> GetTilesMenu(string countryCode)
+        {
+            var menuItems = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == countryCode).Items;
+            return menuItems.Select(mi=>new Tile{Title = mi.Page.Title, UrlName = mi.Page.UrlName});
         }
     }
 }
