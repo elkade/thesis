@@ -15,7 +15,7 @@ namespace UniversityWebsite.Services
     public interface IPageService
     {
         PageDto FindPage(string name);
-        IEnumerable<Page> FindSiblings(string name);
+        IEnumerable<PageMenuItem> FindSiblingsWithChildren(string name);
         PageDto FindPage(int id);
         PageDto FindTranslation(string name, string countryCode);
         PageDto FindTranslation(int id, string countryCode);
@@ -43,7 +43,7 @@ namespace UniversityWebsite.Services
 
         public PageDto FindPage(int id)
         {
-            var pages = _context.Pages.Where(p => p.Id==id)
+            var pages = _context.Pages.Where(p => p.Id == id)
                 .ProjectTo<PageDto>();
             return pages.SingleOrDefault();
         }
@@ -54,14 +54,28 @@ namespace UniversityWebsite.Services
             return pages.SingleOrDefault();
         }
 
-        public IEnumerable<Page> FindSiblings(string name)
+        public IEnumerable<PageMenuItem> FindSiblingsWithChildren(string name)
         {
             var page =
                 _context.Pages.SingleOrDefault(p => String.Compare(p.UrlName, name, StringComparison.OrdinalIgnoreCase) == 0);
             if (page == null)
-                throw new NotFoundException("Page with urlName: "+name);
-            var siblings = _context.Pages.Where(p => p.ParentId == page.ParentId && p.CountryCode == page.CountryCode);
-            return siblings.AsEnumerable();
+                throw new NotFoundException("Page with urlName: " + name);
+            var siblings = _context
+                .Pages
+                .Where(p => p.ParentId == page.ParentId && p.CountryCode == page.CountryCode)
+                .ToList();
+            return from siblingBuf in siblings
+                   let children = _context
+                    .Pages
+                    .Where(p => p.ParentId == siblingBuf.Id)
+                    .Select(p => new PageMenuItem { Title = p.Title, UrlName = p.UrlName })
+                    .ToList()
+                   select new PageMenuItem
+                       {
+                           Title = siblingBuf.Title,
+                           UrlName = siblingBuf.UrlName,
+                           Children = children
+                       };
         }
 
         public PageDto FindTranslation(int id, string countryCode)
@@ -117,7 +131,7 @@ namespace UniversityWebsite.Services
         public void ValidateLanguageUniqueness(string countryCode, int groupId)
         {
             if (_context.Pages.Any(p => p.CountryCode == countryCode && p.GroupId == groupId))
-                throw new PropertyValidationException("page.CountryCode",string.Format("Page o countryCode: {0} i groupId: {1} już istnieje", countryCode, groupId));
+                throw new PropertyValidationException("page.CountryCode", string.Format("Page o countryCode: {0} i groupId: {1} już istnieje", countryCode, groupId));
         }
 
         public PageDto Add(PageDto page)
@@ -135,13 +149,13 @@ namespace UniversityWebsite.Services
             else
             {
                 ValidateLanguageUniqueness(page.CountryCode, page.GroupId.Value);
-                group = _context.PageGroups.SingleOrDefault(g=>g.Id==page.GroupId.Value);
-                if(group==null)
+                group = _context.PageGroups.SingleOrDefault(g => g.Id == page.GroupId.Value);
+                if (group == null)
                     throw new NotFoundException("PageGroup o id: " + page.GroupId.Value);
             }
 
             var language = _context.Languages.SingleOrDefault(l => l.CountryCode == page.CountryCode);
-            if(language==null)
+            if (language == null)
                 throw new NotFoundException("Language o countryCode: " + page.CountryCode);
             Page newPage = new Page
             {
@@ -151,7 +165,7 @@ namespace UniversityWebsite.Services
                 LastUpdateDate = DateTime.Now,
                 CreationDate = DateTime.Now,
                 Title = page.Title,
-                UrlName = page.UrlName??PrepareUniqueUrlName(page.Title),
+                UrlName = page.UrlName ?? PrepareUniqueUrlName(page.Title),
                 Group = group,
                 Description = page.Description
             };
@@ -205,7 +219,7 @@ namespace UniversityWebsite.Services
                 dbPage.Description = page.Title;
             if (page.UrlName != null)
             {
-                if(!_context.Pages.Any(p=>p.UrlName==page.UrlName && p.Id!=page.Id))
+                if (!_context.Pages.Any(p => p.UrlName == page.UrlName && p.Id != page.Id))
                     dbPage.UrlName = page.UrlName;
                 else throw new PropertyValidationException("page.UrlName", "Strona o podanym urlu już istnieje.");
             }

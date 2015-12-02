@@ -13,6 +13,9 @@ using UniversityWebsite.Model;
 
 namespace UniversityWebsite.Controllers
 {
+    /// <summary>
+    /// Kontroler odpowiedzialny za operacje związane z kontem użytkownika.
+    /// </summary>
     [MainMenu]
     [Authorize]
     public class AccountController : Controller
@@ -56,6 +59,11 @@ namespace UniversityWebsite.Controllers
 
         //
         // GET: /Account/Login
+        /// <summary>
+        /// Zwraca widok logowania do systemu.
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -70,6 +78,12 @@ namespace UniversityWebsite.Controllers
 
         //
         // POST: /Account/Login
+        /// <summary>
+        /// Dokonuje uwierzytelnienia użytkownika w systemie.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -146,6 +160,7 @@ namespace UniversityWebsite.Controllers
 
         //
         // GET: /Account/Register
+        ///
         [AllowAnonymous]
         public ActionResult Register()
         {

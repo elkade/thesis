@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
@@ -29,7 +30,7 @@ namespace UniversityWebsite.Controllers
         public ActionResult Index(string name)
         {
             var page = _pageService.FindPage(name);
-            var siblings = _pageService.FindSiblings(name);
+            var siblings = _pageService.FindSiblingsWithChildren(name).ToList();
             if (page == null)
                 throw new NotFoundException("Nie znaleziono strony: " + name);
 
@@ -39,7 +40,7 @@ namespace UniversityWebsite.Controllers
 
             var pageVm = Mapper.Map<PageViewModel>(page);
 
-            pageVm.Siblings = siblings.Select(s => new PageMenuItemVm {Title = s.Title, UrlName = s.UrlName}).ToList();
+            pageVm.Siblings = Mapper.Map<List<PageMenuItemVm>>(siblings);
 
             var languages = _languageService.GetLanguagesCached().ToList();
 

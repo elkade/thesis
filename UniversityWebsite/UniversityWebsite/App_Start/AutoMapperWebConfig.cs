@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
@@ -68,6 +69,12 @@ namespace UniversityWebsite
                 GroupId = p.GroupId,
                 Parent = p.ParentId == null ? null : new ParentDto { Id = p.ParentId.Value },
                 UrlName = p.UrlName,
+            });
+            Mapper.CreateMap<PageMenuItem, PageMenuItemVm>().ConvertUsing(p => new PageMenuItemVm
+            {
+                Title = p.Title,
+                UrlName = p.UrlName,
+                Children = p.Children.Select(c=>new PageMenuItemVm{Title = c.Title, UrlName = c.UrlName}).ToList()
             });
         }
     }

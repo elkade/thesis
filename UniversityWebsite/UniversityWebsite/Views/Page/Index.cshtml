@@ -1,14 +1,27 @@
 ﻿@model UniversityWebsite.Model.Page.PageViewModel
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
-<nav id="MENU-STRONY">
-    <ul>
-        @foreach (var item in Model.Siblings)
-        {
-            <li>@Html.ActionLink(item.Title, "Index", "Page", new{name=item.UrlName}, new{@class="button"})</li>
-        }
-    </ul>
-</nav>
 <nav class="top-bar" data-topbar role="navigation">
+    <section class="top-bar-section">
+        <ul class="left">
+
+            @foreach (var item in Model.Siblings)
+            {
+                <li @if (item.Children.Count > 0)
+                        {<text> class="has-dropdown"</text> }>
+                    @Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)
+                    <ul @if (item.Children.Count > 0)
+                        {<text> class="dropdown"</text> } >
+                        @foreach (var subitem in item.Children)
+                        {
+                            <li>@Html.ActionLink(subitem.Title, "Index", "Page", new { name = subitem.UrlName }, null)</li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </section>
+</nav>
+@*<nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
             <h1><a href="#">My Site</a></h1>
@@ -35,7 +48,7 @@
             <li><a href="#">Left Nav Button</a></li>
         </ul>
     </section>
-</nav>
+</nav>*@
 <div class="row">
     <div class="medium-12 columns">
         <h3>

@@ -84,6 +84,7 @@
     <Compile Include="MenuService.cs" />
     <Compile Include="Model\MenuDto.cs" />
     <Compile Include="Model\PageDto.cs" />
+    <Compile Include="Model\PageMenuItem.cs" />
     <Compile Include="Model\ParentDto.cs" />
     <Compile Include="Model\Tile.cs" />
     <Compile Include="PageService.cs" />
