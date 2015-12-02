@@ -1,13 +1,4 @@
 ﻿angular.module('configApp.pages', ['ui.router', 'configApp.pages.service'])
-    .factory('Pages', ['$resource', function ($resource) {
-        return $resource('api/page/:id', {}, {
-            query: { method: 'GET'},
-            post: { method: 'POST' },
-            update: { method: 'PUT'},
-            remove: { method: 'DELETE' }
-        });
-    }])
-
     .config(
     [
         '$stateProvider', '$urlRouterProvider',
