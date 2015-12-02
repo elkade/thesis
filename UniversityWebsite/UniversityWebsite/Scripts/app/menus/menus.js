@@ -40,19 +40,25 @@
 
                             $scope.activeMenu = menus[0];
 
+                            $scope.sortItems = function(items) {
+                                return items.sort(function (first, second) {
+                                    return first.Order - second.Order;
+                                });
+                            },
+
                             $scope.addToMenu = function (page) {
                                 var menuItem = new Object();
                                 menuItem.Order = $scope.activeMenu.Items.length;
                                 menuItem.Title = page.Title;
+                                menuItem.PageId = page.Id;
 
                                 console.log(menuItem.Order);
+                                console.log($scope.activeMenu.CountryCode);
                                 $scope.activeMenu.Items.push(menuItem);
                             },
 
                             $scope.moveUp = function (menuItem, items) {
-                                items = items.sort(function(first, second) {
-                                    return first.Order - second.Order;
-                                });
+                                items = $scope.sortItems(items);
                                 menuItem.Order--;
                                 items[menuItem.Order].Order++;
                             },
@@ -65,14 +71,22 @@
                                 items[menuItem.Order].Order--;
                             },
 
-                            $scope.remove = function(menuItem, items) {
+                            $scope.remove = function (menuItem, items) {
+                                items = $scope.sortItems(items);
                                 utils.remove(items, menuItem);
+                                for (var i = 0; i < items.length; i++) {
+                                    items[i].Order = i;
+                                }
                             },
 
                             $scope.update = function (menu) {
-                                Menus.update({ lang: menu.CountryCode}, menu, function(response) {
+                                Menus.update({ lang: menu.CountryCode }, menu, function(response) {
                                     console.log("Udalo sie");
-                                })
+                                });
+                            },
+
+                            $scope.menuChanged = function(menu) {
+                                $scope.activeMenu = menu;
                             }
                         }
                     ]

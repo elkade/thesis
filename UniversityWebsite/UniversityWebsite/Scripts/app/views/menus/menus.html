@@ -10,11 +10,18 @@
         margin: 0;
         
     }
+    .custom-side-nav li a:not(.button) {
+        padding: 0;
+    }
+    .custom-side-nav li {
+        padding: 0.4375rem 0.875rem;
+    }
+
 </style>
 
 <div class="row fullWidth">
     <div class="medium-2 columns">
-        <h3>Pages</h3>
+        <h3>Menus</h3>
         <div class="row">
             <div class="medium-12 columns">
                 <label>
@@ -25,8 +32,11 @@
         <div class="row">
             <div class="medium-12 columns">
                 <ul class="custom-side-nav">
-                    <li ng-animate="'animate'" ng-repeat="page in pages | filter:searchPage">
-                        <div ng-click="">{{page.UrlName}} <button class="button tiny" ng-click="addToMenu(page)">+</button></div>
+                    <li class="row" ng-repeat="page in pages | filter:searchPage">
+                        <span class="small-8 columns">{{page.UrlName}}</span>
+                        <div class="small-4 columns">
+                            <a ng-click="addToMenu(page)">+</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -36,9 +46,9 @@
 
     <div class="large-10 columns">
         <tabset>
-            <tab ng-repeat="menu in menus" heading="{{menu.CountryCode}}">
+            <tab ng-repeat="menu in menus" heading="{{menu.CountryCode}}" ng-click="menuChanged(menu)">
                 <div class="row">
-                    <button class="button" ng-click="update(menu)">Update</button>
+                    <button class="button small" ng-click="update(menu)">Update</button>
                 </div>
                 <div class="row">
                     <div class="large-6 columns">
@@ -47,17 +57,21 @@
                                 <accordion-heading>
                                     <div class="row">
                                         <div class="medium-8 columns">
-                                            {{menuItem.Title}}
+                                            {{menuItem.Title + " " + menuItem.Order}}
                                         </div>
                                         <div class="medium-2 columns">
-                                            <button class="button tiny" ng-click="moveUp(menuItem, menu.Items)" ng-disabled="menuItem.Order==0">Up</button>
+                                            <button class="button tiny" ng-click="moveUp(menuItem, menu.Items); $event.stopPropagation();" ng-disabled="menuItem.Order==0">Up</button>
                                         </div>
                                         <div class="medium-2 columns">
-                                            <button class="button tiny" ng-click="moveDown(menuItem, menu.Items)" ng-disabled="menuItem.Order==menu.Items.length-1">Down</button>
+                                            <button class="button tiny" ng-click="moveDown(menuItem, menu.Items); $event.stopPropagation();" ng-disabled="menuItem.Order==menu.Items.length-1">Down</button>
                                         </div>
                                     </div>
                                 </accordion-heading>
                                 <div>
+                                    <label>
+                                        Label
+                                        <input type="text" ng-model="menuItem.Title" />
+                                    </label>
                                     <a ng-click="remove(menuItem, menu.Items)">Remove</a>
                                 </div>
                             </accordion-group>
