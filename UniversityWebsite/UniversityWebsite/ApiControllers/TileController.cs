@@ -1,49 +1,48 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
-using AutoMapper;
-using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.ApiControllers
 {
-    [RoutePrefix("api/menu")]
+    [RoutePrefix("api/tile")]
     //[AntiForgeryValidate]
-    public class MenuController : ApiController
+    public class TileController : ApiController
     {
         private readonly IMenuService _menuService;
 
-        public MenuController(IMenuService menuService)
+        public TileController(IMenuService menuService)
         {
             _menuService = menuService;
         }
 
-        [Route("main")]
+        [Route("")]
         [HttpGet]
         public IEnumerable<MenuDto> GetAllMain()
         {
-            return _menuService.GetMenuGroup(_menuService.MainMenuGroupId);
+            return _menuService.GetMenuGroup(_menuService.TilesMenuGroupId);
         }
 
-        [Route("main/{lang}", Name = "GetMainMenu")]
+        [Route("{lang}", Name = "GetTilesMenu")]
         [HttpGet]
-        [ResponseType(typeof(MenuDto))]
+        [ResponseType(typeof (List<Tile>))]
         public IHttpActionResult GetMenu(string lang)
         {
-            return Ok(_menuService.GetMainMenuCached(lang));
+            return Ok(_menuService.GetTilesMenu(lang));
         }
-        [Route("main/{lang}")]
+
+        [Route("{lang}")]
         [HttpPut]
         [HttpPost]
         //[ResponseType(typeof(MenuDto))]
-        public IHttpActionResult UpdateMainMenu(string lang, MenuData menu)
+        public IHttpActionResult UpdateTilesMenu(string lang, MenuData menu)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             if (lang != menu.CountryCode)
                 return BadRequest("Language mismatch");
-            menu.GroupId = _menuService.MainMenuGroupId;
+            menu.GroupId = _menuService.TilesMenuGroupId;
             _menuService.UpdateMenuItems(menu);
             return Ok();
             //return CreatedAtRoute("GetMenu", new { lang = updatedMenu.CountryCode }, updatedMenu);

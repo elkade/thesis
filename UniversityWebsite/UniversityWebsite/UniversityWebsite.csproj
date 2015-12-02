@@ -786,6 +786,7 @@
     <Compile Include="ApiControllers\LanguageController.cs" />
     <Compile Include="ApiControllers\MenuController.cs" />
     <Compile Include="ApiControllers\PageController.cs" />
+    <Compile Include="ApiControllers\TileController.cs" />
     <Compile Include="App_Start\AutofacConfig.cs" />
     <Compile Include="App_Start\AutoMapperWebConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -802,7 +803,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\SubjectsController.cs" />
     <Compile Include="Controllers\TeachingController.cs" />
@@ -832,7 +832,6 @@
     <Compile Include="Model\ManageViewModel.cs" />
     <Compile Include="Model\Page\PageViewModel.cs" />
     <Compile Include="Model\SubjectViewModel.cs" />
-    <Compile Include="Model\TileVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -840,7 +839,6 @@
     </Content>
     <Content Include="packages.config" />
     <Content Include="Views\Page\Index.cshtml" />
-    <Content Include="Views\_PartialTile.cshtml" />
     <Content Include="Views\Teaching\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
@@ -896,6 +894,7 @@
     <Folder Include="Views\Language\" />
     <Folder Include="Views\Layout\" />
     <Folder Include="Views\Menu\" />
+    <Folder Include="Views\Tile\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniversityWebsite.Core\UniversityWebsite.Core.csproj">

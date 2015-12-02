@@ -23,7 +23,7 @@ namespace UniversityWebsite.Controllers
         public ActionResult Index()
         {
             var tiles = _menuService.GetTilesMenu((string)Session[Consts.SessionKeyLang]);
-            return View(tiles.Select(t=>new TileViewModel{Title = t.Title, UrlName = t.UrlName}).ToList());
+            return View(Mapper.Map<List<TileViewModel>>(tiles).ToList());
         }
 	}
 }

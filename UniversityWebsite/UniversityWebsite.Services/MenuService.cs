@@ -14,15 +14,24 @@ namespace UniversityWebsite.Services
     {
         MenuDto GetMainMenu(string countryCode);
         MenuDto GetMainMenuCached(string lang);
-        IEnumerable<MenuDto> GetMainMenuGroup();
+        IEnumerable<MenuDto> GetMenuGroup(int groupId);
         //List<MenuItemDto> GetMainMenuItemsCached();
         void UpdateMenuItems(MenuData menu);
         void AddToTilesMenuIfNotExists(int pageId);
         IEnumerable<Tile> GetTilesMenu(string countryCode);
+        int TilesMenuGroupId { get; }
+        int MainMenuGroupId { get; }
     }
     public class MenuService : IMenuService
     {
-        public const int TilesMenuGroupId = 2;
+        public int TilesMenuGroupId
+        {
+            get { return 2; }
+        }
+        public int MainMenuGroupId
+        {
+            get { return 1; }
+        }
         private readonly IDomainContext _context;
         public MenuService(IDomainContext context)
         {
@@ -47,14 +56,14 @@ namespace UniversityWebsite.Services
             return mainMenu;
         }
 
-        public IEnumerable<MenuDto> GetMainMenuGroup()
+        public IEnumerable<MenuDto> GetMenuGroup(int groupId)
         {
-            return _context.Menus.Where(m => m.GroupId == 1).ProjectTo<MenuDto>();
+            return _context.Menus.Where(m => m.GroupId == groupId).ProjectTo<MenuDto>();
         }
 
         public void UpdateMenuItems(MenuData menu)
         {
-            var dbMenu = _context.Menus.SingleOrDefault(m => m.GroupId == 1 && m.CountryCode == menu.CountryCode);
+            var dbMenu = _context.Menus.SingleOrDefault(m => m.GroupId == menu.GroupId && m.CountryCode == menu.CountryCode);
             if(dbMenu==null)
                 throw new NotFoundException("No such menu in db. MenuId: " + menu.MenuId);
 
@@ -83,7 +92,7 @@ namespace UniversityWebsite.Services
         public IEnumerable<Tile> GetTilesMenu(string countryCode)
         {
             var menuItems = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == countryCode).Items;
-            return menuItems.Select(mi=>new Tile{Title = mi.Page.Title, UrlName = mi.Page.UrlName});
+            return menuItems.OrderByDescending(mi=>mi.Order).Select(mi=>new Tile{Title = mi.Page.Title, UrlName = mi.Page.UrlName, Description = mi.Page.Description});
         }
     }
 }

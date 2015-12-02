@@ -85,6 +85,7 @@ namespace UniversityWebsite
         {
             //Mapper.CreateMap<MenuItemDto, MenuItemViewModel>();
             Mapper.CreateMap<MenuDto, MainMenuViewModel>();
+            Mapper.CreateMap<Tile, TileViewModel>();
         }
     }
 }

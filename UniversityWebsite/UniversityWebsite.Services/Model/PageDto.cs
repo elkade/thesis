@@ -1,5 +1,4 @@
 ﻿using System;
-using UniversityWebsite.Services.Validation;
 
 namespace UniversityWebsite.Services.Model
 {
@@ -14,5 +13,6 @@ namespace UniversityWebsite.Services.Model
         public DateTime? LastUpdateDate { get; set; }
         public string CountryCode { get; set; }
         public ParentDto Parent { get; set; }
+        public string Description { get; set; }
     }
 }
