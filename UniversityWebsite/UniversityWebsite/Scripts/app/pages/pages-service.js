@@ -2,6 +2,16 @@
 
 ])
 
+.factory('Pages', ['$resource', function ($resource) {
+    var path = "/api/page"
+
+    return $resource(path + '/:id', {}, {
+        query: { method: 'GET' },
+        post: { method: 'POST' },
+        update: { method: 'PUT' },
+        remove: { method: 'DELETE' }
+    });
+}])
 .factory('pages', ['$http', 'utils', function ($http, utils) {
     var path = "/api/page";
     //var http = function() {
