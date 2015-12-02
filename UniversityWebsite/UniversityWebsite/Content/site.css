@@ -96,3 +96,7 @@ html, body {
    max-width: initial;
 }
 
+nav .button-group a.button {
+    background: #003C58;
+}
+
