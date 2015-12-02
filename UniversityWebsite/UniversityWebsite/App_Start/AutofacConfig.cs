@@ -11,9 +11,18 @@ using Module = Autofac.Module;
 
 namespace UniversityWebsite
 {
+    /// <summary>
+    /// Odpowiada za konfigurację kontenera Dependency Injection Autofac
+    /// </summary>
     public class AutofacConfig
     {
+        /// <summary>
+        /// Kontener Autofac
+        /// </summary>
         public static IContainer Container { get; private set; }
+        /// <summary>
+        /// Wykonuje konfigurację kontenera Dependency Injection Autofac
+        /// </summary>
         public static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();

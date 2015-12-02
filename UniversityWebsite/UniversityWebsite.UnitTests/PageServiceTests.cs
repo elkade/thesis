@@ -16,7 +16,7 @@ namespace UniversityWebsite.UnitTests
     [TestFixture]
     public class PageServiceTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             AutoMapperServiceConfig.Configure();

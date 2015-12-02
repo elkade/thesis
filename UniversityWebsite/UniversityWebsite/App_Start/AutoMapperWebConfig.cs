@@ -9,8 +9,14 @@ using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite
 {
+    /// <summary>
+    /// Odpowiada za konfigurację narzędzia do automatycznego mapowania klas AutoMapper
+    /// </summary>
     public static class AutoMapperConfig
     {
+        /// <summary>
+        /// Wykonuje konfigurację AutoMappera
+        /// </summary>
         public static void Configure()
         {
             Mapper.Initialize(cfg =>
@@ -21,7 +27,9 @@ namespace UniversityWebsite
             });
         }
     }
-
+    /// <summary>
+    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą stron
+    /// </summary>
     public class PageProfile : Profile
     {
         protected override void Configure()
@@ -63,7 +71,9 @@ namespace UniversityWebsite
             });
         }
     }
-
+    /// <summary>
+    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą przedmiotów
+    /// </summary>
     public class SubjectProfile : Profile
     {
         protected override void Configure()
@@ -78,7 +88,9 @@ namespace UniversityWebsite
             });
         }
     }
-
+    /// <summary>
+    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą menu
+    /// </summary>
     public class MenuProfile : Profile
     {
         protected override void Configure()
