@@ -34,5 +34,6 @@ namespace UniversityWebsite.Domain.Model
         public virtual Page Parent { get; set; }
 
         public int Order { get; set; }
+        public string Description { get; set; }
     }
 }

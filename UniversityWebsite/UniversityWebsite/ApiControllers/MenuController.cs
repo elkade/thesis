@@ -23,10 +23,10 @@ namespace UniversityWebsite.ApiControllers
         [HttpGet]
         public IEnumerable<MenuDto> GetAllMain()
         {
-            return _menuService.GetMainMenuGroup();
+            return _menuService.GetMenuGroup(_menuService.MainMenuGroupId);
         }
 
-        [Route("main/{lang}", Name = "GetMenu")]
+        [Route("main/{lang}", Name = "GetMainMenu")]
         [HttpGet]
         [ResponseType(typeof(MenuDto))]
         public IHttpActionResult GetMenu(string lang)
@@ -43,7 +43,7 @@ namespace UniversityWebsite.ApiControllers
                 return BadRequest(ModelState);
             if (lang != menu.CountryCode)
                 return BadRequest("Language mismatch");
-            menu.GroupId = 1;
+            menu.GroupId = _menuService.MainMenuGroupId;
             _menuService.UpdateMenuItems(menu);
             return Ok();
             //return CreatedAtRoute("GetMenu", new { lang = updatedMenu.CountryCode }, updatedMenu);

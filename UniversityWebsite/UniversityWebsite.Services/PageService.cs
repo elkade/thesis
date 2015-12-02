@@ -152,7 +152,8 @@ namespace UniversityWebsite.Services
                 CreationDate = DateTime.Now,
                 Title = page.Title,
                 UrlName = page.UrlName??PrepareUniqueUrlName(page.Title),
-                Group = group
+                Group = group,
+                Description = page.Description
             };
             Page createdPage = _context.Pages.Add(newPage);
             _context.SaveChanges();
@@ -200,6 +201,8 @@ namespace UniversityWebsite.Services
             dbPage.LastUpdateDate = DateTime.Now;
             if (page.Title != null)
                 dbPage.Title = page.Title;
+            if (page.Description != null)
+                dbPage.Description = page.Title;
             if (page.UrlName != null)
             {
                 if(!_context.Pages.Any(p=>p.UrlName==page.UrlName && p.Id!=page.Id))
