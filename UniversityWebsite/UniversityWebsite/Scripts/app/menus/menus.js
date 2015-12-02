@@ -33,17 +33,46 @@
                     },
 
                     controller: [
-                        '$scope', '$state', 'menus', 'pages',
-                        function($scope, $state, menus, pages) {
+                        '$scope', '$state', 'menus', 'pages', 'utils', 'Menus',
+                        function($scope, $state, menus, pages, utils, Menus) {
                             $scope.menus = menus;
                             $scope.pages = pages;
 
                             $scope.activeMenu = menus[0];
 
                             $scope.addToMenu = function (page) {
-                                console.log($scope.activeMenu)
-                                $scope.activeMenu.Items.push(page);
-                                
+                                var menuItem = new Object();
+                                menuItem.Order = $scope.activeMenu.Items.length;
+                                menuItem.Title = page.Title;
+
+                                console.log(menuItem.Order);
+                                $scope.activeMenu.Items.push(menuItem);
+                            },
+
+                            $scope.moveUp = function (menuItem, items) {
+                                items = items.sort(function(first, second) {
+                                    return first.Order - second.Order;
+                                });
+                                menuItem.Order--;
+                                items[menuItem.Order].Order++;
+                            },
+
+                            $scope.moveDown = function (menuItem, items) {
+                                items = items.sort(function (first, second) {
+                                    return first.Order - second.Order;
+                                });
+                                menuItem.Order++;
+                                items[menuItem.Order].Order--;
+                            },
+
+                            $scope.remove = function(menuItem, items) {
+                                utils.remove(items, menuItem);
+                            },
+
+                            $scope.update = function (menu) {
+                                Menus.update({ lang: menu.CountryCode}, menu, function(response) {
+                                    console.log("Udalo sie");
+                                })
                             }
                         }
                     ]

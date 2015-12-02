@@ -1,4 +1,18 @@
-﻿<div class="row fullWidth">
+﻿<style>
+    .mousetrap {
+        height: 100px;
+    }
+
+    .accordion dd {
+        margin-bottom: 20px !important;
+    }
+    button.tiny, .button.tiny {
+        margin: 0;
+        
+    }
+</style>
+
+<div class="row fullWidth">
     <div class="medium-2 columns">
         <h3>Pages</h3>
         <div class="row">
@@ -22,13 +36,34 @@
 
     <div class="large-10 columns">
         <tabset>
-            <tab ng-repeat="menu in menus" heading="{{menu.CountryCode}}" ng-class="{active: activeMenu = 'das'}">
-                <h4>{{menu.CountryCode}}</h4>
-                <ul>
-                    <li ng-repeat="menuItem in menu.Items">
-                        {{menuItem.Title}}
-                    </li>
-                </ul>
+            <tab ng-repeat="menu in menus" heading="{{menu.CountryCode}}">
+                <div class="row">
+                    <button class="button" ng-click="update(menu)">Update</button>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <accordion>
+                            <accordion-group ng-repeat="menuItem in menu.Items | orderBy: '-Order': true" collapsible="true">
+                                <accordion-heading>
+                                    <div class="row">
+                                        <div class="medium-8 columns">
+                                            {{menuItem.Title}}
+                                        </div>
+                                        <div class="medium-2 columns">
+                                            <button class="button tiny" ng-click="moveUp(menuItem, menu.Items)" ng-disabled="menuItem.Order==0">Up</button>
+                                        </div>
+                                        <div class="medium-2 columns">
+                                            <button class="button tiny" ng-click="moveDown(menuItem, menu.Items)" ng-disabled="menuItem.Order==menu.Items.length-1">Down</button>
+                                        </div>
+                                    </div>
+                                </accordion-heading>
+                                <div>
+                                    <a ng-click="remove(menuItem, menu.Items)">Remove</a>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+                    </div>
+                </div>
             </tab>
         </tabset>
     </div>
