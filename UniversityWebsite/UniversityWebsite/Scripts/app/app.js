@@ -6,6 +6,7 @@
     'configApp.pages',
     'configApp.subjects',
     'configApp.menus',
+    'configApp.main-pages',
     'configApp.users',
     'configApp.utils.service',
     'ui.router',
