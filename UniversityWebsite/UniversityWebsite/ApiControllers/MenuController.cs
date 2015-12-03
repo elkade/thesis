@@ -8,7 +8,11 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.ApiControllers
 {
+    /// <summary>
+    /// Kontroler odpowiedzialny za operacje pobierania menu głównego i edycję jego elementów.
+    /// </summary>
     [RoutePrefix("api/menu")]
+    
     //[AntiForgeryValidate]
     public class MenuController : ApiController
     {
@@ -18,14 +22,21 @@ namespace UniversityWebsite.ApiControllers
         {
             _menuService = menuService;
         }
-
+        /// <summary>
+        /// Zwraca listę menu głównych systemu we wszystkich językach zdefiniowanych w systemie.
+        /// </summary>
+        /// <returns></returns>
         [Route("main")]
         [HttpGet]
         public IEnumerable<MenuDto> GetAllMain()
         {
             return _menuService.GetMenuGroup(_menuService.MainMenuGroupId);
         }
-
+        /// <summary>
+        /// Zwraca menu główne systemu w podanym języku.
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
         [Route("main/{lang}", Name = "GetMainMenu")]
         [HttpGet]
         [ResponseType(typeof(MenuDto))]
@@ -33,6 +44,12 @@ namespace UniversityWebsite.ApiControllers
         {
             return Ok(_menuService.GetMainMenuCached(lang));
         }
+        /// <summary>
+        /// Nadpisuje pola menu głównego o podanym języku.
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <param name="menu"></param>
+        /// <returns></returns>
         [Route("main/{lang}")]
         [HttpPut]
         [HttpPost]

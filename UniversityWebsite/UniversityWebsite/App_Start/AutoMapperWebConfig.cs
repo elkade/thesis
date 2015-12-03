@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
@@ -9,8 +10,14 @@ using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite
 {
+    /// <summary>
+    /// Odpowiada za konfigurację narzędzia do automatycznego mapowania klas AutoMapper
+    /// </summary>
     public static class AutoMapperConfig
     {
+        /// <summary>
+        /// Wykonuje konfigurację AutoMappera
+        /// </summary>
         public static void Configure()
         {
             Mapper.Initialize(cfg =>
@@ -21,7 +28,9 @@ namespace UniversityWebsite
             });
         }
     }
-
+    /// <summary>
+    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą stron
+    /// </summary>
     public class PageProfile : Profile
     {
         protected override void Configure()
@@ -61,9 +70,17 @@ namespace UniversityWebsite
                 Parent = p.ParentId == null ? null : new ParentDto { Id = p.ParentId.Value },
                 UrlName = p.UrlName,
             });
+            Mapper.CreateMap<PageMenuItem, PageMenuItemVm>().ConvertUsing(p => new PageMenuItemVm
+            {
+                Title = p.Title,
+                UrlName = p.UrlName,
+                Children = p.Children.Select(c=>new PageMenuItemVm{Title = c.Title, UrlName = c.UrlName}).ToList()
+            });
         }
     }
-
+    /// <summary>
+    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą przedmiotów
+    /// </summary>
     public class SubjectProfile : Profile
     {
         protected override void Configure()
@@ -78,7 +95,9 @@ namespace UniversityWebsite
             });
         }
     }
-
+    /// <summary>
+    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą menu
+    /// </summary>
     public class MenuProfile : Profile
     {
         protected override void Configure()

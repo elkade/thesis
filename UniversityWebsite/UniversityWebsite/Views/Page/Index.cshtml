@@ -20,16 +20,24 @@
         </ul>
 
         <ul class="left">
-            @foreach (var item in Model.Siblings.AsEnumerable().Reverse())
+            @foreach (var item in Model.Siblings)
             {
-                <li>@Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName })</li>
-                @*<li class="has-dropdown">
-                <a href="#">Right Button Dropdown</a>
-                <ul class="dropdown">
-                    <li><a href="#">First link in dropdown</a></li>
-                    <li class="active"><a href="#">Active link in dropdown</a></li>
-                </ul>
-            </li>*@
+                if (item.Children.Any())
+                {
+                    <li class="has-dropdown">
+                        @Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName })
+                        <ul class="dropdown">
+                            @foreach (var subitem in item.Children)
+                            {
+                                <li>@Html.ActionLink(subitem.Title, "Index", "Page", new { name = subitem.UrlName }, null)</li>
+                            }
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName })</li>
+                }
             }
         </ul>
     </section>

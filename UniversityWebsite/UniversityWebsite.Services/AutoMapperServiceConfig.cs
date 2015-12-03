@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Model;
 
@@ -15,6 +16,7 @@ namespace UniversityWebsite.Services
                 .ForMember(dto => dto.Title, conf => conf.MapFrom(p => p.Page.Title));
             Mapper.CreateMap<Menu, MenuDto>()
                 .ForMember(dto => dto.Items, conf => conf.MapFrom(p => p.Items));
+            Mapper.CreateMap<Page, PageMenuItem>().ForMember(dto => dto.Children, conf => conf.MapFrom(p => new List<PageMenuItem>()));
         }
     }
 }
