@@ -1,0 +1,48 @@
+﻿<style>
+    .mousetrap {
+        height: 100px;
+    }
+
+    .accordion dd {
+        margin-bottom: 20px !important;
+    }
+    button.tiny, .button.tiny {
+        margin: 0;
+        
+    }
+    .custom-side-nav li a:not(.button) {
+        padding: 0;
+    }
+    .custom-side-nav li {
+        padding: 0.4375rem 0.875rem;
+    }
+
+    .tabs-content {
+        border-top: 1px solid #cccccc !important;
+    }
+
+    .tool-buttons button {
+        border-top: 1px solid #cccccc !important;
+    }
+
+    .pages-list ul{
+        padding-top: 0;
+    }
+
+    .menu-list {
+        max-width: 40rem;
+    }
+</style>
+
+<div class="row fullWidth">
+    <div class="medium-4 large-2 columns">
+        <h3>Menus</h3>
+        
+        <!-- left sidebar -->
+        <div ng-include="leftBar.url"></div>
+    </div>
+    
+    <!-- list of menu items -->
+    <div class="small-12 medium-8 columns menu-list" ng-include="menuList.url"></div>
+
+</div>

@@ -1,0 +1,55 @@
+﻿<tabset>
+    <tab ng-repeat="menu in menus" heading="{{menu.CountryCode}}" ng-click="menuChanged(menu)">
+        <div class="row">
+            <div class="medium-12 columns">
+                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <ul class="button-group tool-buttons">
+                    <li><button class="button small success" ng-click="update(menu)">Update</button></li>
+                    <li><button class="button small alert" ng-click="removeAll()">Remove all</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <accordion>
+                    <accordion-group ng-repeat="menuItem in menu.Items | orderBy: '-Order': true" collapsible="true">
+                        <accordion-heading>
+                            
+                            <div class="row">
+                                <div class="medium-7 columns">
+                                    {{menuItem.Title}}
+                                </div>
+                                <div class="medium-5 small-6 columns" style="text-align: right">
+                                    <ul class="button-group">
+                                        <li>
+                                            <button class="button tiny"
+                                                    ng-click="moveUp(menuItem, menu.Items); $event.stopPropagation();"
+                                                    ng-disabled="menuItem.Order==0">
+                                                Up
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="button tiny"
+                                                    ng-click="moveDown(menuItem, menu.Items); $event.stopPropagation();"
+                                                    ng-disabled="menuItem.Order==menu.Items.length-1">
+                                                Down
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </accordion-heading>
+                        <div>
+                            <div ng-include="menuEdit.url"></div>
+                            <a ng-click="remove(menuItem, menu.Items)">Remove</a>
+                        </div>
+                    </accordion-group>
+                </accordion>
+            </div>
+        </div>
+    </tab>
+</tabset>

@@ -4,7 +4,7 @@
   Foundation.libs.abide = {
     name : 'abide',
 
-    version : '5.5.0',
+    version : '{{VERSION}}',
 
     settings : {
       live_validate : true,

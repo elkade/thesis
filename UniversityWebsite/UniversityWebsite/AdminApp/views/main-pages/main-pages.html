@@ -1,0 +1,35 @@
+﻿<style>
+    .mousetrap {
+        height: 100px;
+    }
+
+    .accordion dd {
+        margin-bottom: 20px !important;
+    }
+    button.tiny, .button.tiny {
+        margin: 0;
+        
+    }
+    .custom-side-nav li a:not(.button) {
+        padding: 0;
+    }
+    .custom-side-nav li {
+        padding: 0.4375rem 0.875rem;
+    }
+
+    .menu-list {
+        max-width: 60rem;
+    }
+    
+</style>
+
+<div class="row fullWidth">
+    <div class="medium-4 large-2 columns">
+        <h3>Main pages</h3>
+
+        <!-- left sidebar -->
+        <div ng-include="leftBar.url"></div>
+    </div>
+
+    <div class="small-12 medium-8 columns menu-list" ng-include="menuList.url"></div>
+</div>

@@ -1,15 +1,12 @@
 using System.Web.Optimization;
 
-namespace UniversityWebsite
+namespace UniversityWebsite.Bundles
 {
     public static class Foundation
     {
         public static Bundle Styles()
         {
             return new StyleBundle("~/Content/foundation/css").Include(
-                       "~/Content/foundation/foundation.css",
-                       //"~/Content/foundation/foundation.mvc.css",
-                       //"~/Content/foundation/app.css", 
                        "~/Content/foundation/foundation-icons.css", 
                        "~/sass/Site.css");
         }

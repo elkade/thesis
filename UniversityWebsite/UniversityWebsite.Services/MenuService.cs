@@ -92,7 +92,14 @@ namespace UniversityWebsite.Services
         public IEnumerable<Tile> GetTilesMenu(string countryCode)
         {
             var menuItems = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == countryCode).Items;
-            return menuItems.OrderByDescending(mi=>mi.Order).Select(mi=>new Tile{Title = mi.Page.Title, UrlName = mi.Page.UrlName, Description = mi.Page.Description});
+            return menuItems.OrderByDescending(mi => mi.Order)
+                            .Select(mi =>
+                                new Tile
+                                {
+                                    Title = mi.Page.Title, 
+                                    UrlName = mi.Page.UrlName, 
+                                    Description = mi.Page.Description,
+                                });
         }
     }
 }
