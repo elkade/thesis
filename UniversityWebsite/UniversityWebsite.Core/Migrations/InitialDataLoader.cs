@@ -46,6 +46,7 @@ namespace UniversityWebsite.Core.Migrations
                 WithAdmin(Admin);
                 AddPagesAndMenus();
                 WithSubjects();
+                WithPhrases();
                 _context.SaveChanges();
             }
             catch (DbEntityValidationException e)
@@ -63,6 +64,24 @@ namespace UniversityWebsite.Core.Migrations
                 }
                 throw new Exception(s);
             }
+        }
+
+        private void WithPhrases()
+        {
+            _context.Phrases.Add(new Phrase { Key = "welcome", CountryCode = "pl", Value = "Witaj!" });
+            _context.Phrases.Add(new Phrase { Key = "welcome", CountryCode = "en", Value = "Welcome!" });
+
+            _context.Phrases.Add(new Phrase { Key = "manage", CountryCode = "pl", Value = "Zarządzaj" });
+            _context.Phrases.Add(new Phrase { Key = "manage", CountryCode = "en", Value = "Manage" });
+
+            _context.Phrases.Add(new Phrase { Key = "logOff", CountryCode = "pl", Value = "Wyloguj" });
+            _context.Phrases.Add(new Phrase { Key = "logOff", CountryCode = "en", Value = "Sign Out" });
+
+            _context.Phrases.Add(new Phrase { Key = "email", CountryCode = "pl", Value = "Email" });
+            _context.Phrases.Add(new Phrase { Key = "email", CountryCode = "en", Value = "Email" });
+
+            _context.Phrases.Add(new Phrase { Key = "password", CountryCode = "pl", Value = "Hasło" });
+            _context.Phrases.Add(new Phrase { Key = "password", CountryCode = "en", Value = "Password" });
         }
 
         private void AddPagesAndMenus()
@@ -156,9 +175,6 @@ namespace UniversityWebsite.Core.Migrations
 
             _context.Menus.Add(menuPl);
             _context.Menus.Add(menuEn);
-
-            _context.Phrases.Add(new Phrase { Key = "powitanie", CountryCode = "pl", Value = "Witaj!" });
-            _context.Phrases.Add(new Phrase { Key = "powitanie", CountryCode = "en", Value = "Welcome!" });
         }
 
         public void WithSubjects()

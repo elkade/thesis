@@ -809,7 +809,6 @@
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\SubjectsController.cs" />
@@ -831,7 +830,6 @@
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
     <Compile Include="Model\TileViewModel.cs" />
-    <Compile Include="Modules\LanguageModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Validation\ValidateCustomAntiForgeryTokenAttribute.cs" />
@@ -840,6 +838,7 @@
     <Compile Include="Model\ManageViewModel.cs" />
     <Compile Include="Model\Page\PageViewModel.cs" />
     <Compile Include="Model\SubjectViewModel.cs" />
+    <Compile Include="ExtendedViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">

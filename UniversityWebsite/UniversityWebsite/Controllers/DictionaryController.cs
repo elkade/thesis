@@ -16,7 +16,7 @@
 //        {
 //            if (string.IsNullOrEmpty(countryCode))
 //                countryCode = GetCookie(CookieKeyLang);
-//            string result = _dictionaryService.GetTranslation(key, countryCode);
+//            string result = _dictionaryService.GetTranslationCached(key, countryCode);
 //            return Content(result);
 //        }
 //    }

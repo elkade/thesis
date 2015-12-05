@@ -1,4 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
+@{
+    var logOffString = GetPhrase("logOff");
+    var logInString = GetPhrase("logIn");
+    var manageString = GetPhrase("manage");
+}
 @if (Request.IsAuthenticated)
 {
     @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>*@
@@ -6,12 +11,12 @@
     <li>
         <a href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button dropdown">@User.Identity.Name</a>
         <ul id="user-items" data-dropdown-content class="f-dropdown" aria-hidden="true">
-            <li><a href="@Url.Action("Index", "Admin")">Zarządzaj</a></li>
+            <li><a href="@Url.Action("Index", "Admin")">@manageString</a></li>
             <li>
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()
-                    <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                    <a href="javascript:document.getElementById('logoutForm').submit()">@logOffString</a>
                 }
             </li>
         </ul>
@@ -19,5 +24,5 @@
 }
 else
 {   
-    <li><a class="button" href="@Url.Action("Login", "Account")" id="loginLink">Log in</a></li>
+    <li><a class="button" href="@Url.Action("Login", "Account")" id="loginLink">@logInString</a></li>
 }

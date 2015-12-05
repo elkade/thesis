@@ -2,7 +2,10 @@
 @using UniversityWebsite.ViewModels
 @model UniversityWebsite.Model.LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    var logInString = GetPhrase("logIn");
+    var passwordString = GetPhrase("password");
+    var emailString = GetPhrase("email");
+    ViewBag.Title = logInString;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,7 +16,7 @@
 
 
 <div class="center row">        
-    <p class="title" data-section-title><a href="#">Sign In</a></p>
+    <p class="title" data-section-title><a href="#">@logInString</a></p>
     <div class="content" data-section-content>
     <p><div class="row">
         <div class="large-12 columns">
@@ -28,7 +31,7 @@
                         </div>
                     
                         <div class="small-10  columns">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder="Email" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder=emailString})
                         </div>
                     </div>
 
@@ -37,10 +40,10 @@
                             <span class="prefix"><i class="fi-lock"></i></span>
                         </div>
                         <div class="small-10 columns ">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder="Password" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder=passwordString })
                         </div>
                     </div>
-                    <input type="submit" value="Log in" class="button" />
+                    <input type="submit" value="@logInString" class="button" />
                 }
             </div>
         </div>

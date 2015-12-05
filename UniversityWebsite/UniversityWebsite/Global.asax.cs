@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using UniversityWebsite.Modules;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite
