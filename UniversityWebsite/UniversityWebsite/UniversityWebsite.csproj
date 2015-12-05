@@ -541,8 +541,10 @@
     <Content Include="sass\_foundation.scss" />
     <Content Include="sass\_foundation.mvc.scss" />
     <Content Include="Scripts\app\main-pages\main-pages.js" />
+    <Content Include="Scripts\app\main-pages\main-pages-service.js" />
     <Content Include="Scripts\app\menus\menus-service.js" />
     <Content Include="Scripts\app\menus\menus.js" />
+    <Content Include="Scripts\app\menus\controllers\menusEditController.js" />
     <Content Include="Scripts\app\modules\mm-foundation-0.8.0.js" />
     <Content Include="Scripts\app\modules\template\accordion\accordion-group.html" />
     <Content Include="Scripts\app\modules\template\accordion\accordion.html" />
@@ -575,7 +577,6 @@
     <Content Include="Scripts\app\users\users.js" />
     <Content Include="Scripts\app\views\dashboard.html" />
     <Content Include="Scripts\app\views\main-pages\main-pages.html" />
-    <Content Include="Scripts\app\views\menus\menus.edit.html" />
     <Content Include="fonts\foundation\foundation-icons.eot" />
     <Content Include="fonts\foundation\foundation-icons.ttf" />
     <Content Include="fonts\foundation\foundation-icons.woff" />

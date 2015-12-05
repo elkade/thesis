@@ -37,6 +37,7 @@ namespace UniversityWebsite
                 .IncludeDirectory("~/Scripts/app/pages/controllers", "*.js")
                 .IncludeDirectory("~/Scripts/app/subjects", "*.js")
                 .IncludeDirectory("~/Scripts/app/menus", "*.js")
+                .IncludeDirectory("~/Scripts/app/menus/controllers", "*.js")
                 .IncludeDirectory("~/Scripts/app/main-pages", "*.js")
                 .IncludeDirectory("~/Scripts/app/users", "*.js")
                 .Include("~/Scripts/app/app.js"));

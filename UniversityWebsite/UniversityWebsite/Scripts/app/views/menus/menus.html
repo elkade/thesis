@@ -17,41 +17,72 @@
         padding: 0.4375rem 0.875rem;
     }
 
+    .tabs-content {
+        border-top: 1px solid #cccccc !important;
+    }
+
+    .tool-buttons button {
+        border-top: 1px solid #cccccc !important;
+    }
+
+    .pages-list ul{
+        padding-top: 0;
+    }
+
+    .box {
+        margin-top: 0;
+        padding: 0.9rem;
+    }
 </style>
 
 <div class="row fullWidth">
     <div class="medium-2 columns">
         <h3>Menus</h3>
-        <div class="row">
-            <div class="medium-12 columns">
-                <label>
-                    <input type="text" placeholder="Search" ng-model="searchPage" />
-                </label>
+        
+        <div class="box">
+            <h4 class="box-title">Pages</h4>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label>
+                        <input type="text" placeholder="Search" ng-model="searchPage" />
+                    </label>
+                </div>
+            </div>
+            <div class="row pages-list">
+                <div class="medium-12 columns">
+                    <ul class="custom-side-nav">
+                        <li class="row" ng-repeat="page in pages | filter : searchPage | filter : pagesFilterExpression">
+                            <span class="small-9 columns">{{page.Title}}</span>
+                            <div class="small-3 columns">
+                                <a ng-click="addToMenu(page)">+</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="medium-12 columns">
-                <ul class="custom-side-nav">
-                    <li class="row" ng-repeat="page in pages | filter:searchPage">
-                        <span class="small-8 columns">{{page.UrlName}}</span>
-                        <div class="small-4 columns">
-                            <a ng-click="addToMenu(page)">+</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        
     </div>
 
 
-    <div class="large-10 columns">
+    <div class="medium-4 columns">
         <tabset>
             <tab ng-repeat="menu in menus" heading="{{menu.CountryCode}}" ng-click="menuChanged(menu)">
                 <div class="row">
-                    <button class="button small" ng-click="update(menu)">Update</button>
+                    <div class="medium-12 columns">
+                        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="large-6 columns">
+                    <div class="medium-12 columns">
+                        <ul class="button-group tool-buttons">
+                            <li><button class="button small success" ng-click="update(menu)">Update</button></li>
+                            <li><button class="button small alert" ng-click="removeAll()">Remove all</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="medium-12 columns">
                         <accordion>
                             <accordion-group ng-repeat="menuItem in menu.Items | orderBy: '-Order': true" collapsible="true">
                                 <accordion-heading>
@@ -81,5 +112,7 @@
             </tab>
         </tabset>
     </div>
+    
+    <div class="medium-6 columns"></div>
 
 </div>

@@ -37,6 +37,7 @@
                         function($scope, $state, menus, pages, utils, Menus) {
                             $scope.menus = menus;
                             $scope.pages = pages;
+                            $scope.alerts = [];
 
                             $scope.activeMenu = menus[0];
 
@@ -80,13 +81,35 @@
                             },
 
                             $scope.update = function (menu) {
-                                Menus.update({ lang: menu.CountryCode }, menu, function(response) {
-                                    console.log("Udalo sie");
-                                });
+                                Menus.update({ lang: menu.CountryCode }, menu, function (response) {
+                                    var alert = { type: 'success', msg: 'The ' + menu.CountryCode + ' menu has been updated.' };
+                                    $scope.addAlert(alert);
+                                }, errorHandler);
+                            },
+
+                            $scope.removeAll = function() {
+                                $scope.activeMenu.Items = [];
                             },
 
                             $scope.menuChanged = function(menu) {
                                 $scope.activeMenu = menu;
+                            },
+
+                            $scope.pagesFilterExpression = function (menu) {
+                                return menu.CountryCode == $scope.activeMenu.CountryCode;
+                            },
+
+                            $scope.closeAlert = function (index) {
+                                $scope.alerts.splice(index, 1);
+                            };
+
+                            $scope.addAlert = function (alert) {
+                                $scope.alerts.push(alert);
+                            };
+
+                            var errorHandler = function (response) {
+                                var alert = { type: 'error', msg: 'Well done! You successfully read this important alert message.' };
+                                $scope.addAlert(alert);
                             }
                         }
                     ]
