@@ -139,7 +139,7 @@ namespace UniversityWebsite.Services
             Page newParent = null;
             if (page.Parent != null)
             {
-                newParent = _context.Pages.SingleOrDefault(p => p.UrlName == page.Parent.UrlName);
+                newParent = _context.Pages.SingleOrDefault(p => p.Id == page.Parent.Id);
                 if (newParent == null)
                     throw new NotFoundException("Parent o kodzie: " + page.Parent.UrlName);
             }
