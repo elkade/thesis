@@ -25,6 +25,7 @@ namespace UniversityWebsite
                 cfg.AddProfile(new PageProfile());
                 cfg.AddProfile(new MenuProfile());
                 cfg.AddProfile(new SubjectProfile());
+                cfg.AddProfile(new LanguageProfile());
             });
         }
     }
@@ -105,6 +106,17 @@ namespace UniversityWebsite
             //Mapper.CreateMap<MenuItemDto, MenuItemViewModel>();
             Mapper.CreateMap<MenuDto, MainMenuViewModel>();
             Mapper.CreateMap<Tile, TileViewModel>();
+        }
+    }
+
+    /// <summary>
+    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą języków
+    /// </summary>
+    public class LanguageProfile : Profile
+    {
+        protected override void Configure()
+        {
+            Mapper.CreateMap<NewLanguage, DictionaryDto>();
         }
     }
 }

@@ -39,18 +39,18 @@ namespace UniversityWebsite.Services
         }
         public MenuDto GetMainMenu(string countryCode)
         {
-            var menu = _context.Menus.SingleOrDefault(m => m.CountryCode == countryCode && m.GroupId==1);
+            var menu = _context.Menus.SingleOrDefault(m => m.CountryCode == countryCode && m.GroupId == 1);
             if (menu == null) return new MenuDto();
             var items = _context.MenuItems
-                .Where(mi=>mi.MenuId == menu.Id)
-                .OrderBy(mi=>mi.Order)
+                .Where(mi => mi.MenuId == menu.Id)
+                .OrderBy(mi => mi.Order)
                 .ProjectTo<MenuItemDto>();
-            return new MenuDto{Items = items.ToList()};
+            return new MenuDto { Items = items.ToList() };
         }
         public MenuDto GetMainMenuCached(string lang)
         {
             MenuDto mainMenu = CacheHelper.GetOrInvoke<MenuDto>(
-                "MainMenu"+lang,
+                "MainMenu" + lang,
                 () => GetMainMenu(lang),
                 TimeSpan.FromSeconds(10));//Todo
             return mainMenu;
@@ -64,7 +64,7 @@ namespace UniversityWebsite.Services
         public void UpdateMenuItems(MenuData menu)
         {
             var dbMenu = _context.Menus.SingleOrDefault(m => m.GroupId == menu.GroupId && m.CountryCode == menu.CountryCode);
-            if(dbMenu==null)
+            if (dbMenu == null)
                 throw new NotFoundException("No such menu in db. MenuId: " + menu.MenuId);
 
             var itemsToDelete = dbMenu.Items.ToList();
@@ -72,7 +72,7 @@ namespace UniversityWebsite.Services
                 _context.MenuItems.Remove(item);
 
             foreach (var item in menu.Items)
-                dbMenu.Items.Add(new MenuItem{Menu = dbMenu, Order = item.Order, Page = _context.Pages.Single(p=>p.Id==item.PageId)});
+                dbMenu.Items.Add(new MenuItem { Menu = dbMenu, Order = item.Order, Page = _context.Pages.Single(p => p.Id == item.PageId) });
 
             _context.SaveChanges();
         }
@@ -82,10 +82,10 @@ namespace UniversityWebsite.Services
             if (_context.MenuItems.Any(mi => mi.PageId == pageId))
                 return;
             var page = _context.Pages.Find(pageId);
-            if(page==null)
-                throw new NotFoundException("Page with pageId: "+pageId);
+            if (page == null)
+                throw new NotFoundException("Page with pageId: " + pageId);
             var menu = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == page.CountryCode);
-            menu.Items.Add(new MenuItem { Menu = menu, Page = page, Order = menu.Items.Max(m=>m.Order)+1});//uwaga na przepełnienie
+            menu.Items.Add(new MenuItem { Menu = menu, Page = page, Order = menu.Items.Max(m => m.Order) + 1 });//uwaga na przepełnienie
             _context.SaveChanges();
         }
 
@@ -96,8 +96,8 @@ namespace UniversityWebsite.Services
                             .Select(mi =>
                                 new Tile
                                 {
-                                    Title = mi.Page.Title, 
-                                    UrlName = mi.Page.UrlName, 
+                                    Title = mi.Page.Title,
+                                    UrlName = mi.Page.UrlName,
                                     Description = mi.Page.Description,
                                 });
         }
