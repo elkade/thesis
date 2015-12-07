@@ -77,6 +77,9 @@ namespace UniversityWebsite.Core.Migrations
             _context.Phrases.Add(new Phrase { Key = "logOff", CountryCode = "pl", Value = "Wyloguj" });
             _context.Phrases.Add(new Phrase { Key = "logOff", CountryCode = "en", Value = "Sign Out" });
 
+            _context.Phrases.Add(new Phrase { Key = "logIn", CountryCode = "pl", Value = "Zaloguj" });
+            _context.Phrases.Add(new Phrase { Key = "logIn", CountryCode = "en", Value = "Sign In" });
+
             _context.Phrases.Add(new Phrase { Key = "email", CountryCode = "pl", Value = "Email" });
             _context.Phrases.Add(new Phrase { Key = "email", CountryCode = "en", Value = "Email" });
 
