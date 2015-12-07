@@ -5,6 +5,9 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
+    /// <summary>
+    /// Odpowiada za zwrócenie widoku panelu administratora.
+    /// </summary>
     [Authorize]
     public class AdminController : Controller
     {

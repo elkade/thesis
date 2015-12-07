@@ -11,20 +11,32 @@ using UniversityWebsite.Services.Exceptions;
 
 namespace UniversityWebsite.Controllers
 {
+    /// <summary>
+    /// Zawiera akcje dotyczące wyświetlania strony w systemie.
+    /// </summary>
     [Authorize]
     public class PageController : Controller
     {
         private readonly IPageService _pageService;
         private readonly ILanguageService _languageService;
         private readonly IMenuService _menuService;
-
+        /// <summary>
+        /// Tworzy nową instancję kontrollera.
+        /// </summary>
+        /// <param name="pageService"></param>
+        /// <param name="languageService"></param>
+        /// <param name="menuService"></param>
         public PageController(IPageService pageService, ILanguageService languageService, IMenuService menuService)
         {
             _pageService = pageService;
             _languageService = languageService;
             _menuService = menuService;
         }
-
+        /// <summary>
+        /// Zwraca stronę o podanym UrlName
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Index(string name)

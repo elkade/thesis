@@ -8,6 +8,9 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
+    /// <summary>
+    /// Odpowiada za zwrócenie widoku strony głównej.
+    /// </summary>
     [MainMenu]
     public class HomeController : Controller
     {
@@ -19,7 +22,10 @@ namespace UniversityWebsite.Controllers
             _menuService = menuService;
             PageService = pageService;
         }
-
+        /// <summary>
+        /// Zwraca widok strony głównej.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             var tiles = _menuService.GetTilesMenu((string)Session[Consts.SessionKeyLang]);
