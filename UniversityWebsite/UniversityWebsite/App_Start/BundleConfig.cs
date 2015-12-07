@@ -22,6 +22,9 @@ namespace UniversityWebsite
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/linq").Include(
+                "~/Scripts/linq.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css"));
 

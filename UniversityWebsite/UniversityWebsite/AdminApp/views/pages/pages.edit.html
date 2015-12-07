@@ -122,10 +122,26 @@
                     <label>
                         Language
                         <select ng-model="page.CountryCode" name="lang" required>
-                            <option value="pl">pl</option>
-                            <option value="en">en</option>
+                            <option ng-repeat="lang in availableLanguages" value="{{lang.CountryCode}}">{{lang.CountryCode}}</option>
                         </select>
                     </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>
+                        Translations
+                    </label>
+                </div>
+            </div>
+            <div class="row" ng-repeat="translation in translations">
+                <div class="large-12 columns">
+                    <a ui-sref="pages.edit({pageName:translation.Title})">{{translation.CountryCode + " - " + translation.Title}}</a>
+                </div>
+            </div>
+            <div class="row" ng-hide="!newTranslationAvailable()">
+                <div class="large-12 columns">
+                    <a ng-click="add(page.GroupId)">Add translation</a>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
     .config(
     [
         '$stateProvider', '$urlRouterProvider',
-        function($stateProvider, $urlRouterProvider) {
+        function ($stateProvider, $urlRouterProvider) {
             $stateProvider
                 .state('pages', {
                     url: '/pages',
@@ -14,18 +14,22 @@
                             function(pages) {
                                 return pages.all();
                             }
+                        ],
+                        languages: [
+                            'languages',
+                            function (languages) {
+                                return languages.all();
+                            }
                         ]
                     },
 
                     controller: [
-                        '$scope', '$state', 'pages', '$location',
-                        function($scope, $state, pages, $location) {
+                        '$scope', '$state', 'pages', '$location', 'languages',
+                        function ($scope, $state, pages, $location, languages) {
                             $scope.pages = pages;
+                            $scope.languages = languages;
 
                             $scope.add = function() {
-                                $scope.page = new Object();
-                                $scope.page.Id = null;
-                                console.log($scope.page);
                                 $location.path('pages/newPage');
                             };
                         }
