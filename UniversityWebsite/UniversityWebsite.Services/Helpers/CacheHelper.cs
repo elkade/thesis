@@ -9,14 +9,19 @@ namespace UniversityWebsite.Services.Helpers
         public static void Add(string key, object value, TimeSpan lifeTime)
         {
             lock (_o)
-                MemoryCache.Default.Add(key, value, new CacheItemPolicy { AbsoluteExpiration = DateTime.Now + lifeTime });
+                MemoryCache.Default.Add(key, value??Null, new CacheItemPolicy { AbsoluteExpiration = DateTime.Now + lifeTime });
         }
 
         public static T Get<T>(string key)
             where T : class
         {
             lock (_o)
-                return (T)MemoryCache.Default.Get(key);
+            {
+                var result = MemoryCache.Default.Get(key);
+                if (result == Null)
+                    result = null;
+                return (T)result;
+            }
         }
 
         public static T GetOrInvoke<T>(string key, Func<object> function, TimeSpan lifeTime)
@@ -37,6 +42,8 @@ namespace UniversityWebsite.Services.Helpers
             lock (_o)
                 MemoryCache.Default.Remove(key);
         }
+
+        private static readonly object Null = new object();
 
         //private static TimeSpan GetTimeSpan(LifeTime lifeTime)
         //{
