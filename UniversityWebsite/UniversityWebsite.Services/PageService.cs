@@ -12,30 +12,105 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
+    /// <summary>
+    /// Serwis realizujący logikę biznesową dotyczącą stron systemu.
+    /// </summary>
     public interface IPageService
     {
+        /// <summary>
+        /// Wyszukuje stronę o podanym UrlName.
+        /// </summary>
+        /// <param name="name">UrlName strony</param>
+        /// <returns>Strona o podanym UrlName lub null</returns>
         PageDto FindPage(string name);
+        /// <summary>
+        /// Wyszukuje strony bedące rodzeństwem danej w drzewie stron oraz ich dzieci.
+        /// </summary>
+        /// <param name="name">UrlName danej strony</param>
+        /// <returns>Rodzieństwo strony i dzieci rodzeństwa.</returns>
         IEnumerable<PageMenuItem> FindSiblingsWithChildren(string name);
+        /// <summary>
+        /// Wyszukuje stronę o podanym Id.
+        /// </summary>
+        /// <param name="id">Id szukanej strony.</param>
+        /// <returns>Strona o podanym Id.</returns>
         PageDto FindPage(int id);
+        /// <summary>
+        /// Wyszukuje tłumaczenie strony o podanym UrlName w danym języku
+        /// </summary>
+        /// <param name="name">UrlName strony</param>
+        /// <param name="countryCode">język tłumaczenia strony</param>
+        /// <returns>tłumaczenie danej strony w danym języku lub null, gdy tłumaczenie nie istnieje.</returns>
         PageDto FindTranslation(string name, string countryCode);
+        /// <summary>
+        /// Wyszukuje tłumaczenie strony o podanym Id w danym języku
+        /// </summary>
+        /// <param name="id">Id strony</param>
+        /// <param name="countryCode">język tłumaczenia strony</param>
+        /// <returns>tłumaczenie danej strony w danym języku lub null, gdy tłumaczenie nie istnieje.</returns>
         PageDto FindTranslation(int id, string countryCode);
+        /// <summary>
+        /// Wyszukuje wszystkie tłumaczenia strony o danym UrlName.
+        /// </summary>
+        /// <param name="name">UrlName strony</param>
+        /// <returns>Wyliczenie wszystkich tłumaczeń danej strony</returns>
         IEnumerable<PageDto> GetTranslations(string name);
+        /// <summary>
+        /// Wyszukuje strony, których Parent wskazuje na null.
+        /// </summary>
+        /// <param name="countryCode">Język, w którym mają zostać wyszukane strony.</param>
+        /// <returns>Wyliczenie stron.</returns>
         IEnumerable<PageDto> GetParentlessPages(string countryCode);
+        /// <summary>
+        /// Zwraca wszystkie strony serwisu.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<PageDto> GetAll();
+        /// <summary>
+        /// Aktualizuje zawartość strony.
+        /// </summary>
+        /// <param name="page">Strona wraz z zawartością, która ma nadpisać obecną.</param>
         void UpdateContent(PageDto page);
+        /// <summary>
+        /// Dodaje nową stronę do systemu
+        /// </summary>
+        /// <param name="page">Dodawana strona.</param>
+        /// <returns>Dodana strona z bazy danych.</returns>
         PageDto Add(PageDto page);
+        /// <summary>
+        /// Aktualizuje istniejącą stronę nadpisując jej pola zawartymi w <paramref name="page"/> niebędącymi
+        /// </summary>
+        /// <param name="page">dane strony, którymi zostaną nadpisane aktualne.</param>
+        /// <returns>Zaktualizowana strona z bazy danych.</returns>
         PageDto UpdatePage(PageDto page);
+        /// <summary>
+        /// Usuwa stronę z serwisu.
+        /// </summary>
+        /// <param name="id">Id strony do usunięcia.</param>
         void Delete(int id);
-
+        /// <summary>
+        /// Usuwa grupę stron z serwisu.
+        /// </summary>
+        /// <param name="pageId">Id grupy stron do usunięcia.</param>
         void DeleteGroup(int pageId);//TODO transakcje
-
+        /// <summary>
+        /// Wyszukuje języki na które istnieją w systemie tłumaczenia danej strony.
+        /// </summary>
+        /// <param name="id">Id danej strony</param>
+        /// <returns>Wyliczenie kodów językowych</returns>
         IEnumerable<string> GetTranslationsLanguages(int id);
     }
-
+    /// <summary>
+    /// Implementacja serwisu realizującego logikę biznesową dotyczącą stron systemu.
+    /// </summary>
     public class PageService : IPageService
     {
         private IDomainContext _context;
-        public const int SameTitlePagesMaxNumber = 100;
+        private const int SameTitlePagesMaxNumber = 100;
+        /// <summary>
+        /// Tworzy nową instancję serwisu.
+        /// </summary>
+        /// <param name="context"></param>
         public PageService(IDomainContext context = null)
         {
             _context = context ?? new DomainContext();

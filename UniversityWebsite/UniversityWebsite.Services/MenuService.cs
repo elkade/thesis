@@ -10,18 +10,53 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
+    /// <summary>
+    /// Serwis realizujący logikę biznesową dotyczącą menu systemu.
+    /// </summary>
     public interface IMenuService
     {
+        /// <summary>
+        /// Wyszukuje menu główne w danym języku.
+        /// </summary>
+        /// <param name="countryCode">Kod języka menu</param>
+        /// <returns>Menu główne</returns>
         MenuDto GetMainMenu(string countryCode);
-        MenuDto GetMainMenuCached(string lang);
+        /// <summary>
+        /// Pobiera menu główne w danym języku z pamięci cache.
+        /// Jeżeli menu nie znajduje się w pamięci, wyszukuje w bazie danych.
+        /// </summary>
+        /// <param name="countryCode">Kod języka menu</param>
+        /// <returns>Menu główne</returns>
+        MenuDto GetMainMenuCached(string countryCode);
+        /// <summary>
+        /// Wyszukuje grupę menu o podanym id.
+        /// </summary>
+        /// <param name="groupId">Id grupy</param>
+        /// <returns>Wyliczenie menu</returns>
         IEnumerable<MenuDto> GetMenuGroup(int groupId);
         //List<MenuItemDto> GetMainMenuItemsCached();
+        /// <summary>
+        /// Nadpisuje elementy menu. 
+        /// </summary>
+        /// <param name="menu">Elementy menu do nadpisania</param>
         void UpdateMenuItems(MenuData menu);
+        /// <summary>
+        /// Dodaje stronę do menu kafelków, jeżeli nie ma w menu strony o podanym Id
+        /// </summary>
+        /// <param name="pageId">Id strony do dodania</param>
         void AddToTilesMenuIfNotExists(int pageId);
+        /// <summary>
+        /// Wyszukuje menu kafelków w podanym języku.
+        /// </summary>
+        /// <param name="countryCode">Kod języka</param>
+        /// <returns>Wyliczenie kafelków</returns>
         IEnumerable<Tile> GetTilesMenu(string countryCode);
         int TilesMenuGroupId { get; }
         int MainMenuGroupId { get; }
     }
+    /// <summary>
+    /// Implementacja serwisu realizującego logikę biznesową dotyczącą menu systemu.
+    /// </summary>
     public class MenuService : IMenuService
     {
         public int TilesMenuGroupId
@@ -33,6 +68,10 @@ namespace UniversityWebsite.Services
             get { return 1; }
         }
         private readonly IDomainContext _context;
+        /// <summary>
+        /// Tworzy nową instancję serwisu.
+        /// </summary>
+        /// <param name="context"></param>
         public MenuService(IDomainContext context)
         {
             _context = context;
@@ -47,11 +86,11 @@ namespace UniversityWebsite.Services
                 .ProjectTo<MenuItemDto>();
             return new MenuDto { Items = items.ToList() };
         }
-        public MenuDto GetMainMenuCached(string lang)
+        public MenuDto GetMainMenuCached(string countryCode)
         {
             MenuDto mainMenu = CacheHelper.GetOrInvoke<MenuDto>(
-                "MainMenu" + lang,
-                () => GetMainMenu(lang),
+                "MainMenu" + countryCode,
+                () => GetMainMenu(countryCode),
                 TimeSpan.FromSeconds(10));//Todo
             return mainMenu;
         }

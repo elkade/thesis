@@ -10,20 +10,43 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
+    /// <summary>
+    /// Serwis realizujący logikę biznesową dotyczącą języków systemu.
+    /// </summary>
     public interface ILanguageService
     {
+        /// <summary>
+        /// Dodaje do bazy nowy język, pełny słownik tłumaczeń statycznych fraz systemu i nowe puste menu główne i kafelków.
+        /// </summary>
+        /// <param name="newLanguage">Obiekt zawierający dane nowego menu</param>
         void AddLanguage(DictionaryDto newLanguage);
         /// <summary>
         /// Trwale usuwa wszystkie encje z bazy istniejące w tym języku
         /// </summary>
         /// <param name="countryCode"></param>
         void DeleteLanguage(string countryCode);
-
+        /// <summary>
+        /// Sprawdza, czy dany język istnieje w bazie.
+        /// </summary>
+        /// <param name="countryCode">Kod języka</param>
+        /// <returns>Wartość logiczna</returns>
         bool Exists(string countryCode);
+        /// <summary>
+        /// Pobiera listę języków z pamięci cache.
+        /// Jeżeli lista nie znajduje się w pamięci, wyszukuje w bazie danych.
+        /// </summary>
+        /// <returns>Wyliczenie języków</returns>
         IEnumerable<Language> GetLanguagesCached();
     }
+    /// <summary>
+    /// Implementacja serwisu realizującego logikę biznesową dotyczącą języków systemu.
+    /// </summary>
     public class LanguageService : ILanguageService
     {
+        /// <summary>
+        /// Tworzy nową instancję serwisu.
+        /// </summary>
+        /// <param name="context"></param>
         public LanguageService(IDomainContext context)
         {
             _context = context;

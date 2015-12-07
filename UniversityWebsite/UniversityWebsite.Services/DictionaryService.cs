@@ -10,13 +10,30 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
+    //TODO scalić z language
     public interface IDictionaryService
     {
+        /// <summary>
+        /// Pobiera statyczny tekst z pamięci cache.
+        /// Jeżeli tekst nie znajduje się w pamięci, wyszukuje w bazie danych.
+        /// </summary>
+        /// <param name="key">Klucz słowa</param>
+        /// <param name="countryCode">Kod języka</param>
+        /// <returns>Tekst</returns>
         string GetTranslationCached(string key, string countryCode);
         string GetTranslation(string key, string countryCode);
         IEnumerable<string> GetKeys();
-        IList<string> GetKeysCached();
-
+        /// <summary>
+        /// Pobiera listę kluczy słownika słów statycznych serwisu z pamięci cache.
+        /// Jeżeli lista nie znajduje się w pamięci, wyszukuje w bazie danych.
+        /// </summary>
+        /// <returns>Wyliczenie kluczy</returns>
+        IEnumerable<string> GetKeysCached();
+        /// <summary>
+        /// Wyszukuje słownik tekstów w danym języku.
+        /// </summary>
+        /// <param name="countryCode">Kod języka</param>
+        /// <returns>Obiekt zawierający listę tekstów</returns>
         DictionaryDto GetDictionary(string countryCode);
     }
     public class DictionaryService : IDictionaryService
@@ -42,7 +59,7 @@ namespace UniversityWebsite.Services
             var phrase = _phrases.SingleOrDefault(p => p.Key == key && p.CountryCode == countryCode);
             return phrase == null ? null : phrase.Value;
         }
-        public IList<string> GetKeysCached()
+        public IEnumerable<string> GetKeysCached()
         {
             List<string> keys = CacheHelper.GetOrInvoke<List<string>>(
                  "Keys",

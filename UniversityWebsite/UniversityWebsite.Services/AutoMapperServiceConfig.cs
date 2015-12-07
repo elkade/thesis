@@ -5,8 +5,14 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
+    /// <summary>
+    /// Odpowiada za konfigurację narzędzia do automatycznego mapowania klas AutoMapper
+    /// </summary>
     public static class AutoMapperServiceConfig
     {
+        /// <summary>
+        /// Wykonuje konfigurację AutoMappera
+        /// </summary>
         public static void Configure()
         {
             Mapper.CreateMap<Page, PageDto>()
