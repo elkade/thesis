@@ -76,7 +76,7 @@
 
     $scope.open = function () {
         var modalInstance = $modal.open({
-            templateUrl: 'scripts/app/views/pages/deletePageModal.html',
+            templateUrl: 'adminapp/views/pages/deletePageModal.html',
             controller: 'deletePageModalCtrl',
             resolve: {
                 page: function() {
