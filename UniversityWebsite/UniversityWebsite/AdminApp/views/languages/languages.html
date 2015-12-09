@@ -1,0 +1,69 @@
+﻿<tabset>
+    <tab heading="Languages">
+        <div class="row fullWidth">
+            <form name="languageForm" novalidate class="css-form" ng-submit="save()">
+                <div class="medium-6 columns">
+                    <div class="row">
+                        <div class="medium-12 columns">
+                            <h5>Add new language</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label>
+                                Full name
+                                <input type="text" ng-model="language.Title" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label>
+                                Language code
+                                <input type="text" ng-model="language.CountryCode" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label>
+                                Order
+                                <input type="text" ng-model="language.Order" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <button type="submit" class="button success" value="Save">Add new language</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="medium-6 columns">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="150">Full name</th>
+                            <th>Code</th>
+                            <th>Order</th>
+                            <th>Flag</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="language in languages">
+                            <td><a ng-click="edit(language)">{{language.Title}}</a></td>
+                            <td>{{language.CountryCode}}</td>
+                            <td>{{language.Order}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </tab>
+    <tab heading="Strings translation">
+        <div ng-include="translationList.url"></div>
+    </tab>
+</tabset>

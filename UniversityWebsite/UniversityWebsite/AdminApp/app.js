@@ -8,6 +8,7 @@
     'configApp.menus',
     'configApp.main-pages',
     'configApp.users',
+    'configApp.languages',
     'configApp.utils.service',
     'ui.router',
     'ngResource',

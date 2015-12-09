@@ -44,7 +44,6 @@
             preUpdatePage($scope.page);
 
             if ($scope.page != null && $scope.page.Id != null) {
-                console.log($scope.page.Parent);
                 Pages.update({ id: $scope.page.Id }, $scope.page, function(response) {
                     console.log(response.Parent);
                     $scope.state = response.$resolved ? 'success' : 'error';

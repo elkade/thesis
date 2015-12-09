@@ -1,0 +1,35 @@
+﻿<style>
+    #internal-table, #internal-table td, #internal-table th  {
+        padding: 0.1rem;
+        border: none;
+        background: inherit;
+        margin-bottom: 0;
+    }
+</style>
+
+<div class="row">
+    <div class="medium-12 columns">
+        <table>
+            <thead>
+                <tr>
+                    <th width="150">Key</th>
+                    <th>Translations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(code, words) in translations">
+                    <td>{{code}}</td>
+                    <td>
+                        <table id="internal-table">
+                            <tr ng-repeat="word in words">
+                                <td>{{word.Lang}}</td>
+                                <td><input type="text" ng-model="word.Name" /></td>
+                            </tr>
+                        </table>
+ 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
