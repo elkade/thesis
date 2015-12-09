@@ -1,13 +1,10 @@
-﻿<tabset>
+﻿<h2>New language</h2>
+<span>{{translation}}</span>
+<tabset>
     <tab heading="Languages">
-        <div class="row fullWidth">
+        <div class="row">
             <form name="languageForm" novalidate class="css-form" ng-submit="save()">
-                <div class="medium-6 columns">
-                    <div class="row">
-                        <div class="medium-12 columns">
-                            <button class="button success" value="Save" ng-click="open(); $event.stopPropagation();">Add new language</button>
-                        </div>
-                    </div>
+                <div class="medium-12 columns">
                     <div class="row">
                         <div class="medium-6 columns">
                             <label>
@@ -32,38 +29,33 @@
                             </label>
                         </div>
                     </div>
-                    <!--<div class="row">
-                        <div class="medium-6 columns">
-                            <button type="submit" class="button success" value="Save">Add new language</button>
-                        </div>
-                    </div>-->
                 </div>
             </form>
-
-            <div class="medium-6 columns">
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="150">Full name</th>
-                            <th>Code</th>
-                            <th>Order</th>
-                            <th>Flag</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="language in languages">
-                            <td><a ng-click="edit(language)">{{language.Title}}</a></td>
-                            <td>{{language.CountryCode}}</td>
-                            <td>{{language.Order}}</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
 
         </div>
     </tab>
     <tab heading="Strings translation">
-        <div ng-include="translationList.url"></div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="150">Key</th>
+                            <th>Translations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(code, translationValue) in language.Words">
+                            <td>{{code}}</td>
+                            <td><input type="text" ng-model="language.Words[code]" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </tab>
 </tabset>
+<div class="modal-footer">
+    <a class="secondary button" ng-click="cancel()">Cancel</a>
+    <a class="button alert" ng-click="ok()">Confirm</a>
+</div>

@@ -2,7 +2,7 @@
 ])
 
 .factory('Languages', ['$resource', function($resource) {
-    return $resource('/language/:lang', {}, {
+    return $resource('/api/languages/:lang', {}, {
         query: { method: 'GET', isArray: true },
         post: { method: 'POST' },
         update: { method: 'PUT' },
@@ -10,41 +10,74 @@
     });
 }])
 
-.factory('languages', ['$http', 'utils', function ($http, utils) {
-    var path = "/api/language";
-
-    var languages = $http.get(path).then(function (resp) {
-        return resp.data;
+.factory('Dictionaries', ['$resource', function ($resource) {
+    return $resource('/api/languages/dictionaries', {}, {
+        query: { method: 'GET', isArray: true },
+        post: { method: 'POST' },
+        update: { method: 'PUT' },
+        remove: { method: 'DELETE' }
     });
-
-    var dictionaries = $http.get("/language/dictionaries").then(function (resp) {
-        return resp.data;
-    });
-
-    var factory = {};
-    factory.all = function () {
-        return languages;
-    };
-
-    factory.allDictionaries = function () {
-        console.log(dictionaries);
-        return dictionaries;
-    };
-
-
-    return factory;
 }])
 
+
 .factory('dictionaries', ['$http', 'utils', function ($http, utils) {
-    var path = "/language/dictionaries";
+    var path = "/api/languages/dictionaries";
+    var keysPath = "/api/languages/keys";
 
     var dictionaries = $http.get(path).then(function (resp) {
         return resp.data;
     });
 
+    var translationKeys = $http.get(keysPath).then(function (resp) {
+        return resp.data;
+    });
+
     var factory = {};
     factory.all = function () {
         return dictionaries;
+    };
+
+    factory.allTranslationKeys = function () {
+        return translationKeys;
+    };
+
+    return factory;
+}])
+
+.factory('languageService', ['$http', 'utils', function ($http, utils) {
+    var dictionariesPath = "/api/languages/dictionaries";
+    var keysPath = "/api/languages/keys";
+    var languagesPath = "/api/languages";
+
+    var dictionaries = $http.get(dictionariesPath).then(function (resp) {
+        return resp.data;
+    });
+
+    var translationKeys = $http.get(keysPath).then(function (resp) {
+        return resp.data;
+    });
+
+    var languages = $http.get(languagesPath).then(function (resp) {
+        return resp.data;
+    });
+
+    var factory = {};
+    factory.allDictionaries = function () {
+        return dictionaries;
+    };
+
+    factory.allTranslationKeys = function () {
+        return translationKeys;
+    };
+
+    factory.allLanguages = function () {
+        return languages;
+    };
+
+    factory.refresh = function() {
+        languages = $http.get(languagesPath).then(function(resp) {
+            return resp.data;
+        });
     };
 
     return factory;

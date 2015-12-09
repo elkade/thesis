@@ -2,20 +2,7 @@
 
 ])
 
-.factory('languages', ['$http', 'utils', function ($http, utils) {
-    var path = "/api/language";
 
-    var languages = $http.get(path).then(function (resp) {
-        return resp.data;
-    });
-
-    var factory = {};
-    factory.all = function () {
-        return languages;
-    };
-
-    return factory;
-}])
 
 .factory('utils', function () {
     return {

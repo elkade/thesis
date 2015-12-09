@@ -10,6 +10,6 @@ namespace UniversityWebsite.Model
         [Required]
         public string Title { get; set; }
         [Required]
-        public List<KeyValuePair<string, string>> Words { get; set; } 
+        public Dictionary<string, string> Words { get; set; } 
     }
 }

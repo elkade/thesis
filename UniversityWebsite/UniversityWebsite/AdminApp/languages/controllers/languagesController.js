@@ -1,14 +1,12 @@
 ﻿angular.module('configApp.menus')
 
-.controller('languagesCtrl', function ($scope, $state, languages, dictionaries, utils, Languages) {
+.controller('languagesCtrl', function ($scope, $state, languages, dictionaries, $modal, Languages, languageService) {
     $scope.languages = languages;
     $scope.dictionaries = dictionaries;
     $scope.language = {};
 
     
     $scope.translations = extractTranslations(dictionaries);
-
-    console.log($scope.translations);
 
     $scope.translationList = { name: 'translations', url: 'adminapp/views/languages/translations.html' };
 
@@ -35,20 +33,33 @@
     }
 
     $scope.save = function() {
-        //if ($scope.languageForm.$valid) {
-        console.log($scope.language);
-        console.log($scope.languages);
-            Languages.post({ lang: $scope.language.CountryCode }, $scope.language, function (response) {
-                console.log(response);
-                $scope.language = null;
-                $scope.languages.push(response);
-            }, errorHandler);
-            //Languages.post(page, function (response) {
-            //    $scope.state = response.$resolved ? 'success' : 'error';
-            //    $scope.page = response;
-            //    $scope.pages.push($scope.page);
-            //}, errorHandler);
-        //}
+
+    };
+
+    $scope.open = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'adminapp/views/languages/newLangModal.html',
+            controller: 'newLangModalCtrl',
+            resolve: {
+                translationKeys: [
+                    'dictionaries',
+                    function (dictionaries) {
+                        return dictionaries.allTranslationKeys();
+                    }
+                ],
+            }
+        });
+
+        modalInstance.result.then(function(result) {
+            if (result != null) {
+                languageService.refresh();
+                $scope.languages = languageService.allLanguages();
+                $state.reload();
+            }
+        }, function () { //if modal dismis
+            
+        });
+
     };
 
 })

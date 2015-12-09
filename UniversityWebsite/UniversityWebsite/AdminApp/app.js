@@ -30,7 +30,9 @@
 
 .config(
 [            '$stateProvider', '$urlRouterProvider',
-    function ($stateProvider,   $urlRouterProvider) {
+    function ($stateProvider, $urlRouterProvider) {
+
+      
 
       /////////////////////////////
       // Redirects and Otherwise //

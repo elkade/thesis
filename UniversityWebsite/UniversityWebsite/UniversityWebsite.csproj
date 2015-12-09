@@ -196,10 +196,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminApp\languages\controllers\languagesController.js" />
+    <Content Include="AdminApp\languages\controllers\newLangModalController.js" />
     <Content Include="AdminApp\languages\languages-service.js" />
     <Content Include="AdminApp\languages\languages.js" />
     <Content Include="AdminApp\main-pages\controllers\mainPagesEditController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
+    <Content Include="AdminApp\views\languages\newLangModal.html" />
     <Content Include="AdminApp\views\languages\translations.html" />
     <Content Include="AdminApp\views\main-pages\tile.edit.html" />
     <Content Include="AdminApp\views\partials\menu.list.html" />
