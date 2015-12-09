@@ -12,7 +12,7 @@
 @foreach (var subject in Model.Subjects)
 {
     <li>
-        @subject.SubjectName
+        @Html.ActionLink(subject.SubjectName, "Subject", new{ name = subject.SubjectUrlName })
     </li>
 }
 </ul>

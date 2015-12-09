@@ -10,5 +10,6 @@ namespace UniversityWebsite.Model
     public class SubjectListElementVm
     {
         public string SubjectName { get; set; }
+        public string SubjectUrlName { get; set; }
     }
 }

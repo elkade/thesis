@@ -833,6 +833,7 @@
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
     <Compile Include="Model\SemesterVm.cs" />
+    <Compile Include="Model\SubjectVm.cs" />
     <Compile Include="Model\TeachingVm.cs" />
     <Compile Include="Model\TileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

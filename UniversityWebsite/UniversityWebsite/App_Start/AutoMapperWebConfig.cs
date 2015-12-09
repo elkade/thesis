@@ -86,13 +86,15 @@ namespace UniversityWebsite
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Subject, SubjectViewModel>().ConvertUsing(p => new SubjectViewModel
+            Mapper.CreateMap<Subject, SubjectVm>().ConvertUsing(p => new SubjectVm
             {
                 Name = p.Name,
-            });
-            Mapper.CreateMap<SubjectViewModel, Subject>().ConvertUsing(vm => new Subject
-            {
-                Name = vm.Name,
+                //Files = new FilesSectionVm(),
+                //News = string.Join("</br>", p.News.ToString()),
+                //Syllabus = p.Syllabus.ToString(),
+                //Schedule = p.Schedule.ToString(),
+
+                //SemesterNumber = p.Semester.Number,
             });
         }
     }

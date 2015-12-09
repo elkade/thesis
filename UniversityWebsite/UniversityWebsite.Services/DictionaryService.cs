@@ -36,8 +36,16 @@ namespace UniversityWebsite.Services
         /// <param name="countryCode">Kod języka</param>
         /// <returns>Obiekt zawierający listę tekstów</returns>
         DictionaryDto GetDictionary(string countryCode);
-
+        /// <summary>
+        /// Zwraca listę słowników we wszystkich językach systemu
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<DictionaryDto> GetDictionaries();
+        /// <summary>
+        /// Aktualizuje słowa wszystkich słowników.
+        /// </summary>
+        /// <param name="dictionaries"></param>
+        /// <returns>Lista par klucz-wartość które zostały zaktualizowane pogrupowana w słowniki</returns>
         IEnumerable<DictionaryDto> UpdateDictionaries(List<DictionaryDto> dictionaries);
     }
     public class DictionaryService : IDictionaryService

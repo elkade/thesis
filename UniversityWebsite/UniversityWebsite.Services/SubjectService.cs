@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace UniversityWebsite.Services
 {
     public interface ISubjectService
     {
-        List<Subject> GetSemester(int number);
+        IEnumerable<Subject> GetSemester(int number);
+        Subject GetSubject(string name);
     }
     public class SubjectService : ISubjectService
     {
@@ -23,21 +25,28 @@ namespace UniversityWebsite.Services
             _context = context;
         }
 
-        public List<Subject> GetSemester(int number)
+        public IEnumerable<Subject> GetSemester(int number)
         {
-            if (number == 1)
-                return new List<Subject>
-                {
-                    new Subject {Name = "Elementy Logiki i Teorii Mnogości"},
-                    new Subject {Name = "Algebra"},
-                    new Subject {Name = "Analiza Matematyczna 1"}
-                }; 
-            return new List<Subject>
-            {
-                new Subject {Name = "Metody Translacji"},
-                new Subject {Name = "Teoria Algorytmów i Języków"},
-                new Subject {Name = "Seminarium Dyplomowe"}
-            };
+            return _context.Subjects.Where(s => s.Semester.Number == number);
+            //if (number == 1)
+            //    return new List<Subject>
+            //    {
+            //        new Subject {Name = "Elementy Logiki i Teorii Mnogości"},
+            //        new Subject {Name = "Algebra"},
+            //        new Subject {Name = "Analiza Matematyczna 1"}
+            //    }; 
+            //return new List<Subject>
+            //{
+            //    new Subject {Name = "Metody Translacji"},
+            //    new Subject {Name = "Teoria Algorytmów i Języków"},
+            //    new Subject {Name = "Seminarium Dyplomowe"}
+            //};
+        }
+
+        public Subject GetSubject(string name)
+        {
+            var subject = _context.Subjects.Include(s=>s.Semester).SingleOrDefault(s => s.UrlName == name);
+            return subject;
         }
 
         public Subject Add()
