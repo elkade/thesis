@@ -1,0 +1,18 @@
+﻿@model UniversityWebsite.Model.SemesterVm
+
+@{
+    string semesterString = GetPhrase("semester");
+    ViewBag.Title = semesterString;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@semesterString</h2>
+
+<ul>
+@foreach (var subject in Model.Subjects)
+{
+    <li>
+        @subject.SubjectName
+    </li>
+}
+</ul>

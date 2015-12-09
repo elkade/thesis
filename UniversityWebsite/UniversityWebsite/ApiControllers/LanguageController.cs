@@ -12,6 +12,7 @@ namespace UniversityWebsite.ApiControllers
     /// <summary>
     /// Kontroler odpowiedzialny za operacje CRUD na językach dostępnych w systemie.
     /// </summary>
+    [RoutePrefix("api/languages")]
     public class LanguageController : ApiController
     {
         private readonly ILanguageService _languageService;
@@ -33,6 +34,7 @@ namespace UniversityWebsite.ApiControllers
         /// Zwraca listę języków zdefiniowanych w systemie.
         /// </summary>
         /// <returns></returns>
+        [Route("")]
         public IEnumerable<Language> GetLanguages()
         {
             return _languageService.GetLanguagesCached();
@@ -46,7 +48,7 @@ namespace UniversityWebsite.ApiControllers
         /// <param name="newLanguage"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("language/{lang}")]
+        [Route("{lang}")]
         [ResponseType(typeof(string))]
         public IHttpActionResult AddLanguage(string lang, [FromBody]NewLanguage newLanguage )
         {
@@ -65,7 +67,7 @@ namespace UniversityWebsite.ApiControllers
         /// Zwraca listę kluczy słownika statycznych słów systemu.
         /// </summary>
         /// <returns></returns>
-        [Route("language/keys")]
+        [Route("keys")]
         [HttpGet]
         public IEnumerable<string> GetKeys()
         {
@@ -77,7 +79,7 @@ namespace UniversityWebsite.ApiControllers
         /// Zwraca listę kluczy słownika statycznych słów systemu.
         /// </summary>
         /// <returns></returns>
-        [Route("language/dictionary/{lang}")]
+        [Route("{lang}/dictionary")]
         [HttpGet]
         [ResponseType(typeof(DictionaryDto))]
         public IHttpActionResult GetDictionary(string lang)
@@ -88,6 +90,32 @@ namespace UniversityWebsite.ApiControllers
                 return NotFound();
 
             return Ok(dictionary);
+        }
+
+        /// <summary>
+        /// Zwraca listę słowników w każdym języku systemu.
+        /// </summary>
+        /// <returns></returns>
+        [Route("dictionaries")]
+        [HttpGet]
+        public IEnumerable<DictionaryDto> GetDictionaries()
+        {
+            var dictionaries = _dictionaryService.GetDictionaries();
+
+            return dictionaries;
+        }
+
+        /// <summary>
+        /// Aktualizuje listę słowników w każdym języku systemu.
+        /// </summary>
+        /// <returns>Lista słowników</returns>
+        [Route("dictionaries")]
+        [HttpPut]
+        public IEnumerable<DictionaryDto> UpdateDictionaries(List<DictionaryDto> dictionaries )
+        {
+            var dictionariesUpdated = _dictionaryService.UpdateDictionaries(dictionaries);
+
+            return dictionariesUpdated;
         }
     }
 }

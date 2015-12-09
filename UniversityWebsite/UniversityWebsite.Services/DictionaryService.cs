@@ -5,6 +5,7 @@ using System.Linq;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
+using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Helpers;
 using UniversityWebsite.Services.Model;
 
@@ -35,6 +36,9 @@ namespace UniversityWebsite.Services
         /// <param name="countryCode">Kod języka</param>
         /// <returns>Obiekt zawierający listę tekstów</returns>
         DictionaryDto GetDictionary(string countryCode);
+
+        IEnumerable<DictionaryDto> GetDictionaries();
+        IEnumerable<DictionaryDto> UpdateDictionaries(List<DictionaryDto> dictionaries);
     }
     public class DictionaryService : IDictionaryService
     {
@@ -49,7 +53,7 @@ namespace UniversityWebsite.Services
         public string GetTranslationCached(string key, string countryCode)
         {
             string phrase = CacheHelper.GetOrInvoke<string>(
-                string.Format("Phrase_{0}_{1}",key,countryCode),
+                string.Format("Phrase_{0}_{1}", key, countryCode),
                 () => GetTranslation(key, countryCode),
                 TimeSpan.FromSeconds(10));//Todo
             return phrase;
@@ -63,7 +67,7 @@ namespace UniversityWebsite.Services
         {
             List<string> keys = CacheHelper.GetOrInvoke<List<string>>(
                  "Keys",
-                 ()=>GetKeys().ToList(),
+                 () => GetKeys().ToList(),
                  TimeSpan.FromSeconds(10));//Todo
             return keys;
 
@@ -83,8 +87,45 @@ namespace UniversityWebsite.Services
             {
                 Words = words,
                 CountryCode = countryCode,
-                Title = title
             };
+        }
+
+        public IEnumerable<DictionaryDto> GetDictionaries()
+        {
+            var dictionaries = _context.Phrases.ToList()
+                .GroupBy(p => p.CountryCode,
+                               p => p,
+                               (key, g) => new DictionaryDto
+                               {
+                                   CountryCode = key,
+                                   Words = g.Select(p => new KeyValuePair<string, string>(p.Key, p.Value)).ToList()
+                               }
+                              );
+            return dictionaries;
+        }
+
+        public IEnumerable<DictionaryDto> UpdateDictionaries(List<DictionaryDto> dictionaries)
+        {
+            foreach (var dict in dictionaries)
+            {
+                var words = UpdateDictionary(dict);
+                yield return new DictionaryDto { CountryCode = dict.CountryCode, Words = words.Select(w => new KeyValuePair<string, string>(w.Key, w.Value)).ToList() };
+            }
+            _context.SaveChanges();
+        }
+
+        private IEnumerable<Phrase> UpdateDictionary(DictionaryDto dict)
+        {
+            foreach (var row in dict.Words)
+            {
+                var phrase = _context.Phrases.SingleOrDefault(p => p.CountryCode == dict.CountryCode && p.Key == row.Key);
+                if (phrase == null)
+                    throw new NotFoundException("klucz "+row.Key +" w języku "+dict.CountryCode);
+                if(phrase.Value == row.Value) continue;
+                phrase.Value = row.Value;
+                _context.Entry(phrase).State = EntityState.Modified;
+                yield return phrase;
+            }
         }
 
         public IEnumerable<string> GetKeys()

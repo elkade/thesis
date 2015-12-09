@@ -22,9 +22,21 @@ namespace UniversityWebsite
             );
 
             routes.MapRoute(
-                name: "Teaching",
+                name: "Subject",
                 url: "Teaching/Subject/{subjectName}",
-                defaults: new { controller = "Teaching", action = "GetSubject" }
+                defaults: new { controller = "Teaching", action = "Subject" }
+            );
+
+            routes.MapRoute(
+                name: "Semester",
+                url: "Teaching/Semester/{number}",
+                defaults: new { controller = "Teaching", action = "Semester" }
+            );
+
+            routes.MapRoute(
+                name: "Teaching",
+                url: "Teaching",
+                defaults: new { controller = "Teaching", action = "Index" }
             );
 
             routes.MapRoute(

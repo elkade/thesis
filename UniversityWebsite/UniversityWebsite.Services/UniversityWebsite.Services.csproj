@@ -90,6 +90,7 @@
     <Compile Include="Model\Tile.cs" />
     <Compile Include="PageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubjectService.cs" />
     <Compile Include="UsersService.cs" />
     <Compile Include="Validation\NotEqualToAttribute.cs" />
     <Compile Include="Validation\UrlParameterAttribute.cs" />

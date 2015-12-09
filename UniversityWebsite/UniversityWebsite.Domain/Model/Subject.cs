@@ -11,6 +11,8 @@ namespace UniversityWebsite.Domain.Model
         [Required]
         public string Name { get; set; }
         [Required]
+        public string UrlName { get; set; }
+        [Required]
         public Semester Semester { get; set; }
         public virtual ICollection<Article> News { get; set; }
         public virtual Article Syllabus { get; set; }
