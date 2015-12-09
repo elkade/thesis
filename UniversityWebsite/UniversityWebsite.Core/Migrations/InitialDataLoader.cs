@@ -85,6 +85,14 @@ namespace UniversityWebsite.Core.Migrations
 
             _context.Phrases.Add(new Phrase { Key = "password", CountryCode = "pl", Value = "Hasło" });
             _context.Phrases.Add(new Phrase { Key = "password", CountryCode = "en", Value = "Password" });
+
+            _context.Phrases.Add(new Phrase { Key = "teaching", CountryCode = "pl", Value = "Dydaktyka" });
+            _context.Phrases.Add(new Phrase { Key = "teaching", CountryCode = "en", Value = "Teaching" });
+
+
+            _context.Phrases.Add(new Phrase { Key = "semester", CountryCode = "pl", Value = "Semestr" });
+            _context.Phrases.Add(new Phrase { Key = "semester", CountryCode = "en", Value = "Semester" });
+
         }
 
         private void AddPagesAndMenus()
@@ -188,7 +196,8 @@ namespace UniversityWebsite.Core.Migrations
                 _context.Subjects.Add(new Subject
                 {
                     Name = subject,
-                    Semester = new Semester { Description = "1"}
+                    Semester = new Semester { Description = "1"},
+                    UrlName = "a"
                 });
             }
         }

@@ -837,6 +837,8 @@
     <Compile Include="Model\Page\PageMenuItemVm.cs" />
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
+    <Compile Include="Model\SemesterVm.cs" />
+    <Compile Include="Model\TeachingVm.cs" />
     <Compile Include="Model\TileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -894,7 +896,8 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="AdminApp\views\pages\pages.edit.html" />
-    <Content Include="Views\Teaching\SubjectTemp.cshtml" />
+    <Content Include="Views\Teaching\Subject.cshtml" />
+    <Content Include="Views\Teaching\Semester.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

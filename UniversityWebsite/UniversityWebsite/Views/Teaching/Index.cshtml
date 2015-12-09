@@ -1,51 +1,35 @@
-﻿@model UniversityWebsite.Domain.Model.Subject
+﻿@model UniversityWebsite.Model.TeachingVm
+@{
+    string teachingString = @GetPhrase("teaching");
+    string semesterString = @GetPhrase("semester");
+    ViewBag.Title = teachingString;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+}
+@section Styles {
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <title>Tile</title>
-    <style type="text/css">
-        .tile {
-            background: pink;
-        }
-
-        div.tile div.tile-content {
-            background: green;
-            float: right;
-        }
-
-        div.tile div.tile-date {
-            background: blue;
-        }
-
-        div.tile div.tile-title {
-            background: red;
-        }
-
-        div.tile div.tile-text {
-            background: brown;
-        }
-
-        div.tile div.tile-img {
-            background: yellow;
-            float: left;
+    <style>
+        .card {
+            margin-top: 20px;
         }
     </style>
-</head>
-    <body>
-        <div class="container">
-            <div>@Model.Name</div>
+}
+<h2>@teachingString</h2>
+
+@for (int i = 1; i <= Model.SemestersCount; i++)
+{   
+    <div class="medium-4 columns">
+        <div class="card">
+            <a href="@Url.Action("Semester",new {number=i})">
+                <img src="https://www.pw.edu.pl/var/pw/storage/images/studenci/aktualnosci/swiatowy-tydzien-przedsiebiorczosci-w-biurze-karier-pw/131705-1-pol-PL/Swiatowy-Tydzien-Przedsiebiorczosci-w-Biurze-Karier-PW.jpg" />
+            </a>
+            <div class="card-divider"></div>
+            <div class="content">
+                <span class="title">@semesterString @i</span>
+            </div>
         </div>
-    </body>
-</html>
+    </div>
+}
+
+
+

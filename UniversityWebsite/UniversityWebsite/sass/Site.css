@@ -4148,7 +4148,7 @@ button:focus {
   top: -0.3125rem;
   width: 2rem;
   height: 1.375rem;
-  border: 1px solid none;
+  border: 1px solid /*none*/;
   cursor: pointer;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
@@ -4879,7 +4879,7 @@ meta.foundation-mq-topbar {
           box-shadow: 0 0 0 1px #FFFFFF, 0 7px 0 1px #FFFFFF, 0 14px 0 1px #FFFFFF;
           width: 16px; }
         .top-bar .toggle-topbar.menu-icon a span:hover:after {
-          box-shadow: 0 0 0 1px "", 0 7px 0 1px "", 0 14px 0 1px ""; }
+          box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white; }
   .top-bar.expanded {
     height: auto;
     background: transparent; }

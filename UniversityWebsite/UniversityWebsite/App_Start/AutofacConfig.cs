@@ -48,6 +48,7 @@ namespace UniversityWebsite
                 builder.RegisterType<LanguageService>().As<ILanguageService>().InstancePerRequest();
                 builder.RegisterType<MenuService>().As<IMenuService>().InstancePerRequest();
                 builder.RegisterType<PageService>().As<IPageService>().InstancePerRequest();
+                builder.RegisterType<SubjectService>().As<ISubjectService>().InstancePerRequest();
                 base.Load(builder);
             }
         }

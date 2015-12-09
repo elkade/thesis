@@ -1,24 +1,34 @@
-﻿using System.Web.Mvc;
-using UniversityWebsite.Domain.Model;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using UniversityWebsite.Model;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
     public class TeachingController : Controller
     {
-        [HttpGet]
-        public Subject GetSubject(string subjectName)
+        private readonly ISubjectService _subjectService;
+
+        public TeachingController(ISubjectService subjectService)
         {
-            return new Subject
-            {
-                Name = "dasdasd"
-            };
+            _subjectService = subjectService;
         }
 
-        [HttpGet]
-        public ActionResult SubjectTemp()
+        public ActionResult Index()
         {
-            return View();
+            return View(new TeachingVm{SemestersCount = 10});
         }
+
+        public ActionResult Semester(int number)
+        {
+            var subjects = _subjectService.GetSemester(number);
+            if (subjects == null)
+            {
+                
+            }
+            return View(new SemesterVm{Subjects = subjects.Select(s=>new SubjectListElementVm{SubjectName = s.Name}).ToList()});
+        }
+
     }
 }
