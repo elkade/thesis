@@ -22,5 +22,10 @@ namespace UniversityWebsite.Domain.Model
         public DateTime PublishDate { get; set; }
         [Required]
         public ArticleStatus Status { get; set; }
+
+        public override string ToString()
+        {
+            return Content;
+        }
     }
 }

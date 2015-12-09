@@ -1,22 +1,31 @@
 ﻿@model UniversityWebsite.Model.Menu.MainMenuViewModel
-
+@{
+    string homeString = GetPhrase("home");
+    string teachingString = GetPhrase("teaching");
+}
 <nav class="main-menu large-9 columns">
-    <ul class="right button-group"> 
-        
+    <ul class="right button-group">
+@*        <li>
+            @Html.ActionLink(homeString, "Index", "Home", null, new { @class = "button" })
+        </li>*@
+        <li>
+            @Html.ActionLink(teachingString, "Index", "Teaching", null, new { @class = "button" })
+        </li>
+
         @foreach (var menuItem in Model.MainMenuItems)
         {
             <li>
-                @Html.ActionLink(menuItem.Title, "Index", "Page", new{name=menuItem.UrlName}, new{@class="button"})
+                @Html.ActionLink(menuItem.Title, "Index", "Page", new { name = menuItem.UrlName }, new { @class = "button" })
                 @*<a class="button" href="@menuItem.Href" title="@menuItem.Title">@menuItem.Text</a>*@
             </li>
         }
 
         @*<li><a href="@Url.Action("Register", "Account")" class="button">Register</a></li>*@
-        
+
         @Html.Partial("_LoginPartial")
-        
+
         @{Html.RenderPartial("_LanguageSwitcher", Model.LanguageMenu);}
-        
+
     </ul>
 
 </nav>

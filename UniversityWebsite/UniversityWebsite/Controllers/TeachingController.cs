@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
+using Microsoft.Ajax.Utilities;
+using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
 using UniversityWebsite.Services;
+using UniversityWebsite.Services.Exceptions;
 
 namespace UniversityWebsite.Controllers
 {
+    [MainMenu]
     public class TeachingController : Controller
     {
         private readonly ISubjectService _subjectService;
@@ -23,12 +28,16 @@ namespace UniversityWebsite.Controllers
         public ActionResult Semester(int number)
         {
             var subjects = _subjectService.GetSemester(number);
-            if (subjects == null)
-            {
-                
-            }
-            return View(new SemesterVm{Subjects = subjects.Select(s=>new SubjectListElementVm{SubjectName = s.Name}).ToList()});
+            return View(new SemesterVm{Subjects = subjects.Select(s=>new SubjectListElementVm{SubjectName = s.Name, SubjectUrlName = s.UrlName}).ToList()});
         }
 
+        public ActionResult Subject(string name)
+        {
+            var subject = _subjectService.GetSubject(name);
+            if(subject==null)
+                throw new NotFoundException("subject");
+            var subjectVm = Mapper.Map<SubjectVm>(subject);
+            return View(subjectVm);
+        }
     }
 }

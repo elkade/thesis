@@ -89,9 +89,22 @@ namespace UniversityWebsite.Core.Migrations
             _context.Phrases.Add(new Phrase { Key = "teaching", CountryCode = "pl", Value = "Dydaktyka" });
             _context.Phrases.Add(new Phrase { Key = "teaching", CountryCode = "en", Value = "Teaching" });
 
+            _context.Phrases.Add(new Phrase { Key = "home", CountryCode = "pl", Value = "Strona główna" });
+            _context.Phrases.Add(new Phrase { Key = "home", CountryCode = "en", Value = "Home" });
 
-            _context.Phrases.Add(new Phrase { Key = "semester", CountryCode = "pl", Value = "Semestr" });
-            _context.Phrases.Add(new Phrase { Key = "semester", CountryCode = "en", Value = "Semester" });
+
+            _context.Phrases.Add(new Phrase { Key = "news", CountryCode = "pl", Value = "Aktualności" });
+            _context.Phrases.Add(new Phrase { Key = "news", CountryCode = "en", Value = "News" });
+
+            _context.Phrases.Add(new Phrase { Key = "syllabus", CountryCode = "pl", Value = "Sylabus" });
+            _context.Phrases.Add(new Phrase { Key = "syllabus", CountryCode = "en", Value = "Syllabus" });
+
+            _context.Phrases.Add(new Phrase { Key = "schedule", CountryCode = "pl", Value = "Plan zajęć" });
+            _context.Phrases.Add(new Phrase { Key = "schedule", CountryCode = "en", Value = "Schedule" });
+
+            _context.Phrases.Add(new Phrase { Key = "files", CountryCode = "pl", Value = "Materiały dydaktyczne" });
+            _context.Phrases.Add(new Phrase { Key = "files", CountryCode = "en", Value = "Files" });
+
 
         }
 
@@ -190,14 +203,28 @@ namespace UniversityWebsite.Core.Migrations
 
         public void WithSubjects()
         {
-            string[] subjects = {"Analiza 1", "Analiza 2", "Podstawy programowania"};
-            foreach (var subject in subjects)
+            string[] subjects1 = {"Analiza 1", "Algebra", "Podstawy programowania strukturalnego"};
+            string[] subjects1Names = {"analiza-1", "algebra", "podstawy-programowania-strukturalnego"};
+            int i = 0;
+            foreach (var subject in subjects1)
             {
                 _context.Subjects.Add(new Subject
                 {
                     Name = subject,
-                    Semester = new Semester { Description = "1"},
-                    UrlName = "a"
+                    Semester = new Semester { Description = "1", Number = 1},
+                    UrlName = subjects1Names[i++]
+                });
+            }
+            string[] subjects2 = { "Metody Numeryczne 1", "Analiza 2", "Programowanie" };
+            string[] subjects2Names = { "metody-numeryczne-1", "analiza-2", "programowanie" };
+            i = 0;
+            foreach (var subject in subjects2)
+            {
+                _context.Subjects.Add(new Subject
+                {
+                    Name = subject,
+                    Semester = new Semester { Description = "2", Number = 2 },
+                    UrlName = subjects2Names[i++]
                 });
             }
         }
