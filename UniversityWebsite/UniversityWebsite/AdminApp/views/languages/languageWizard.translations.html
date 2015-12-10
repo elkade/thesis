@@ -1,0 +1,35 @@
+﻿<style>
+    .translations {
+        overflow-y: scroll !important;
+    }
+</style>
+
+<div class="row">
+    <ul class="button-group">
+        <li><button ui-sref="languageForm.basic" class="button small">Back</button></li>
+        <li><button type="submit" class="button small success">Finish</button></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="medium-12 columns">
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+</div>
+<div class="row translations">
+    <div class="medium-12 columns">
+        <table>
+            <thead>
+                <tr>
+                    <th width="150">Key</th>
+                    <th>Translations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(code, translationValue) in language.Words">
+                    <td>{{code}}</td>
+                    <td><input type="text" ng-model="language.Words[code]" required/></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,12 +1,12 @@
 ﻿angular.module('configApp.menus')
 
-.controller('languagesCtrl', function ($scope, $state, languages, dictionaries, $modal, Languages, languageService) {
+.controller('languagesCtrl', function ($scope, $state, languages, dictionaries, $modal, Languages, languageService, $location) {
     $scope.languages = languages;
     $scope.dictionaries = dictionaries;
     $scope.language = {};
 
-    
     $scope.translations = extractTranslations(dictionaries);
+    console.log($scope.translations);
 
     $scope.translationList = { name: 'translations', url: 'adminapp/views/languages/translations.html' };
 
@@ -60,6 +60,10 @@
             
         });
 
+    };
+
+    $scope.startWizard = function() {
+        $location.path('languageForm');
     };
 
 })

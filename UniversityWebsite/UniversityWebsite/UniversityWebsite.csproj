@@ -196,12 +196,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminApp\languages\controllers\languagesController.js" />
+    <Content Include="AdminApp\languages\controllers\langWizardController.js" />
     <Content Include="AdminApp\languages\controllers\newLangModalController.js" />
     <Content Include="AdminApp\languages\languages-service.js" />
     <Content Include="AdminApp\languages\languages.js" />
     <Content Include="AdminApp\main-pages\controllers\mainPagesEditController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
     <Content Include="AdminApp\views\languages\newLangModal.html" />
+    <Content Include="AdminApp\views\languages\languageWizard.html" />
     <Content Include="AdminApp\views\languages\translations.html" />
     <Content Include="AdminApp\views\main-pages\tile.edit.html" />
     <Content Include="AdminApp\views\partials\menu.list.html" />
@@ -593,6 +595,8 @@
     <Content Include="sass\_foundation.scss" />
     <Content Include="sass\_foundation.mvc.scss" />
     <Content Include="App_Readme\Foundation for Sites\readme.md" />
+    <Content Include="AdminApp\views\languages\languageWizard.basic.html" />
+    <Content Include="AdminApp\views\languages\languageWizard.translations.html" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
     <Content Include="AdminApp\app.js" />

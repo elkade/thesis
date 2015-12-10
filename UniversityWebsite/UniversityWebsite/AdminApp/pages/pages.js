@@ -3,24 +3,21 @@
     [
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
+            var getLanguages = function (languageService) {
+                return languageService.allLanguages();
+            };
+            var getPages = function(pages) {
+                return pages.all();
+            };
+
             $stateProvider
                 .state('pages', {
                     url: '/pages',
                     templateUrl: 'adminapp/views/pages/pages.html',
 
                     resolve: {
-                        pages: [
-                            'pages',
-                            function(pages) {
-                                return pages.all();
-                            }
-                        ],
-                        languages: [
-                            'languages',
-                            function (languages) {
-                                return languages.all();
-                            }
-                        ]
+                        pages: getPages,
+                        languages: getLanguages
                     },
 
                     controller: [
