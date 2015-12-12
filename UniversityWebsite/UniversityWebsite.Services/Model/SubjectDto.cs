@@ -12,9 +12,9 @@ namespace UniversityWebsite.Services.Model
         public string Name { get; set; }
         public string UrlName { get; set; }
 
-        public int SemesterNumber { get; set; }
+        public int Semester { get; set; }
 
-        public List<ArticleDto> News { get; set; }
+        public List<NewsDto> News { get; set; }
         public ArticleDto Syllabus { get; set; }
         public ArticleDto Schedule { get; set; }
     }

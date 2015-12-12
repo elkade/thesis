@@ -85,6 +85,7 @@
     <Compile Include="Model\ArticleDto.cs" />
     <Compile Include="Model\DictionaryDto.cs" />
     <Compile Include="Model\MenuDto.cs" />
+    <Compile Include="Model\NewsDto.cs" />
     <Compile Include="Model\PageDto.cs" />
     <Compile Include="Model\PageMenuItem.cs" />
     <Compile Include="Model\ParentDto.cs" />

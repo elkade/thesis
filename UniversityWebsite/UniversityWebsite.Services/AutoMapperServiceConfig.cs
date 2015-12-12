@@ -26,7 +26,12 @@ namespace UniversityWebsite.Services
 
             Mapper.CreateMap<Subject, SubjectDto>();
 
-            Mapper.CreateMap<Article, ArticleDto>();
+            Mapper.CreateMap<News, NewsDto>()
+                .ForMember(dto => dto.Author, conf => conf.MapFrom(p => p.Author.UserName));
+            Mapper.CreateMap<Syllabus, ArticleDto>()
+                .ForMember(dto => dto.Author, conf => conf.MapFrom(p => p.Author.UserName));
+            Mapper.CreateMap<Schedule, ArticleDto>()
+                .ForMember(dto => dto.Author, conf => conf.MapFrom(p => p.Author.UserName));
         }
     }
 }

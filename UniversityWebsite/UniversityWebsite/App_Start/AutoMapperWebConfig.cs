@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using UniversityWebsite.Api.Model.Teaching;
 using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
@@ -95,6 +96,24 @@ namespace UniversityWebsite
                 //Schedule = p.Schedule.ToString(),
 
                 //SemesterNumber = p.Semester.Number,
+            });
+
+            Mapper.CreateMap<ArticlePost, ArticleDto>().ConstructUsing(p => new ArticleDto
+            {
+                Content = p.Content,
+            });
+            Mapper.CreateMap<NewsPost, NewsDto>().ConstructUsing(p => new NewsDto
+            {
+                Content = p.Content,
+                Header = p.Header
+            });
+
+            Mapper.CreateMap<SubjectPost, SubjectDto>().ConstructUsing(p=>new SubjectDto
+            {
+                Name = p.Name,
+                Schedule = Mapper.Map<ArticleDto>(p.Schedule),
+                Syllabus = Mapper.Map<ArticleDto>(p.Syllabus),
+                Semester = p.Semester,
             });
         }
     }

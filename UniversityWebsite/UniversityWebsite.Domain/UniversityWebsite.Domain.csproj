@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UniversityWebsite.Domain</RootNamespace>
     <AssemblyName>UniversityWebsite.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -62,12 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\ArticleStatus.cs" />
+    <Compile Include="Model\Article.cs" />
     <Compile Include="Model\MenuGroup.cs" />
     <Compile Include="Model\MenuItem.cs" />
     <Compile Include="Model\PageGroup.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="Model\Article.cs" />
     <Compile Include="Model\File.cs" />
     <Compile Include="Model\Language.cs" />
     <Compile Include="Model\Menu.cs" />

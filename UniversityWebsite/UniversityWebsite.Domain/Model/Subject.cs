@@ -8,21 +8,27 @@ namespace UniversityWebsite.Domain.Model
     {
         [Key]
         public int Id { get; set; }
-        [StringLength(64)]
-        [Required]
+        [Required, StringLength(64)]
         public string Name { get; set; }
-        [Required]
+        [Required, StringLength(96)]
         public string UrlName { get; set; }
 
-        public virtual Semester Semester { get; set; }
-        [ForeignKey("Semester")]
-        public int SemesterId { get; set; }
+        public virtual ICollection<News> News { get; set; }
 
-        public virtual ICollection<Article> News { get; set; }
-        public virtual Article Syllabus { get; set; }
-        public virtual Article Schedule { get; set; }
-        public virtual ICollection<File> Files { get; set; } 
+       // public int SyllabusId { get; set; }
+
+        //[ForeignKey("SyllabusId")]
+        public virtual Syllabus Syllabus { get; set; }
+
+        //[ForeignKey("ScheduleId")]
+        public virtual Schedule Schedule { get; set; }
+        //public int ScheduleId { get; set; }
+
+        public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Teacher> Teachers { get; set; }
-        public virtual ICollection<Student> Students { get; set; } 
+        public virtual ICollection<Student> Students { get; set; }
+
+        [Required]
+        public int Semester { get; set; }
     }
 }
