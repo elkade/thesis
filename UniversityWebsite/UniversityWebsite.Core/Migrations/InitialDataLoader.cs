@@ -214,7 +214,7 @@ namespace UniversityWebsite.Core.Migrations
                 _context.Subjects.Add(new Subject
                 {
                     Name = subject,
-                    Semester = new Semester { Description = "1", Number = 1},
+                    Semester = 1,
                     UrlName = subjects1Names[i++]
                 });
             }
@@ -226,7 +226,7 @@ namespace UniversityWebsite.Core.Migrations
                 _context.Subjects.Add(new Subject
                 {
                     Name = subject,
-                    Semester = new Semester { Description = "2", Number = 2 },
+                    Semester = 2,
                     UrlName = subjects2Names[i++]
                 });
             }

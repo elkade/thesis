@@ -45,7 +45,6 @@ namespace UniversityWebsite.Core
 
         public virtual IDbSet<Teacher> Teachers { get; set; }
         public virtual IDbSet<Student> Students { get; set; }
-        public virtual IDbSet<Semester> Semester { get; set; }
         public virtual IDbSet<Page> Pages { get; set; }
         public virtual IDbSet<Subject> Subjects { get; set; }
         public virtual IDbSet<Menu> Menus { get; set; }
@@ -60,7 +59,6 @@ namespace UniversityWebsite.Core
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Article>();
             modelBuilder.Entity<Student>();
             modelBuilder.Entity<Teacher>();
         }

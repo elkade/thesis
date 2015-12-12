@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
@@ -17,6 +18,7 @@ namespace UniversityWebsite.Services
         IEnumerable<Subject> GetSemester(int number);
         Subject GetSubject(string name);
         IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
+        SubjectDto AddSubject(SubjectDto subject, string authorId);
     }
     public class SubjectService : ISubjectService
     {
@@ -30,7 +32,7 @@ namespace UniversityWebsite.Services
 
         public IEnumerable<Subject> GetSemester(int number)
         {
-            return _context.Subjects.Where(s => s.Semester.Number == number);
+            return _context.Subjects.Where(s => s.Semester == number);
             //if (number == 1)
             //    return new List<Subject>
             //    {
@@ -48,7 +50,7 @@ namespace UniversityWebsite.Services
 
         public Subject GetSubject(string name)
         {
-            var subject = _context.Subjects.Include(s=>s.Semester).SingleOrDefault(s => s.UrlName == name);
+            var subject = _context.Subjects.SingleOrDefault(s => s.UrlName == name);
             return subject;
         }
 
@@ -57,11 +59,28 @@ namespace UniversityWebsite.Services
             if (limit < 0) return Enumerable.Empty<SubjectDto>();
             limit = limit > 50 ? 50 : limit;
             return
-                _context.Subjects.OrderBy(s => s.Semester.Number)
+                _context.Subjects.OrderBy(s => s.Semester)
                     .ThenBy(s => s.Name)
                     .Skip(offset)
                     .Take(limit)
                     .ProjectTo<SubjectDto>();
+        }
+
+        public SubjectDto AddSubject(SubjectDto subject, string authorId)
+        {
+            var dbSubject = new Subject
+            {
+                Name = subject.Name,
+                Schedule = subject.Schedule==null?new Schedule{AuthorId = authorId}: 
+                    new Schedule {AuthorId = authorId, Content = subject.Schedule.Content, PublishDate = DateTime.Now},
+                Semester = subject.Semester,
+                Syllabus = subject.Syllabus == null ? new Syllabus { AuthorId = authorId } : 
+                    new Syllabus {AuthorId = authorId, Content = subject.Syllabus.Content, PublishDate = DateTime.Now},
+                UrlName = PrepareUniqueUrlName(subject.UrlName),
+            };
+            var addedSubject = _context.Subjects.Add(dbSubject);
+            _context.SaveChanges();
+            return Mapper.Map<SubjectDto>(addedSubject);
         }
 
         public Subject Add()
