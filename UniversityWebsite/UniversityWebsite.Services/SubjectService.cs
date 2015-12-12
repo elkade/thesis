@@ -19,6 +19,11 @@ namespace UniversityWebsite.Services
         Subject GetSubject(string name);
         IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
         SubjectDto AddSubject(SubjectDto subject, string authorId);
+        SubjectDto UpdateSubject(SubjectDto subject, string authorId);
+        NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId);
+        IEnumerable<NewsDto> GetNews(int subjectId);
+        void DeleteNews(int newsId);
+        void DeleteSubject(int subjectId);
     }
     public class SubjectService : ISubjectService
     {
@@ -83,10 +88,71 @@ namespace UniversityWebsite.Services
             return Mapper.Map<SubjectDto>(addedSubject);
         }
 
-        public Subject Add()
+        public SubjectDto UpdateSubject(SubjectDto subject, string authorId)
         {
-            throw new NotImplementedException();
+            Subject dbSubject = _context.Subjects.Find(subject.Id);
+            if(dbSubject==null)
+                throw new PropertyValidationException("subject.Id", "No subject with id: "+subject.Id+" in database.");
+
+            dbSubject.Name = subject.Name;
+            
+            dbSubject.Schedule.AuthorId = authorId;
+            dbSubject.Schedule.Content = subject.Schedule.Content;
+            dbSubject.Schedule.PublishDate = DateTime.Now;
+
+            dbSubject.Syllabus.AuthorId = authorId;
+            dbSubject.Syllabus.Content = subject.Syllabus.Content;
+            dbSubject.Syllabus.PublishDate = DateTime.Now;
+
+            dbSubject.Semester = subject.Semester;
+            dbSubject.UrlName = PrepareUniqueUrlName(subject.UrlName);
+
+            _context.Entry(dbSubject).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Mapper.Map<SubjectDto>(dbSubject);
         }
+
+        public NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId)
+        {
+            var dbNews = new News
+            {
+                AuthorId = authorId,
+                Content = newsDto.Content,
+                PublishDate = DateTime.Now,
+                Header = newsDto.Header,
+                SubjectId = subjectId
+            };
+            var addedNews = _context.News.Add(dbNews);
+            _context.SaveChanges();
+            return Mapper.Map<NewsDto>(addedNews);
+        }
+
+        public void DeleteNews(int newsId)
+        {
+            var news = _context.News.Find(newsId);
+            _context.Entry(news).State=EntityState.Deleted;
+            _context.SaveChanges();
+        }
+
+        public void DeleteSubject(int subjectId)
+        {
+            var subject = _context.Subjects.Find(subjectId);
+            if(subject==null)
+                throw new NotFoundException("Subject with id: "+subjectId);
+            var newsToDelete = subject.News.ToList();
+            foreach (var news in newsToDelete)
+                _context.Entry(news).State = EntityState.Deleted;
+            _context.Entry(subject.Schedule).State = EntityState.Deleted;
+            _context.Entry(subject.Syllabus).State = EntityState.Deleted;
+            _context.Entry(subject).State = EntityState.Deleted;
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<NewsDto> GetNews(int subjectId)
+        {
+            return _context.News.Where(n => n.SubjectId == subjectId).ProjectTo<NewsDto>();
+        }
+
         public string PrepareUniqueUrlName(string baseUrlName)
         {
             if (!_context.Subjects.Any(p => p.UrlName == baseUrlName))

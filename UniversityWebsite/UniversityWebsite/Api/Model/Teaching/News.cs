@@ -2,11 +2,11 @@
 
 namespace UniversityWebsite.Api.Model.Teaching
 {
-    public class ArticlePost
+    public class News
     {
-        public string Content { get; set; }
-
         [Required]
-        public int SubjectId { get; set; }
+        public string Header { get; set; }
+        [Required]
+        public string Content { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace UniversityWebsite.Api.Model.Teaching
 {
-    public class NewsPost : ArticlePost
+    public class Article
     {
         [Required]
-        public string Header { get; set; }
+        public string Content { get; set; }
     }
 }

@@ -27,12 +27,58 @@ namespace UniversityWebsite.Api.Controllers
         [Route("subjects")]
         public IHttpActionResult PostSubject(SubjectPost subject)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var subjectDto = Mapper.Map<SubjectDto>(subject);
-            subjectDto.UrlName =
-                HttpUtility.UrlEncode(subject.Name.Substring(0, 32 > subject.Name.Length ? subject.Name.Length : 32));
-            
+            subjectDto.UrlName = PrepareUrlName(subject.Name);
             var addedSubject = _subjectService.AddSubject(subjectDto, User.Identity.GetUserId());
             return Ok(addedSubject);
+        }
+        [Route("subjects")]
+        public IHttpActionResult PutSubject(SubjectPut subject)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var subjectDto = Mapper.Map<SubjectDto>(subject);
+            subjectDto.UrlName = PrepareUrlName(subject.Name);
+            var updatedSubject = _subjectService.UpdateSubject(subjectDto, User.Identity.GetUserId());
+            return Ok(updatedSubject);
+        }
+
+        [Route("subjects/{subjectId:int}/news")]
+        public IHttpActionResult PostNews(int subjectId, [FromBody]News news)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var newsDto = Mapper.Map<NewsDto>(news);
+            var addedNews = _subjectService.AddNews(subjectId, newsDto, User.Identity.GetUserId());
+            return Ok(addedNews);
+        }
+
+        [Route("subjects/{subjectId:int}/news")]
+        public IEnumerable<NewsDto> GetNews(int subjectId)
+        {
+            return _subjectService.GetNews(subjectId);
+        }
+
+
+        [Route("news/{newsId:int}")]
+        public IHttpActionResult DeleteNews(int newsId)
+        {
+            _subjectService.DeleteNews(newsId);
+            return Ok();
+        }
+
+        [Route("subjects/{subjectId:int}")]
+        public IHttpActionResult DeleteSubject(int subjectId)
+        {
+            _subjectService.DeleteSubject(subjectId);
+            return Ok();
+        }
+
+        private string PrepareUrlName(string name)
+        {
+            return HttpUtility.UrlEncode(name.Substring(0, 32 > name.Length ? name.Length : 32)); ;
         }
     }
 }

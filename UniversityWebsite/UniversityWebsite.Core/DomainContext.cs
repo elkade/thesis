@@ -23,6 +23,7 @@ namespace UniversityWebsite.Core
         IDbSet<Student> Students { get; set; }
         IDbSet<SignUpRequest> SignUpRequests { get; set; }
         IDbSet<PageGroup> PageGroups { get; set; }
+        IDbSet<News> News { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
@@ -54,6 +55,7 @@ namespace UniversityWebsite.Core
         public virtual IDbSet<File> Files { get; set; }
         public virtual IDbSet<SignUpRequest> SignUpRequests { get; set; }
         public virtual IDbSet<PageGroup> PageGroups { get; set; }
+        public virtual IDbSet<News> News { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
