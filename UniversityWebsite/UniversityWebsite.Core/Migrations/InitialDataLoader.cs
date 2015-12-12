@@ -228,15 +228,15 @@ namespace UniversityWebsite.Core.Migrations
                     Name = subject,
                     Semester = 2,
                     UrlName = subjects2Names[i++],
-                    News = new List<Article>
+                    News = new List<News>
                     {
-                        new Article
+                        new News
                         {
                             Header = "Article 1",
                             Content = "Content",
                             PublishDate = DateTime.Now
                         },
-                        new Article
+                        new News
                         {
                             Header = "Article 2",
                             Content = "Content",

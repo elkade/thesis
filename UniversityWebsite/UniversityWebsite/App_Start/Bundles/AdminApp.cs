@@ -12,6 +12,7 @@ namespace UniversityWebsite.Bundles
                 .IncludeDirectory("~/AdminApp/pages", "*.js")
                 .IncludeDirectory("~/AdminApp/pages/controllers", "*.js")
                 .IncludeDirectory("~/AdminApp/subjects", "*.js")
+                .IncludeDirectory("~/AdminApp/subjects/controllers", "*.js")
                 .IncludeDirectory("~/AdminApp/menus", "*.js")
                 .IncludeDirectory("~/AdminApp/menus/controllers", "*.js")
                 .IncludeDirectory("~/AdminApp/main-pages", "*.js")

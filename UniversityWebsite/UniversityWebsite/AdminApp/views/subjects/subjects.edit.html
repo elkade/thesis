@@ -1,4 +1,4 @@
-﻿<h3>{{subject.Name}}</h3>
+﻿
 
 <style>
     .mousetrap {
@@ -9,47 +9,89 @@
     }
 </style>
 
-<accordion>
-    <accordion-group heading="News">
-        <div class="row">
-            <div class="medium-2 columns">
-                <input type="text" placeholder="rrrr-mm-dd"/>
-            </div>
-            <div class="medium-2 columns">
-                <input type="text" placeholder="rrrr-mm-dd"/>
-            </div>
-            <div class="small-2 columns">
-                <button type="submit">Filtruj</button>
-            </div>
-            <div class="medium-5 columns"></div>
+<div class="row">
+    <div class="large-12 columns">
+        <div data-alert class="alert-box alert" ng-repeat="error in errors">
+            {{error}}
+            <a href="#" class="close" ng-click="">&times;</a>
         </div>
-        <div class="row">
-            <div ng-repeat="news in subject.News">
-                <span>{{news.Header}}</span>
-                <div>
-                    <textarea ui-tinymce="tinymceOptions" data-ng-model="news.Content" class="mousetrap"></textarea>
+    </div>
+</div>
+
+<div class="row" ng-hide="editMode">
+    <div class="medium-10 columns">
+        <h3>{{subject.Name}}</h3>
+    </div>
+    <div class="medium-2 columns">
+        <button class="button" ng-click="edit()">Edit</button>
+    </div>
+</div> 
+
+<form name="subjectForm" novalidate class="css-form" ng-submit="update()">
+    <div class="row" ng-hide="!editMode">
+        <div class="medium-10 columns">
+            <input type="text" class="title-input" placeholder="Subject name" ng-model="subject.Name" required/>
+            <div class="row">
+                <div class="medium-4 columns">
+                    <label>
+                        Semester
+                        <input type="number" placeholder="semester number" ng-model="subject.Semester" required min="1" max="10"/>
+                    </label>
                 </div>
             </div>
         </div>
-    </accordion-group>
-    <accordion-group heading="Plan zajec">
-        <div>
-            Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+        <div class="medium-2 columns">
+            <button class="button" type="submit">Update</button>
         </div>
-    </accordion-group>
-    <accordion-group heading="Sylabus">
-        <div>
-            Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
-        </div>
-    </accordion-group>
-    <accordion-group heading="Materialy dydaktyczne">
-        <div>
-            Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
-        </div>
-    </accordion-group>
-    <accordion-group heading="Wyniki">
-        <div>
-            Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
-        </div>
-    </accordion-group>
-</accordion>
+    </div>
+</form>
+
+
+<div>
+    <accordion>
+        <accordion-group heading="News" is-disabled="true">
+            <div ng-hide="editMode">
+                <div class="row">
+                    <div class="medium-2 columns">
+                        <input type="text" placeholder="rrrr-mm-dd" />
+                    </div>
+                    <div class="medium-2 columns">
+                        <input type="text" placeholder="rrrr-mm-dd" />
+                    </div>
+                    <div class="small-2 columns">
+                        <button type="submit">Filtruj</button>
+                    </div>
+                    <div class="medium-5 columns"></div>
+                </div>
+                <div class="row">
+                    <div ng-repeat="news in subject.News">
+                        <span>{{news.Header}}</span>
+                        <div>
+                            <textarea ui-tinymce="tinymceOptions" data-ng-model="news.Content" class="mousetrap"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </accordion-group>
+        <accordion-group heading="Plan zajec">
+            <div ng-hide="editMode">
+                Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+            </div>
+        </accordion-group>
+        <accordion-group heading="Sylabus">
+            <div ng-hide="editMode">
+                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+            </div>
+        </accordion-group>
+        <accordion-group heading="Materialy dydaktyczne">
+            <div ng-hide="editMode">
+                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+            </div>
+        </accordion-group>
+        <accordion-group heading="Wyniki">
+            <div ng-hide="editMode">
+                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+            </div>
+        </accordion-group>
+    </accordion>
+</div>

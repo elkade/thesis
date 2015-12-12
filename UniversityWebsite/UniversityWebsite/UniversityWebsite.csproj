@@ -201,6 +201,8 @@
     <Content Include="AdminApp\languages\languages-service.js" />
     <Content Include="AdminApp\languages\languages.js" />
     <Content Include="AdminApp\main-pages\controllers\mainPagesEditController.js" />
+    <Content Include="AdminApp\modules\ui-bootstrap-0.14.3.min.js" />
+    <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
     <Content Include="AdminApp\views\languages\newLangModal.html" />
     <Content Include="AdminApp\views\languages\languageWizard.html" />

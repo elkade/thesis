@@ -29,14 +29,6 @@
         }
     };
 
-    var showValidation = function(form) {
-        window.angular.forEach(form.$error, function(field) {
-            window.angular.forEach(field, function(errorField) {
-                errorField.$setTouched();
-            });
-        });
-    };
-
     $scope.update = function() {
         $scope.errors = [];
 
@@ -58,7 +50,7 @@
                 }, errorHandler);
             }
         } else {
-            showValidation($scope.pageForm);
+            utils.showValidation($scope.pageForm);
         }
     };
 

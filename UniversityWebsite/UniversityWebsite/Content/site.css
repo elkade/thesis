@@ -174,3 +174,12 @@ nav .button-group a.button {
 }
 
 
+input.title-input {
+    font-size: 1.9em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    font-weight: bold;
+}
+
+.edit-details { margin-top: 2em; }
+

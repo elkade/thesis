@@ -62,6 +62,14 @@
             for (var i = 0; i < array.length; i++) {
                 
             }
-        }
+        },
+
+        showValidation: function(form) {
+            window.angular.forEach(form.$error, function(field) {
+                window.angular.forEach(field, function(errorField) {
+                    errorField.$setTouched();
+                });
+            });
+        },
     };
 });

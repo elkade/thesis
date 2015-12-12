@@ -6,25 +6,28 @@
     [
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
+            var getSubjects = function(subjectsService) {
+                return subjectsService.all();
+            };
+
             $stateProvider
                 .state('subjects', {
                     url: '/subjects',
                     templateUrl: 'adminapp/views/subjects/subjects.html',
 
                     resolve: {
-                        subjects: [
-                            'subjects',
-                            function (subjects) {
-                                return subjects.all();
-                            }
-                        ]
+                        subjects: getSubjects
                     },
 
                     controller: [
-                        '$scope', '$state', 'subjects',
-                        function ($scope, $state, subjects) {
+                        '$scope', '$state', 'subjects', '$location',
+                        function ($scope, $state, subjects, $location) {
                             $scope.subjects = subjects;
-                            console.log($scope.subjects);
+                            
+                            $scope.add = function () {
+                                $location.path('subjects/newSubject');
+                            };
+
                         }
                     ]
             })
@@ -34,27 +37,7 @@
                 views: {
                     '': {
                         templateUrl: 'adminapp/views/subjects/subjects.edit.html',
-                        controller: [
-                            '$scope', '$stateParams', 'utils', 'subjectsPost',
-                            function ($scope, $stateParams, utils, subjectsPost) {
-                                $scope.subject = utils.findByName($scope.subjects, $stateParams.subjectName);
-
-                                $scope.oneAtATime = true;
-
-                                $scope.tinymceOptions = {
-                                    lplugins: 'textcolor link code',
-                                    toolbar: "undo redo styleselect bold italic forecolor backcolor code",
-                                    inline: true,
-                                    menu: { // this is the complete default configuration
-                                        edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
-                                        insert: { title: 'Insert', items: 'link media | template hr' },
-                                        format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
-                                    }
-                                };
-                            }
-
-
-                        ]
+                        controller: 'subjectsEditCtrl'
                     },
                 }
             });
