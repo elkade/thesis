@@ -8,6 +8,7 @@ using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services.Model;
 using UniversityWebsite.ViewModels;
+using News = UniversityWebsite.Api.Model.Teaching.News;
 
 namespace UniversityWebsite
 {
@@ -98,7 +99,7 @@ namespace UniversityWebsite
                 //SemesterNumber = p.Semester.Number,
             });
 
-            Mapper.CreateMap<NewsPost, NewsDto>().ConvertUsing(p => new NewsDto
+            Mapper.CreateMap<News, NewsDto>().ConvertUsing(p => new NewsDto
             {
                 Content = p.Content,
                 Header = p.Header

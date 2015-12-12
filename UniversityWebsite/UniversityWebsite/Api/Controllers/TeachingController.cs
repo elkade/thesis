@@ -45,6 +45,37 @@ namespace UniversityWebsite.Api.Controllers
             return Ok(updatedSubject);
         }
 
+        [Route("subjects/{subjectId:int}/news")]
+        public IHttpActionResult PostNews(int subjectId, [FromBody]News news)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var newsDto = Mapper.Map<NewsDto>(news);
+            var addedNews = _subjectService.AddNews(subjectId, newsDto, User.Identity.GetUserId());
+            return Ok(addedNews);
+        }
+
+        [Route("subjects/{subjectId:int}/news")]
+        public IEnumerable<NewsDto> GetNews(int subjectId)
+        {
+            return _subjectService.GetNews(subjectId);
+        }
+
+
+        [Route("news/{newsId:int}")]
+        public IHttpActionResult DeleteNews(int newsId)
+        {
+            _subjectService.DeleteNews(newsId);
+            return Ok();
+        }
+
+        [Route("subjects/{subjectId:int}")]
+        public IHttpActionResult DeleteSubject(int subjectId)
+        {
+            _subjectService.DeleteSubject(subjectId);
+            return Ok();
+        }
+
         private string PrepareUrlName(string name)
         {
             return HttpUtility.UrlEncode(name.Substring(0, 32 > name.Length ? name.Length : 32)); ;

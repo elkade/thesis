@@ -817,7 +817,7 @@
     <Compile Include="Api\Controllers\TeachingController.cs" />
     <Compile Include="ApiControllers\TileController.cs" />
     <Compile Include="Api\Model\Teaching\Article.cs" />
-    <Compile Include="Api\Model\Teaching\NewsPost.cs" />
+    <Compile Include="Api\Model\Teaching\News.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPost.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPut.cs" />
     <Compile Include="App_Start\AutofacConfig.cs" />
