@@ -17,8 +17,6 @@ namespace UniversityWebsite.Domain.Model
         [Column(TypeName = "text")]
         public string Content { get; set; }
         [Required]
-        public virtual User Author { get; set; }
-        [Required]
         public DateTime PublishDate { get; set; }
         [Required]
         public ArticleStatus Status { get; set; }

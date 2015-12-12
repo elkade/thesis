@@ -10,7 +10,7 @@
 </style>
 
 <accordion>
-    <accordion-group heading="Aktualnosci">
+    <accordion-group heading="News">
         <div class="row">
             <div class="medium-2 columns">
                 <input type="text" placeholder="rrrr-mm-dd"/>
@@ -24,46 +24,13 @@
             <div class="medium-5 columns"></div>
         </div>
         <div class="row">
-            <span>News 4</span>
-            <div>
-                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
-            </div>
-            <span>News 3</span>
-            <div>
-                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
-            </div>
-            <span>News 2</span>
-            <div>
-                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
-            </div>
-            <span>News 1</span>
-            <div>
-                <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
+            <div ng-repeat="news in subject.News">
+                <span>{{news.Header}}</span>
+                <div>
+                    <textarea ui-tinymce="tinymceOptions" data-ng-model="news.Content" class="mousetrap"></textarea>
+                </div>
             </div>
         </div>
-        <!--<accordion>
-            <accordion-group heading="Post 4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2015-11-10">
-                <div>
-                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap">
-                    </textarea>
-                </div>
-            </accordion-group>
-            <accordion-group heading="Post 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2015-11-09">
-                <div>
-                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
-                </div>
-            </accordion-group>
-            <accordion-group heading="Post 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2015-11-07">
-                <div>
-                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.NewsContent" class="mousetrap"></textarea>
-                </div>
-            </accordion-group>
-            <accordion-group heading="Post 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2015-11-05">
-                <div>
-                    Panel 1. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
-                </div>
-            </accordion-group>
-        </accordion>-->
     </accordion-group>
     <accordion-group heading="Plan zajec">
         <div>

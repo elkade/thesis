@@ -3,18 +3,7 @@
 ])
 
 .factory('subjects', ['$http', 'utils', function ($http, utils) {
-    var path = "/api/subjects";
-    //var http = function() {
-    //    return $http({
-    //        method: "GET",
-    //        url: path,
-    //        headers: { 'Content-Type': 'application/json' }
-    //    });
-    //}
-
-    //this.pages = http().then(function (resp) {
-    //    return resp.data;
-    //});
+    var path = "/api/teaching/subjects";
 
     var subjects = $http.get(path).then(function (resp) {
         return resp.data;
@@ -26,9 +15,9 @@
     };
 
     factory.get = function (id) {
-        return subjects.then(function () {
+        return subjects.then(function() {
             return utils.findByName(subjects, id);
-        })
+        });
     };
 
     return factory;

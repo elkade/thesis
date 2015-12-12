@@ -227,7 +227,22 @@ namespace UniversityWebsite.Core.Migrations
                 {
                     Name = subject,
                     Semester = new Semester { Description = "2", Number = 2 },
-                    UrlName = subjects2Names[i++]
+                    UrlName = subjects2Names[i++],
+                    News = new List<Article>
+                    {
+                        new Article
+                        {
+                            Header = "Article 1",
+                            Content = "Content",
+                            PublishDate = DateTime.Now
+                        },
+                        new Article
+                        {
+                            Header = "Article 2",
+                            Content = "Content",
+                            PublishDate = DateTime.Now
+                        },
+                    }
                 });
             }
         }

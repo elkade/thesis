@@ -51,8 +51,6 @@
                                         format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
                                     }
                                 };
-
-                                $scope.subject.NewsContent = "Panel 1. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.";
                             }
 
 
