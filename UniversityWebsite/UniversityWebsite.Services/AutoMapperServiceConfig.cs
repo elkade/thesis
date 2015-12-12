@@ -23,6 +23,10 @@ namespace UniversityWebsite.Services
             Mapper.CreateMap<Menu, MenuDto>()
                 .ForMember(dto => dto.Items, conf => conf.MapFrom(p => p.Items));
             Mapper.CreateMap<Page, PageMenuItem>().ForMember(dto => dto.Children, conf => conf.MapFrom(p => new List<PageMenuItem>()));
+
+            Mapper.CreateMap<Subject, SubjectDto>();
+
+            Mapper.CreateMap<Article, ArticleDto>();
         }
     }
 }

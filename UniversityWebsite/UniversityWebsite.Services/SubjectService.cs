@@ -4,9 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Exceptions;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
@@ -14,6 +16,7 @@ namespace UniversityWebsite.Services
     {
         IEnumerable<Subject> GetSemester(int number);
         Subject GetSubject(string name);
+        IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
     }
     public class SubjectService : ISubjectService
     {
@@ -47,6 +50,18 @@ namespace UniversityWebsite.Services
         {
             var subject = _context.Subjects.Include(s=>s.Semester).SingleOrDefault(s => s.UrlName == name);
             return subject;
+        }
+
+        public IEnumerable<SubjectDto> GetSubjects(int offset, int limit)
+        {
+            if (limit < 0) return Enumerable.Empty<SubjectDto>();
+            limit = limit > 50 ? 50 : limit;
+            return
+                _context.Subjects.OrderBy(s => s.Semester.Number)
+                    .ThenBy(s => s.Name)
+                    .Skip(offset)
+                    .Take(limit)
+                    .ProjectTo<SubjectDto>();
         }
 
         public Subject Add()

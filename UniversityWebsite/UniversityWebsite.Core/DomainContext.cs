@@ -59,6 +59,7 @@ namespace UniversityWebsite.Core
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Article>();
             modelBuilder.Entity<Student>();
             modelBuilder.Entity<Teacher>();

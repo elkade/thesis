@@ -92,6 +92,9 @@ namespace UniversityWebsite.Core.Migrations
             _context.Phrases.Add(new Phrase { Key = "home", CountryCode = "pl", Value = "Strona główna" });
             _context.Phrases.Add(new Phrase { Key = "home", CountryCode = "en", Value = "Home" });
 
+            _context.Phrases.Add(new Phrase { Key = "semester", CountryCode = "pl", Value = "Semestr" });
+            _context.Phrases.Add(new Phrase { Key = "semester", CountryCode = "en", Value = "Semester" });
+
 
             _context.Phrases.Add(new Phrase { Key = "news", CountryCode = "pl", Value = "Aktualności" });
             _context.Phrases.Add(new Phrase { Key = "news", CountryCode = "en", Value = "News" });
