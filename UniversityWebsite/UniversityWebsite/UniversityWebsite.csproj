@@ -208,9 +208,11 @@
     <Content Include="AdminApp\views\main-pages\tile.edit.html" />
     <Content Include="AdminApp\views\partials\menu.list.html" />
     <Content Include="AdminApp\views\partials\pages.list.html" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\invalid.png" />
     <Content Include="Content\site.css" />
     <Content Include="Content\foundation\foundation-icons.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\foundation\foundation-icons.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\foundation\svgs\fi-address-book.svg" />
@@ -597,6 +599,11 @@
     <Content Include="App_Readme\Foundation for Sites\readme.md" />
     <Content Include="AdminApp\views\languages\languageWizard.basic.html" />
     <Content Include="AdminApp\views\languages\languageWizard.translations.html" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
     <Content Include="AdminApp\app.js" />

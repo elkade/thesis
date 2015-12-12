@@ -19,49 +19,43 @@
     </style>
 }
 
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+        <li class="name">
+            <h1><a href="@Url.Action("Index", "Home")"><i class='fi-home'></i></a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+    </ul>
+    <section class="top-bar-section">
+        <ul class="right"></ul>
+
+        <ul class="left">
+            <li><a href="#@newsString">@newsString</a></li>
+            <li><a href="#@scheduleString">@scheduleString</a></li>
+            <li><a href="#@syllabusString">@syllabusString</a></li>
+            <li><a href="#@filesString">@filesString</a></li>
+        </ul>
+    </section>
+</nav>
+
 <h2>@Model.Name</h2>
 
 <div class="large-12 columns">
-    <div class="row">
-        <div class="medium-5 columns">
-            <h3>@Model.Name</h3>
-        </div>
-        <div class="medium-7 columns right">
-            <ul class="inline-list">
-                <li><a>@newsString</a></li>
-                <li><a>@scheduleString</a></li>
-                <li><a>@syllabusString</a></li>
-                <li><a>@filesString</a></li>
-            </ul>
-        </div>
-
+    <div class="panel">
+        <h5 name="@newsString"><a name="@newsString" href="#panel1a">@newsString</a></h5>
+        @Model.News
     </div>
-    <ul class="accordion" data-accordion style="margin-left: 0">
-
-        <li class="accordion-navigation">
-            <a href="#panel1a">@newsString</a>
-            <div id="panel1a" class="content active">
-                @Model.News
-            </div>
-        </li>
-        <li class="accordion-navigation">
-            <a href="#panel2a">@scheduleString</a>
-            <div id="panel2a" class="content active">
-                @Model.Schedule
-            </div>
-        </li>
-        <li class="accordion-navigation">
-            <a href="#panel3a">@syllabusString</a>
-            <div id="panel3a" class="content active">
-                @Model.Syllabus
-            </div>
-        </li>
-        <li class="accordion-navigation">
-            <a href="#panel4a">@filesString</a>
-            <div id="panel4a" class="content active">
-                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </div>
-        </li>
-    </ul>
+    <div class="panel">
+        <h5 name="@newsString"><a name="@scheduleString" href="#panel2a">@scheduleString</a></h5>
+        @Model.Schedule
+    </div>
+    <div class="panel">
+        <h5 name="@newsString"><a name="@syllabusString" href="#panel3a">@syllabusString</a></h5>
+        @Model.Syllabus
+    </div>
+    <div class="panel">
+        <h5 name="@newsString"><a name="@filesString" href="#panel4a">@filesString</a></h5>
+        Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </div>
 </div>
 
