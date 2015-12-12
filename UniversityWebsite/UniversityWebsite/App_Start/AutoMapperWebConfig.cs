@@ -98,21 +98,26 @@ namespace UniversityWebsite
                 //SemesterNumber = p.Semester.Number,
             });
 
-            Mapper.CreateMap<ArticlePost, ArticleDto>().ConstructUsing(p => new ArticleDto
-            {
-                Content = p.Content,
-            });
-            Mapper.CreateMap<NewsPost, NewsDto>().ConstructUsing(p => new NewsDto
+            Mapper.CreateMap<NewsPost, NewsDto>().ConvertUsing(p => new NewsDto
             {
                 Content = p.Content,
                 Header = p.Header
             });
 
-            Mapper.CreateMap<SubjectPost, SubjectDto>().ConstructUsing(p=>new SubjectDto
+            Mapper.CreateMap<SubjectPost, SubjectDto>().ConvertUsing(p => new SubjectDto
             {
                 Name = p.Name,
-                Schedule = Mapper.Map<ArticleDto>(p.Schedule),
-                Syllabus = Mapper.Map<ArticleDto>(p.Syllabus),
+                Schedule = new ArticleDto{Content = p.Schedule.Content},
+                Syllabus = new ArticleDto{Content = p.Syllabus.Content},
+                Semester = p.Semester,
+            });
+
+            Mapper.CreateMap<SubjectPut, SubjectDto>().ConvertUsing(p => new SubjectDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Schedule = new ArticleDto { Content = p.Schedule.Content },
+                Syllabus = new ArticleDto { Content = p.Syllabus.Content },
                 Semester = p.Semester,
             });
         }

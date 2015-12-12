@@ -19,6 +19,7 @@ namespace UniversityWebsite.Services
         Subject GetSubject(string name);
         IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
         SubjectDto AddSubject(SubjectDto subject, string authorId);
+        SubjectDto UpdateSubject(SubjectDto subject, string authorId);
     }
     public class SubjectService : ISubjectService
     {
@@ -83,9 +84,28 @@ namespace UniversityWebsite.Services
             return Mapper.Map<SubjectDto>(addedSubject);
         }
 
-        public Subject Add()
+        public SubjectDto UpdateSubject(SubjectDto subject, string authorId)
         {
-            throw new NotImplementedException();
+            Subject dbSubject = _context.Subjects.Find(subject.Id);
+            if(dbSubject==null)
+                throw new PropertyValidationException("subject.Id", "No subject with id: "+subject.Id+" in database.");
+
+            dbSubject.Name = subject.Name;
+            
+            dbSubject.Schedule.AuthorId = authorId;
+            dbSubject.Schedule.Content = subject.Schedule.Content;
+            dbSubject.Schedule.PublishDate = DateTime.Now;
+
+            dbSubject.Syllabus.AuthorId = authorId;
+            dbSubject.Syllabus.Content = subject.Syllabus.Content;
+            dbSubject.Syllabus.PublishDate = DateTime.Now;
+
+            dbSubject.Semester = subject.Semester;
+            dbSubject.UrlName = PrepareUniqueUrlName(subject.UrlName);
+
+            _context.Entry(dbSubject).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Mapper.Map<SubjectDto>(dbSubject);
         }
         public string PrepareUniqueUrlName(string baseUrlName)
         {
