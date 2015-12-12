@@ -18,7 +18,7 @@ namespace UniversityWebsite.Controllers
 
         public IEnumerable<SubjectViewModel> GetAllSubjects()
         {
-            return _context.Subjects.Select(Mapper.Map<SubjectViewModel>);
+            return _context.Subjects.Select(s => new SubjectViewModel{Name = s.Name});
         }
 
         [HttpGet]

@@ -5,12 +5,6 @@
 </style>
 
 <div class="row">
-    <ul class="button-group">
-        <li><button ui-sref="languageForm.basic" class="button small">Back</button></li>
-        <li><button type="submit" class="button small success">Finish</button></li>
-    </ul>
-</div>
-<div class="row">
     <div class="medium-12 columns">
         <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>

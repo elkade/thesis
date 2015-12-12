@@ -6,8 +6,8 @@ namespace UniversityWebsite.Bundles
     {
         public static Bundle Styles()
         {
-            return new StyleBundle("~/Content/foundation/css").Include(
-                       "~/Content/foundation/foundation-icons.css", 
+            return new StyleBundle("~/Content/foundation/css").Include( 
+                       "~/Content/font-awesome.min.css", 
                        "~/sass/Site.css");
         }
 

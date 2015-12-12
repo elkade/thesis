@@ -6,7 +6,6 @@
     $scope.language = {};
 
     $scope.translations = extractTranslations(dictionaries);
-    console.log($scope.translations);
 
     $scope.translationList = { name: 'translations', url: 'adminapp/views/languages/translations.html' };
 
@@ -63,7 +62,7 @@
     };
 
     $scope.startWizard = function() {
-        $location.path('languageForm');
+        $location.path('languageForm/basic');
     };
 
 })
