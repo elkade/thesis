@@ -20,13 +20,7 @@
         });
 }])
 
-.factory("NewsRemove", ['$resource', function ($resource) {
-    return $resource('/api/teaching/news/:newsId', { subjectId: '@id' }, {
-        remove: { method: 'DELETE' }
-    });
-}])
-
-.factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', 'NewsRemove', function ($http, utils, Subjects, News, NewsRemove) {
+.factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', function ($http, utils, Subjects, News) {
     var path = "/api/teaching/subjects";
 
     var subjects = $http.get(path).then(function (resp) {
@@ -49,7 +43,7 @@
 
     factory.postNews = News.post;
     factory.updateNews = News.update;
-    factory.removeNews = NewsRemove.remove;
+    factory.removeNews = News.remove;
 
     return factory;
 }]);
