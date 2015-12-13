@@ -2,6 +2,7 @@
 
 .controller('newsFormCtrl', function ($scope, $sce, subjectsService, utils) {
 
+    $scope.newsMaxLength = 200;
     $scope.init = function(news) {
         $scope.formHide = true;
         if (news.Id == null) {
@@ -9,15 +10,19 @@
         }
     };
 
-
     $scope.updateNews = function (subject, news) {
         utils.showValidation($scope.form);
         if ($scope.form.$valid) {
             if (news.Id != null) {
-                //TODO: waiting for api
+                subjectsService.updateNews({ subjectId: subject.Id, id: news.Id }, news, function (response) {
+                    console.log(response);
+                    news.Id = response.Id;
+                    news.Content = response.Content;
+                    news.Header = response.Header;
+                    $scope.formHide = true;
+                }, errorHandler);
                 $scope.formHide = true;
             } else {
-                console.log(news);
                 subjectsService.postNews({ subjectId: subject.Id }, news, function (response) {
                     console.log(response);
                     news.Id = response.Id;

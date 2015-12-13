@@ -1,6 +1,6 @@
 ﻿angular.module('configApp.menus')
 
-.controller('languagesCtrl', function ($scope, $state, languages, dictionaries, $modal, Languages, languageService, $location) {
+.controller('languagesCtrl', function ($scope, $state, languages, dictionaries, $modal, languageService, $location) {
     $scope.languages = languages;
     $scope.dictionaries = dictionaries;
     $scope.language = {};
@@ -11,9 +11,6 @@
 
     $scope.edit = function(language) {
         $scope.language = language;
-    };
-
-    var errorHandler = function (response) {
     };
 
     function extractTranslations(dictionaries) {
@@ -31,35 +28,68 @@
         return result;
     }
 
-    $scope.save = function() {
+    function extractDictionaries(translations) {
+        var result = new Object();
 
-    };
+        Enumerable.From($scope.translations).ForEach(function(translation) {
+            for (var i = 0; i < translation.Value.length; i++) {
+                var word = translation.Value[i];
+                if (result[word.Lang] == null) {
+                    result[word.Lang] = new Object();
+                }
 
-    $scope.open = function () {
-        var modalInstance = $modal.open({
-            templateUrl: 'adminapp/views/languages/newLangModal.html',
-            controller: 'newLangModalCtrl',
-            resolve: {
-                translationKeys: [
-                    'dictionaries',
-                    function (dictionaries) {
-                        return dictionaries.allTranslationKeys();
-                    }
-                ],
-            }
+                var dic = result[word.Lang];
+                dic[translation.Key] = word.Name;
+            }            
         });
 
-        modalInstance.result.then(function(result) {
-            if (result != null) {
-                languageService.refresh();
-                $scope.languages = languageService.allLanguages();
-                $state.reload();
-            }
-        }, function () { //if modal dismis
+        var dictionaries = [];
+        Enumerable.From(result).ForEach(function(res) {
+            var dictionary = new Object();
+            dictionary.CountryCode = res.Key;
+            dictionary.Words = res.Value;
+            dictionaries.push(dictionary);
+        });
+
+        console.log(dictionaries);
+        return dictionaries;
+    };
+
+    $scope.updateTranslations = function() {
+        var dictionaries = extractDictionaries($scope.translations);
+
+        languageService.updateDictionaries(dictionaries, function (response) {
+            //TODO: updated
+        }, errorHandler);
+    };
+
+    var errorHandler = function (response) {
+    };
+
+    //$scope.open = function () {
+    //    var modalInstance = $modal.open({
+    //        templateUrl: 'adminapp/views/languages/newLangModal.html',
+    //        controller: 'newLangModalCtrl',
+    //        resolve: {
+    //            translationKeys: [
+    //                'dictionaries',
+    //                function (dictionaries) {
+    //                    return dictionaries.allTranslationKeys();
+    //                }
+    //            ],
+    //        }
+    //    });
+
+    //    modalInstance.result.then(function(result) {
+    //        if (result != null) {
+    //            languageService.refresh();
+    //            $scope.languages = languageService.allLanguages();
+    //            $state.reload();
+    //        }
+    //    }, function () { //if modal dismis
             
-        });
-
-    };
+    //    });
+    //};
 
     $scope.startWizard = function() {
         $location.path('languageForm/basic');

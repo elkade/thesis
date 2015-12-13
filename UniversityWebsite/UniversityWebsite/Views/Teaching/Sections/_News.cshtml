@@ -1,7 +1,27 @@
 ﻿@model UniversityWebsite.Model.NewsVm
 
-<div class="panel callout radius">
+<style>
+    span.article-meta {
+        font-size: 0.8rem;
+        color: gray;
+        margin-right: 1rem;
+    }
+    div.article-content {
+        padding-top: 1.5rem;
+    }
+</style>
+
+<div class="panel radius">
     <h4>@Model.Header</h4>
-    <h5>@Model.Author @Model.PublishDate</h5>
-    <p>@Model.Content</p>
+    <div class="row">
+        <div class="medium-12 columns">
+            <span class="article-meta"><i class="fa fa-calendar"></i> @Model.PublishDate</span> <span class="article-meta"><i class="fa fa-user"></i> @Model.Author</span>
+        </div>
+    </div>
+    <div class="row article-content">
+        <div class="medium-12 columns">
+            <p>@Model.Content</p>
+        </div>
+    </div>
+    
 </div>

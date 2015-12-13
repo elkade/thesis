@@ -86,9 +86,7 @@ namespace UniversityWebsite.Services
             if (lang == null)
                 return null;
             var words = _context.Phrases.Where(p => p.CountryCode == countryCode)
-                .ToList()
-                .Select(p => new KeyValuePair<string, string>(p.Key, p.Value))
-                .ToList();
+                .ToList().ToDictionary(p => p.Key, p => p.Value);
             string title = lang.Title;
             return new DictionaryDto
             {
@@ -105,7 +103,7 @@ namespace UniversityWebsite.Services
                                (key, g) => new DictionaryDto
                                {
                                    CountryCode = key,
-                                   Words = g.Select(p => new KeyValuePair<string, string>(p.Key, p.Value)).ToList()
+                                   Words = g.ToDictionary(p => p.Key, p => p.Value)
                                }
                               );
             return dictionaries;
@@ -116,7 +114,7 @@ namespace UniversityWebsite.Services
             foreach (var dict in dictionaries)
             {
                 var words = UpdateDictionary(dict);
-                yield return new DictionaryDto { CountryCode = dict.CountryCode, Words = words.Select(w => new KeyValuePair<string, string>(w.Key, w.Value)).ToList() };
+                yield return new DictionaryDto { CountryCode = dict.CountryCode, Words = words.ToDictionary(p => p.Key, p => p.Value) };
             }
             _context.SaveChanges();
         }

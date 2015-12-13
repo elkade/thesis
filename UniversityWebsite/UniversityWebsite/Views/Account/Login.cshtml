@@ -25,7 +25,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="row collapse">
                         <div class="small-2 columns">
-                            <span class="prefix"><i class="fi-mail"></i></span>
+                            <span class="prefix"><i class="fa fa-user"></i></span>
                         </div>
                     
                         <div class="small-10  columns">
@@ -35,7 +35,7 @@
 
                     <div class="row collapse">
                         <div class="small-2 columns ">
-                            <span class="prefix"><i class="fi-lock"></i></span>
+                            <span class="prefix"><i class="fa fa-lock"></i></span>
                         </div>
                         <div class="small-10 columns ">
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder=passwordString })

@@ -6,6 +6,6 @@ namespace UniversityWebsite.Services.Model
     {
         public string CountryCode { get; set; }
         public string Title { get; set; }
-        public List<KeyValuePair<string, string>> Words { get; set; } 
+        public Dictionary<string, string> Words { get; set; } 
     }
 }

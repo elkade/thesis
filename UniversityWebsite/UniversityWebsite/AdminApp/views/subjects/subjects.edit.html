@@ -93,7 +93,7 @@
                             </div>
                             <div class="row">
                                 <div class="medium-12 columns">
-                                    <span class="news-content" ng-bind-html="news.Content | sanitize"></span>
+                                    <span class="news-content" ng-bind-html="news.Content | limitTo: newsMaxLength | sanitize "></span>
                                 </div>
                             </div>
                         </div>
