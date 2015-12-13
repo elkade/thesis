@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Helpers;

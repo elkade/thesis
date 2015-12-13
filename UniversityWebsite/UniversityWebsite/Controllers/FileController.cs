@@ -2,8 +2,8 @@
 using System.Web;
 using System.Web.Mvc;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
+
 
 namespace UniversityWebsite.Controllers
 {

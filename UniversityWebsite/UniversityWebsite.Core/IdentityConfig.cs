@@ -6,7 +6,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Core

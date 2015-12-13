@@ -37,7 +37,6 @@
 
             if ($scope.page != null && $scope.page.Id != null) {
                 Pages.update({ id: $scope.page.Id }, $scope.page, function(response) {
-                    console.log(response.Parent);
                     $scope.state = response.$resolved ? 'success' : 'error';
                     $scope.page = response;
                 }, errorHandler);

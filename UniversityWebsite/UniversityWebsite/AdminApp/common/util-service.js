@@ -40,6 +40,14 @@
             }
         },
 
+        removeByHeader: function removeByHeader(a, header) {
+            for (var i = a.length - 1; i >= 0; i--) {
+                if (a[i].Header == header) {
+                    a.splice(i, 1);
+                }
+            }
+        },
+
         remove: function remove(array, element) {
             for (var i = array.length - 1; i >= 0; i--) {
                 if (array[i] == element) {

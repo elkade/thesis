@@ -3,7 +3,6 @@ using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core.Migrations;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Core

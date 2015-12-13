@@ -20,6 +20,12 @@
     };
 }])
 
+.filter("sanitize", ['$sce', function($sce) {
+    return function(htmlCode){
+        return $sce.trustAsHtml(htmlCode);
+    }
+}])
+
 .run( 
     [            '$http', '$rootScope', '$state', '$stateParams', 
         function ($http, $rootScope,   $state,   $stateParams) {

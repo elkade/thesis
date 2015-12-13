@@ -201,7 +201,9 @@
     <Content Include="AdminApp\languages\languages-service.js" />
     <Content Include="AdminApp\languages\languages.js" />
     <Content Include="AdminApp\main-pages\controllers\mainPagesEditController.js" />
+    <Content Include="AdminApp\modules\tinymce.js" />
     <Content Include="AdminApp\modules\ui-bootstrap-0.14.3.min.js" />
+    <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
     <Content Include="AdminApp\views\languages\newLangModal.html" />
@@ -609,7 +611,6 @@
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
     <Content Include="AdminApp\app.js" />
-    <Content Include="AdminApp\modules\tinymce.js" />
     <Content Include="AdminApp\common\util-service.js" />
     <Content Include="AdminApp\pages\pages.js" />
     <Content Include="AdminApp\pages\pages-service.js" />
@@ -652,7 +653,6 @@
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -668,6 +668,9 @@
     <Content Include="Scripts\tinymce\plugins\bbcode\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\charmap\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\codesample\css\prism.css" />
+    <Content Include="Scripts\tinymce\plugins\codesample\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\codesample\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\code\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\code\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\colorpicker\plugin.js" />
@@ -807,6 +810,7 @@
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="AdminApp\views\users\users.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -906,6 +910,9 @@
     <Content Include="Views\Shared\_LanguageSwitcher.cshtml" />
     <Content Include="AdminApp\views\pages\pages.html" />
     <Content Include="Views\Page\Edit.cshtml" />
+    <Content Include="AdminApp\views\pages\pages.edit.html" />
+    <Content Include="Views\Teaching\Subject.cshtml" />
+    <Content Include="Views\Teaching\Semester.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.json" />
@@ -916,9 +923,6 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="AdminApp\views\pages\pages.edit.html" />
-    <Content Include="Views\Teaching\Subject.cshtml" />
-    <Content Include="Views\Teaching\Semester.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

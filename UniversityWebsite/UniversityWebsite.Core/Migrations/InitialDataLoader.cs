@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Core.Migrations
@@ -215,7 +214,24 @@ namespace UniversityWebsite.Core.Migrations
                 {
                     Name = subject,
                     Semester = 1,
-                    UrlName = subjects1Names[i++]
+                    UrlName = subjects1Names[i++],
+                    Schedule = new Schedule { Content = "content", PublishDate = DateTime.Now },
+                    Syllabus = new Syllabus { Content = "content", PublishDate = DateTime.Now },
+                    News = new List<News>
+                    {
+                        new News
+                        {
+                            Header = "Article 1",
+                            Content = "Content",
+                            PublishDate = DateTime.Now
+                        },
+                        new News
+                        {
+                            Header = "Article 2",
+                            Content = "Content",
+                            PublishDate = DateTime.Now
+                        },
+                    }
                 });
             }
             string[] subjects2 = { "Metody Numeryczne 1", "Analiza 2", "Programowanie" };
@@ -228,6 +244,8 @@ namespace UniversityWebsite.Core.Migrations
                     Name = subject,
                     Semester = 2,
                     UrlName = subjects2Names[i++],
+                    Schedule = new Schedule{Content = "content", PublishDate = DateTime.Now},
+                    Syllabus = new Syllabus { Content = "content", PublishDate = DateTime.Now },
                     News = new List<News>
                     {
                         new News

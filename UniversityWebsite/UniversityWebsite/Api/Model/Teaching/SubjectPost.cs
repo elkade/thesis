@@ -10,10 +10,8 @@ namespace UniversityWebsite.Api.Model.Teaching
         [Required, Range(1,10)]
         public int Semester { get; set; }
 
-        [Required]
         public Article Syllabus { get; set; }
 
-        [Required]
         public Article Schedule { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
 using UniversityWebsite.Api.Model.Teaching;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
 using UniversityWebsite.Model.Menu;
