@@ -30,7 +30,7 @@ namespace UniversityWebsite
         }
     }
     /// <summary>
-    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą stron
+    /// Odpowiada za część konfiguracji AutoMappera dotyczącą stron
     /// </summary>
     public class PageProfile : Profile
     {
@@ -80,7 +80,7 @@ namespace UniversityWebsite
         }
     }
     /// <summary>
-    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą przedmiotów
+    /// Odpowiada za część konfiguracji AutoMappera dotyczącą przedmiotów
     /// </summary>
     public class SubjectProfile : Profile
     {
@@ -136,7 +136,7 @@ namespace UniversityWebsite
         }
     }
     /// <summary>
-    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą menu
+    /// Odpowiada za część konfiguracji AutoMappera dotyczącą menu
     /// </summary>
     public class MenuProfile : Profile
     {
@@ -149,7 +149,7 @@ namespace UniversityWebsite
     }
 
     /// <summary>
-    /// Odpowiada cz część konfiguracji AutoMappera dotyczącą języków
+    /// Odpowiada za część konfiguracji AutoMappera dotyczącą języków
     /// </summary>
     public class LanguageProfile : Profile
     {

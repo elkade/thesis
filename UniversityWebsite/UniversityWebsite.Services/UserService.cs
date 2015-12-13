@@ -7,7 +7,14 @@ namespace UniversityWebsite.Services
     /// <summary>
     /// Serwis odpowiedzialny za logikę biznesową dotyczącą użytkowników systemu.
     /// </summary>
-    public class UserService
+    public interface IUserService
+    {
+        User FindUser(string login);
+    }
+    /// <summary>
+    /// Serwis odpowiedzialny za logikę biznesową dotyczącą użytkowników systemu.
+    /// </summary>
+    public class UserService : IUserService
     {
         private IDomainContext _context;
         private ApplicationUserManager _userManager;

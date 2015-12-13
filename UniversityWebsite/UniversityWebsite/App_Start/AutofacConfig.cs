@@ -45,6 +45,7 @@ namespace UniversityWebsite
             protected override void Load(ContainerBuilder builder)
             {
                 builder.RegisterType<DictionaryService>().As<IDictionaryService>().InstancePerRequest();
+                builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
                 builder.RegisterType<LanguageService>().As<ILanguageService>().InstancePerRequest();
                 builder.RegisterType<MenuService>().As<IMenuService>().InstancePerRequest();
                 builder.RegisterType<PageService>().As<IPageService>().InstancePerRequest();

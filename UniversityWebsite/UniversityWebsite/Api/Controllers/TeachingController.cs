@@ -55,15 +55,15 @@ namespace UniversityWebsite.Api.Controllers
             return Ok(addedNews);
         }
 
-        [Route("news/{newsId:int}")]
-        public IHttpActionResult PutNews(int newsId, [FromBody]NewsPut news)
+        [Route("subjects/{subjectId:int}/news/{newsId:int}")]
+        public IHttpActionResult PutNews(int subjectId, int newsId, [FromBody]NewsPut news)
         {
             if(newsId!=news.Id)
                 return BadRequest("Ids are not the same");
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var newsDto = Mapper.Map<NewsDto>(news);
-            var updatedNews = _subjectService.UpdateNews(newsDto);
+            var updatedNews = _subjectService.UpdateNews(subjectId, newsDto);
             return Ok(updatedNews);
         }
 
@@ -74,10 +74,10 @@ namespace UniversityWebsite.Api.Controllers
         }
 
 
-        [Route("news/{newsId:int}")]
-        public IHttpActionResult DeleteNews(int newsId)
+        [Route("subject/{subjectId:int}/news/{newsId:int}")]
+        public IHttpActionResult DeleteNews(int subjectId, int newsId)
         {
-            _subjectService.DeleteNews(newsId);
+            _subjectService.DeleteNews(subjectId, newsId);
             return Ok();
         }
 

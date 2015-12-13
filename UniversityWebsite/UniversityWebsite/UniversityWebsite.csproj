@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -817,6 +818,7 @@
     <Compile Include="ApiControllers\PageController.cs" />
     <Compile Include="Api\Controllers\TeachingController.cs" />
     <Compile Include="ApiControllers\TileController.cs" />
+    <Compile Include="Api\Controllers\UsersController.cs" />
     <Compile Include="Api\Model\Teaching\Article.cs" />
     <Compile Include="Api\Model\Teaching\NewsPost.cs" />
     <Compile Include="Api\Model\Teaching\NewsPut.cs" />
