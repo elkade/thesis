@@ -2,19 +2,17 @@
 
 ])
 
-.factory('subjects', ['$http', 'utils', function ($http, utils) {
-    var path = "/api/subjects";
-    //var http = function() {
-    //    return $http({
-    //        method: "GET",
-    //        url: path,
-    //        headers: { 'Content-Type': 'application/json' }
-    //    });
-    //}
+.factory('Subjects', ['$resource', function ($resource) {
+    return $resource('/api/teaching/subjects', {}, {
+        query: { method: 'GET', isArray: true },
+        post: { method: 'POST' },
+        update: { method: 'PUT' },
+        remove: { method: 'DELETE' }
+    });
+}])
 
-    //this.pages = http().then(function (resp) {
-    //    return resp.data;
-    //});
+.factory('subjectsService', ['$http', 'utils', 'Subjects', function ($http, utils, Subjects) {
+    var path = "/api/teaching/subjects";
 
     var subjects = $http.get(path).then(function (resp) {
         return resp.data;
@@ -26,10 +24,12 @@
     };
 
     factory.get = function (id) {
-        return subjects.then(function () {
+        return subjects.then(function() {
             return utils.findByName(subjects, id);
-        })
+        });
     };
+
+    factory.post = Subjects.post;
 
     return factory;
 }]);
