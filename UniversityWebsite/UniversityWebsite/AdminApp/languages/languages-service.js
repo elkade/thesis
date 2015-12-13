@@ -14,7 +14,7 @@
     return $resource('/api/languages/dictionaries', {}, {
         query: { method: 'GET', isArray: true },
         post: { method: 'POST' },
-        update: { method: 'PUT' },
+        update: { method: 'PUT', isArray: true },
         remove: { method: 'DELETE' }
     });
 }])
@@ -44,7 +44,7 @@
     return factory;
 }])
 
-.factory('languageService', ['$http', 'utils', function ($http, utils) {
+.factory('languageService', ['$http', 'utils', 'Dictionaries', function ($http, utils, Dictionaries) {
     var dictionariesPath = "/api/languages/dictionaries";
     var keysPath = "/api/languages/keys";
     var languagesPath = "/api/languages";
@@ -62,6 +62,7 @@
     });
 
     var factory = {};
+
     factory.allDictionaries = function () {
         return dictionaries;
     };
@@ -73,6 +74,8 @@
     factory.allLanguages = function () {
         return languages;
     };
+
+    factory.updateDictionaries = Dictionaries.update;
 
     factory.refresh = function() {
         languages = $http.get(languagesPath).then(function(resp) {

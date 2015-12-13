@@ -12,7 +12,7 @@
 }])
 
 .factory("News", ['$resource', function($resource) {
-        return $resource('/api/teaching/subjects/:subjectId/news', {subjectId: '@id'}, {
+        return $resource('/api/teaching/subjects/:subjectId/news/:id', {subjectId: '@id'}, {
             query: { method: 'GET', isArray: true },
             post: { method: 'POST' },
             update: { method: 'PUT' },

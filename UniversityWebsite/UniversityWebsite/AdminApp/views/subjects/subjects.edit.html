@@ -13,7 +13,7 @@
     }
 
     .mousetrap {
-        cursor: pointer;
+        cursor: pointer !important;
     }
 </style>
 
@@ -59,7 +59,7 @@
     <accordion>
         <accordion-group heading="News" is-disabled="true">
             <div ng-hide="editMode">
-                <div class="row">
+                <!--<div class="row">
                     <div class="medium-2 columns">
                         <input type="text" placeholder="rrrr-mm-dd" />
                     </div>
@@ -70,7 +70,7 @@
                         <button type="submit">Filtruj</button>
                     </div>
                     <div class="medium-5 columns"></div>
-                </div>
+                </div>-->
                 <div class="row">
                     <div class="medium-12 columns">
                         <button class="button small" ng-click="createNews()">Add new</button>
@@ -80,7 +80,7 @@
 
                     <div class="medium-12 columns panel" ng-repeat="news in subject.News | orderBy: '-PublishDate'" ng-controller="newsFormCtrl" ng-init="init(news)">
 
-                        <div ng-hide="!formHide" ng-click="edit()">
+                        <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
                             <div class="row">
                                 <div class="medium-12 columns">
                                     <h5>{{news.Header}}</h5>
@@ -93,13 +93,13 @@
                             </div>
                             <div class="row">
                                 <div class="medium-12 columns">
-                                    <span class="news-content" ng-bind-html="news.Content | sanitize"></span>
+                                    <span class="news-content" ng-bind-html="news.Content | limitTo: newsMaxLength | sanitize "></span>
                                 </div>
                             </div>
                         </div>
 
                         <div ng-hide="formHide">
-                            <form name="form" novalidate class="css-form mousetrap">
+                            <form name="form" novalidate class="css-form">
                                 <div class="row">
                                     <div class="medium-12 columns">
                                         <input type="text" ng-model="news.Header" required placeholder="Header" />
@@ -126,24 +126,93 @@
                 </div>
             </div>
         </accordion-group>
-        <accordion-group heading="Plan zajec">
-            <div ng-hide="editMode">
-                Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+        <accordion-group heading="Schedule">
+            <div class="row" ng-hide="editMode" ng-controller="subjectSectionFormCtrl">
+                <div class="medium-12 columns">
+                    <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <h5>{{subject.Schedule.Header}}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <span class="news-content" ng-bind-html="subject.Schedule.Content | sanitize"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-hide="formHide">
+                        <form name="form" novalidate class="css-form">
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <input type="text" ng-model="subject.Schedule.Header" placeholder="Header" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.Schedule.Content" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <ul class="button-group">
+                                        <li><button class="button small" type="submit" ng-click="updateSubject(subject); $event.stopPropagation();">Update</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </accordion-group>
-        <accordion-group heading="Sylabus">
-            <div ng-hide="editMode">
-                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+        <accordion-group heading="Syllabus">
+            <div class="row" ng-hide="editMode" ng-controller="subjectSectionFormCtrl">
+                <div class="medium-12 columns">
+                    <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <h5>{{subject.Syllabus.Header}}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <span class="news-content" ng-bind-html="subject.Syllabus.Content | sanitize"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-hide="formHide">
+                        <form name="form" novalidate class="css-form">
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <input type="text" ng-model="subject.Syllabus.Header" placeholder="Header" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.Syllabus.Content" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <ul class="button-group">
+                                        <li><button class="button small" type="submit" ng-click="updateSubject(subject); $event.stopPropagation();">Update</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </accordion-group>
-        <accordion-group heading="Materialy dydaktyczne">
-            <div ng-hide="editMode">
-                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
-            </div>
-        </accordion-group>
-        <accordion-group heading="Wyniki">
-            <div ng-hide="editMode">
-                Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing eaccordion-groupt, sed do eiusmod tempor incididunt ut labore et dolore magna aaccordion-groupqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aaccordion-groupquip ex ea commodo consequat.
+        <accordion-group heading="Files">
+            <div class="row" ng-hide="editMode">
+                <div class="medium-12 columns">
+                    <span>Tu beda pliki</span>
+                </div>
             </div>
         </accordion-group>
     </accordion>

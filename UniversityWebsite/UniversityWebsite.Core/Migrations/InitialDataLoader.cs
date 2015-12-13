@@ -26,6 +26,7 @@ namespace UniversityWebsite.Core.Migrations
         private readonly IDomainContext _context;
         private readonly ApplicationUserManager _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private User _admin;
 
         public InitialDataLoader(DomainContext domainContext)
         {
@@ -41,6 +42,8 @@ namespace UniversityWebsite.Core.Migrations
                 WithRoles();
                 WithUsers();
                 WithAdmin(Admin);
+                _admin = _userManager.Users
+                .FirstOrDefault(u => u.UserName.Equals(Admin, StringComparison.CurrentCultureIgnoreCase));
                 AddPagesAndMenus();
                 WithSubjects();
                 WithPhrases();
@@ -213,21 +216,23 @@ namespace UniversityWebsite.Core.Migrations
                     Name = subject,
                     Semester = 1,
                     UrlName = subjects1Names[i++],
-                    Schedule = new Schedule { Content = "content", PublishDate = DateTime.Now },
-                    Syllabus = new Syllabus { Content = "content", PublishDate = DateTime.Now },
+                    Schedule = new Schedule { Content = "content", PublishDate = DateTime.Now, Author = _admin},
+                    Syllabus = new Syllabus { Content = "content", PublishDate = DateTime.Now, Author = _admin},
                     News = new List<News>
                     {
                         new News
                         {
                             Header = "Article 1",
                             Content = "Content",
-                            PublishDate = DateTime.Now
+                            PublishDate = DateTime.Now,
+                            Author = _admin,
                         },
                         new News
                         {
                             Header = "Article 2",
                             Content = "Content",
-                            PublishDate = DateTime.Now
+                            PublishDate = DateTime.Now,
+                            Author = _admin
                         },
                     }
                 });
@@ -242,21 +247,23 @@ namespace UniversityWebsite.Core.Migrations
                     Name = subject,
                     Semester = 2,
                     UrlName = subjects2Names[i++],
-                    Schedule = new Schedule{Content = "content", PublishDate = DateTime.Now},
-                    Syllabus = new Syllabus { Content = "content", PublishDate = DateTime.Now },
+                    Schedule = new Schedule{Content = "content", PublishDate = DateTime.Now, Author = _admin},
+                    Syllabus = new Syllabus { Content = "content", PublishDate = DateTime.Now, Author = _admin},
                     News = new List<News>
                     {
                         new News
                         {
                             Header = "Article 1",
                             Content = "Content",
-                            PublishDate = DateTime.Now
+                            PublishDate = DateTime.Now,
+                            Author = _admin
                         },
                         new News
                         {
                             Header = "Article 2",
                             Content = "Content",
-                            PublishDate = DateTime.Now
+                            PublishDate = DateTime.Now,
+                            Author = _admin
                         },
                     }
                 });
@@ -281,11 +288,9 @@ namespace UniversityWebsite.Core.Migrations
 
         public void WithAdmin(string userName)
         {
-            var admin = _userManager.Users
-                        .FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
-            if (admin != null)
+            if (_admin != null)
             {
-                _userManager.AddToRole(admin.Id, AdminRole);
+                _userManager.AddToRole(_admin.Id, AdminRole);
             }
         }
     }
