@@ -66,10 +66,10 @@ namespace UniversityWebsite.Services
             {
                 Name = subject.Name,
                 Schedule = subject.Schedule==null?new Schedule{AuthorId = authorId}: 
-                    new Schedule {/*AuthorId = authorId,*/ Content = subject.Schedule.Content, PublishDate = DateTime.Now},
+                    new Schedule {AuthorId = authorId, Content = subject.Schedule.Content, PublishDate = DateTime.Now},
                 Semester = subject.Semester,
                 Syllabus = subject.Syllabus == null ? new Syllabus { AuthorId = authorId } : 
-                    new Syllabus {/*AuthorId = authorId,*/ Content = subject.Syllabus.Content, PublishDate = DateTime.Now},
+                    new Syllabus {AuthorId = authorId, Content = subject.Syllabus.Content, PublishDate = DateTime.Now},
                 UrlName = PrepareUniqueUrlName(subject.UrlName),
             };
             var addedSubject = _context.Subjects.Add(dbSubject);
@@ -85,11 +85,11 @@ namespace UniversityWebsite.Services
 
             dbSubject.Name = subject.Name;
             
-            //dbSubject.Schedule.AuthorId = authorId;
+            dbSubject.Schedule.AuthorId = authorId;
             dbSubject.Schedule.Content = subject.Schedule.Content;
             dbSubject.Schedule.PublishDate = DateTime.Now;
 
-            //dbSubject.Syllabus.AuthorId = authorId;
+            dbSubject.Syllabus.AuthorId = authorId;
             dbSubject.Syllabus.Content = subject.Syllabus.Content;
             dbSubject.Syllabus.PublishDate = DateTime.Now;
 
@@ -105,7 +105,7 @@ namespace UniversityWebsite.Services
         {
             var dbNews = new News
             {
-                //AuthorId = authorId,
+                AuthorId = authorId,
                 Content = newsDto.Content,
                 PublishDate = DateTime.Now,
                 Header = newsDto.Header,

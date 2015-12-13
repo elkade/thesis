@@ -40,7 +40,7 @@
                 }, errorHandler);
             } else {
                 subjectsService.update({ id: $scope.subject.Id }, $scope.subject, function (response) {
-                    $scope.page = response;
+                    $scope.subject = response;
                     $scope.editMode = false;
                 }, errorHandler);
             }

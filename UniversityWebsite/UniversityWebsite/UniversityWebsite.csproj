@@ -205,6 +205,7 @@
     <Content Include="AdminApp\modules\tinymce.js" />
     <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
+    <Content Include="AdminApp\subjects\controllers\subjectSectionFormController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
     <Content Include="AdminApp\views\languages\newLangModal.html" />
     <Content Include="AdminApp\views\languages\languageWizard.html" />
