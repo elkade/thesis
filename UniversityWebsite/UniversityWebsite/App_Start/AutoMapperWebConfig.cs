@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Web.Security;
 using AutoMapper;
+using Microsoft.AspNet.Identity.EntityFramework;
+using UniversityWebsite.Api.Model;
 using UniversityWebsite.Api.Model.Teaching;
+using UniversityWebsite.Api.Model.Users;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
 using UniversityWebsite.Model.Menu;
@@ -26,6 +31,7 @@ namespace UniversityWebsite
                 cfg.AddProfile(new MenuProfile());
                 cfg.AddProfile(new SubjectProfile());
                 cfg.AddProfile(new LanguageProfile());
+                cfg.AddProfile(new UserProfile());
             });
         }
     }
@@ -86,9 +92,9 @@ namespace UniversityWebsite
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Domain.Model.News, NewsVm>().ConvertUsing(p => new NewsVm
+            Mapper.CreateMap<News, NewsVm>().ConvertUsing(p => new NewsVm
             {
-                Author = p.Author.UserName,
+                Author = p.Author==null?string.Empty:p.Author.UserName,
                 Content = p.Content,
                 Header = p.Header,
                 PublishDate = p.PublishDate
@@ -145,6 +151,35 @@ namespace UniversityWebsite
             //Mapper.CreateMap<MenuItemDto, MenuItemViewModel>();
             Mapper.CreateMap<MenuDto, MainMenuViewModel>();
             Mapper.CreateMap<Tile, TileViewModel>();
+        }
+    }
+
+    /// <summary>
+    /// Odpowiada za część konfiguracji AutoMappera dotyczącą użytkowników
+    /// </summary>
+    public class UserProfile : Profile
+    {
+        protected override void Configure()
+        {
+            Mapper.CreateMap<UserVm, User>().ConvertUsing(p => new User
+            {
+                Email = p.Email,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                UserName = p.Email,
+                Pesel = p.Pesel,
+                IndexNumber = p.IndexNumber
+            });
+
+            Mapper.CreateMap<User, UserVm>().ConvertUsing(p => new UserVm
+            {
+                Email = p.Email,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                Pesel = p.Pesel,
+                IndexNumber = p.IndexNumber,
+                Id = p.Id,
+            });
         }
     }
 

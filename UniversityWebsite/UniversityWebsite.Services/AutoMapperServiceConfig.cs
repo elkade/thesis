@@ -32,6 +32,8 @@ namespace UniversityWebsite.Services
                 .ForMember(dto => dto.Author, conf => conf.MapFrom(p => p.Author.UserName));
             Mapper.CreateMap<Schedule, ArticleDto>()
                 .ForMember(dto => dto.Author, conf => conf.MapFrom(p => p.Author.UserName));
+
+
         }
     }
 }

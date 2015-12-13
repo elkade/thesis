@@ -1,10 +1,17 @@
 ﻿using System.Reflection;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataProtection;
 using UniversityWebsite.Core;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
 using Module = Autofac.Module;
@@ -59,6 +66,14 @@ namespace UniversityWebsite
             protected override void Load(ContainerBuilder builder)
             {
                 builder.RegisterType(typeof(DomainContext)).As(typeof(IDomainContext)).InstancePerRequest();
+                
+                //builder.RegisterType<UserStore<User>>().As<IUserStore<User>>().InstancePerRequest();
+
+                builder.Register(c => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()).InstancePerRequest();
+
+                //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+                //builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+                //builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
                 base.Load(builder);
             }
         }
