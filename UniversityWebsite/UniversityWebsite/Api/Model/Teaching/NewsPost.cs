@@ -2,7 +2,7 @@
 
 namespace UniversityWebsite.Api.Model.Teaching
 {
-    public class News
+    public class NewsPost
     {
         [Required]
         public string Header { get; set; }

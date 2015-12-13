@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Services;
-using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Filters
 {

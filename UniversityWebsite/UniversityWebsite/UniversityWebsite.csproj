@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -202,7 +203,6 @@
     <Content Include="AdminApp\languages\languages.js" />
     <Content Include="AdminApp\main-pages\controllers\mainPagesEditController.js" />
     <Content Include="AdminApp\modules\tinymce.js" />
-    <Content Include="AdminApp\modules\ui-bootstrap-0.14.3.min.js" />
     <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
@@ -822,8 +822,10 @@
     <Compile Include="ApiControllers\PageController.cs" />
     <Compile Include="Api\Controllers\TeachingController.cs" />
     <Compile Include="ApiControllers\TileController.cs" />
+    <Compile Include="Api\Controllers\UsersController.cs" />
     <Compile Include="Api\Model\Teaching\Article.cs" />
-    <Compile Include="Api\Model\Teaching\News.cs" />
+    <Compile Include="Api\Model\Teaching\NewsPost.cs" />
+    <Compile Include="Api\Model\Teaching\NewsPut.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPost.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPut.cs" />
     <Compile Include="App_Start\AutofacConfig.cs" />
@@ -854,10 +856,12 @@
     <Compile Include="Helper\AntiForgeryExtension.cs" />
     <Compile Include="Helper\AntiForgeryValidate.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
+    <Compile Include="Model\ArticleVm.cs" />
     <Compile Include="Model\Menu\LanguageMenuItemViewModel.cs" />
     <Compile Include="Model\Menu\MainMenuViewModel.cs" />
     <Compile Include="Model\Menu\MenuItemPut.cs" />
     <Compile Include="Model\NewLanguage.cs" />
+    <Compile Include="Model\NewsVm.cs" />
     <Compile Include="Model\Page\PageMenuItemVm.cs" />
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
@@ -923,6 +927,8 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\Teaching\Sections\_Files.cshtml" />
+    <Content Include="Views\Teaching\Sections\_News.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -966,7 +972,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>2226</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:1625/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

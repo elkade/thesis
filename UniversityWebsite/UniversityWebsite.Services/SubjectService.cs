@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
@@ -23,8 +21,10 @@ namespace UniversityWebsite.Services
         SubjectDto UpdateSubject(SubjectDto subject, string authorId);
         NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId);
         IEnumerable<NewsDto> GetNews(int subjectId);
-        void DeleteNews(int newsId);
+        void DeleteNews(int subjectId, int newsId);
         void DeleteSubject(int subjectId);
+
+        NewsDto UpdateNews(int subjectId, NewsDto newsDto);
     }
     public class SubjectService : ISubjectService
     {
@@ -39,19 +39,6 @@ namespace UniversityWebsite.Services
         public IEnumerable<Subject> GetSemester(int number)
         {
             return _context.Subjects.Where(s => s.Semester == number);
-            //if (number == 1)
-            //    return new List<Subject>
-            //    {
-            //        new Subject {Name = "Elementy Logiki i Teorii Mnogości"},
-            //        new Subject {Name = "Algebra"},
-            //        new Subject {Name = "Analiza Matematyczna 1"}
-            //    }; 
-            //return new List<Subject>
-            //{
-            //    new Subject {Name = "Metody Translacji"},
-            //    new Subject {Name = "Teoria Algorytmów i Języków"},
-            //    new Subject {Name = "Seminarium Dyplomowe"}
-            //};
         }
 
         public Subject GetSubject(string name)
@@ -129,9 +116,11 @@ namespace UniversityWebsite.Services
             return Mapper.Map<NewsDto>(addedNews);
         }
 
-        public void DeleteNews(int newsId)
+        public void DeleteNews(int subjectId, int newsId)
         {
             var news = _context.News.Find(newsId);
+            if (subjectId != news.SubjectId)
+                throw new PropertyValidationException("subjectId", "");
             _context.Entry(news).State=EntityState.Deleted;
             _context.SaveChanges();
         }
@@ -155,7 +144,7 @@ namespace UniversityWebsite.Services
             return _context.News.Where(n => n.SubjectId == subjectId).ProjectTo<NewsDto>();
         }
 
-        public string PrepareUniqueUrlName(string baseUrlName)
+        private string PrepareUniqueUrlName(string baseUrlName)
         {
             if (!_context.Subjects.Any(p => p.UrlName == baseUrlName))
                 return baseUrlName;
@@ -168,5 +157,18 @@ namespace UniversityWebsite.Services
             throw new PropertyValidationException("subject.UrlName", "Przekroczono liczbę przedmiotów o tym samym tytule.");
         }
 
+        public NewsDto UpdateNews(int subjectId, NewsDto newsDto)
+        {
+            var dbNews = _context.News.Find(newsDto.Id);
+            if (dbNews == null)
+                throw new NotFoundException("News with id: "+newsDto.Id);
+            if(subjectId!=dbNews.SubjectId)
+                throw new PropertyValidationException("subjectId","");
+            dbNews.Header = newsDto.Header;
+            dbNews.Content = newsDto.Content;
+            _context.Entry(dbNews).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Mapper.Map<NewsDto>(dbNews);
+        }
     }
 }

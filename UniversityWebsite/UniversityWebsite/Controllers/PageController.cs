@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
-using UniversityWebsite.Model;
 using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;

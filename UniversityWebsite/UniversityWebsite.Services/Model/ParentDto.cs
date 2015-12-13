@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UniversityWebsite.Services.Validation;
+﻿using UniversityWebsite.Services.Validation;
 
 namespace UniversityWebsite.Services.Model
 {
