@@ -38,19 +38,6 @@ namespace UniversityWebsite.Services
         public IEnumerable<Subject> GetSemester(int number)
         {
             return _context.Subjects.Where(s => s.Semester == number);
-            //if (number == 1)
-            //    return new List<Subject>
-            //    {
-            //        new Subject {Name = "Elementy Logiki i Teorii Mnogości"},
-            //        new Subject {Name = "Algebra"},
-            //        new Subject {Name = "Analiza Matematyczna 1"}
-            //    }; 
-            //return new List<Subject>
-            //{
-            //    new Subject {Name = "Metody Translacji"},
-            //    new Subject {Name = "Teoria Algorytmów i Języków"},
-            //    new Subject {Name = "Seminarium Dyplomowe"}
-            //};
         }
 
         public Subject GetSubject(string name)
@@ -153,7 +140,7 @@ namespace UniversityWebsite.Services
             return _context.News.Where(n => n.SubjectId == subjectId).ProjectTo<NewsDto>();
         }
 
-        public string PrepareUniqueUrlName(string baseUrlName)
+        private string PrepareUniqueUrlName(string baseUrlName)
         {
             if (!_context.Subjects.Any(p => p.UrlName == baseUrlName))
                 return baseUrlName;

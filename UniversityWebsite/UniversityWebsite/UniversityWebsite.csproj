@@ -848,6 +848,7 @@
     <Compile Include="Helper\AntiForgeryExtension.cs" />
     <Compile Include="Helper\AntiForgeryValidate.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
+    <Compile Include="Model\ArticleVm.cs" />
     <Compile Include="Model\Menu\LanguageMenuItemViewModel.cs" />
     <Compile Include="Model\Menu\MainMenuViewModel.cs" />
     <Compile Include="Model\Menu\MenuItemPut.cs" />
@@ -917,6 +918,8 @@
     <Content Include="AdminApp\views\pages\pages.edit.html" />
     <Content Include="Views\Teaching\Subject.cshtml" />
     <Content Include="Views\Teaching\Semester.cshtml" />
+    <Content Include="Views\Teaching\Sections\_Files.cshtml" />
+    <Content Include="Views\Teaching\Sections\_News.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -960,7 +963,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>2226</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:1625/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

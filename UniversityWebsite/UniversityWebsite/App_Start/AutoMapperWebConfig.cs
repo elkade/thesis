@@ -93,8 +93,8 @@ namespace UniversityWebsite
                 Name = p.Name,
                 //Files = new FilesSectionVm(),
                 //News = string.Join("</br>", p.News.ToString()),
-                //Syllabus = p.Syllabus.ToString(),
-                //Schedule = p.Schedule.ToString(),
+                Syllabus = p.Syllabus.Content,
+                Schedule = p.Schedule.Content,
 
                 //SemesterNumber = p.Semester.Number,
             });

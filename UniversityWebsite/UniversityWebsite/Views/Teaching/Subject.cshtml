@@ -1,4 +1,5 @@
-﻿@model UniversityWebsite.Model.SubjectVm
+﻿@using System.Threading
+@model UniversityWebsite.Model.SubjectVm
 @{
     Layout = null;
 }
@@ -13,9 +14,6 @@
 }
 @section Styles {
     <style>
-        .accordion .accordion-navigation {
-            margin-bottom: 20px !important;
-        }
     </style>
 }
 
@@ -39,23 +37,39 @@
 </nav>
 
 <h2>@Model.Name</h2>
-
-<div class="large-12 columns">
-    <div class="panel">
-        <h5 name="@newsString"><a name="@newsString" href="#panel1a">@newsString</a></h5>
-        @Model.News
+@*@if (Model.News.Count > 0)
+{
+    <div class="accordion" data-accordion role="tablist">
+        <div class="accordion-navigation">
+            <a href="#panel1d" role="tab" id="panel1d-heading" aria-controls="panel1d">@newsString</a>
+            <div id="panel1d" class="content active" role="tabpanel" aria-labelledby="panel1d-heading">
+                @foreach (var news in Model.News)
+                {
+                    Html.RenderPartial("_News",news);
+                }
+            </div>
+        </div>
     </div>
-    <div class="panel">
-        <h5 name="@newsString"><a name="@scheduleString" href="#panel2a">@scheduleString</a></h5>
-        @Model.Schedule
+}*@
+@if (!string.IsNullOrEmpty(Model.Schedule))
+{
+    <div class="accordion" data-accordion role="tablist">
+        <div class="accordion-navigation">
+            <a href="#panel1d" role="tab" id="panel1d-heading" aria-controls="panel1d">@scheduleString</a>
+            <div id="panel1d" class="content active" role="tabpanel" aria-labelledby="panel1d-heading">
+                @Model.Schedule
+            </div>
+        </div>
     </div>
-    <div class="panel">
-        <h5 name="@newsString"><a name="@syllabusString" href="#panel3a">@syllabusString</a></h5>
-        @Model.Syllabus
+}
+@if (!string.IsNullOrEmpty(Model.Syllabus))
+{
+    <div class="accordion" data-accordion role="tablist">
+        <div class="accordion-navigation">
+            <a href="#panel2d" role="tab" id="panel2d-heading" aria-controls="panel2d">@syllabusString</a>
+            <div id="panel2d" class="content active" role="tabpanel" aria-labelledby="panel2d-heading">
+                @Model.Syllabus
+            </div>
+        </div>
     </div>
-    <div class="panel">
-        <h5 name="@newsString"><a name="@filesString" href="#panel4a">@filesString</a></h5>
-        Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </div>
-</div>
-
+}
