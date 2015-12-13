@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
-using AutoMapper;
-using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 

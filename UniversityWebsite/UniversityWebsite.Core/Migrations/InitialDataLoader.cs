@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Core.Migrations

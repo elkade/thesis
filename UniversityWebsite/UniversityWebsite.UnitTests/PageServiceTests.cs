@@ -1,11 +1,8 @@
 ﻿using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;

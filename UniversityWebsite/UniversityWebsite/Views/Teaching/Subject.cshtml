@@ -1,5 +1,4 @@
-﻿@using System.Threading
-@model UniversityWebsite.Model.SubjectVm
+﻿@model UniversityWebsite.Model.SubjectVm
 @{
     Layout = null;
 }
@@ -37,26 +36,27 @@
 </nav>
 
 <h2>@Model.Name</h2>
-@*@if (Model.News.Count > 0)
+@if (Model.News.Count > 0)
 {
     <div class="accordion" data-accordion role="tablist">
         <div class="accordion-navigation">
-            <a href="#panel1d" role="tab" id="panel1d-heading" aria-controls="panel1d">@newsString</a>
-            <div id="panel1d" class="content active" role="tabpanel" aria-labelledby="panel1d-heading">
+            <a href="#newsPanel" role="tab" id="newsPanel-heading" aria-controls="newsPanel">@newsString</a>
+            <div id="newsPanel" class="content active" role="tabpanel" aria-labelledby="newsPanel-heading">
                 @foreach (var news in Model.News)
                 {
-                    Html.RenderPartial("_News",news);
+                    Html.RenderPartial("Sections/_News",news);
                 }
+                <a>ZOBACZ WSZYSTKIE</a>
             </div>
         </div>
     </div>
-}*@
+}
 @if (!string.IsNullOrEmpty(Model.Schedule))
 {
     <div class="accordion" data-accordion role="tablist">
         <div class="accordion-navigation">
-            <a href="#panel1d" role="tab" id="panel1d-heading" aria-controls="panel1d">@scheduleString</a>
-            <div id="panel1d" class="content active" role="tabpanel" aria-labelledby="panel1d-heading">
+            <a href="#schedulePanel" role="tab" id="schedulePanel-heading" aria-controls="schedulePanel">@scheduleString</a>
+            <div id="schedulePanel" class="content active" role="tabpanel" aria-labelledby="schedulePanel-heading">
                 @Model.Schedule
             </div>
         </div>
@@ -66,8 +66,8 @@
 {
     <div class="accordion" data-accordion role="tablist">
         <div class="accordion-navigation">
-            <a href="#panel2d" role="tab" id="panel2d-heading" aria-controls="panel2d">@syllabusString</a>
-            <div id="panel2d" class="content active" role="tabpanel" aria-labelledby="panel2d-heading">
+            <a href="#syllabusPanel" role="tab" id="syllabusPanel-heading" aria-controls="syllabusPanel">@syllabusString</a>
+            <div id="syllabusPanel" class="content active" role="tabpanel" aria-labelledby="syllabusPanel-heading">
                 @Model.Syllabus
             </div>
         </div>

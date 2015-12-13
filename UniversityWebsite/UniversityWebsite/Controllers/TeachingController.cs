@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Microsoft.Ajax.Utilities;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
 using UniversityWebsite.Services;

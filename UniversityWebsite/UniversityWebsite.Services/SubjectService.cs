@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
@@ -24,6 +22,8 @@ namespace UniversityWebsite.Services
         IEnumerable<NewsDto> GetNews(int subjectId);
         void DeleteNews(int newsId);
         void DeleteSubject(int subjectId);
+
+        NewsDto UpdateNews(NewsDto newsDto);
     }
     public class SubjectService : ISubjectService
     {
@@ -153,5 +153,17 @@ namespace UniversityWebsite.Services
             throw new PropertyValidationException("subject.UrlName", "Przekroczono liczbę przedmiotów o tym samym tytule.");
         }
 
+        public NewsDto UpdateNews(NewsDto newsDto)
+        {
+            var dbNews = _context.News.Find(newsDto.Id);
+            if (dbNews == null)
+                throw new NotFoundException("News with id: "+newsDto.Id);
+
+            dbNews.Header = newsDto.Header;
+            dbNews.Content = newsDto.Content;
+            _context.Entry(dbNews).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Mapper.Map<NewsDto>(dbNews);
+        }
     }
 }

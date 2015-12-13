@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using UniversityWebsite.Core;
-using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {

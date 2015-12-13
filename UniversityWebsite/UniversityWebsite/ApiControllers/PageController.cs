@@ -4,7 +4,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using UniversityWebsite.Domain.Model;
-using UniversityWebsite.Helper;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;

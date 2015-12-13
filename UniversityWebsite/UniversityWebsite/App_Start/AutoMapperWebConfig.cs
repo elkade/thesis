@@ -1,14 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using UniversityWebsite.Api.Model.Teaching;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Model;
 using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services.Model;
-using UniversityWebsite.ViewModels;
-using News = UniversityWebsite.Api.Model.Teaching.News;
 
 namespace UniversityWebsite
 {
@@ -88,19 +86,33 @@ namespace UniversityWebsite
     {
         protected override void Configure()
         {
+            Mapper.CreateMap<Domain.Model.News, NewsVm>().ConvertUsing(p => new NewsVm
+            {
+                Author = p.Author.UserName,
+                Content = p.Content,
+                Header = p.Header,
+                PublishDate = p.PublishDate
+            });
             Mapper.CreateMap<Subject, SubjectVm>().ConvertUsing(p => new SubjectVm
             {
                 Name = p.Name,
                 //Files = new FilesSectionVm(),
-                //News = string.Join("</br>", p.News.ToString()),
-                Syllabus = p.Syllabus.Content,
-                Schedule = p.Schedule.Content,
+                News = Mapper.Map<List<NewsVm>>(p.News),
+                Syllabus = p.Syllabus==null?string.Empty:p.Syllabus.Content,
+                Schedule = p.Schedule==null?string.Empty:p.Schedule.Content,
 
                 //SemesterNumber = p.Semester.Number,
             });
 
-            Mapper.CreateMap<News, NewsDto>().ConvertUsing(p => new NewsDto
+            Mapper.CreateMap<NewsPost, NewsDto>().ConvertUsing(p => new NewsDto
             {
+                Content = p.Content,
+                Header = p.Header
+            });
+
+            Mapper.CreateMap<NewsPut, NewsDto>().ConvertUsing(p => new NewsDto
+            {
+                Id = p.Id,
                 Content = p.Content,
                 Header = p.Header
             });

@@ -46,13 +46,25 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("subjects/{subjectId:int}/news")]
-        public IHttpActionResult PostNews(int subjectId, [FromBody]News news)
+        public IHttpActionResult PostNews(int subjectId, [FromBody]NewsPost news)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var newsDto = Mapper.Map<NewsDto>(news);
             var addedNews = _subjectService.AddNews(subjectId, newsDto, User.Identity.GetUserId());
             return Ok(addedNews);
+        }
+
+        [Route("news/{newsId:int}")]
+        public IHttpActionResult PutNews(int newsId, [FromBody]NewsPut news)
+        {
+            if(newsId!=news.Id)
+                return BadRequest("Ids are not the same");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var newsDto = Mapper.Map<NewsDto>(news);
+            var updatedNews = _subjectService.UpdateNews(newsDto);
+            return Ok(updatedNews);
         }
 
         [Route("subjects/{subjectId:int}/news")]

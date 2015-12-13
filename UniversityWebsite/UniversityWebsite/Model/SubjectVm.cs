@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace UniversityWebsite.Model
 {
@@ -11,7 +8,7 @@ namespace UniversityWebsite.Model
         public int SemesterNumber { get; set; }
         public List<string> Teachers { get; set; }
 
-        //public List<> News { get; set; }
+        public List<NewsVm> News { get; set; }
         public string Syllabus { get; set; }
         public string Schedule { get; set; }
         public FilesSectionVm Files { get; set; }

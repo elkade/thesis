@@ -1,6 +1,5 @@
 ﻿using UniversityWebsite.Core;
 using System.Linq;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Services
