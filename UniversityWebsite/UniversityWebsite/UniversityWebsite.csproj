@@ -832,6 +832,8 @@
     <Compile Include="Api\Model\Teaching\NewsPut.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPost.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPut.cs" />
+    <Compile Include="Api\Model\Users\PostUserVm.cs" />
+    <Compile Include="Api\Model\Users\PutUserVm.cs" />
     <Compile Include="Api\Model\Users\UserEditVm.cs" />
     <Compile Include="Api\Model\Users\UserVm.cs" />
     <Compile Include="App_Start\AutofacConfig.cs" />

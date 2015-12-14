@@ -163,6 +163,7 @@ namespace UniversityWebsite
         {
             Mapper.CreateMap<UserVm, User>().ConvertUsing(p => new User
             {
+                Id = p.Id,
                 Email = p.Email,
                 FirstName = p.FirstName,
                 LastName = p.LastName,

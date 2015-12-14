@@ -8,6 +8,7 @@ using System.Linq;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Model;
+using System.Collections.Generic;
 
 namespace UniversityWebsite.Services
 {
@@ -19,7 +20,12 @@ namespace UniversityWebsite.Services
         User FindUser(string login);
         void CreateUser(User user, string password, string role);
         UserCreateResult CreateUser(User user, string role);
+        User UpdateUser(User user, string role);
         User GetUser(string userId);
+
+        void DeleteUser(string userId);
+
+        void ChangePassword(string userId, string currentPassword, string newPassword);
     }
     /// <summary>
     /// Serwis odpowiedzialny za logikę biznesową dotyczącą użytkowników systemu.
@@ -63,7 +69,6 @@ namespace UniversityWebsite.Services
 
         public void CreateUser(User user, string password, string role)
         {
-            ValidateRole(role);
             var createResult = _userManager.Create(user, password);
             if (createResult.Succeeded)
             {
@@ -76,12 +81,12 @@ namespace UniversityWebsite.Services
 
         public UserCreateResult CreateUser(User user, string role)
         {
-            ValidateRole(role);
             string password = GeneratePassword();
+            user.Id = null;
             var createResult = _userManager.Create(user, password);
             if (createResult.Succeeded)
                 _userManager.AddToRole(user.Id, role);
-            else throw new Exception(createResult.Errors.First());
+            else throw new Exception(createResult.Errors.FirstOrDefault());
             return new UserCreateResult
             {
                 Email = user.Email,
@@ -93,6 +98,24 @@ namespace UniversityWebsite.Services
                 Password = password,
                 Role = role
             };
+        }
+
+        public User UpdateUser(User user, string role)
+        {
+            var dbUser = _userManager.FindById(user.Id);
+            dbUser.Email = user.Email;
+            dbUser.FirstName = user.FirstName;
+            dbUser.IndexNumber = user.IndexNumber;
+            dbUser.LastName = user.LastName;
+            dbUser.Pesel = user.Pesel;
+            _userManager.Update(dbUser);
+            if(!_userManager.IsInRole(dbUser.Id, role))
+            {
+                var roles = _userManager.GetRoles(dbUser.Id).ToArray();
+                _userManager.RemoveFromRoles(dbUser.Id, roles);
+                _userManager.AddToRole(dbUser.Id, role);
+            }
+            return _userManager.FindById(user.Id);
         }
 
         private string GeneratePassword()
@@ -107,10 +130,20 @@ namespace UniversityWebsite.Services
             return _userManager.FindById(userId);
         }
 
-        private void ValidateRole(string role)
+
+        public void DeleteUser(string userId)
         {
-            //if (!_roleManager.RoleExists(role))
-            //    throw new PropertyValidationException("role","Role " + role + " does not exist in system.");
+            var user = _userManager.FindById(userId);
+            if (user == null)
+                throw new NotFoundException("User with id: "+userId);
+            _userManager.Delete(user);
+        }
+
+        public void ChangePassword(string userId, string currentPassword, string newPassword)
+        {
+            var result = _userManager.ChangePassword(userId, currentPassword, newPassword);
+            if (!result.Succeeded)
+                throw new Exception(result.Errors.FirstOrDefault());
         }
     }
 }
