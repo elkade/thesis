@@ -4,7 +4,7 @@
     .right-panel { max-width: 320px; }
 </style>
 
-<form name="pageForm" novalidate class="css-form" ng-submit="update()">
+<form name="pageForm" novalidate class="css-form" ng-submit="update()" ng-controller="userEditCtrl">
 
     <div class="large-9 columns">
         <div class="row">
@@ -27,7 +27,7 @@
         <div class="row permalink">
             <div class="medium-12 columns bottom">
                 <span class=" text">
-                    <strong>Permalink:</strong> http://dummypage.pl/ 
+                    <strong>Permalink:</strong> http://dummypage.pl/
                     <input name="urlName" ng-model="page.UrlName" ng-pattern="/^[a-zA-Z][a-zA-Z0-9\-][a-zA-Z0-9]*$/" />
                 </span>
             </div>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
                 <div class="large-12 columns">
                     <label>
@@ -83,7 +83,7 @@
                     </label>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
                 <div class="large-12 columns">
                     <label>

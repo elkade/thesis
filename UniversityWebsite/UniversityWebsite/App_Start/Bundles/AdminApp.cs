@@ -20,6 +20,7 @@ namespace UniversityWebsite.Bundles
                 .IncludeDirectory("~/AdminApp/languages", "*.js")
                 .IncludeDirectory("~/AdminApp/languages/controllers", "*.js")
                 .IncludeDirectory("~/AdminApp/users", "*.js")
+                .IncludeDirectory("~/AdminApp/users/controllers", "*.js")
                 .Include("~/AdminApp/app.js");
         }
     }
