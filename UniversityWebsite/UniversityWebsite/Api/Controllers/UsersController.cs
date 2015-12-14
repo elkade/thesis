@@ -70,10 +70,15 @@ namespace UniversityWebsite.Api.Controllers
 
             string password = GeneratePassword();
 
-            IdentityResult addUserResult = _userManager.Create(user, password);
- 
-	        if (!addUserResult.Succeeded)
-		        return GetErrorResult(addUserResult);
+            var result = _userManager.Create(user, password);
+
+            if (!result.Succeeded)
+                return GetErrorResult(result);
+
+            result = _userManager.AddToRole(user.Id, model.Role);
+            if (!result.Succeeded)
+                return GetErrorResult(result);
+
 
             return Ok(_modelFactory.GetCreatedReturnModel(user, password));
         }
@@ -111,6 +116,8 @@ namespace UniversityWebsite.Api.Controllers
 
             return Ok(_modelFactory.GetReturnModel(user));
         }
+
+
         [Route("{userId:guid}")]
         public IHttpActionResult DeleteUser(string userId)
         {
