@@ -59,7 +59,7 @@ namespace UniversityWebsite.Services
         /// </summary>
         /// <param name="countryCode">Język, w którym mają zostać wyszukane strony.</param>
         /// <returns>Wyliczenie stron.</returns>
-        IEnumerable<PageDto> GetParentlessPages(string countryCode);
+        IEnumerable<PageMenuItem> GetParentlessPagesWithChildren(string countryCode);
         /// <summary>
         /// Zwraca wszystkie strony serwisu.
         /// </summary>
@@ -181,9 +181,24 @@ namespace UniversityWebsite.Services
             return _context.Pages.Where(p => p.GroupId == page.GroupId).ProjectTo<PageDto>();
         }
 
-        public IEnumerable<PageDto> GetParentlessPages(string countryCode)
+        public IEnumerable<PageMenuItem> GetParentlessPagesWithChildren(string countryCode)
         {
-            return _context.Pages.Where(p => p.Parent == null && p.CountryCode == countryCode).ProjectTo<PageDto>();
+            var siblings = _context
+                .Pages
+                .Where(p => p.ParentId == null && p.CountryCode == countryCode)
+                .ToList();
+            return from siblingBuf in siblings
+                    let children = _context
+                    .Pages
+                    .Where(p => p.ParentId == siblingBuf.Id)
+                    .Select(p => new PageMenuItem { Title = p.Title, UrlName = p.UrlName })
+                    .ToList()
+                    select new PageMenuItem
+                    {
+                        Title = siblingBuf.Title,
+                        UrlName = siblingBuf.UrlName,
+                        Children = children
+                    };
         }
         public IEnumerable<PageDto> GetAll()
         {

@@ -5,6 +5,8 @@ using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Exceptions;
+using UniversityWebsite.Model.Page;
+using System.Collections.Generic;
 
 namespace UniversityWebsite.Controllers
 {
@@ -12,15 +14,18 @@ namespace UniversityWebsite.Controllers
     public class TeachingController : Controller
     {
         private readonly ISubjectService _subjectService;
+        private readonly IPageService _pageService;
 
-        public TeachingController(ISubjectService subjectService)
+        public TeachingController(ISubjectService subjectService, IPageService pageService)
         {
             _subjectService = subjectService;
+            _pageService = pageService;
         }
 
         public ActionResult Index()
         {
-            return View(new TeachingVm{SemestersCount = 10});
+            var siblings = _pageService.GetParentlessPagesWithChildren((string)Session[Consts.SessionKeyLang]).ToList();
+            return View(new TeachingVm { SemestersCount = 10, Siblings = Mapper.Map<List<PageMenuItemVm>>(siblings) });
         }
 
         public ActionResult Semester(int number)

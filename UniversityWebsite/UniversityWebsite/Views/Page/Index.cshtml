@@ -1,6 +1,9 @@
 ﻿@model UniversityWebsite.Model.Page.PageViewModel
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
-
+@{
+    var teachingString = GetPhrase("teaching");
+    var homeString = GetPhrase("home");
+}
 <style>
     .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
         background: #003C58;
@@ -8,35 +11,35 @@
 </style>
 
 <nav class="top-bar" data-topbar role="navigation">
-    <ul class="title-area">
-        <li class="name">
-            <h1><a href="@Url.Action("Index", "Home")"><i class='fi-home'></i></a></h1>
-        </li>
-        <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
-    </ul>
     <section class="top-bar-section">
-        <ul class="right">
-            
-        </ul>
-
         <ul class="left">
+            @if (Model.ParentName == null)
+            {
+                <li>
+                    @Html.ActionLink(homeString, "Index", "Home", null, null)
+                </li>
+                <li>
+                    @Html.ActionLink(teachingString, "Index", "Teaching", null, null)
+                </li>
+            }
+
             @foreach (var item in Model.Siblings)
             {
                 if (item.Children.Any())
                 {
-                    <li class="has-dropdown">
-                        @Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)
-                        <ul class="dropdown">
-                            @foreach (var subitem in item.Children)
-                            {
-                                <li>@Html.ActionLink(subitem.Title, "Index", "Page", new { name = subitem.UrlName }, null)</li>
-                            }
-                        </ul>
-                    </li>
+                <li class="has-dropdown">
+                    @Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)
+                    <ul class="dropdown">
+                        @foreach (var subitem in item.Children)
+                        {
+                            <li>@Html.ActionLink(subitem.Title, "Index", "Page", new { name = subitem.UrlName }, null)</li>
+                        }
+                    </ul>
+                </li>
                 }
                 else
                 {
-                    <li>@Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)</li>
+                <li>@Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)</li>
                 }
             }
         </ul>

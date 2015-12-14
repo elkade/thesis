@@ -77,7 +77,7 @@ namespace UniversityWebsite.Services
         public UserCreateResult CreateUser(User user, string role)
         {
             ValidateRole(role);
-            string password = Membership.GeneratePassword(8, 2);
+            string password = GeneratePassword();
             var createResult = _userManager.Create(user, password);
             if (createResult.Succeeded)
                 _userManager.AddToRole(user.Id, role);
@@ -93,6 +93,13 @@ namespace UniversityWebsite.Services
                 Password = password,
                 Role = role
             };
+        }
+
+        private string GeneratePassword()
+        {
+            Random r = new Random();
+            string password = Membership.GeneratePassword(5, 2) + (char)('A'+r.Next(26)) + (char)('a'+r.Next(26)) + (char)('0'+r.Next(10));
+            return password;
         }
 
         public User GetUser(string userId)

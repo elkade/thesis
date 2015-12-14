@@ -5,6 +5,7 @@ using AutoMapper;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
 using UniversityWebsite.Services;
+using UniversityWebsite.Model.Page;
 
 namespace UniversityWebsite.Controllers
 {
@@ -29,7 +30,8 @@ namespace UniversityWebsite.Controllers
         public ActionResult Index()
         {
             var tiles = _menuService.GetTilesMenu((string)Session[Consts.SessionKeyLang]);
-            return View(Mapper.Map<List<TileViewModel>>(tiles).ToList());
+            var siblings = PageService.GetParentlessPagesWithChildren((string)Session[Consts.SessionKeyLang]).ToList();
+            return View(new HomeVm { Siblings = Mapper.Map<List<PageMenuItemVm>>(siblings), Tiles = Mapper.Map<List<TileViewModel>>(tiles).ToList() });
         }
 	}
 }
