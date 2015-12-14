@@ -3,7 +3,7 @@
 ])
 
 .factory('Pages', ['$resource', function ($resource) {
-    var path = "/api/page"
+    var path = "/api/page";
 
     return $resource(path + '/:id', {}, {
         query: { method: 'GET', isArray: true },
@@ -22,12 +22,6 @@
     var factory = {};
     factory.all = function () {
         return pages;
-    };
-
-    factory.get = function (id) {
-        return pages.then(function () {
-            return utils.findByName(pages, id);
-        })
     };
 
     return factory;
