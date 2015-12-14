@@ -206,6 +206,8 @@
     <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectSectionFormController.js" />
+    <Content Include="AdminApp\users\controllers\userEditController.js" />
+    <Content Include="AdminApp\users\controllers\userSubjectsEditController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
     <Content Include="AdminApp\views\languages\newLangModal.html" />
     <Content Include="AdminApp\views\languages\languageWizard.html" />
@@ -213,6 +215,7 @@
     <Content Include="AdminApp\views\main-pages\tile.edit.html" />
     <Content Include="AdminApp\views\partials\menu.list.html" />
     <Content Include="AdminApp\views\partials\pages.list.html" />
+    <Content Include="AdminApp\views\users\user.edit.html" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\invalid.png" />
     <Content Include="Content\site.css" />

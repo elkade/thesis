@@ -1,0 +1,97 @@
+﻿
+<div class="row">
+    <div class="medium-12 columns">
+        <h3>{{user.FirstName + " " + user.LastName}}</h3>
+    </div>
+</div>
+
+<tabset>
+    <tab heading="Basic info">
+        <form name="userForm" novalidate class="css-form" ng-submit="update()" ng-controller="userEditCtrl">
+            <div class="row">
+                <div class="large-12 columns">
+                    <div data-alert class="alert-box alert" ng-repeat="error in errors">
+                        {{error}}
+                        <a href="#" class="close" ng-click="">&times;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        First Name
+                        <input type="text" placeholder="First name" required ng-model="user.FirstName" />
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        Last Name
+                        <input type="text" placeholder="Last name" required ng-model="user.LastName" />
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        Login
+                        <input type="text" placeholder="Login" required ng-model="user.Login" />
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        Email
+                        <input type="text" placeholder="Email" required ng-model="user.Email" />
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        Password
+                        <input type="password" placeholder="password" required ng-model="user.Password" />
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        Confirm password
+                        <input type="password" placeholder="confirm password" required ng-model="user.ConfirmPassword" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <button class="button small" type="submit">Update</button>
+                </div>
+            </div>
+        </form>
+    </tab>
+    <tab heading="Subjects">
+        <form name="userSubjectsForm" novalidate class="css-form" ng-submit="update()" ng-controller="userSubjectsEditCtrl">
+            <div class="row">
+                <div class="medium-12 columns">
+                    <h5>Owned subjects</h5>
+                    <div class="row" ng-repeat="subject in user.OwnedSubjects">
+                        <div class="medium-12 columns">
+                            {{subject.Name}} <a ng-click="removeOwnedSubject(subject)"><i class="fa fa-trash-o"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="medium-12 columns">
+                    <h5>Participated subjects</h5>
+                    <div class="row" ng-repeat="subject in user.ParticipatedSubjects">
+                        <div class="medium-12 columns">
+                            {{subject.Name}} <a ng-click="removeParticipatedSubject(subject)"><i class="fa fa-trash-o"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </tab>
+</tabset>

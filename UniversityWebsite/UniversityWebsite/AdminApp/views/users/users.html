@@ -1,18 +1,38 @@
 ﻿
 <div class="row fullWidth">
     <div class="medium-2 columns">
-        <h3>Users</h3>
-        <p>dadas</p>
-        <ul class="custom-side-nav">
-            <li ng-animate="'animate'" ng-repeat="user in users">
-                <a ui-sref="user.edit({user:user.Login})">{{user.Login}}</a>
-            </li>
-        </ul>
+        <div class="row">
+            <div class="small-7 columns" style="padding-right: 0">
+                <h3>Users</h3>
+            </div>
+            <div class="small-5 columns" style="text-align: right">
+                <a ng-click="addUser()" class="add-button">
+                    <i class="fi-page-add" style="font-size: 15pt"></i>
+                    Add
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>
+                    <input type="text" placeholder="Search" ng-model="searchUser" />
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <ul class="custom-side-nav">
+                    <li ng-animate="'animate'" ng-repeat="user in users | filter: searchUser">
+                        <a ui-sref="users.edit({userId:user.Id})">{{user.FirstName + " " + user.LastName}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
 
-    <div class="medium-10 columns">
-        <div ui-view class="slide"></div>
+    <div ui-view class="medium-10 columns edit-details">
+
     </div>
 
 </div>
