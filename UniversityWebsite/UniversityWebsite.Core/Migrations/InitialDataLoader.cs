@@ -10,19 +10,14 @@ namespace UniversityWebsite.Core.Migrations
 {
     public class InitialDataLoader
     {
-        private readonly static string AdminRole = "Administrator";
-        private static readonly string Admin = "su@su.su";
-        private readonly static string[] RoleNames = { AdminRole, "Student", "Teacher" };
-        private readonly User[] Users =
+        private readonly string Admin;
+        private readonly string[] RoleNames = { "Administrator", "Student", "Teacher" };
+        private string AdminRole
         {
-            new User
-            {
-                UserName = Admin,
-                Email = "su@su.su",
-                PasswordHash = "su1234", //plain password that will be hashed
-            },
-        };
+            get { return RoleNames[0]; }
+        }
 
+        private User[] Users;
         private readonly IDomainContext _context;
         private readonly ApplicationUserManager _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -33,6 +28,16 @@ namespace UniversityWebsite.Core.Migrations
             _context = domainContext;
             _userManager = new ApplicationUserManager(new UserStore<User>(domainContext));
             _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(domainContext));
+            Admin = _userManager.SuperUserLogin;
+            Users = new []
+            {
+                new User
+                {
+                    UserName = Admin,
+                    Email = "su@su.su",
+                    PasswordHash = "su1234", //plain password that will be hashed
+                },
+            };
         }
 
         public void WithDefault()
@@ -41,9 +46,9 @@ namespace UniversityWebsite.Core.Migrations
             {
                 WithRoles();
                 WithUsers();
-                WithAdmin(Admin);
                 _admin = _userManager.Users
                 .FirstOrDefault(u => u.UserName.Equals(Admin, StringComparison.CurrentCultureIgnoreCase));
+                WithAdmin(Admin);
                 AddPagesAndMenus();
                 WithSubjects();
                 WithPhrases();

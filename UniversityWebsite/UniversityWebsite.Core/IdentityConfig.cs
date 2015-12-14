@@ -31,6 +31,10 @@ namespace UniversityWebsite.Core
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<User>
     {
+        public string SuperUserLogin
+        {
+            get { return "su@su.su";}
+        }
         public ApplicationUserManager(IUserStore<User> store)
             : base(store)
         {

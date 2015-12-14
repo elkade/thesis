@@ -77,9 +77,9 @@
         $scope.alerts.push(alert);
     };
 
-    var errorHandler = function (response) {
-        var alert = { type: 'error', msg: 'Error: The ' + menu.CountryCode + ' menu cannot be updated.'};
+    var errorHandler = function(response) {
+        var alert = { type: 'error', msg: 'Error: The ' + menu.CountryCode + ' menu cannot be updated.' };
         $scope.addAlert(alert);
-    }
+    };
 
 })

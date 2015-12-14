@@ -19,12 +19,8 @@ namespace UniversityWebsite.Controllers
             _domainContext = domainContext;
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult NavigationMenu()
         {
             return View();
         }

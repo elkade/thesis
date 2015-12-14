@@ -19,6 +19,7 @@ namespace UniversityWebsite.Api.Controllers
             _subjectService = subjectService;
         }
         [Route("subjects")]
+        [Authorize(Roles = "Administrator")]
         //[AntiForgeryValidate]
         public IEnumerable<SubjectDto> GetSubjects(int? offset = null, int? limit = null)//max limit to 50
         {

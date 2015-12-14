@@ -9,11 +9,8 @@
     <tab heading="Basic info">
         <form name="userForm" novalidate class="css-form" ng-submit="update()" ng-controller="userEditCtrl">
             <div class="row">
-                <div class="large-12 columns">
-                    <div data-alert class="alert-box alert" ng-repeat="error in errors">
-                        {{error}}
-                        <a href="#" class="close" ng-click="">&times;</a>
-                    </div>
+                <div class="small-12 medium-6 columns">
+                    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
                 </div>
             </div>
             <div class="row">
@@ -35,32 +32,61 @@
             <div class="row">
                 <div class="small-12 medium-6 columns">
                     <label>
-                        Login
-                        <input type="text" placeholder="Login" required ng-model="user.Login" />
+                        Email
+                        <input type="email" placeholder="Email" required ng-model="user.Email" />
                     </label>
                 </div>
             </div>
             <div class="row">
                 <div class="small-12 medium-6 columns">
                     <label>
-                        Email
-                        <input type="text" placeholder="Email" required ng-model="user.Email" />
+                        Index number
+                        <input type="text" placeholder="IndexNumber" required ng-model="user.IndexNumber" />
                     </label>
                 </div>
             </div>
             <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        Pesel
+                        <input type="text" placeholder="Pesel" required ng-model="user.Pesel" />
+                    </label>
+                </div>
+            </div>
+            
+            <!--<div class="row" ng-hide="$stateParams.userId == 'newUser'">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        <input type="checkbox" ng-model="changePassword" />
+                        Change password
+                    </label>
+                </div>
+            </div>-->
+            
+            <!--<div class="row" ng-if="changePassword">
                 <div class="small-12 medium-6 columns">
                     <label>
                         Password
-                        <input type="password" placeholder="password" required ng-model="user.Password" />
+                        <input type="text" placeholder="password" required ng-model="user.Password" style="font-weight: bold"/>
                     </label>
                 </div>
-            </div>
-            <div class="row">
+            </div>-->
+            <!--<div class="row" ng-if="changePassword">
                 <div class="small-12 medium-6 columns">
                     <label>
                         Confirm password
                         <input type="password" placeholder="confirm password" required ng-model="user.ConfirmPassword" />
+                    </label>
+                </div>
+            </div>-->
+            
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <label>
+                        Role
+                        <select ng-model="user.Role" name="role" required>
+                            <option  ng-repeat="role in roles" value="{{role}}">{{role}}</option>
+                        </select>
                     </label>
                 </div>
             </div>

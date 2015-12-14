@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using AutoMapper;
 using UniversityWebsite.Api.Model.Users;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
@@ -7,17 +6,7 @@ using UniversityWebsite.Core;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Web.Security;
-using System;
-using System.Web.Security;
-using AutoMapper;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using UniversityWebsite.Core;
 using System.Linq;
-using UniversityWebsite.Domain.Model;
-using UniversityWebsite.Services.Exceptions;
-using UniversityWebsite.Services.Model;
-using System.Collections.Generic;
 
 namespace UniversityWebsite.Api.Controllers
 {
@@ -44,6 +33,14 @@ namespace UniversityWebsite.Api.Controllers
             };
             _modelFactory = new ModelFactory(_userManager);
         }
+
+        [Route("")]
+        public IHttpActionResult GetUsers()
+        {
+            var login = _userManager.SuperUserLogin;
+            return Ok(_userManager.Users.Where(u => u.Email != login).ToList().Select(_modelFactory.GetReturnModel));
+        }
+
         [Route("{userId:guid}")]
         public IHttpActionResult GetUser(string userId)
         {
