@@ -17,3 +17,15 @@
   );
   
 }
+
+
+.news-panel {
+  @include panel(
+    // Sets the panel background color. Default: $panel-pg
+    $bg:white,
+    // Sets the panel padding amount. Default: $panel-padding
+    $padding:20px,
+    // Sets the font color based on the darkness of the bg & resets header line-heights for panels. Default: $panel-header-adjust
+    $adjust:true
+  );
+}

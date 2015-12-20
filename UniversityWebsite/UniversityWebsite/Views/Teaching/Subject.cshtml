@@ -13,6 +13,16 @@
 }
 @section Styles {
     <style>
+        div.section:nth-child(2n+1) {
+            background: #f7f7f7;
+        }
+        .section {
+            padding: 1rem 0.1rem;
+        }
+        .section-footer {
+           border-top: 2px solid gray; 
+        }
+         
     </style>
 }
 
@@ -38,37 +48,65 @@
 <h2>@Model.Name</h2>
 @if (Model.News.Count > 0)
 {
-    <div class="accordion" data-accordion role="tablist">
-        <div class="accordion-navigation">
-            <a href="#newsPanel" role="tab" id="newsPanel-heading" aria-controls="newsPanel">@newsString</a>
-            <div id="newsPanel" class="content active" role="tabpanel" aria-labelledby="newsPanel-heading">
-                @foreach (var news in Model.News)
-                {
-                    Html.RenderPartial("Sections/_News",news);
-                }
-                <a>ZOBACZ WSZYSTKIE</a>
+    <div class="row section">
+        <div class="medium-12 columns">
+            <div class="row">
+                <div class="medium-12 columns">
+                    <h3><a id="@newsString">@newsString</a></h3>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="medium-12 columns">
+                    @foreach (var news in Model.News)
+                    {
+                        Html.RenderPartial("Sections/_News", news);
+                    }
+                    <div class="row">
+                        <div class="medium-12 columns">
+                            <div class="section-footer">
+                                <a>‹ Previous</a>  <a>1</a> <a>2</a>  <a>Next ›</a>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 }
 @if (!string.IsNullOrEmpty(Model.Schedule))
 {
-    <div class="accordion" data-accordion role="tablist">
-        <div class="accordion-navigation">
-            <a href="#schedulePanel" role="tab" id="schedulePanel-heading" aria-controls="schedulePanel">@scheduleString</a>
-            <div id="schedulePanel" class="content active" role="tabpanel" aria-labelledby="schedulePanel-heading">
-                @Model.Schedule
+    <div class="row section">
+        <div class="medium-12 columns">
+            <div class="row">
+                <div class="medium-12 columns">
+                    <h3><a id="@scheduleString">@scheduleString</a></h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="medium-12 columns">
+                    @Html.Raw(Model.Schedule)                   
+                </div>
             </div>
         </div>
     </div>
+    
 }
 @if (!string.IsNullOrEmpty(Model.Syllabus))
 {
-    <div class="accordion" data-accordion role="tablist">
-        <div class="accordion-navigation">
-            <a href="#syllabusPanel" role="tab" id="syllabusPanel-heading" aria-controls="syllabusPanel">@syllabusString</a>
-            <div id="syllabusPanel" class="content active" role="tabpanel" aria-labelledby="syllabusPanel-heading">
-                @Model.Syllabus
+    <div class="row section">
+        <div class="medium-12 columns">
+            <div class="row">
+                <div class="medium-12 columns">
+                    <h3><a id="@syllabusString">@syllabusString</a></h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="medium-12 columns">
+                    @Html.Raw(Model.Syllabus)
+                </div>
             </div>
         </div>
     </div>

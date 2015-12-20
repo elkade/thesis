@@ -165,9 +165,6 @@ nav .button-group a.button {
     box-shadow: 0 0 5px #d45252;
 }
 
-
-.css-form input.ng-valid.ng-touched, select.ng-valid.ng-touched { }
-
 .css-form .permalink {
     font-size: 0.875rem;
     color: #4d4d4d;
@@ -184,3 +181,6 @@ input.title-input {
 
 .edit-details { margin-top: 2em; }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
