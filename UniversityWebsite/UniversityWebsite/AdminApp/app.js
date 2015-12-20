@@ -12,7 +12,8 @@
     'configApp.utils.service',
     'ui.router',
     'ngResource',
-    'ngAnimate'])
+    'ngAnimate',
+    'ngRoute'])
 
 .directive('ncgRequestVerificationToken', ['$http', function ($http) {
     return function (scope, element, attrs) {
@@ -38,7 +39,6 @@
 [            '$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
-      
 
       /////////////////////////////
       // Redirects and Otherwise //

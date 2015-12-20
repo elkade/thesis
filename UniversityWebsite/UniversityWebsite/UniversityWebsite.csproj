@@ -612,6 +612,9 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
     <Content Include="AdminApp\app.js" />
@@ -821,6 +824,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\FileController.cs" />
     <Compile Include="ApiControllers\LanguageController.cs" />
     <Compile Include="ApiControllers\MenuController.cs" />
     <Compile Include="ApiControllers\PageController.cs" />
@@ -848,7 +852,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -864,6 +867,10 @@
     <Compile Include="Helper\AntiForgeryExtension.cs" />
     <Compile Include="Helper\AntiForgeryValidate.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
+    <Compile Include="Helper\Files\FileGetInfo.cs" />
+    <Compile Include="Helper\Files\FileMultipartFormDataStreamProvider.cs" />
+    <Compile Include="Helper\Files\IFilesManager.cs" />
+    <Compile Include="Helper\Files\FilesManager.cs" />
     <Compile Include="Model\ArticleVm.cs" />
     <Compile Include="Model\HomeVm.cs" />
     <Compile Include="Model\Menu\LanguageMenuItemViewModel.cs" />
@@ -874,6 +881,7 @@
     <Compile Include="Model\Page\PageMenuItemVm.cs" />
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
+    <Compile Include="Model\FileViewModel.cs" />
     <Compile Include="Model\SemesterVm.cs" />
     <Compile Include="Model\SubjectVm.cs" />
     <Compile Include="Model\TeachingVm.cs" />

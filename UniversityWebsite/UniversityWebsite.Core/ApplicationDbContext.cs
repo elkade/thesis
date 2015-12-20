@@ -6,7 +6,7 @@ namespace UniversityWebsite.Core
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext()
-            : base("DomainContext", throwIfV1Schema: false)
+            : base("DomainTestContext", throwIfV1Schema: false)
         {
         }
 

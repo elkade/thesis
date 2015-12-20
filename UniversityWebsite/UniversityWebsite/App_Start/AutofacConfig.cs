@@ -5,13 +5,8 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.DataProtection;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
 using Module = Autofac.Module;
@@ -57,6 +52,7 @@ namespace UniversityWebsite
                 builder.RegisterType<MenuService>().As<IMenuService>().InstancePerRequest();
                 builder.RegisterType<PageService>().As<IPageService>().InstancePerRequest();
                 builder.RegisterType<SubjectService>().As<ISubjectService>().InstancePerRequest();
+                //builder.RegisterType<LocalPhotoManager>().As<IPhotoManager>().InstancePerRequest();
                 base.Load(builder);
             }
         }
