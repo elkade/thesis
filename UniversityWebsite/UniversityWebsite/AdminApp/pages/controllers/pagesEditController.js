@@ -1,5 +1,6 @@
 ﻿angular.module('configApp.pages')
 
+
 .controller('pagesEditCtrl', function ($scope, $stateParams, utils, Pages, $modal, $location) {
     if ($stateParams.pageName == "newPage") {
         $scope.page = { Id: null };
@@ -29,7 +30,7 @@
         }
     };
 
-    $scope.update = function() {
+    $scope.update = function (event) {
         $scope.errors = [];
 
         if ($scope.pageForm.$valid) {
@@ -49,7 +50,7 @@
                 }, errorHandler);
             }
         } else {
-            utils.showValidation($scope.pageForm);
+            //utils.showValidation($scope.pageForm);
         }
     };
 

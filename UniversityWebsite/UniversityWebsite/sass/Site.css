@@ -4148,7 +4148,7 @@ button:focus {
   top: -0.3125rem;
   width: 2rem;
   height: 1.375rem;
-  border: 1px solid /*none*/;
+  border: 1px solid none;
   cursor: pointer;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
@@ -4879,7 +4879,7 @@ meta.foundation-mq-topbar {
           box-shadow: 0 0 0 1px #FFFFFF, 0 7px 0 1px #FFFFFF, 0 14px 0 1px #FFFFFF;
           width: 16px; }
         .top-bar .toggle-topbar.menu-icon a span:hover:after {
-          box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white; }
+          box-shadow: 0 0 0 1px "", 0 7px 0 1px "", 0 14px 0 1px ""; }
   .top-bar.expanded {
     height: auto;
     background: transparent; }
@@ -6493,3 +6493,23 @@ th.hide-for-touch {
       font-size: 0.875rem;
       font-weight: bold;
       text-transform: uppercase; }
+
+.news-panel {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e3e3e3;
+  margin-bottom: 1.25rem;
+  padding: 20px;
+  background: white;
+  color: #333333; }
+  .news-panel > :first-child {
+    margin-top: 0; }
+  .news-panel > :last-child {
+    margin-bottom: 0; }
+  .news-panel h1, .news-panel h2, .news-panel h3, .news-panel h4, .news-panel h5, .news-panel h6, .news-panel p, .news-panel li, .news-panel dl {
+    color: #333333; }
+  .news-panel h1, .news-panel h2, .news-panel h3, .news-panel h4, .news-panel h5, .news-panel h6 {
+    line-height: 1;
+    margin-bottom: 0.625rem; }
+    .news-panel h1.subheader, .news-panel h2.subheader, .news-panel h3.subheader, .news-panel h4.subheader, .news-panel h5.subheader, .news-panel h6.subheader {
+      line-height: 1.4; }

@@ -1,7 +1,7 @@
 ﻿@model UniversityWebsite.Model.NewsVm
 
 <style>
-    span.article-meta {
+    div.article-meta {
         font-size: 0.8rem;
         color: gray;
         margin-right: 1rem;
@@ -9,16 +9,26 @@
     div.article-content {
         padding-top: 1.5rem;
     }
+
+    .news-container {
+        border-top: 2px solid gray;
+        padding-top: 0.8rem;
+        margin: 1rem 0; 
+    }
+    .news-title {
+        color: #b20932;
+    }
 </style>
 
-<div class="panel radius">
-    <h4>@Model.Header</h4>
-    <div class="row">
+<div class="news-container">
+    <div class="row article-meta">
         <div class="medium-12 columns">
-            <span class="article-meta"><i class="fa fa-calendar"></i> @Model.PublishDate</span> <span class="article-meta"><i class="fa fa-user"></i> @Model.Author</span>
+            <span><i class="fa fa-calendar"></i> @Model.PublishDate</span> <span class="article-meta"><i class="fa fa-user"></i> @Model.Author</span>
         </div>
     </div>
-    <div class="row article-content">
+    <h4 class="news-title">@Model.Header</h4>
+    
+    <div class="row">
         <div class="medium-12 columns">
             <p>@Html.Raw(Model.Content)</p>
         </div>
