@@ -24,8 +24,8 @@ namespace UniversityWebsite.Domain.Model
         //public int ScheduleId { get; set; }
 
         public virtual ICollection<File> Files { get; set; }
-        public virtual ICollection<Teacher> Teachers { get; set; }
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<User> Teachers { get; set; }
+        public virtual ICollection<User> Students { get; set; }
 
         [Required]
         public int Semester { get; set; }

@@ -18,8 +18,6 @@ namespace UniversityWebsite.Core
         IDbSet<Language> Languages { get; set; }
         IDbSet<Phrase> Phrases { get; set; }
         IDbSet<File> Files { get; set; }
-        IDbSet<Teacher> Teachers { get; set; }
-        IDbSet<Student> Students { get; set; }
         IDbSet<SignUpRequest> SignUpRequests { get; set; }
         IDbSet<PageGroup> PageGroups { get; set; }
         IDbSet<News> News { get; set; }
@@ -43,8 +41,6 @@ namespace UniversityWebsite.Core
 
         }
 
-        public virtual IDbSet<Teacher> Teachers { get; set; }
-        public virtual IDbSet<Student> Students { get; set; }
         public virtual IDbSet<Page> Pages { get; set; }
         public virtual IDbSet<Subject> Subjects { get; set; }
         public virtual IDbSet<Menu> Menus { get; set; }
@@ -59,9 +55,6 @@ namespace UniversityWebsite.Core
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Student>();
-            modelBuilder.Entity<Teacher>();
         }
 
         public static DomainContext Create()

@@ -114,6 +114,8 @@
     <Compile Include="Model\PageDto.cs" />
     <Compile Include="Model\PageMenuItem.cs" />
     <Compile Include="Model\ParentDto.cs" />
+    <Compile Include="Model\SignUpRequestForStudentVm.cs" />
+    <Compile Include="Model\SignUpRequestForSubjectVm.cs" />
     <Compile Include="Model\SubjectDto.cs" />
     <Compile Include="Model\Tile.cs" />
     <Compile Include="Model\UserCreateResult.cs" />

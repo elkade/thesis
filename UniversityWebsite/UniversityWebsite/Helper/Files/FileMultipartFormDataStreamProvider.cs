@@ -7,13 +7,8 @@ namespace UniversityWebsite.Helper.Files
     {
         private readonly string _fileId;
 
-        private string _name;
+        public string Name { get; private set; }
 
-        public string Name
-        {
-            get { return _name; }
-        }
-        
 
         public FileMultipartFormDataStreamProvider(string path, string fileId) : base(path)
         {
@@ -22,8 +17,8 @@ namespace UniversityWebsite.Helper.Files
 
         public override string GetLocalFileName(System.Net.Http.Headers.HttpContentHeaders headers)
         {
-            _name = headers.ContentDisposition.FileName.Trim(new []{'"'});
-            if(_name==null)
+            Name = headers.ContentDisposition.FileName.Trim(new []{'"'});
+            if(Name==null)
                 throw new ArgumentException("Name cannot be null");
             return _fileId;
         }

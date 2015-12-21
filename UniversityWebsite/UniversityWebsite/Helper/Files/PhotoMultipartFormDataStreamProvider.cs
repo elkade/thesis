@@ -9,12 +9,7 @@ namespace UniversityWebsite.Helper.Files
     {
         private readonly string _fileId;
 
-        private string _name;
-
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; private set; }
 
         private readonly string[] _imageExts= {".bmp", ".jpg", ".png", ".gif", ".tiff", ".jpeg"};
 
@@ -26,10 +21,10 @@ namespace UniversityWebsite.Helper.Files
 
         public override string GetLocalFileName(System.Net.Http.Headers.HttpContentHeaders headers)
         {
-            _name = headers.ContentDisposition.FileName.Trim(new []{'"'});
-            if (_name == null)
+            Name = headers.ContentDisposition.FileName.Trim(new []{'"'});
+            if (Name == null)
                 throw new ArgumentException("Name cannot be null");
-            var ext = Path.GetExtension(_name);
+            var ext = Path.GetExtension(Name);
             if(!_imageExts.Contains(ext))
                 throw new ArgumentException("Wrong content type.");
             return _fileId;
