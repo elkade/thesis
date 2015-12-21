@@ -208,10 +208,14 @@
                 </div>
             </div>
         </accordion-group>
-        <accordion-group heading="Files">
+        <accordion-group heading="Files" ng-click="loadFiles()">
             <div class="row" ng-hide="editMode">
                 <div class="medium-12 columns">
-                    <span>Tu beda pliki</span>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="file in files">
+                            {{file.Name}}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </accordion-group>

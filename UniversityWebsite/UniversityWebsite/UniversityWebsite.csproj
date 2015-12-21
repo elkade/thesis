@@ -203,6 +203,7 @@
     <Content Include="AdminApp\languages\languages.js" />
     <Content Include="AdminApp\main-pages\controllers\mainPagesEditController.js" />
     <Content Include="AdminApp\modules\tinymce.js" />
+    <Content Include="AdminApp\services\filesService.js" />
     <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectSectionFormController.js" />

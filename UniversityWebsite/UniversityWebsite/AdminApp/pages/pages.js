@@ -6,8 +6,8 @@
             var getLanguages = function (languageService) {
                 return languageService.allLanguages();
             };
-            var getPages = function(pages) {
-                return pages.all();
+            var getPages = function (pagesService) {
+                return pagesService.all();
             };
 
             $stateProvider

@@ -10,10 +10,10 @@
     'configApp.users',
     'configApp.languages',
     'configApp.utils.service',
+    'configApp.files.service',
     'ui.router',
     'ngResource',
-    'ngAnimate',
-    'ngRoute'])
+    'ngAnimate'])
 
 .directive('ncgRequestVerificationToken', ['$http', function ($http) {
     return function (scope, element, attrs) {

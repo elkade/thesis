@@ -1,7 +1,7 @@
 ﻿angular.module('configApp.pages')
 
 
-.controller('pagesEditCtrl', function ($scope, $stateParams, utils, Pages, $modal, $location) {
+.controller('pagesEditCtrl', function ($scope, $stateParams, $modal, $location, utils, pagesService) {
     if ($stateParams.pageName == "newPage") {
         $scope.page = { Id: null };
         
@@ -37,13 +37,13 @@
             preUpdatePage($scope.page);
 
             if ($scope.page != null && $scope.page.Id != null) {
-                Pages.update({ id: $scope.page.Id }, $scope.page, function(response) {
+                pagesService.update({ id: $scope.page.Id }, $scope.page, function(response) {
                     $scope.state = response.$resolved ? 'success' : 'error';
                     $scope.page = response;
                 }, errorHandler);
             } else {
                 var page = $scope.page || new Object();
-                Pages.post(page, function(response) {
+                pagesService.post(page, function(response) {
                     $scope.state = response.$resolved ? 'success' : 'error';
                     $scope.page = response;
                     $scope.pages.push($scope.page);

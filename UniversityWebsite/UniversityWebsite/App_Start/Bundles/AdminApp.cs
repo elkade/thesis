@@ -8,6 +8,7 @@ namespace UniversityWebsite.Bundles
         {
             return new ScriptBundle("~/bundles/configApp")
                 .IncludeDirectory("~/AdminApp/common", "*.js")
+                .IncludeDirectory("~/AdminApp/services", "*.js")
                 .IncludeDirectory("~/AdminApp/modules", "*.js")
                 .IncludeDirectory("~/AdminApp/pages", "*.js")
                 .IncludeDirectory("~/AdminApp/pages/controllers", "*.js")

@@ -4,6 +4,10 @@
     [
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
+
+            var getPages = function (pagesService) {
+                return pagesService.all();
+            };
             $stateProvider
                 .state('menus', {
                     url: '/menus',
@@ -16,12 +20,7 @@
                                 return menus.all();
                             }
                         ],
-                        pages: [
-                            'pages',
-                            function (pages) {
-                                return pages.all();
-                            }
-                        ]
+                        pages: getPages
                     },
 
                     controller: 'menusEditCtrl'

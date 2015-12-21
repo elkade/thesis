@@ -1,12 +1,12 @@
 ﻿angular.module('configApp.subjects')
 
-.controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService) {
+.controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService, filesService) {
     $scope.editMode = false;
     if ($stateParams.subjectName == "newSubject") {
         $scope.editMode = true;
     }
     $scope.subject = utils.findByName($scope.subjects, $stateParams.subjectName);
-
+    console.log($scope.subject);
     //$scope.oneAtATime = true;
 
     $scope.tinymceOptions = {
@@ -55,5 +55,14 @@
 
     var errorHandler = function (response) {
         $scope.errors = utils.parseErrors(response.data.ModelState);
+    };
+
+    $scope.loadFiles = function () {
+        console.log($scope.subject.Id);
+        if ($scope.files == null) {
+            filesService.allFiles({ subjectId: $scope.subject.Id }, function() {
+                console.log("OK");
+            });
+        }
     };
 })

@@ -4,7 +4,6 @@
 
 .factory('Pages', ['$resource', function ($resource) {
     var path = "/api/page";
-
     return $resource(path + '/:id', {}, {
         query: { method: 'GET', isArray: true },
         post: { method: 'POST' },
@@ -12,7 +11,7 @@
         remove: { method: 'DELETE' }
     });
 }])
-.factory('pages', ['$http', 'utils', function ($http, utils) {
+.factory('pagesService', ['$http', 'utils',  'Pages', function ($http, utils, Pages) {
     var path = "/api/page";
 
     var pages = $http.get(path).then(function (resp) {
@@ -20,9 +19,14 @@
     });
 
     var factory = {};
+
     factory.all = function () {
         return pages;
     };
+
+    factory.update = Pages.update;
+    factory.post = Pages.post;
+    factory.remove = Pages.remove;
 
     return factory;
 }]);

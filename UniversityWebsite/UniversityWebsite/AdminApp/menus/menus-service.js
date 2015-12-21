@@ -1,4 +1,4 @@
-﻿angular.module('configApp.menus.service', [
+﻿ angular.module('configApp.menus.service', [
 ])
 
 .factory('Menus', ['$resource', function($resource) {
@@ -23,9 +23,9 @@
     };
 
     factory.get = function (lang) {
-        return menus.then(function () {
-            return utils.findByCountryCode(menus, lang);
-        })
+        return menus.then(function() {
+            return Enumerable.From(menus).FirstOrDefault(function(menu) { return menu.CountryCode == lang; });
+        });
     };
 
 
