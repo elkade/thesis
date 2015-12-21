@@ -13,17 +13,18 @@ namespace UniversityWebsite.ApiControllers
     [RoutePrefix("api/file")]
     public class FileController : ApiController
     {
-        private IFilesManager fileManager;
+        private readonly IFileManager _fileManager;
 
         public FileController()
         {
-            this.fileManager = new FilesManager();
+            _fileManager = new FileManager();
         }
 
-        [Route("{id}")]
+        [Route("{id:guid}")]
+        [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            var info = fileManager.GetPath(id, "");
+            var info = _fileManager.GetPath(id, "");
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(info.Path, FileMode.Open);
             result.Content = new StreamContent(stream);
@@ -37,36 +38,24 @@ namespace UniversityWebsite.ApiControllers
         }
 
         [Route("")]
-        public async Task<IHttpActionResult> GetInfoBySubject(int subjectId)
+        public async Task<IHttpActionResult> GetInfoBySubject(int subjectId, int? limit=null, int? offset=null)//limit offset ogarnąć dobrze
         {
-            var results = await fileManager.GetBySubject(subjectId);
+            var results = await _fileManager.GetBySubject(subjectId, limit ?? 50, offset ?? 0);
             return Ok(results);
         }
 
-        [Route("{fileId}")]
-        public async Task<IHttpActionResult> Post(string fileId = null, [FromUri]int? subjectId = null)
+        [Route("")]
+        public async Task<IHttpActionResult> Post(int subjectId)
         {
-            // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent("form-data"))
-            {
                 return BadRequest("Unsupported media type");
-            }
 
             var userId = User.Identity.GetUserId();
 
             try
             {
-                if (string.IsNullOrEmpty(fileId))
-                {
-
-                    var file = await fileManager.Add(Request, subjectId, userId);
-                    return Ok(file);
-                }
-                else
-                {
-                    var file = await fileManager.Update(Request, subjectId, userId, fileId);
-                    return Ok(file);
-                }
+                var file = await _fileManager.Add(Request, subjectId, userId);
+                return Ok(file);
             }
             catch (Exception ex)
             {
@@ -74,14 +63,73 @@ namespace UniversityWebsite.ApiControllers
             }
 
         }
+        [Route("{fileId:guid}")]
+        [HttpPut]
+        public async Task<IHttpActionResult> Put(string fileId)
+        {
+            if (!Request.Content.IsMimeMultipartContent("form-data"))
+                return BadRequest("Unsupported media type");
 
+            var userId = User.Identity.GetUserId();
+
+            try
+            {
+                var file = await _fileManager.Update(Request, userId, fileId);
+                return Ok(file);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.GetBaseException().Message);
+            }
+
+        }
         [HttpDelete]
-        [Route("{fileId}")]
+        [Route("{fileId:guid}")]
         public async Task<IHttpActionResult> Delete(string fileId)
         {
-            await fileManager.Delete(fileId);
+            await _fileManager.Delete(fileId);
 
             return Ok();
+        }
+
+        [Route("gallery")]
+        public async Task<IHttpActionResult> GetGallery(int? limit = null, int? offset = null)
+        {
+            var results = await _fileManager.GetGallery(limit ?? 50, offset ?? 0);
+            return Ok(results);
+        }
+
+        [Route("gallery")]
+        public async Task<IHttpActionResult> PostGallery()
+        {
+            if (!Request.Content.IsMimeMultipartContent("form-data"))
+                return BadRequest("Unsupported media type");
+            var userId = User.Identity.GetUserId();
+            try
+            {
+                var file = await _fileManager.AddToGallery(Request, userId);
+                return Ok(file);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.GetBaseException().Message);
+            }
+        }
+        [Route("gallery/{fileId:guid}")]
+        public async Task<IHttpActionResult> PutGallery(string fileId)
+        {
+            if (!Request.Content.IsMimeMultipartContent("form-data"))
+                return BadRequest("Unsupported media type");
+            var userId = User.Identity.GetUserId();
+            try
+            {
+                var file = await _fileManager.UpdateInGallery(Request, userId, fileId);
+                return Ok(file);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.GetBaseException().Message);
+            }
         }
     }
 }
