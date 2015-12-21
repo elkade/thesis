@@ -11,10 +11,7 @@ namespace UniversityWebsite.Model
         public List<NewsVm> News { get; set; }
         public string Syllabus { get; set; }
         public string Schedule { get; set; }
-        public FilesSectionVm Files { get; set; }
+        public List<FileViewModel> Files { get; set; } 
     }
 
-    public class FilesSectionVm
-    {
-    }
 }

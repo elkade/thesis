@@ -4,5 +4,6 @@
     {
         Submitted = 0,
         Approved,
+        Refused,
     }
 }

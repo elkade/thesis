@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Web.Security;
 using AutoMapper;
-using Microsoft.AspNet.Identity.EntityFramework;
-using UniversityWebsite.Api.Model;
 using UniversityWebsite.Api.Model.Teaching;
 using UniversityWebsite.Api.Model.Users;
 using UniversityWebsite.Domain.Model;
@@ -99,10 +95,20 @@ namespace UniversityWebsite
                 Header = p.Header,
                 PublishDate = p.PublishDate
             });
+
+            Mapper.CreateMap<File, FileViewModel>().ConvertUsing(p => new FileViewModel
+            {
+                Created = p.UploadDate,
+                Id = p.Id,
+                Name = p.FileName,
+                Modified = p.UpdateDate,
+                Version = p.Version
+            });
+
             Mapper.CreateMap<Subject, SubjectVm>().ConvertUsing(p => new SubjectVm
             {
                 Name = p.Name,
-                //Files = new FilesSectionVm(),
+                Files = Mapper.Map<List<FileViewModel>>(p.Files) ?? new List<FileViewModel>(),
                 News = Mapper.Map<List<NewsVm>>(p.News),
                 Syllabus = p.Syllabus==null?string.Empty:p.Syllabus.Content,
                 Schedule = p.Schedule==null?string.Empty:p.Schedule.Content,

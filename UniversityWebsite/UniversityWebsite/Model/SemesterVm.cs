@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Model
 {
@@ -11,5 +12,8 @@ namespace UniversityWebsite.Model
     {
         public string SubjectName { get; set; }
         public string SubjectUrlName { get; set; }
+        public SignUpAction SignUpAction { get; set; }
+        public int SubjectId { get; set; }
     }
+
 }

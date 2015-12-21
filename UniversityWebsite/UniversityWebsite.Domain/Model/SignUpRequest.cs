@@ -1,23 +1,40 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using UniversityWebsite.Domain.Enums;
 
 namespace UniversityWebsite.Domain.Model
 {
     public class SignUpRequest
     {
-        public SignUpRequest()
+        public SignUpRequest(int subjectId, string studentId)
         {
+            SubjectId = subjectId;
+            StudentId = studentId;
             Status = RequestStatus.Submitted;
+            CreateTime = DateTime.Now;
         }
 
+        public SignUpRequest()
+        {
+            
+        }
         [Key]
         public int Id { get; set; }
-        [Required]
-        public virtual Student Student { get; set; }
-        [Required]
+
+        [ForeignKey("StudentId")]
+        public virtual User Student { get; set; }
+        public string StudentId { get; set; }
+
+        [ForeignKey("SubjectId")]
         public virtual Subject Subject { get; set; }
+        public int SubjectId { get; set; }
+
         [Required]
         public RequestStatus Status { get; set; }
+
+        [Required]
+        public DateTime CreateTime { get; set; }
 
         public void Approve()
         {
@@ -25,5 +42,9 @@ namespace UniversityWebsite.Domain.Model
             Subject.Students.Add(Student);
         }
 
+        public void Refuse()
+        {
+            Status = RequestStatus.Refused;
+        }
     }
 }

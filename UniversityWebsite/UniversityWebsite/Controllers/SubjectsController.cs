@@ -1,38 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using UniversityWebsite.Core;
-using UniversityWebsite.Domain.Model;
-using UniversityWebsite.ViewModels;
+﻿using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
-    public class SubjectsController : ApiController
+    public class SubjectsController : Controller
     {
-        private readonly IDomainContext _context;
-        public SubjectsController()
+        private readonly ISubjectService _subjectService;
+
+        public SubjectsController(ISubjectService subjectService)
         {
-            _context = new DomainContext();
+            _subjectService = subjectService;
         }
 
-        public IEnumerable<SubjectViewModel> GetAllSubjects()
+        [Authorize(Roles = "Student")]
+        public ActionResult SignUp(int subjectId)
         {
-            return _context.Subjects.Select(s => new SubjectViewModel{Name = s.Name});
+            var userId = User.Identity.GetUserId();
+            _subjectService.SignUpForSubject(subjectId, userId);
+            return null;
         }
 
-        [HttpGet]
-        public SubjectViewModel GetPage(string subjectName)
-        {
-            var subject = _context.Subjects.FirstOrDefault(s => s.Name == subjectName);
-            return new SubjectViewModel{Name = subject.Name};
-        }
-
-        [HttpPost]
-        public void Put(Subject subject)
-        {
-            _context.Subjects.Add(subject);
-            _context.SaveChanges();
-        }
-         
     }
 }
