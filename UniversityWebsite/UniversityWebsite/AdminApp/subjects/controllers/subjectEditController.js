@@ -1,6 +1,6 @@
 ﻿angular.module('configApp.subjects')
 
-.controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService, filesService) {
+.controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService, filesService, Upload, $timeout) {
     $scope.editMode = false;
     if ($stateParams.subjectName == "newSubject") {
         $scope.editMode = true;
@@ -58,11 +58,43 @@
     };
 
     $scope.loadFiles = function () {
-        console.log($scope.subject.Id);
         if ($scope.files == null) {
-            filesService.allFiles({ subjectId: $scope.subject.Id }, function() {
+            filesService.allFiles({ subjectId: $scope.subject.Id }, function (files) {
+                $scope.files = files;
                 console.log("OK");
             });
         }
+    };
+
+    //TODO: move to service
+    $scope.uploadFiles = function(file, errFiles) {
+        $scope.f = file;
+        $scope.errFile = errFiles && errFiles[0];
+        if (file) {
+            file.upload = Upload.upload({
+                url: 'api/file?subjectId=' + $scope.subject.Id,
+                data: { file: file }
+            });
+
+            file.upload.then(function(response) {
+                $timeout(function() {
+                    $scope.files.push(response.data);
+                });
+            }, function(response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function(evt) {
+                file.progress = Math.min(100, parseInt(100.0 *
+                    evt.loaded / evt.total));
+            });
+        }
+    };
+
+    $scope.removeFiles = function() {
+        var selectedFiles = Enumerable.From($scope.files).Where(function(file) { return file.selected; }).ToArray();
+        Enumerable.From(selectedFiles).ForEach(function (file) {
+            filesService.remove({ fileId: file.Id });
+            utils.remove($scope.files, file);
+        });
     };
 })

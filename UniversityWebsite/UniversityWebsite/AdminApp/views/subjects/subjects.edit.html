@@ -211,9 +211,38 @@
         <accordion-group heading="Files" ng-click="loadFiles()">
             <div class="row" ng-hide="editMode">
                 <div class="medium-12 columns">
-                    <ul class="list-unstyled">
+                    <div class="row">
+                        <div class="medium-12 columns">
+                            <ul class="button-group">
+                                <li>
+                                    <button ngf-select="uploadFiles($files, $invalidFiles)"
+                                            multiple accept="image/*"
+                                            ngf-max-height="1000"
+                                            ngf-max-size="1MB">
+                                        Upload
+                                    </button>
+                                </li>
+                                <li>
+                                    <button ng-click="removeFiles()">
+                                        Remove
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    
+                    <br><br>
+                    {{errorMsg}}
+                    
+                    <ul class="vcard">
                         <li ng-repeat="file in files">
-                            {{file.Name}}
+                            <div class="switch small">
+                                <input id="{{file.Id}}" type="checkbox" ng-model="file.selected">
+                                <label for="{{file.Id}}"></label>
+                                {{file.Name}}
+                            </div> 
+                            
                         </li>
                     </ul>
                 </div>

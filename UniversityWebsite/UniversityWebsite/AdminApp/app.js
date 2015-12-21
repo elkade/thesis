@@ -1,5 +1,6 @@
 ﻿angular.module('configApp', [
     'ui.tinymce',
+    'ngFileUpload',
     'mm.foundation',
     'mm.foundation.accordion',
     'mm.foundation.modal',

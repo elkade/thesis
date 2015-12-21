@@ -8,7 +8,7 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Helper.Files;
 
-namespace UniversityWebsite.ApiControllers
+namespace UniversityWebsite.Api.Controllers
 {
     [RoutePrefix("api/file")]
     public class FileController : ApiController
@@ -38,6 +38,7 @@ namespace UniversityWebsite.ApiControllers
         }
 
         [Route("")]
+        [HttpGet]
         public async Task<IHttpActionResult> GetInfoBySubject(int subjectId, int? limit=null, int? offset=null)//limit offset ogarnąć dobrze
         {
             var results = await _fileManager.GetBySubject(subjectId, limit ?? 50, offset ?? 0);

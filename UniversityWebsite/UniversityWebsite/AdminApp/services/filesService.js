@@ -3,8 +3,8 @@
 ])
 
 .factory('Files', ['$resource', function ($resource) {
-    var path = "/api/file";
-    return $resource(path + '/:subjectId', {}, {
+    var path = "/api/file/:fileId";
+    return $resource(path, {subjectId: '@id'}, {
         query: { method: 'GET', isArray: true },
         post: { method: 'POST' },
         update: { method: 'PUT' },
@@ -16,6 +16,7 @@
     var factory = {};
 
     factory.allFiles = Files.query;
+    factory.remove = Files.remove;
 
     return factory;
 }]);
