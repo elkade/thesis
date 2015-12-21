@@ -1,4 +1,5 @@
-﻿@model UniversityWebsite.Model.SemesterVm
+﻿@using UniversityWebsite.Services.Model
+@model UniversityWebsite.Model.SemesterVm
 
 @{
     string semesterString = GetPhrase("semester");
@@ -9,10 +10,25 @@
 <h2>@semesterString</h2>
 
 <ul>
-@foreach (var subject in Model.Subjects)
-{
-    <li>
-        @Html.ActionLink(subject.SubjectName, "Subject", new{ name = subject.SubjectUrlName })
-    </li>
-}
+    @foreach (var subject in Model.Subjects)
+    {
+        <li>
+            @Html.ActionLink(subject.SubjectName, "Subject", new{ name = subject.SubjectUrlName })<br/>
+            @switch (subject.SignUpAction)
+            {
+                case SignUpAction.InProgress:
+                    <text>Nauczyciel jest w trakcie akceptacji.</text>
+                    break;
+                case SignUpAction.Refused:
+                <text>Nauczyciel odrzucił prośbę.</text>
+                    break;
+                case SignUpAction.Resign:
+                <text>Wypisz się.</text>
+                    break;
+                case SignUpAction.Submit:
+                <text>Zapisz się.</text>
+                    break;
+            }
+        </li>
+    }
 </ul>

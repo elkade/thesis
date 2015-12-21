@@ -16,13 +16,14 @@
         div.section:nth-child(2n+1) {
             background: #f7f7f7;
         }
+
         .section {
             padding: 1rem 0.1rem;
         }
+
         .section-footer {
-           border-top: 2px solid gray; 
+            border-top: 2px solid gray;
         }
-         
     </style>
 }
 
@@ -55,7 +56,7 @@
                     <h3><a id="@newsString">@newsString</a></h3>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="medium-12 columns">
                     @foreach (var news in Model.News)
@@ -65,7 +66,7 @@
                     <div class="row">
                         <div class="medium-12 columns">
                             <div class="section-footer">
-                                <a>‹ Previous</a>  <a>1</a> <a>2</a>  <a>Next ›</a>    
+                                <a>‹ Previous</a>  <a>1</a> <a>2</a>  <a>Next ›</a>
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
 
             <div class="row">
                 <div class="medium-12 columns">
-                    @Html.Raw(Model.Schedule)                   
+                    @Html.Raw(Model.Schedule)
                 </div>
             </div>
         </div>
@@ -106,6 +107,34 @@
             <div class="row">
                 <div class="medium-12 columns">
                     @Html.Raw(Model.Syllabus)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Files.Count > 0)
+{
+    <div class="row section">
+        <div class="medium-12 columns">
+            <div class="row">
+                <div class="medium-12 columns">
+                    <h3><a id="@filesString">@filesString</a></h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="medium-12 columns">
+                    @foreach (var file in Model.Files)
+                    {
+                        <ul>
+                            <li>
+                                <span>
+                                    <a href="/api/file/@file.Id">@file.Name</a><br/>
+                                    version: @file.Version
+                                </span>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </div>

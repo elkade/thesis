@@ -24,7 +24,7 @@ namespace UniversityWebsite.Services
         IEnumerable<NewsDto> GetNews(int subjectId);
         void DeleteNews(int subjectId, int newsId);
         void DeleteSubject(int subjectId);
-
+        SignUpAction GetAvailableAction(string studentId, int subjectId);
         NewsDto UpdateNews(int subjectId, NewsDto newsDto);
         void SignUpForSubject(int subjectId, string userId);
     }
@@ -36,6 +36,21 @@ namespace UniversityWebsite.Services
         public SubjectService(IDomainContext context)
         {
             _context = context;
+        }
+
+        public SignUpAction GetAvailableAction(string studentId, int subjectId)
+        {
+            var request =
+                _context.SignUpRequests.SingleOrDefault(r => r.StudentId == studentId && r.SubjectId == subjectId);
+            if (request == null)
+                return SignUpAction.Submit;
+            if (request.Status == RequestStatus.Submitted)
+                return SignUpAction.InProgress;
+            if (request.Status == RequestStatus.Approved)
+                return SignUpAction.Resign;
+            if (request.Status == RequestStatus.Refused)
+                return SignUpAction.Refused;
+            return SignUpAction.None;
         }
 
         public IEnumerable<Subject> GetSemester(int number)

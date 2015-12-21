@@ -15,6 +15,10 @@ namespace UniversityWebsite.Domain.Model
             CreateTime = DateTime.Now;
         }
 
+        public SignUpRequest()
+        {
+            
+        }
         [Key]
         public int Id { get; set; }
 

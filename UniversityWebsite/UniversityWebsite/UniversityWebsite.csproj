@@ -824,12 +824,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiControllers\FileController.cs" />
-    <Compile Include="ApiControllers\LanguageController.cs" />
-    <Compile Include="ApiControllers\MenuController.cs" />
-    <Compile Include="ApiControllers\PageController.cs" />
+    <Compile Include="Api\Controllers\FileController.cs" />
+    <Compile Include="Api\Controllers\LanguageController.cs" />
+    <Compile Include="Api\Controllers\MenuController.cs" />
+    <Compile Include="Api\Controllers\PageController.cs" />
     <Compile Include="Api\Controllers\TeachingController.cs" />
-    <Compile Include="ApiControllers\TileController.cs" />
+    <Compile Include="Api\Controllers\TileController.cs" />
     <Compile Include="Api\Controllers\UsersController.cs" />
     <Compile Include="Api\Model\Teaching\Article.cs" />
     <Compile Include="Api\Model\Teaching\NewsPost.cs" />
@@ -845,7 +845,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\Bundles\AdminApp.cs" />
     <Compile Include="App_Start\Bundles\Foundation.cs" />
-    <Compile Include="App_Start\Consts.cs" />
+    <Compile Include="Consts.cs" />
     <Compile Include="App_Start\FiltersConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />

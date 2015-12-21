@@ -26,6 +26,7 @@ namespace UniversityWebsite.Domain.Model
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<User> Teachers { get; set; }
         public virtual ICollection<User> Students { get; set; }
+        public virtual ICollection<SignUpRequest> SignUpRequests { get; set; }
 
         [Required]
         public int Semester { get; set; }
