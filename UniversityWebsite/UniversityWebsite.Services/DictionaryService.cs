@@ -10,7 +10,6 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
-    //TODO scalić z language
     public interface IDictionaryService
     {
         /// <summary>
@@ -21,7 +20,17 @@ namespace UniversityWebsite.Services
         /// <param name="countryCode">Kod języka</param>
         /// <returns>Tekst</returns>
         string GetTranslationCached(string key, string countryCode);
+        /// <summary>
+        /// Pobiera statyczny tekst z bazy danych.
+        /// </summary>
+        /// <param name="key">Klucz słowa</param>
+        /// <param name="countryCode">Kod języka</param>
+        /// <returns>Tekst</returns>
         string GetTranslation(string key, string countryCode);
+        /// <summary>
+        /// Pobiera listę kluczy słownika słów statycznych serwisu z bazy danych
+        /// </summary>
+        /// <returns>Wyliczenie kluczy</returns>
         IEnumerable<string> GetKeys();
         /// <summary>
         /// Pobiera listę kluczy słownika słów statycznych serwisu z pamięci cache.
