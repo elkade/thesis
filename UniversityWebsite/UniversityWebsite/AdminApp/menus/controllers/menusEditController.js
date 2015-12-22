@@ -1,6 +1,6 @@
 ﻿angular.module('configApp.menus')
 
-.controller('menusEditCtrl', function ($scope, $state, menus, pages, utils, Menus) {
+.controller('menusEditCtrl', function ($scope, $state, menus, pages, utils, menuService) {
     $scope.menus = menus;
     $scope.pages = pages;
     $scope.alerts = [];
@@ -23,8 +23,6 @@
         menuItem.Title = page.Title;
         menuItem.PageId = page.Id;
 
-        console.log(menuItem.Order);
-        console.log($scope.activeMenu.CountryCode);
         $scope.activeMenu.Items.push(menuItem);
     },
 
@@ -51,7 +49,7 @@
     },
 
     $scope.update = function (menu) {
-        Menus.update({ lang: menu.CountryCode }, menu, function (response) {
+        menuService.update({ lang: menu.CountryCode }, menu, function (response) {
             var alert = { type: 'success', msg: 'The ' + menu.CountryCode + ' menu has been updated.' };
             $scope.addAlert(alert);
         }, errorHandler);

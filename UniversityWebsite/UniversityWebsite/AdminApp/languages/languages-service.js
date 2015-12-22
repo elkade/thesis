@@ -19,31 +19,6 @@
     });
 }])
 
-
-.factory('dictionaries', ['$http', 'utils', function ($http, utils) {
-    var path = "/api/languages/dictionaries";
-    var keysPath = "/api/languages/keys";
-
-    var dictionaries = $http.get(path).then(function (resp) {
-        return resp.data;
-    });
-
-    var translationKeys = $http.get(keysPath).then(function (resp) {
-        return resp.data;
-    });
-
-    var factory = {};
-    factory.all = function () {
-        return dictionaries;
-    };
-
-    factory.allTranslationKeys = function () {
-        return translationKeys;
-    };
-
-    return factory;
-}])
-
 .factory('languageService', ['$http', 'utils', 'Dictionaries', function ($http, utils, Dictionaries) {
     var dictionariesPath = "/api/languages/dictionaries";
     var keysPath = "/api/languages/keys";

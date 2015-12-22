@@ -10,7 +10,7 @@
     });
 }])
 
-.factory('menus', ['$http', 'utils', function ($http, utils) {
+.factory('menuService', ['$http', 'utils', 'Menus', function ($http, utils, Menus) {
     var path = "/api/menu/main";
 
     var menus = $http.get(path).then(function (resp) {
@@ -18,7 +18,7 @@
     });
 
     var factory = {};
-    factory.all = function () {
+    factory.allMenus = function () {
         return menus;
     };
 
@@ -27,6 +27,8 @@
             return Enumerable.From(menus).FirstOrDefault(function(menu) { return menu.CountryCode == lang; });
         });
     };
+
+    factory.update = Menus.update;
 
 
     return factory;

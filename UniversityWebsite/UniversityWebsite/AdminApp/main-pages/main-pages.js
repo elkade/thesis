@@ -4,27 +4,26 @@
     [
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
+
+            var getPages = function (pagesService) {
+                return pagesService.all();
+            };
+
+            var getMainPages = function(mainPages) {
+                return mainPages.all();
+            };
+
             $stateProvider
                 .state('main-pages', {
                     url: '/main-pages',
                     templateUrl: 'adminapp/views/main-pages/main-pages.html',
 
                     resolve: {
-                        menus: [
-                            'mainPages',
-                            function (mainPages) {
-                                return mainPages.all();
-                            }
-                        ],
-                        pages: [
-                            'pages',
-                            function (pages) {
-                                return pages.all();
-                            }
-                        ]
+                        menus: getMainPages,
+                        pages: getPages
                     },
 
                     controller: 'mainPagesEditCtrl'
-                })
+                });
         }
     ]);

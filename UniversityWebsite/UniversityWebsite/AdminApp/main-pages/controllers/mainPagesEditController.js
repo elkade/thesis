@@ -5,7 +5,6 @@
     $scope.pages = pages;
     $scope.alerts = [];
 
-    console.log(menus);
     $scope.activeMenu = menus[0];
 
     $scope.leftBar = { name: 'pages', url: 'adminapp/views/partials/pages.list.html' };

@@ -8,6 +8,7 @@ namespace UniversityWebsite.Bundles
         {
             return new ScriptBundle("~/bundles/configApp")
                 .Include("~/AdminApp/modules/file-upload/ng-file-upload-all.js")
+                .Include("~/AdminApp/modules/pagination/dirPagination.js")
                 .IncludeDirectory("~/AdminApp/common", "*.js")
                 .IncludeDirectory("~/AdminApp/services", "*.js")
                 .IncludeDirectory("~/AdminApp/modules", "*.js")

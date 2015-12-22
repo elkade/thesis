@@ -212,6 +212,10 @@
     <Content Include="AdminApp\modules\file-upload\ng-file-upload.js" />
     <Content Include="AdminApp\modules\file-upload\ng-file-upload.min.js" />
     <Content Include="AdminApp\modules\file-upload\package.js" />
+    <Content Include="AdminApp\modules\pagination\dirPagination.js" />
+    <Content Include="AdminApp\modules\pagination\dirPagination.spec.js" />
+    <Content Include="AdminApp\modules\pagination\dirPagination.tpl.html" />
+    <Content Include="AdminApp\modules\pagination\testTemplate.tpl.html" />
     <Content Include="AdminApp\modules\tinymce.js" />
     <Content Include="AdminApp\services\filesService.js" />
     <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
@@ -630,6 +634,7 @@
     <Content Include="AdminApp\modules\file-upload\bower.json" />
     <Content Include="AdminApp\modules\file-upload\LICENSE" />
     <Content Include="AdminApp\modules\file-upload\README.md" />
+    <Content Include="AdminApp\modules\pagination\README.md" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
     <Content Include="AdminApp\app.js" />

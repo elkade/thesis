@@ -8,21 +8,19 @@
             var getPages = function (pagesService) {
                 return pagesService.all();
             };
+
+            var getMenus = function(menuService) {
+                return menuService.allMenus();
+            };
+
             $stateProvider
                 .state('menus', {
                     url: '/menus',
                     templateUrl: 'adminapp/views/menus/menus.html',
-
                     resolve: {
-                        menus: [
-                            'menus',
-                            function (menus) {
-                                return menus.all();
-                            }
-                        ],
+                        menus: getMenus,
                         pages: getPages
                     },
-
                     controller: 'menusEditCtrl'
 
                 })
@@ -33,8 +31,8 @@
                         '': {
                             templateUrl: 'scripts/app/views/menus/menus.edit.html',
                             controller: [
-                                '$scope', '$stateParams', 'utils', 'Menus',
-                                function ($scope, $stateParams, utils, Menus) {
+                                '$scope', '$stateParams', 'utils',
+                                function ($scope, $stateParams, utils) {
                                     $scope.menu = utils.findByCountryCode($scope.menus, $stateParams.lang);
                                 }
                             ]

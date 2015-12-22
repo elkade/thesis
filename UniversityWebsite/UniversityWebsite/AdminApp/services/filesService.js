@@ -11,12 +11,19 @@
         remove: { method: 'DELETE' }
     });
 }])
-.factory('filesService', ['$http', 'Files', function ($http, Files) {
+.factory('filesService', ['$http', 'Files', 'Upload', function ($http, Files, Upload) {
 
     var factory = {};
 
     factory.allFiles = Files.query;
     factory.remove = Files.remove;
+
+    factory.upload = function(subjectId, file) {
+        return Upload.upload({
+            url: 'api/file?subjectId=' + subjectId,
+            data: { file: file }
+        });
+    };
 
     return factory;
 }]);

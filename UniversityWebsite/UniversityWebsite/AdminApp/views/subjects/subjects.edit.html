@@ -208,8 +208,8 @@
                 </div>
             </div>
         </accordion-group>
-        <accordion-group heading="Files" ng-click="loadFiles()">
-            <div class="row" ng-hide="editMode">
+        <accordion-group heading="Files">
+            <div class="row" ng-hide="editMode" ng-controller="subjectFilesCtrl">
                 <div class="medium-12 columns">
                     <div class="row">
                         <div class="medium-12 columns">
@@ -230,21 +230,25 @@
                             </ul>
                         </div>
                     </div>
-                    
-                    
-                    <br><br>
-                    {{errorMsg}}
-                    
-                    <ul class="vcard">
-                        <li ng-repeat="file in files">
-                            <div class="switch small">
-                                <input id="{{file.Id}}" type="checkbox" ng-model="file.selected">
-                                <label for="{{file.Id}}"></label>
-                                {{file.Name}}
-                            </div> 
-                            
-                        </li>
-                    </ul>
+
+                    <div class="row">
+                        <div class="small-12 medium-6 columns">
+                            {{errorMsg}}
+                            <span class="progress" ng-show="file.progress >= 0">
+                                <div style="width:{{file.progress}}%; background: #368a55;" ng-bind="'Upload: ' + file.progress + '%'"></div>
+                            </span>
+                            <ul class="vcard">
+                                <li dir-paginate="file in files | itemsPerPage: filesPerPage" total-items="totalFiles" current-page="pagination.current">
+                                    <div class="switch small">
+                                        <input id="{{file.Id}}" type="checkbox" ng-model="file.selected">
+                                        <label for="{{file.Id}}"></label>
+                                        {{file.Name}}
+                                    </div>
+                                </li>
+                            </ul>
+                            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                        </div>
+                    </div>
                 </div>
             </div>
         </accordion-group>

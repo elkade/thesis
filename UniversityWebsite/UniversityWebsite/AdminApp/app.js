@@ -4,6 +4,7 @@
     'mm.foundation',
     'mm.foundation.accordion',
     'mm.foundation.modal',
+    'angularUtils.directives.dirPagination',
     'configApp.pages',
     'configApp.subjects',
     'configApp.menus',
