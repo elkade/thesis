@@ -37,6 +37,27 @@ namespace UniversityWebsite.Api.Controllers
             return result;
         }
 
+        [Route("gallery/{id:guid}")]
+        [HttpGet]
+        public HttpResponseMessage GetImage(string id)
+        {
+            var info = _fileManager.GetPath(id, "");
+            var result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(info.Path, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType =
+                new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = info.Name
+            };
+            var extension = Path.GetExtension(info.Name);
+            if (extension == null) return result;
+            var contenttype = "image/"+extension.Trim(new[] {'.'});
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue(contenttype);
+            return result;
+        }
+
         [Route("")]
         [HttpGet]
         public async Task<IHttpActionResult> GetInfoBySubject(int subjectId, int? limit=null, int? offset=null)//limit offset ogarnąć dobrze
