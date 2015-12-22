@@ -50,6 +50,12 @@ namespace UniversityWebsite.Services
         /// <returns></returns>
         IEnumerable<DictionaryDto> GetDictionaries();
         /// <summary>
+        /// Aktualizuje słowa słownika o countryCode przekazanym w modelu
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <returns></returns>
+        IEnumerable<Phrase> UpdateDictionary(DictionaryDto dict);
+        /// <summary>
         /// Aktualizuje słowa wszystkich słowników.
         /// </summary>
         /// <param name="dictionaries"></param>
@@ -128,7 +134,7 @@ namespace UniversityWebsite.Services
             _context.SaveChanges();
         }
 
-        private IEnumerable<Phrase> UpdateDictionary(DictionaryDto dict)
+        public IEnumerable<Phrase> UpdateDictionary(DictionaryDto dict)
         {
             foreach (var row in dict.Words)
             {
