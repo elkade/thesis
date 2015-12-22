@@ -101,6 +101,8 @@
     <Compile Include="CacheHelperTests\CacheHelperTests.cs" />
     <Compile Include="DictionaryTests\Tests.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="LanguageTests\SetUp.cs" />
+    <Compile Include="LanguageTests\Tests.cs" />
     <Compile Include="PageTests\PageServiceTests.cs" />
     <Compile Include="PageTests\Tests.cs" />
     <Compile Include="Properties\Annotations.cs" />

@@ -1,11 +1,7 @@
 ﻿using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using Moq;
 using NUnit.Framework;
 using UniversityWebsite.Domain.Model;
-using UniversityWebsite.Services;
 using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Model;
 
