@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Moq;
 using NUnit.Framework;
 using UniversityWebsite.Domain.Model;
@@ -48,13 +49,6 @@ namespace UniversityWebsite.UnitTests.PageTests
         {
             string name = "Page-b";
             string con = "Nowy kontent";
-
-            //_domainContextMock
-            //    .Setup(x => x.SetModified(It.IsAny<Page>()))
-            //    .Callback((object o) =>
-            //    {
-            //        ((Page)o).Content = con;
-            //    });
 
             var page = new PageDto
             {
@@ -161,7 +155,160 @@ namespace UniversityWebsite.UnitTests.PageTests
             TestDelegate dlgt = () => _pageService.GetTranslations("siała baba mak");
 
             Assert.Throws<NotFoundException>(dlgt);
+        }
 
+        [Test]
+        public void DeleteGroup_DeletesGroup()
+        {
+            bool deletedPageA=false, deletedPageB=false, deletedOtherPage=false, deletedGroup1=false, deletedOtherGroup=false;
+            _domainContextMock
+                .Setup(x => x.SetDeleted(It.IsAny<Page>()))
+                .Callback((object o) =>
+                {
+                    var page = o as Page;
+                    if (page != null && page.Id == 6)
+                        deletedPageA = true;
+                    else if (page != null && page.Id == 4)
+                        deletedPageB = true;
+                    else
+                        deletedOtherPage = true;
+                });
+            _domainContextMock
+                .Setup(x => x.SetDeleted(It.IsAny<PageGroup>()))
+                .Callback((object o) =>
+                {
+                    var group = o as PageGroup;
+                    if (group != null && group.Id == 1)
+                        deletedGroup1 = true;
+                    else
+                        deletedOtherGroup = true;
+                });
+            _pageService.DeleteGroup(_pages[0].Id);
+
+            Assert.IsTrue(deletedPageA&&deletedPageB&&!deletedOtherPage&&deletedGroup1&&!deletedOtherGroup);
+        }
+
+        [Test]
+        public void DeleteGroup_ThrowsNotFound()
+        {
+            TestDelegate dlgt = () => _pageService.DeleteGroup(12343);
+
+            Assert.Throws<NotFoundException>(dlgt);
+        }
+
+        [Test]
+        public void Delete_DeletesPage()
+        {
+            bool deletedPageA = false, deletedOtherPage = false;
+            _domainContextMock
+                .Setup(x => x.SetDeleted(It.IsAny<Page>()))
+                .Callback((object o) =>
+                {
+                    var page = o as Page;
+                    if (page != null && page.Id == 6)
+                        deletedPageA = true;
+                    else
+                        deletedOtherPage = true;
+                });
+
+            _pageService.Delete(_pages[0].Id);
+
+            Assert.IsTrue(deletedPageA && !deletedOtherPage);
+        }
+
+        [Test]
+        public void Delete_ThrowsNotFound()
+        {
+            TestDelegate dlgt = () => _pageService.Delete(12343);
+
+            Assert.Throws<NotFoundException>(dlgt);
+        }
+
+        [Test]
+        public void Update_Updates()
+        {
+            string tit = "updatedPage";
+            var pageToUpdate = new PageDto
+            {
+                Title = tit,
+                Content = "Updated Content",
+                CountryCode = "en",
+                Id = 8,
+                GroupId = 3
+            };
+            _pageService.UpdatePage(pageToUpdate);
+
+            Assert.AreEqual(tit, _pages[1].Title);
+        }
+
+        [Test]
+        public void Update_ThrowsValidation_CausedByNonUniqueCountryCodeGroupPair()
+        {
+            string tit = "updatedPage";
+            var pageToUpdate = new PageDto
+            {
+                Title = tit,
+                Content = "Updated Content",
+                CountryCode = "pl",
+                Id = 8,
+                GroupId = 3
+            };
+            TestDelegate dlgt = () => _pageService.UpdatePage(pageToUpdate);
+
+            Assert.Throws<PropertyValidationException>(dlgt);
+        }
+
+        [Test]
+        public void Update_ThrowsNotFoundPage()
+        {
+            string tit = "updatedPage";
+            var pageToUpdate = new PageDto
+            {
+                Title = tit,
+                Content = "Updated Content",
+                CountryCode = "pl",
+                Id = 86767,
+            };
+
+            TestDelegate dlgt = () => _pageService.UpdatePage(pageToUpdate);
+
+            Assert.Throws<NotFoundException>(dlgt);
+        }
+
+        [Test]
+        public void Update_ThrowsGroupValidationEx()
+        {
+            string tit = "updatedPage";
+            var pageToUpdate = new PageDto
+            {
+                Title = tit,
+                Content = "Updated Content",
+                CountryCode = "pl",
+                Id = 8,
+                GroupId = 52654
+            };
+
+            TestDelegate dlgt = () => _pageService.UpdatePage(pageToUpdate);
+
+            Assert.Throws<PropertyValidationException>(dlgt);
+        }
+
+        [Test]
+        public void Update_ThrowsParentValidationEx()
+        {
+            string tit = "updatedPage";
+            var pageToUpdate = new PageDto
+            {
+                Title = tit,
+                Content = "Updated Content",
+                CountryCode = "pl",
+                Id = 8,
+                Parent = new ParentDto{Id=324534}
+            };
+
+            TestDelegate dlgt = () => _pageService.UpdatePage(pageToUpdate);
+
+            Assert.Throws<PropertyValidationException>(dlgt);
         }
     }
 }

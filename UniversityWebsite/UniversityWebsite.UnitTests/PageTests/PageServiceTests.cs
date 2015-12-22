@@ -29,13 +29,19 @@ namespace UniversityWebsite.UnitTests.PageTests
         [SetUp]
         public void SetUp()
         {
+            _groups = new List<PageGroup>
+            {
+                 new PageGroup{Id = 1},
+                 new PageGroup{Id = 2}
+            };
+
             _pages = new List<Page> 
             { 
-                new Page { Title="a", Content = "", CountryCode = "pl", Id=4, GroupId = 1},
-                new Page { Title="b", Content = "", CountryCode = "en", Id=6, UrlName = "Page-b", GroupId = 1},
+                new Page { Title="b", Content = "", CountryCode = "en", Id=6, UrlName = "Page-b", GroupId = 1, Group = _groups[0]},
                 new Page { Title="c", Content = "", CountryCode = "pl", Id=8},
                 new Page { Title="d", Content = "", CountryCode = "pl", Id=18, ParentId = 4},
                 new Page { Title="e", Content = "", CountryCode = "pl", Id=28, ParentId = 4},
+                new Page { Title="a", Content = "", CountryCode = "pl", Id=4, GroupId = 1, Group = _groups[0]},
                 new Page { Title="f", Content = "", CountryCode = "pl", Id=38, ParentId = 28},
                 new Page { Title="g", Content = "", CountryCode = "pl", Id=38, ParentId = 28, UrlName = "existing", GroupId = 3},
                 new Page { CountryCode = "pl", Id=38, GroupId=2},
@@ -45,12 +51,6 @@ namespace UniversityWebsite.UnitTests.PageTests
                  new Language{CountryCode = "pl", Title = "polski"},
                  new Language{CountryCode = "fr", Title = "francois"}
             };
-            _groups = new List<PageGroup>
-            {
-                 new PageGroup{Id = 1},
-                 new PageGroup{Id = 2}
-            };
-
 
             _domainContextMock
                 .SetupDbSet(_pages, x => x.Pages)
