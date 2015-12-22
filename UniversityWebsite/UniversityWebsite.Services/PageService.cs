@@ -213,7 +213,7 @@ namespace UniversityWebsite.Services
                 throw new NotFoundException("Page o nazwie: " + page.UrlName);
             dbPage.Content = page.Content;
             dbPage.LastUpdateDate = DateTime.Now;
-            _context.Entry(dbPage).State = EntityState.Modified;
+            _context.SetModified(dbPage);
             _context.SaveChanges();
         }
 
@@ -313,7 +313,7 @@ namespace UniversityWebsite.Services
                 else throw new PropertyValidationException("page.UrlName", "Strona o podanym urlu już istnieje.");
             }
             else page.UrlName = PrepareUniqueUrlName(page.Title);
-            _context.Entry(dbPage).State = EntityState.Modified;
+            _context.SetModified(dbPage);
 
             _context.SaveChanges();
             return Mapper.Map<PageDto>(dbPage);
@@ -324,7 +324,7 @@ namespace UniversityWebsite.Services
             Page page = _context.Pages.FirstOrDefault(p => p.Id == id);
             if (page == null)
                 throw new NotFoundException("Page o id: " + id);
-            _context.Entry(page).State = EntityState.Deleted;
+            _context.SetDeleted(page);
 
             _context.SaveChanges();
         }
@@ -338,9 +338,9 @@ namespace UniversityWebsite.Services
             var pagesToDelete = _context.Pages.Where(p => p.GroupId == page.GroupId);
             foreach (var dbPage in pagesToDelete)
             {
-                _context.Entry(dbPage).State = EntityState.Deleted;
+                _context.SetDeleted(dbPage);
             }
-            _context.Entry(page.Group).State = EntityState.Deleted;
+            _context.SetDeleted(page.Group);
             _context.SaveChanges();
         }
 

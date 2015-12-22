@@ -11,22 +11,6 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.UnitTests.DictionaryTests
 {
-    public static class ExtensionMethods
-    {
-        public static Mock<IDomainContext> SetupDbSet<T>(this Mock<IDomainContext> contextMock, IEnumerable<T> data, Expression<Func<IDomainContext, IDbSet<T>>> propExp) where T : class
-        {
-            var queryableData = data.AsQueryable();
-            var dbSetMock = new Mock<IDbSet<T>>();
-            dbSetMock.Setup(m => m.Provider).Returns(queryableData.Provider);
-            dbSetMock.Setup(m => m.Expression).Returns(queryableData.Expression);
-            dbSetMock.Setup(m => m.ElementType).Returns(queryableData.ElementType);
-            dbSetMock.Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
-            contextMock
-                .Setup(propExp)
-                .Returns(() => dbSetMock.Object);
-            return contextMock;
-        }
-    }
     [TestFixture]
     public partial class DictionaryServiceTests
     {
@@ -35,8 +19,8 @@ namespace UniversityWebsite.UnitTests.DictionaryTests
         private List<Phrase> _phrases;
         private List<Language> _languages;
 
-        [OneTimeSetUp]
-        public void Init()
+        //[OneTimeSetUp]
+        public DictionaryServiceTests()
         {
             AutoMapperServiceConfig.Configure();
         }

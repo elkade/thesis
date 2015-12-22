@@ -23,7 +23,9 @@ namespace UniversityWebsite.Core
         IDbSet<News> News { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
-        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        //DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        void SetModified(object entity);
+        void SetDeleted(object entity);
         Database Database { get; }
 
     }
@@ -39,6 +41,16 @@ namespace UniversityWebsite.Core
         public DomainContext()
         {
 
+        }
+
+        public void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+
+        public void SetDeleted(object entity)
+        {
+            Entry(entity).State = EntityState.Deleted;
         }
 
         public virtual IDbSet<Page> Pages { get; set; }

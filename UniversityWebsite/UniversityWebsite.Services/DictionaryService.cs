@@ -143,7 +143,7 @@ namespace UniversityWebsite.Services
                     throw new NotFoundException("klucz "+row.Key +" w języku "+dict.CountryCode);
                 if(phrase.Value == row.Value) continue;
                 phrase.Value = row.Value;
-                _context.Entry(phrase).State = EntityState.Modified;
+                _context.SetModified(phrase);
                 yield return phrase;
             }
         }

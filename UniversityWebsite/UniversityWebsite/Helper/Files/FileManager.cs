@@ -212,7 +212,7 @@ namespace UniversityWebsite.Helper.Files
             oldFile.UserId = userId;
             oldFile.FileName = provider.Name;
 
-            _context.Entry(oldFile).State = EntityState.Modified;
+            _context.SetModified(oldFile);
 
             _context.SaveChanges();
 
@@ -243,7 +243,7 @@ namespace UniversityWebsite.Helper.Files
             oldFile.UserId = userId;
             oldFile.FileName = provider.Name;
 
-            _context.Entry(oldFile).State = EntityState.Modified;
+            _context.SetModified(oldFile);
 
             _context.SaveChanges();
 

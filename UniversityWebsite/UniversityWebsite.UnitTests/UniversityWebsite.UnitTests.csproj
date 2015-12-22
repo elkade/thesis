@@ -100,7 +100,9 @@
   <ItemGroup>
     <Compile Include="CacheHelperTests\CacheHelperTests.cs" />
     <Compile Include="DictionaryTests\Tests.cs" />
-    <Compile Include="PageServiceTests.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="PageTests\PageServiceTests.cs" />
+    <Compile Include="PageTests\Tests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DictionaryTests\SetUp.cs" />
