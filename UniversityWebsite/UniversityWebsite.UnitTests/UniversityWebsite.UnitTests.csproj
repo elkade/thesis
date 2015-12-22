@@ -98,8 +98,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PageServiceTests.cs" />
+    <Compile Include="CacheHelperTests\CacheHelperTests.cs" />
+    <Compile Include="DictionaryTests\Tests.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="LanguageTests\SetUp.cs" />
+    <Compile Include="LanguageTests\Tests.cs" />
+    <Compile Include="PageTests\PageServiceTests.cs" />
+    <Compile Include="PageTests\Tests.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DictionaryTests\SetUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

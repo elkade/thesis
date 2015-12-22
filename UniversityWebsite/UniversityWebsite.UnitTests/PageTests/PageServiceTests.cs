@@ -1,61 +1,76 @@
-﻿using Moq;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Moq;
+using NUnit.Framework;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Exceptions;
 
-namespace UniversityWebsite.UnitTests
+namespace UniversityWebsite.UnitTests.PageTests
 {
     [TestFixture]
-    public class PageServiceTests
+    public partial class PageServiceTests
     {
-        [OneTimeSetUp]
-        public void Init()
+        //[OneTimeSetUp]
+        public PageServiceTests()
         {
             AutoMapperServiceConfig.Configure();
         }
         private IPageService _pageService;
 
-        List<Page> Data;
+        List<Page> _pages;
+        List<PageGroup> _groups;
+        List<Language> _languages;
+
+        private readonly Mock<IDomainContext> _domainContextMock = new Mock<IDomainContext>();
 
         [SetUp]
         public void SetUp()
         {
-            Data = new List<Page> 
-            { 
-                new Page { Content = "", CountryCode = "pl", Id=4},
-                new Page { Content = "", CountryCode = "en", Id=6},
-                new Page { Content = "", CountryCode = "pl", Id=8},
+            _groups = new List<PageGroup>
+            {
+                 new PageGroup{Id = 1},
+                 new PageGroup{Id = 2}
             };
-            var queryableData = Data.AsQueryable();
-            var dbSetMock = new Mock<IDbSet<Page>>();
-            dbSetMock.Setup(m => m.Provider).Returns(queryableData.Provider);
-            dbSetMock.Setup(m => m.Expression).Returns(queryableData.Expression);
-            dbSetMock.Setup(m => m.ElementType).Returns(queryableData.ElementType);
-            dbSetMock.Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
 
-            var domainContextMock = new Mock<IDomainContext>();
-            domainContextMock
-                .Setup(x => x.Pages)
-                .Returns(dbSetMock.Object);
+            _pages = new List<Page> 
+            { 
+                new Page { Title="b", Content = "", CountryCode = "en", Id=6, UrlName = "Page-b", GroupId = 1, Group = _groups[0]},
+                new Page { Title="c", Content = "", CountryCode = "pl", Id=8},
+                new Page { Title="d", Content = "", CountryCode = "pl", Id=18, ParentId = 4},
+                new Page { Title="e", Content = "", CountryCode = "pl", Id=28, ParentId = 4},
+                new Page { Title="a", Content = "", CountryCode = "pl", Id=4, GroupId = 1, Group = _groups[0]},
+                new Page { Title="f", Content = "", CountryCode = "pl", Id=38, ParentId = 28},
+                new Page { Title="g", Content = "", CountryCode = "pl", Id=38, ParentId = 28, UrlName = "existing", GroupId = 3},
+                new Page { CountryCode = "pl", Id=38, GroupId=2},
+            };
+            _languages = new List<Language>
+            {
+                 new Language{CountryCode = "pl", Title = "polski"},
+                 new Language{CountryCode = "fr", Title = "francois"}
+            };
 
-            _pageService = new PageService(domainContextMock.Object);
+            _domainContextMock
+                .SetupDbSet(_pages, x => x.Pages)
+                .SetupDbSet(_languages, x => x.Languages)
+                .SetupDbSet(_groups, x => x.PageGroups);
+
+            _pageService = new PageService(_domainContextMock.Object);
+
         }
         [TearDown]
         public void TearDown()
         {
-            Data = new List<Page>();
+            _pages = new List<Page>();
         }
         #region FindPageById
         [Test]
         public void FindPageById_Finds()
         {
             var expected = new Page { UrlName="abc", Content = "", CountryCode = "pl", Id = 5 };
-            Data.Add(expected);
+            _pages.Add(expected);
 
             var result = _pageService.FindPage(expected.Id);
 
@@ -75,7 +90,7 @@ namespace UniversityWebsite.UnitTests
         public void FindPageByUrlName_Finds()
         {
             var expected = new Page { UrlName = "abc", Content = "", CountryCode = "pl", Id = 5 };
-            Data.Add(expected);
+            _pages.Add(expected);
 
             var result = _pageService.FindPage(expected.UrlName);
 
@@ -97,9 +112,9 @@ namespace UniversityWebsite.UnitTests
             var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
             var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
             var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
-            Data.Add(translation1);
-            Data.Add(translation2);
-            Data.Add(translation3);
+            _pages.Add(translation1);
+            _pages.Add(translation2);
+            _pages.Add(translation3);
 
             var result = _pageService.FindTranslation(translation1.UrlName, "de");
 
@@ -111,9 +126,9 @@ namespace UniversityWebsite.UnitTests
             var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
             var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
             var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
-            Data.Add(translation1);
-            Data.Add(translation2);
-            Data.Add(translation3);
+            _pages.Add(translation1);
+            _pages.Add(translation2);
+            _pages.Add(translation3);
 
             TestDelegate dlgt = () => _pageService.FindTranslation(translation1.UrlName, "cz");
 
@@ -125,9 +140,9 @@ namespace UniversityWebsite.UnitTests
             var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
             var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
             var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
-            Data.Add(translation1);
-            Data.Add(translation2);
-            Data.Add(translation3);
+            _pages.Add(translation1);
+            _pages.Add(translation2);
+            _pages.Add(translation3);
 
             TestDelegate dlgt = () => _pageService.FindTranslation("abc4", "pl");
 
@@ -142,9 +157,9 @@ namespace UniversityWebsite.UnitTests
             var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
             var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
             var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
-            Data.Add(translation1);
-            Data.Add(translation2);
-            Data.Add(translation3);
+            _pages.Add(translation1);
+            _pages.Add(translation2);
+            _pages.Add(translation3);
 
             var result = _pageService.FindTranslation(translation1.Id, "de");
 
@@ -156,9 +171,9 @@ namespace UniversityWebsite.UnitTests
             var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
             var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
             var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
-            Data.Add(translation1);
-            Data.Add(translation2);
-            Data.Add(translation3);
+            _pages.Add(translation1);
+            _pages.Add(translation2);
+            _pages.Add(translation3);
 
             TestDelegate dlgt = () => _pageService.FindTranslation(translation1.Id, "cz");
 
@@ -170,9 +185,9 @@ namespace UniversityWebsite.UnitTests
             var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
             var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
             var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
-            Data.Add(translation1);
-            Data.Add(translation2);
-            Data.Add(translation3);
+            _pages.Add(translation1);
+            _pages.Add(translation2);
+            _pages.Add(translation3);
 
             TestDelegate dlgt = () => _pageService.FindTranslation(1219, "pl");
 
@@ -187,9 +202,9 @@ namespace UniversityWebsite.UnitTests
             var translation1 = new Page { UrlName = "abc1", Content = "", CountryCode = "pl", Id = 15, GroupId = 10 };
             var translation2 = new Page { UrlName = "abc2", Content = "", CountryCode = "ru", Id = 25, GroupId = 10 };
             var translation3 = new Page { UrlName = "abc3", Content = "", CountryCode = "de", Id = 35, GroupId = 10 };
-            Data.Add(translation1);
-            Data.Add(translation2);
-            Data.Add(translation3);
+            _pages.Add(translation1);
+            _pages.Add(translation2);
+            _pages.Add(translation3);
 
             var result = _pageService.GetTranslations(translation1.UrlName).Select(t=>t.UrlName).ToList();
 

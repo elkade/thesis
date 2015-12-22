@@ -95,7 +95,7 @@ namespace UniversityWebsite.Services
 
         public IEnumerable<Language> GetLanguagesCached()
         {
-            List<Language> languages = CacheHelper.GetOrInvoke<List<Language>>(
+            var languages = CacheHelper.GetOrInvoke<List<Language>>(
                 "Languages",
                 () => _context.Languages.ToList(),
                 TimeSpan.FromSeconds(10));//Todo

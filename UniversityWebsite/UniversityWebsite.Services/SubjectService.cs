@@ -113,7 +113,7 @@ namespace UniversityWebsite.Services
             dbSubject.Semester = subject.Semester;
             dbSubject.UrlName = PrepareUniqueUrlName(subject.UrlName);
 
-            _context.Entry(dbSubject).State = EntityState.Modified;
+            _context.SetModified(dbSubject);
             _context.SaveChanges();
             return Mapper.Map<SubjectDto>(dbSubject);
         }
@@ -138,7 +138,7 @@ namespace UniversityWebsite.Services
             var news = _context.News.Find(newsId);
             if (subjectId != news.SubjectId)
                 throw new PropertyValidationException("subjectId", "");
-            _context.Entry(news).State = EntityState.Deleted;
+            _context.SetDeleted(news);
             _context.SaveChanges();
         }
 
@@ -149,10 +149,10 @@ namespace UniversityWebsite.Services
                 throw new NotFoundException("Subject with id: " + subjectId);
             var newsToDelete = subject.News.ToList();
             foreach (var news in newsToDelete)
-                _context.Entry(news).State = EntityState.Deleted;
-            _context.Entry(subject.Schedule).State = EntityState.Deleted;
-            _context.Entry(subject.Syllabus).State = EntityState.Deleted;
-            _context.Entry(subject).State = EntityState.Deleted;
+                _context.SetDeleted(news);
+            _context.SetDeleted(subject.Schedule);
+            _context.SetDeleted(subject.Syllabus);
+            _context.SetDeleted(subject);
             _context.SaveChanges();
         }
 
@@ -183,7 +183,7 @@ namespace UniversityWebsite.Services
                 throw new PropertyValidationException("subjectId", "");
             dbNews.Header = newsDto.Header;
             dbNews.Content = newsDto.Content;
-            _context.Entry(dbNews).State = EntityState.Modified;
+            _context.SetModified(dbNews);
             _context.SaveChanges();
             return Mapper.Map<NewsDto>(dbNews);
         }

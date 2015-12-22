@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using UniversityWebsite.Services;
@@ -15,6 +16,14 @@ namespace UniversityWebsite
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Configure();
             AutoMapperServiceConfig.Configure();
+
+
+            const string subPath = "/Files";
+
+            bool exists = Directory.Exists(Server.MapPath(subPath));
+
+            if (!exists)
+                Directory.CreateDirectory(Server.MapPath(subPath));
         }
         //protected void Session_Start(object sender, EventArgs e)
         //{

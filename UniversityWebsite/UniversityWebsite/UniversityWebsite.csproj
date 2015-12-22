@@ -890,7 +890,6 @@
     <Compile Include="Helper\HtmlExtensions.cs" />
     <Compile Include="Helper\Files\FileGetInfo.cs" />
     <Compile Include="Helper\Files\FileMultipartFormDataStreamProvider.cs" />
-    <Compile Include="Helper\Files\IFileManager.cs" />
     <Compile Include="Helper\Files\FileManager.cs" />
     <Compile Include="Model\ArticleVm.cs" />
     <Compile Include="Model\HomeVm.cs" />
