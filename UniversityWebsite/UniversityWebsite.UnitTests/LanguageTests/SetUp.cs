@@ -14,6 +14,8 @@ namespace UniversityWebsite.UnitTests.LanguageTests
 
         private List<Phrase> _phrases;
         private List<Language> _languages;
+        private List<MenuGroup> _menuGroups;
+        private List<Menu> _menus;
 
         //[OneTimeSetUp]
         public LanguageServiceTests()
@@ -24,6 +26,23 @@ namespace UniversityWebsite.UnitTests.LanguageTests
         [SetUp]
         public void SetUp()
         {
+            _languages = new List<Language>
+            {
+                 new Language{CountryCode = "pl", Title = "polski"},
+                 new Language{CountryCode = "fr", Title = "francois"},
+                 new Language{CountryCode = "de", Title = "deutsch"},
+                 new Language{CountryCode = "ru", Title = "ruski"}
+            };
+            _menuGroups = new List<MenuGroup>
+            {
+                new MenuGroup{Id=1},
+                new MenuGroup{Id=2},
+            };
+            _menus = new List<Menu>
+            {
+                new Menu{CountryCode = "pl", Group = _menuGroups[0], GroupId = 1, Id = 1, Language = _languages[0]},
+                new Menu{CountryCode = "ru", Group = _menuGroups[1], GroupId = 2, Id = 2, Language = _languages[3]},
+            };
             _phrases = new List<Phrase>
             {
                 new Phrase{CountryCode = "pl", Key = "key1", Value = "val1pl"},
@@ -39,20 +58,12 @@ namespace UniversityWebsite.UnitTests.LanguageTests
                 new Phrase{CountryCode = "fr", Key = "key5", Value = "val5fr"},
             };
 
-            _languages = new List<Language>
-            {
-                 new Language{CountryCode = "pl", Title = "polski"},
-                 new Language{CountryCode = "fr", Title = "francois"},
-                 new Language{CountryCode = "de", Title = "deutsch"},
-                 new Language{CountryCode = "ru", Title = "ruski"}
-            };
-
             var contextMock = new Mock<IDomainContext>();
 
             contextMock
                 .SetupDbSet(_phrases, x => x.Phrases)
+                .SetupDbSet(_menus, x => x.Menus)
                 .SetupDbSet(_languages, x => x.Languages);
-
             _languageService = new LanguageService(contextMock.Object);
 
         }

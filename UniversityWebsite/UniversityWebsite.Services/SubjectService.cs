@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -15,9 +13,38 @@ namespace UniversityWebsite.Services
 {
     public interface ISubjectService
     {
-        IEnumerable<Subject> GetSemester(int number);
+        /// <summary>
+        /// Zwraca zbiór przedmiotów przypisanych do danego semestru.
+        /// </summary>
+        /// <param name="number">Numer semestru</param>
+        /// <param name="limit">Maksymalna liczba zwróconych przedmiotów</param>
+        /// <param name="offset">Numer porządkowy pierwszego zwróconego przedmiotu</param>
+        /// <returns>Zbiór przedmiotów</returns>
+        IEnumerable<Subject> GetSubjectsBySemester(int number, int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę przedmiotów w danym semestrze
+        /// </summary>
+        /// <param name="number">Numer semestru</param>
+        /// <returns>Liczba naturalna</returns>
+        int GetSubjectsNumberBySemestser(int number);
+        /// <summary>
+        /// Wyszukuje przedmiot o podanej nazwie.
+        /// </summary>
+        /// <param name="name">Nazwa przedmiotu widoczna w linku</param>
+        /// <returns>Szukany przedmiot</returns>
         Subject GetSubject(string name);
-        IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
+        /// <summary>
+        /// Zwraca zbiór wszystkich przedmiotów.
+        /// </summary>
+        /// <param name="limit">Maksymalna liczba zwróconych przedmiotów</param>
+        /// <param name="offset">Numer porządkowy pierwszego zwróconego przedmiotu</param>
+        /// <returns>Zbiór przedmitów</returns>
+        IEnumerable<SubjectDto> GetSubjects(int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbe wszystkich przedmiotów w systemie
+        /// </summary>
+        /// <returns>Liczba naturalna</returns>
+        int GetSubjectsNumber();
         SubjectDto AddSubject(SubjectDto subject, string authorId);
         SubjectDto UpdateSubject(SubjectDto subject, string authorId);
         NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId);
@@ -53,9 +80,14 @@ namespace UniversityWebsite.Services
             return SignUpAction.None;
         }
 
-        public IEnumerable<Subject> GetSemester(int number)
+        public IEnumerable<Subject> GetSubjectsBySemester(int number, int limit, int offset)
         {
-            return _context.Subjects.Where(s => s.Semester == number);
+            return _context.Subjects.Where(s => s.Semester == number).OrderBy(s=>s.Name).Skip(offset).Take(limit);
+        }
+
+        public int GetSubjectsNumberBySemestser(int number)
+        {
+            return _context.Subjects.Count(s=>s.Semester == number);
         }
 
         public Subject GetSubject(string name)
@@ -64,17 +96,18 @@ namespace UniversityWebsite.Services
             return subject;
         }
 
-        public IEnumerable<SubjectDto> GetSubjects(int offset, int limit)
+        public IEnumerable<SubjectDto> GetSubjects(int limit, int offset)
         {
-            if (limit < 0) return Enumerable.Empty<SubjectDto>();
-            limit = limit > 50 ? 50 : limit;
-
-            return
-                _context.Subjects.OrderBy(s => s.Semester)
+            return _context.Subjects.OrderBy(s => s.Semester)
                     .ThenBy(s => s.Name)
                     .Skip(offset)
                     .Take(limit)
                     .ProjectTo<SubjectDto>();
+        }
+
+        public int GetSubjectsNumber()
+        {
+            return _context.Subjects.Count();
         }
 
         public SubjectDto AddSubject(SubjectDto subject, string authorId)

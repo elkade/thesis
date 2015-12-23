@@ -4,6 +4,7 @@ using System.Web.Http;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Api.Model.Teaching;
+using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
@@ -18,12 +19,21 @@ namespace UniversityWebsite.Api.Controllers
         {
             _subjectService = subjectService;
         }
+
+        [Limit(50), Offset]
         [Route("subjects")]
         [Authorize(Roles = "Administrator")]
         //[AntiForgeryValidate]
-        public IEnumerable<SubjectDto> GetSubjects(int? offset = null, int? limit = null)//max limit to 50
+        public IEnumerable<SubjectDto> GetSubjects(int? offset = null, int? limit = null)
         {
-            return _subjectService.GetSubjects(offset??0, limit??50);
+            return _subjectService.GetSubjects(offset.Value, limit.Value);
+        }
+        [Route("subjects/count")]
+        [Authorize(Roles = "Administrator")]
+        //[AntiForgeryValidate]
+        public IHttpActionResult GetSubjectsNumber()
+        {
+            return Ok(_subjectService.GetSubjectsNumber());
         }
         [Route("subjects")]
         public IHttpActionResult PostSubject(SubjectPost subject)
@@ -91,7 +101,7 @@ namespace UniversityWebsite.Api.Controllers
 
         private string PrepareUrlName(string name)
         {
-            return HttpUtility.UrlEncode(name.Substring(0, 32 > name.Length ? name.Length : 32)); ;
+            return HttpUtility.UrlEncode(name.Substring(0, 32 > name.Length ? name.Length : 32));
         }
     }
 }

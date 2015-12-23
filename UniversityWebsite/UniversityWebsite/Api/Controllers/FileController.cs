@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using UniversityWebsite.Filters;
 using UniversityWebsite.Helper.Files;
 
 namespace UniversityWebsite.Api.Controllers
@@ -59,10 +60,28 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("")]
+        [Limit(50), Offset]
         [HttpGet]
-        public async Task<IHttpActionResult> GetInfoBySubject(int subjectId, int? limit=null, int? offset=null)//limit offset ogarnąć dobrze
+        public async Task<IHttpActionResult> GetInfoBySubject(int subjectId, int? limit=null, int? offset=null)
         {
-            var results = await _fileManager.GetBySubject(subjectId, limit ?? 50, offset ?? 0);
+            //FilterLimitOffset(ref limit, ref offset);
+            var results = await _fileManager.GetBySubject(subjectId, limit.Value, offset.Value);
+            return Ok(results);
+        }
+
+        [Route("count")]
+        [HttpGet]
+        public IHttpActionResult GetFilesNumberBySubject(int subjectId)
+        {
+            var results = _fileManager.GetFilesNumberBySubject(subjectId);
+            return Ok(results);
+        }
+
+        [Route("gallery/count")]
+        [HttpGet]
+        public IHttpActionResult GetGalleryImagesNumber()
+        {
+            var results = _fileManager.GetGalleryImagesNumber();
             return Ok(results);
         }
 
@@ -114,10 +133,12 @@ namespace UniversityWebsite.Api.Controllers
             return Ok();
         }
 
+        [Limit(50), Offset]
         [Route("gallery")]
         public async Task<IHttpActionResult> GetGallery(int? limit = null, int? offset = null)
         {
-            var results = await _fileManager.GetGallery(limit ?? 50, offset ?? 0);
+            //FilterLimitOffset(ref limit, ref offset);
+            var results = await _fileManager.GetGallery(limit.Value, offset.Value);
             return Ok(results);
         }
 
@@ -153,5 +174,15 @@ namespace UniversityWebsite.Api.Controllers
                 return BadRequest(ex.GetBaseException().Message);
             }
         }
+
+        //private static void FilterLimitOffset(ref int? limit, ref int? offset)
+        //{
+        //    if (limit == null || limit > 50)
+        //        limit = 50;
+        //    if (limit < 0) limit = 0;
+
+        //    if (offset == null || limit < 0)
+        //        offset = 0;
+        //}
     }
 }

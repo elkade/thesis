@@ -22,6 +22,8 @@ namespace UniversityWebsite.Helper.Files
         Task<IEnumerable<FileViewModel>> GetGallery(int limit, int offset);
         Task<FileViewModel> AddToGallery(HttpRequestMessage request, string userId);
         Task<FileViewModel> UpdateInGallery(HttpRequestMessage request, string userId, string fileId);
+        int GetFilesNumberBySubject(int subjectId);
+        int GetGalleryImagesNumber();
     }
 
     public class FileManager : IFileManager
@@ -225,6 +227,17 @@ namespace UniversityWebsite.Helper.Files
                 Version = oldFile.Version
             };
         }
+
+        public int GetFilesNumberBySubject(int subjectId)
+        {
+            return _context.Files.Count(f => f.SubjectId == subjectId);
+        }
+
+        public int GetGalleryImagesNumber()
+        {
+            return _context.Files.Count(f => f.SubjectId == null);
+        }
+
 
         public async Task<FileViewModel> Update(HttpRequestMessage request, string userId, string fileId)
         {
