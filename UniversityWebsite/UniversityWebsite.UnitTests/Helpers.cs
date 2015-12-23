@@ -18,6 +18,7 @@ namespace UniversityWebsite.UnitTests
             dbSetMock.Setup(m => m.Expression).Returns(queryableData.Expression);
             dbSetMock.Setup(m => m.ElementType).Returns(queryableData.ElementType);
             dbSetMock.Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
+            dbSetMock.Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
             dbSetMock.Setup(m => m.Add(It.IsAny<T>())).Returns((T t) =>
             {
                 data.Add(t);

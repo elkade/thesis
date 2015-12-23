@@ -63,8 +63,15 @@ namespace UniversityWebsite.Services
         /// <summary>
         /// Zwraca wszystkie strony serwisu.
         /// </summary>
-        /// <returns></returns>
-        IEnumerable<PageDto> GetAll();
+        /// <param name="limit">Maksymalna liczba zwróconych stron</param>
+        /// <param name="offset">Numer porządkowy pierwszej strony, która ma zostać zwrócona</param>
+        /// <returns>Zbiór stron</returns>
+        IEnumerable<PageDto> GetAll(int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę wszystkich stron serwisu
+        /// </summary>
+        /// <returns>Liczba natoralna</returns>
+        int GetPagesNumber();
         /// <summary>
         /// Aktualizuje zawartość strony.
         /// </summary>
@@ -98,6 +105,9 @@ namespace UniversityWebsite.Services
         /// <param name="id">Id danej strony</param>
         /// <returns>Wyliczenie kodów językowych</returns>
         IEnumerable<string> GetTranslationsLanguages(int id);
+
+        IEnumerable<PageDto> GetPagesByCountryCode(string countryCode, int limit, int offset);
+        int GetPagesNumberByCountryCode(string countryCode);
     }
     /// <summary>
     /// Implementacja serwisu realizującego logikę biznesową dotyczącą stron systemu.
@@ -200,10 +210,16 @@ namespace UniversityWebsite.Services
                         Children = children
                     };
         }
-        public IEnumerable<PageDto> GetAll()
+        public IEnumerable<PageDto> GetAll(int limit, int offset)
         {
-            return _context.Pages.ProjectTo<PageDto>();
+            return _context.Pages.OrderBy(p=>p.Title).Skip(offset).Take(limit).ProjectTo<PageDto>();
         }
+
+        public int GetPagesNumber()
+        {
+            return _context.Pages.Count();
+        }
+
         public void UpdateContent(PageDto page)
         {
             var dbPage = _context
@@ -350,6 +366,20 @@ namespace UniversityWebsite.Services
             if (page == null)
                 throw new NotFoundException("Page o id: " + id);
             return _context.Pages.Where(p => p.GroupId == page.GroupId).Select(p => p.CountryCode);
+        }
+
+        public IEnumerable<PageDto> GetPagesByCountryCode(string countryCode, int limit, int offset)
+        {
+            return _context.Pages.Where(p => p.CountryCode == countryCode)
+                .OrderBy(p => p.Title)
+                .Skip(offset)
+                .Take(limit)
+                .ProjectTo<PageDto>();;
+        }
+
+        public int GetPagesNumberByCountryCode(string countryCode)
+        {
+            return _context.Pages.Count(p=>p.CountryCode==countryCode);
         }
     }
 }

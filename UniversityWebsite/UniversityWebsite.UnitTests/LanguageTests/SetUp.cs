@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using UniversityWebsite.Core;
@@ -17,6 +18,7 @@ namespace UniversityWebsite.UnitTests.LanguageTests
         private List<MenuGroup> _menuGroups;
         private List<Menu> _menus;
 
+        readonly Mock<IDomainContext> _contextMock = new Mock<IDomainContext>();
         //[OneTimeSetUp]
         public LanguageServiceTests()
         {
@@ -58,13 +60,12 @@ namespace UniversityWebsite.UnitTests.LanguageTests
                 new Phrase{CountryCode = "fr", Key = "key5", Value = "val5fr"},
             };
 
-            var contextMock = new Mock<IDomainContext>();
-
-            contextMock
+            _contextMock
                 .SetupDbSet(_phrases, x => x.Phrases)
                 .SetupDbSet(_menus, x => x.Menus)
                 .SetupDbSet(_languages, x => x.Languages);
-            _languageService = new LanguageService(contextMock.Object);
+            _contextMock.Setup(x => x.InTransaction(It.IsAny<Action>())).Callback((Action action) => action());
+            _languageService = new LanguageService(_contextMock.Object);
 
         }
 

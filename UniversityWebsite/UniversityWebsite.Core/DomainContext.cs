@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -27,7 +28,8 @@ namespace UniversityWebsite.Core
         void SetModified(object entity);
         void SetDeleted(object entity);
         Database Database { get; }
-
+        T InTransaction<T>(Func<T> func);
+        void InTransaction(Action action);
     }
 
     public class DomainContext : ApplicationDbContext, IDomainContext
@@ -40,7 +42,46 @@ namespace UniversityWebsite.Core
 
         public DomainContext()
         {
+            
+        }
 
+        public T InTransaction<T>(Func<T> func )
+        {
+            using (DbContextTransaction dbTran = Database.BeginTransaction())
+            {
+                try
+                {
+                    return func();
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    dbTran.Commit();
+                }
+            }
+        }
+        public void InTransaction(Action action)
+        {
+            using (DbContextTransaction dbTran = Database.BeginTransaction())
+            {
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    dbTran.Commit();
+                }
+            }
         }
 
         public void SetModified(object entity)

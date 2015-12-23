@@ -30,7 +30,7 @@ namespace UniversityWebsite.UnitTests.PageTests
         [Test]
         public void GetAll_ReturnsAllPages()
         {
-            var pages = _pageService.GetAll().ToArray();
+            var pages = _pageService.GetAll(50,0).ToArray();
 
             Assert.AreEqual(8,pages.Length);
 

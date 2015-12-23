@@ -56,31 +56,41 @@ namespace UniversityWebsite.Services
 
         public void AddLanguage(DictionaryDto newLanguage)
         {
-            var keys = _context.Phrases.Select(p => p.Key).Distinct().ToList();
-            if (!keys.SequenceEqual(newLanguage.Words.Select(w => w.Key)))
-                throw new PropertyValidationException("newLanguage.words", "Keys are not same as defined in the system.");
-            if(_context.Languages.Any(l=>l.CountryCode==newLanguage.CountryCode))
-                throw new PropertyValidationException("newLanguage.countryCode", "Language with specified countryCode already exists.");
-            //if (_context.Languages.Any(l => l.Title == newLanguage.Title))
-            //    throw new PropertyValidationException("newLanguage.title", "Language with specified name already exists.");
-            var language = _context.Languages.Add(new Language { CountryCode = newLanguage.CountryCode, Title = newLanguage.Title});
-            foreach (var word in newLanguage.Words)
+            _context.InTransaction(() =>
             {
-                _context.Phrases.Add(new Phrase
+                var keys = _context.Phrases.Select(p => p.Key).Distinct().ToList();
+                if (!keys.SequenceEqual(newLanguage.Words.Select(w => w.Key)))
+                    throw new PropertyValidationException("newLanguage.words",
+                        "Keys are not same as defined in the system.");
+                if (_context.Languages.Any(l => l.CountryCode == newLanguage.CountryCode))
+                    throw new PropertyValidationException("newLanguage.countryCode",
+                        "Language with specified countryCode already exists.");
+                //if (_context.Languages.Any(l => l.Title == newLanguage.Title))
+                //    throw new PropertyValidationException("newLanguage.title", "Language with specified name already exists.");
+                var language =
+                    _context.Languages.Add(new Language
+                    {
+                        CountryCode = newLanguage.CountryCode,
+                        Title = newLanguage.Title
+                    });
+                foreach (var word in newLanguage.Words)
                 {
-                    CountryCode = newLanguage.CountryCode,
-                    Key = word.Key,
-                    Value = word.Value
-                });
-            }
+                    _context.Phrases.Add(new Phrase
+                    {
+                        CountryCode = newLanguage.CountryCode,
+                        Key = word.Key,
+                        Value = word.Value
+                    });
+                }
 
-            var mainMenuGroup = _context.Menus.Include(m=>m.Group).First(m => m.GroupId == 1).Group;
-            var tilesMenuGroup = _context.Menus.Include(m => m.Group).First(m => m.GroupId == 2).Group;
+                var mainMenuGroup = _context.Menus.Include(m => m.Group).First(m => m.GroupId == 1).Group;
+                var tilesMenuGroup = _context.Menus.Include(m => m.Group).First(m => m.GroupId == 2).Group;
 
-            _context.Menus.Add(new Menu { Language = language, Group = mainMenuGroup });
-            _context.Menus.Add(new Menu { Language = language, Group = tilesMenuGroup });
+                _context.Menus.Add(new Menu {Language = language, Group = mainMenuGroup});
+                _context.Menus.Add(new Menu {Language = language, Group = tilesMenuGroup});
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            });
         }
 
         public void DeleteLanguage(string countryCode)

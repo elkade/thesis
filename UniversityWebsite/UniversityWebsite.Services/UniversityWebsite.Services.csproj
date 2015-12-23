@@ -105,6 +105,7 @@
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Exceptions\PropertyValidationException.cs" />
     <Compile Include="Helpers\CacheHelper.cs" />
+    <Compile Include="Helpers\PasswordGenerator.cs" />
     <Compile Include="LanguageService.cs" />
     <Compile Include="MenuService.cs" />
     <Compile Include="Model\ArticleDto.cs" />

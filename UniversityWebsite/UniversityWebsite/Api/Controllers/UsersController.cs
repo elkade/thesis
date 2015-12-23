@@ -1,27 +1,22 @@
 ﻿using System.Web.Http;
 using UniversityWebsite.Api.Model.Users;
 using UniversityWebsite.Domain.Model;
-using UniversityWebsite.Services;
 using UniversityWebsite.Core;
 using Microsoft.AspNet.Identity;
-using System;
-using System.Web.Security;
 using System.Linq;
+using UniversityWebsite.Services.Helpers;
 
 namespace UniversityWebsite.Api.Controllers
 {
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
-        private readonly IUserService _userService;
-
         private readonly ApplicationUserManager _userManager;
 
         private readonly ModelFactory _modelFactory;
 
-        public UsersController(IUserService userService, ApplicationUserManager userManager)
+        public UsersController(ApplicationUserManager userManager)
         {
-            _userService = userService;
             _userManager = userManager;
             _userManager.PasswordValidator = new PasswordValidator
             {
@@ -65,7 +60,7 @@ namespace UniversityWebsite.Api.Controllers
 		        Pesel = model.Pesel,
 	        };
 
-            string password = GeneratePassword();
+            string password = PasswordGenerator.GeneratePassword(8);
 
             var result = _userManager.Create(user, password);
 
@@ -149,13 +144,6 @@ namespace UniversityWebsite.Api.Controllers
             }
 
             return null;
-        }
-
-        private static string GeneratePassword()
-        {
-            Random r = new Random();
-            string password = Membership.GeneratePassword(5, 2) + (char)('A' + r.Next(26)) + (char)('a' + r.Next(26)) + (char)('0' + r.Next(10));
-            return password;
         }
     }
     public class UserReturnModel
