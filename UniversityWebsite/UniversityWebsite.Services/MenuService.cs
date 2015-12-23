@@ -51,6 +51,8 @@ namespace UniversityWebsite.Services
         /// <param name="countryCode">Kod języka</param>
         /// <returns>Wyliczenie kafelków</returns>
         IEnumerable<Tile> GetTilesMenu(string countryCode);
+
+        IEnumerable<Tile> GetTilesMenuCached(string countryCode);
         int TilesMenuGroupId { get; }
         int MainMenuGroupId { get; }
     }
@@ -89,7 +91,7 @@ namespace UniversityWebsite.Services
         public MenuDto GetMainMenuCached(string countryCode)
         {
             MenuDto mainMenu = CacheHelper.GetOrInvoke<MenuDto>(
-                "MainMenu" + countryCode,
+                string.Format(CacheKeys.MenuKey, MainMenuGroupId, countryCode),
                 () => GetMainMenu(countryCode),
                 TimeSpan.FromSeconds(10));//Todo
             return mainMenu;
@@ -102,18 +104,23 @@ namespace UniversityWebsite.Services
 
         public void UpdateMenuItems(MenuData menu)
         {
-            var dbMenu = _context.Menus.SingleOrDefault(m => m.GroupId == menu.GroupId && m.CountryCode == menu.CountryCode);
-            if (dbMenu == null)
-                throw new NotFoundException("No such menu in db. MenuId: " + menu.MenuId);
+            _context.InTransaction(() =>
+            {
+                var dbMenu = _context.Menus.SingleOrDefault(m => m.GroupId == menu.GroupId && m.CountryCode == menu.CountryCode);
+                if (dbMenu == null)
+                    throw new NotFoundException("No such menu in db. MenuId: " + menu.MenuId);
 
-            var itemsToDelete = dbMenu.Items.ToList();
-            foreach (var item in itemsToDelete)
-                _context.MenuItems.Remove(item);
+                var itemsToDelete = dbMenu.Items.ToList();
+                foreach (var item in itemsToDelete)
+                    _context.MenuItems.Remove(item);
 
-            foreach (var item in menu.Items)
-                dbMenu.Items.Add(new MenuItem { Menu = dbMenu, Order = item.Order, Page = _context.Pages.Single(p => p.Id == item.PageId) });
+                foreach (var item in menu.Items)
+                    dbMenu.Items.Add(new MenuItem { Menu = dbMenu, Order = item.Order, Page = _context.Pages.Single(p => p.Id == item.PageId) });
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+
+                CacheHelper.Remove(string.Format(CacheKeys.MenuKey, dbMenu.GroupId, dbMenu.CountryCode));
+            });
         }
 
         public void AddToTilesMenuIfNotExists(int pageId)
@@ -126,19 +133,30 @@ namespace UniversityWebsite.Services
             var menu = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == page.CountryCode);
             menu.Items.Add(new MenuItem { Menu = menu, Page = page, Order = menu.Items.Max(m => m.Order) + 1 });//uwaga na przepełnienie
             _context.SaveChanges();
+
+            CacheHelper.Remove(string.Format(CacheKeys.MenuKey, TilesMenuGroupId, page.CountryCode));
+        }
+
+        public IEnumerable<Tile> GetTilesMenuCached(string countryCode)
+        {
+            var mainMenu = CacheHelper.GetOrInvoke<List<Tile>>(
+                string.Format(CacheKeys.MenuKey, TilesMenuGroupId, countryCode),
+                () => GetTilesMenu(countryCode).ToList(),
+                TimeSpan.FromSeconds(10));//Todo
+            return mainMenu;
         }
 
         public IEnumerable<Tile> GetTilesMenu(string countryCode)
         {
             var menuItems = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == countryCode).Items;
             return menuItems.OrderByDescending(mi => mi.Order)
-                            .Select(mi =>
-                                new Tile
-                                {
-                                    Title = mi.Page.Title,
-                                    UrlName = mi.Page.UrlName,
-                                    Description = mi.Page.Description,
-                                });
+                .Select(mi =>
+                    new Tile
+                    {
+                        Title = mi.Page.Title,
+                        UrlName = mi.Page.UrlName,
+                        Description = mi.Page.Description,
+                    });
         }
     }
 }

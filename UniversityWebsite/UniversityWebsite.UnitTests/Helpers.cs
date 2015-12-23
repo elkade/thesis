@@ -29,5 +29,17 @@ namespace UniversityWebsite.UnitTests
                 .Returns(() => dbSetMock.Object);
             return contextMock;
         }
+
+        public static Mock<IDomainContext> SetupTransaction(this Mock<IDomainContext> contextMock)
+        {
+            contextMock.Setup(x => x.InTransaction(It.IsAny<Action>())).Callback((Action action) => action());
+            return contextMock;
+        }
+
+        public static Mock<IDomainContext> SetupTransaction<T>(this Mock<IDomainContext> contextMock)
+        {
+            contextMock.Setup(x => x.InTransaction(It.IsAny<Func<T>>())).Returns((Func<T> func) => func());
+            return contextMock;
+        }
     }
 }

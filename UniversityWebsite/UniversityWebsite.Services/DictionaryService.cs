@@ -74,8 +74,8 @@ namespace UniversityWebsite.Services
         }
         public string GetTranslationCached(string key, string countryCode)
         {
-            string phrase = CacheHelper.GetOrInvoke<string>(
-                string.Format("Phrase_{0}_{1}", key, countryCode),
+            var phrase = CacheHelper.GetOrInvoke<string>(
+                string.Format(CacheKeys.DictionaryPhraseKey, key, countryCode),
                 () => GetTranslation(key, countryCode),
                 TimeSpan.FromSeconds(10));//Todo
             return phrase;
@@ -87,8 +87,8 @@ namespace UniversityWebsite.Services
         }
         public IEnumerable<string> GetKeysCached()
         {
-            List<string> keys = CacheHelper.GetOrInvoke<List<string>>(
-                 "Keys",
+            var keys = CacheHelper.GetOrInvoke<List<string>>(
+                 CacheKeys.DictionaryAllKeysKey,
                  () => GetKeys().ToList(),
                  TimeSpan.FromSeconds(10));//Todo
             return keys;
@@ -114,38 +114,49 @@ namespace UniversityWebsite.Services
         {
             var dictionaries = _context.Phrases.ToList()
                 .GroupBy(p => p.CountryCode,
-                               p => p,
-                               (key, g) => new DictionaryDto
-                               {
-                                   CountryCode = key,
-                                   Words = g.ToDictionary(p => p.Key, p => p.Value)
-                               }
-                              );
+                    p => p,
+                    (key, g) => new DictionaryDto
+                    {
+                        CountryCode = key,
+                        Words = g.ToDictionary(p => p.Key, p => p.Value)
+                    }
+                );
             return dictionaries;
         }
 
-        public IEnumerable<DictionaryDto> UpdateDictionaries(List<DictionaryDto> dictionaries)
+        private IEnumerable<DictionaryDto> UpdateDictionariesNonTransactional(IEnumerable<DictionaryDto> dictionaries)
         {
             foreach (var dict in dictionaries)
             {
-                var words = UpdateDictionary(dict);
+                var words = UpdateDictionaryNonTransactional(dict);
                 yield return new DictionaryDto { CountryCode = dict.CountryCode, Words = words.ToDictionary(p => p.Key, p => p.Value) };
             }
             _context.SaveChanges();
         }
 
-        public IEnumerable<Phrase> UpdateDictionary(DictionaryDto dict)
+        public IEnumerable<DictionaryDto> UpdateDictionaries(List<DictionaryDto> dictionaries)
+        {
+            return _context.InTransaction(() => UpdateDictionariesNonTransactional(dictionaries));
+        }
+
+        private IEnumerable<Phrase> UpdateDictionaryNonTransactional(DictionaryDto dict)
         {
             foreach (var row in dict.Words)
             {
                 var phrase = _context.Phrases.SingleOrDefault(p => p.CountryCode == dict.CountryCode && p.Key == row.Key);
                 if (phrase == null)
-                    throw new NotFoundException("klucz "+row.Key +" w języku "+dict.CountryCode);
-                if(phrase.Value == row.Value) continue;
+                    throw new NotFoundException("klucz " + row.Key + " w języku " + dict.CountryCode);
+                if (phrase.Value == row.Value) continue;
                 phrase.Value = row.Value;
                 _context.SetModified(phrase);
                 yield return phrase;
+                CacheHelper.Remove(string.Format(CacheKeys.DictionaryPhraseKey, row.Key, dict.CountryCode));
             }
+        }
+
+        public IEnumerable<Phrase> UpdateDictionary(DictionaryDto dict)
+        {
+            return _context.InTransaction(() => UpdateDictionaryNonTransactional(dict));
         }
 
         public IEnumerable<string> GetKeys()

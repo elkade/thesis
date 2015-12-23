@@ -90,6 +90,7 @@ namespace UniversityWebsite.Services
                 _context.Menus.Add(new Menu {Language = language, Group = tilesMenuGroup});
 
                 _context.SaveChanges();
+                CacheHelper.Remove(CacheKeys.LanguageAllKey);
             });
         }
 
@@ -106,7 +107,7 @@ namespace UniversityWebsite.Services
         public IEnumerable<Language> GetLanguagesCached()
         {
             var languages = CacheHelper.GetOrInvoke<List<Language>>(
-                "Languages",
+                CacheKeys.LanguageAllKey,
                 () => _context.Languages.ToList(),
                 TimeSpan.FromSeconds(10));//Todo
             return languages;

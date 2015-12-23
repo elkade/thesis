@@ -129,26 +129,29 @@ namespace UniversityWebsite.Services
 
         public SubjectDto UpdateSubject(SubjectDto subject, string authorId)
         {
-            Subject dbSubject = _context.Subjects.Find(subject.Id);
-            if (dbSubject == null)
-                throw new PropertyValidationException("subject.Id", "No subject with id: " + subject.Id + " in database.");
+            return _context.InTransaction(() =>
+            {
+                Subject dbSubject = _context.Subjects.Find(subject.Id);
+                if (dbSubject == null)
+                    throw new PropertyValidationException("subject.Id", "No subject with id: " + subject.Id + " in database.");
 
-            dbSubject.Name = subject.Name;
+                dbSubject.Name = subject.Name;
 
-            dbSubject.Schedule.AuthorId = authorId;
-            dbSubject.Schedule.Content = subject.Schedule.Content;
-            dbSubject.Schedule.PublishDate = DateTime.Now;
+                dbSubject.Schedule.AuthorId = authorId;
+                dbSubject.Schedule.Content = subject.Schedule.Content;
+                dbSubject.Schedule.PublishDate = DateTime.Now;
 
-            dbSubject.Syllabus.AuthorId = authorId;
-            dbSubject.Syllabus.Content = subject.Syllabus.Content;
-            dbSubject.Syllabus.PublishDate = DateTime.Now;
+                dbSubject.Syllabus.AuthorId = authorId;
+                dbSubject.Syllabus.Content = subject.Syllabus.Content;
+                dbSubject.Syllabus.PublishDate = DateTime.Now;
 
-            dbSubject.Semester = subject.Semester;
-            dbSubject.UrlName = PrepareUniqueUrlName(subject.UrlName);
+                dbSubject.Semester = subject.Semester;
+                dbSubject.UrlName = PrepareUniqueUrlName(subject.UrlName);
 
-            _context.SetModified(dbSubject);
-            _context.SaveChanges();
-            return Mapper.Map<SubjectDto>(dbSubject);
+                _context.SetModified(dbSubject);
+                _context.SaveChanges();
+                return Mapper.Map<SubjectDto>(dbSubject);
+            });
         }
 
         public NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId)
@@ -177,16 +180,19 @@ namespace UniversityWebsite.Services
 
         public void DeleteSubject(int subjectId)
         {
-            var subject = _context.Subjects.Find(subjectId);
-            if (subject == null)
-                throw new NotFoundException("Subject with id: " + subjectId);
-            var newsToDelete = subject.News.ToList();
-            foreach (var news in newsToDelete)
-                _context.SetDeleted(news);
-            _context.SetDeleted(subject.Schedule);
-            _context.SetDeleted(subject.Syllabus);
-            _context.SetDeleted(subject);
-            _context.SaveChanges();
+            _context.InTransaction(() =>
+            {
+                var subject = _context.Subjects.Find(subjectId);
+                if (subject == null)
+                    throw new NotFoundException("Subject with id: " + subjectId);
+                var newsToDelete = subject.News.ToList();
+                foreach (var news in newsToDelete)
+                    _context.SetDeleted(news);
+                _context.SetDeleted(subject.Schedule);
+                _context.SetDeleted(subject.Syllabus);
+                _context.SetDeleted(subject);
+                _context.SaveChanges();
+            });
         }
 
         public IEnumerable<NewsDto> GetNews(int subjectId)
@@ -204,21 +210,27 @@ namespace UniversityWebsite.Services
                 if (!_context.Pages.Any(p => p.UrlName == bufName))
                     return bufName;
             }
-            throw new PropertyValidationException("subject.UrlName", "Przekroczono liczbę przedmiotów o tym samym tytule.");
+            throw new PropertyValidationException("subject.UrlName",
+                "Przekroczono liczbę przedmiotów o tym samym tytule.");
+
         }
 
         public NewsDto UpdateNews(int subjectId, NewsDto newsDto)
         {
-            var dbNews = _context.News.Find(newsDto.Id);
-            if (dbNews == null)
-                throw new NotFoundException("News with id: " + newsDto.Id);
-            if (subjectId != dbNews.SubjectId)
-                throw new PropertyValidationException("subjectId", "");
-            dbNews.Header = newsDto.Header;
-            dbNews.Content = newsDto.Content;
-            _context.SetModified(dbNews);
-            _context.SaveChanges();
-            return Mapper.Map<NewsDto>(dbNews);
+            return _context.InTransaction(() =>
+            {
+
+                var dbNews = _context.News.Find(newsDto.Id);
+                if (dbNews == null)
+                    throw new NotFoundException("News with id: " + newsDto.Id);
+                if (subjectId != dbNews.SubjectId)
+                    throw new PropertyValidationException("subjectId", "");
+                dbNews.Header = newsDto.Header;
+                dbNews.Content = newsDto.Content;
+                _context.SetModified(dbNews);
+                _context.SaveChanges();
+                return Mapper.Map<NewsDto>(dbNews);
+            });
         }
 
         public void SignUpForSubject(int subjectId, string studentId)

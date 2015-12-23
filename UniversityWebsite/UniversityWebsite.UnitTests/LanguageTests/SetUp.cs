@@ -63,8 +63,8 @@ namespace UniversityWebsite.UnitTests.LanguageTests
             _contextMock
                 .SetupDbSet(_phrases, x => x.Phrases)
                 .SetupDbSet(_menus, x => x.Menus)
-                .SetupDbSet(_languages, x => x.Languages);
-            _contextMock.Setup(x => x.InTransaction(It.IsAny<Action>())).Callback((Action action) => action());
+                .SetupDbSet(_languages, x => x.Languages)
+                .SetupTransaction();
             _languageService = new LanguageService(_contextMock.Object);
 
         }
