@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core.Migrations;
@@ -24,10 +23,8 @@ namespace UniversityWebsite.Core
         IDbSet<News> News { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
-        //DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
         void SetModified(object entity);
         void SetDeleted(object entity);
-        Database Database { get; }
         T InTransaction<T>(Func<T> func);
         void InTransaction(Action action);
     }
@@ -51,16 +48,14 @@ namespace UniversityWebsite.Core
             {
                 try
                 {
-                    return func();
+                    T result =  func();
+                    dbTran.Commit();
+                    return result;
                 }
                 catch (Exception ex)
                 {
                     dbTran.Rollback();
                     throw;
-                }
-                finally
-                {
-                    dbTran.Commit();
                 }
             }
         }
@@ -71,15 +66,12 @@ namespace UniversityWebsite.Core
                 try
                 {
                     action();
+                    dbTran.Commit();
                 }
                 catch (Exception ex)
                 {
                     dbTran.Rollback();
                     throw;
-                }
-                finally
-                {
-                    dbTran.Commit();
                 }
             }
         }
