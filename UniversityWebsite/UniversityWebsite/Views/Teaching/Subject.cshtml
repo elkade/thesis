@@ -24,27 +24,17 @@
         .section-footer {
             border-top: 2px solid gray;
         }
+
+        .card {
+            margin-top: 20px;
+        }
+
+        .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
+            background: #003C58;
+        }
     </style>
 }
-
-<nav class="top-bar" data-topbar role="navigation">
-    <ul class="title-area">
-        <li class="name">
-            <h1><a href="@Url.Action("Index", "Home")"><i class='fi-home'></i></a></h1>
-        </li>
-        <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
-    </ul>
-    <section class="top-bar-section">
-        <ul class="right"></ul>
-
-        <ul class="left">
-            <li><a href="#@newsString">@newsString</a></li>
-            <li><a href="#@scheduleString">@scheduleString</a></li>
-            <li><a href="#@syllabusString">@syllabusString</a></li>
-            <li><a href="#@filesString">@filesString</a></li>
-        </ul>
-    </section>
-</nav>
+@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
 
 <h2>@Model.Name</h2>
 @if (Model.News.Count > 0)
@@ -129,7 +119,7 @@
                         <ul>
                             <li>
                                 <span>
-                                    <a href="/api/file/@file.Id">@file.Name</a><br/>
+                                    <a href="/api/file/@file.Id">@file.Name</a><br />
                                     version: @file.Version
                                 </span>
                             </li>

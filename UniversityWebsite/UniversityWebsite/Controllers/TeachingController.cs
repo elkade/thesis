@@ -31,8 +31,7 @@ namespace UniversityWebsite.Controllers
 
         public ActionResult Index()
         {
-            var siblings = _pageService.GetParentlessPagesWithChildren((string)Session[Consts.SessionKeyLang]).ToList();
-            return View(new TeachingVm { SemestersCount = 10, Siblings = Mapper.Map<List<PageMenuItemVm>>(siblings) });
+            return View(new TeachingVm { SemestersCount = 10, Siblings = GetSiblings() });
         }
 
         public ActionResult Semester(int number)
@@ -50,7 +49,8 @@ namespace UniversityWebsite.Controllers
                     SubjectUrlName = s.UrlName,
                     SignUpAction = isStudent ? _subjectService.GetAvailableAction(userId, s.Id) : SignUpAction.None,
                     SubjectId = s.Id
-                }).ToList()
+                }).ToList(),
+                Siblings = GetSiblings()
             });
         }
 
@@ -67,7 +67,15 @@ namespace UniversityWebsite.Controllers
             if (userId == null || !subject.Students.Select(s => s.Id).Contains(userId))
                 subjectVm.Files.Clear();
 
+            subjectVm.Siblings = GetSiblings();
+
             return View(subjectVm);
+        }
+
+        private List<PageMenuItemVm> GetSiblings()
+        {
+            var sib =  _pageService.GetParentlessPagesWithChildren((string)Session[Consts.SessionKeyLang]).ToList();
+            return Mapper.Map<List<PageMenuItemVm>>(sib);
         }
     }
 }

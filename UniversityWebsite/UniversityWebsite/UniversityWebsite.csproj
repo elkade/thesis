@@ -966,6 +966,7 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Teaching\Sections\_Files.cshtml" />
     <Content Include="Views\Teaching\Sections\_News.cshtml" />
+    <Content Include="Views\Shared\_NavMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

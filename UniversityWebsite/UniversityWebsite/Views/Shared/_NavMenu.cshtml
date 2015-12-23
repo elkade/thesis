@@ -1,0 +1,38 @@
+﻿@using Microsoft.Ajax.Utilities
+@model List<UniversityWebsite.Model.Page.PageMenuItemVm>
+@{
+    string homeString = GetPhrase("home");
+    string teachingString = GetPhrase("teaching");
+
+}
+<nav class="top-bar" data-topbar role="navigation">
+    <section class="top-bar-section">
+        <ul class="left">
+            <li>
+                @Html.ActionLink(homeString, "Index", "Home", null, null)
+            </li>
+            <li>
+                @Html.ActionLink(teachingString, "Index", "Teaching", null, null)
+            </li>
+            @foreach (var item in Model)
+            {
+                if (item.Children.Any())
+                {
+                <li class="has-dropdown">
+                    @Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)
+                    <ul class="dropdown">
+                        @foreach (var subitem in item.Children)
+                        {
+                            <li>@Html.ActionLink(subitem.Title, "Index", "Page", new { name = subitem.UrlName }, null)</li>
+                        }
+                    </ul>
+                </li>
+                }
+                else
+                {
+                <li>@Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)</li>
+                }
+            }
+        </ul>
+    </section>
+</nav>
