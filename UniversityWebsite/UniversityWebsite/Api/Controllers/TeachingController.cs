@@ -99,6 +99,14 @@ namespace UniversityWebsite.Api.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("subjects/{subjectId:int}")]
+        public IHttpActionResult AddTeacherToSubject(int subjectId)
+        {
+            _subjectService.DeleteSubject(subjectId);
+            return Ok();
+        }
+
         private string PrepareUrlName(string name)
         {
             return HttpUtility.UrlEncode(name.Substring(0, 32 > name.Length ? name.Length : 32));

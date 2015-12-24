@@ -1,9 +1,12 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using UniversityWebsite.Api.Model.Users;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Core;
 using Microsoft.AspNet.Identity;
 using System.Linq;
+using UniversityWebsite.Filters;
+using UniversityWebsite.Services;
 using UniversityWebsite.Services.Helpers;
 
 namespace UniversityWebsite.Api.Controllers
@@ -11,12 +14,14 @@ namespace UniversityWebsite.Api.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
+        private readonly IUserService _userService;
         private readonly ApplicationUserManager _userManager;
 
         private readonly ModelFactory _modelFactory;
 
-        public UsersController(ApplicationUserManager userManager)
+        public UsersController(IUserService userService,ApplicationUserManager userManager)
         {
+            _userService = userService;
             _userManager = userManager;
             _userManager.PasswordValidator = new PasswordValidator
             {
@@ -30,10 +35,25 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("")]
-        public IHttpActionResult GetUsers()
+        [Limit(50),Offset]
+        public IHttpActionResult GetUsers(string role=null, int? limit = null, int? offset = null)
         {
-            var login = _userManager.SuperUserLogin;
-            return Ok(_userManager.Users.Where(u => u.Email != login).ToList().Select(_modelFactory.GetReturnModel));
+            IEnumerable<User> users = role == null ? 
+                _userService.GetUsers(limit.Value, offset.Value) :
+                _userService.GetUsersByRole(role, limit.Value, offset.Value);
+
+            return Ok(users.ToList().Select(_modelFactory.GetReturnModel));
+        }
+
+        [Route("count")]
+        [Limit(50), Offset]
+        public IHttpActionResult GetUsersNumber(string role = null)
+        {
+            int number = role == null ?
+                _userService.GetUsersNumber() :
+                _userService.GetUsersNumberByRole(role);
+
+            return Ok(number);
         }
 
         [Route("{userId:guid}")]
@@ -74,7 +94,7 @@ namespace UniversityWebsite.Api.Controllers
 
             return Ok(_modelFactory.GetCreatedReturnModel(user, password));
         }
-        [Route("{userId:guid}")]
+        [Route("{userId:guid}")]//todo zabezpieczyć superusera
         public IHttpActionResult PutUser(string userId, PutUserVm model)
         {
             if (!ModelState.IsValid)
@@ -110,7 +130,7 @@ namespace UniversityWebsite.Api.Controllers
         }
 
 
-        [Route("{userId:guid}")]
+        [Route("{userId:guid}")]//todo zabezpieczyć superusera
         public IHttpActionResult DeleteUser(string userId)
         {
             var user = _userManager.FindById(userId);

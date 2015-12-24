@@ -55,6 +55,9 @@ namespace UniversityWebsite.Services
         NewsDto UpdateNews(int subjectId, NewsDto newsDto);
         void SignUpForSubject(int subjectId, string userId);
         void ResignFromSubject(int subjectId, string studentId);
+        void ApproveRequest(int requestId);
+        void RefuseRequest(int requestId);
+        int GetRequestsNumberByTeacher(string teacherId);
     }
     public class SubjectService : ISubjectService
     {
@@ -293,6 +296,11 @@ namespace UniversityWebsite.Services
             else throw new InvalidOperationException("Cannot refuse refused or approved status");
 
             _context.SaveChanges();
+        }
+
+        public int GetRequestsNumberByTeacher(string teacherId)
+        {
+            return _context.SignUpRequests.Count(r => r.Subject.Teachers.Any(t => t.Id == teacherId));
         }
 
         public IEnumerable<SignUpRequest> GetSubmittedRequests(int subjectId, int limit, int offset)

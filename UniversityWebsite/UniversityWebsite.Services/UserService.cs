@@ -17,6 +17,10 @@ namespace UniversityWebsite.Services
     /// </summary>
     public interface IUserService
     {
+        IEnumerable<User> GetUsers(int limit, int offset);
+        int GetUsersNumber();
+        IEnumerable<User> GetUsersByRole(string roleName, int limit, int offset);
+        int GetUsersNumberByRole(string roleName);
         //User FindUser(string login);
         //void CreateUser(User user, string password, string role);
         //UserCreateResult CreateUser(User user, string role);
@@ -32,8 +36,8 @@ namespace UniversityWebsite.Services
     /// </summary>
     public class UserService : IUserService
     {
-        //private IDomainContext _context;
-        //private ApplicationUserManager _userManager;
+        private IDomainContext _context;
+        private ApplicationUserManager _userManager;
         //private RoleManager<IdentityRole> _roleManager;
 
         ///// <summary>
@@ -42,21 +46,21 @@ namespace UniversityWebsite.Services
         ///// <param name="context"></param>
         ///// <param name="userManager"></param>
         ///// <param name="roleManager"></param>
-        //public UserService(IDomainContext context, ApplicationUserManager userManager/*, RoleManager<IdentityRole> roleManager*/)
-        //{
-        //    _context = context;
-        //    _userManager = userManager;
-        //   // _roleManager = roleManager;
+        public UserService(IDomainContext context, ApplicationUserManager userManager/*, RoleManager<IdentityRole> roleManager*/)
+        {
+            _context = context;
+            _userManager = userManager;
+            // _roleManager = roleManager;
 
-        //    _userManager.PasswordValidator = new PasswordValidator
-        //    {
-        //        RequiredLength = 8,
-        //        RequireNonLetterOrDigit = true,
-        //        RequireDigit = true,
-        //        RequireLowercase = true,
-        //        RequireUppercase = true,
-        //    };
-        //}
+            //_userManager.PasswordValidator = new PasswordValidator
+            //{
+            //    RequiredLength = 8,
+            //    RequireNonLetterOrDigit = true,
+            //    RequireDigit = true,
+            //    RequireLowercase = true,
+            //    RequireUppercase = true,
+            //};
+        }
         ///// <summary>
         ///// Zwraca dane użytkownika o podanym loginie, lub null jeżeli użytkownik nie istnieje.
         ///// </summary>
@@ -145,5 +149,56 @@ namespace UniversityWebsite.Services
         //    if (!result.Succeeded)
         //        throw new Exception(result.Errors.FirstOrDefault());
         //}
+        public int GetUsersNumber()
+        {
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users
+                    .Count(u => u.Email != suLogin);
+        }
+
+        public IEnumerable<User> GetUsersByRole(string roleName, int limit, int offset)
+        {
+            var role = _context.Roles.SingleOrDefault(r => r.Name == roleName);
+            if (role == null)
+                return Enumerable.Empty<User>();
+            var roleId = role.Id;
+
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users.Where(u => u.Roles.Any(r => r.RoleId == roleId))
+                    .Where(u => u.Email != suLogin)
+                    .OrderBy(u => u.LastName)
+                    .Skip(offset)
+                    .Take(limit);
+        }
+
+        public IEnumerable<User> GetUsers(int limit, int offset)
+        {
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users
+                    .Where(u => u.Email != suLogin)
+                    .OrderBy(u => u.LastName)
+                    .Skip(offset)
+                    .Take(limit);
+        }
+
+        public int GetUsersNumberByRole(string roleName)
+        {
+            var role = _context.Roles.SingleOrDefault(r => r.Name == roleName);
+            if (role == null)
+                return 0;
+            var roleId = role.Id;
+
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users.Where(u => u.Email != suLogin).Count(u => u.Roles.Any(r => r.RoleId == roleId));
+
+        }
     }
 }
