@@ -54,6 +54,7 @@ namespace UniversityWebsite.Services
         SignUpAction GetAvailableAction(string studentId, int subjectId);
         NewsDto UpdateNews(int subjectId, NewsDto newsDto);
         void SignUpForSubject(int subjectId, string userId);
+        void ResignFromSubject(int subjectId, string studentId);
     }
     public class SubjectService : ISubjectService
     {
@@ -70,11 +71,11 @@ namespace UniversityWebsite.Services
             var request =
                 _context.SignUpRequests.SingleOrDefault(r => r.StudentId == studentId && r.SubjectId == subjectId);
             if (request == null)
-                return SignUpAction.Submit;
+                return SignUpAction.NotSubmitted;
             if (request.Status == RequestStatus.Submitted)
-                return SignUpAction.InProgress;
+                return SignUpAction.Submitted;
             if (request.Status == RequestStatus.Approved)
-                return SignUpAction.Resign;
+                return SignUpAction.Approved;
             if (request.Status == RequestStatus.Refused)
                 return SignUpAction.Refused;
             return SignUpAction.None;
@@ -235,6 +236,9 @@ namespace UniversityWebsite.Services
 
         public void SignUpForSubject(int subjectId, string studentId)
         {
+            var subject = _context.Subjects.Find(subjectId);
+            if(subject==null)
+                throw new NotFoundException("Subject with Id: "+subjectId);
             if (_context.SignUpRequests.Any(r => r.StudentId == studentId && r.SubjectId == subjectId))
                 throw new InvalidOperationException("Request already exists.");
 
@@ -246,16 +250,22 @@ namespace UniversityWebsite.Services
 
         public void ResignFromSubject(int subjectId, string studentId)
         {
-            var subject = _context.Subjects.Find(subjectId);
-            if(subject==null)
-                throw new NotFoundException("Subject with id: "+subjectId);
+            //var subject = _context.Subjects.Find(subjectId);
+            //if(subject==null)
+            //    throw new NotFoundException("Subject with id: "+subjectId);
 
-            var user = _context.Users.Find(studentId);
-            if(user==null)
-                throw new NotFoundException("User with id: "+studentId);
+            //var user = _context.Users.Find(studentId);
+            //if(user==null)
+            //    throw new NotFoundException("User with id: "+studentId);
 
-            subject.Students.Remove(user);
+            //subject.Students.Remove(user);
 
+            var request = _context.SignUpRequests.SingleOrDefault(r=>r.StudentId==studentId && r.SubjectId==subjectId);
+            if(request==null) throw new NotFoundException("SignUpRequest with subjectId: "+subjectId+" and studentId: "+studentId);
+
+            if (request.Status == RequestStatus.Approved || request.Status == RequestStatus.Submitted)
+                _context.SetDeleted(request);
+            else throw new InvalidOperationException("Cannot delete status "+request.Status);
             _context.SaveChanges();
         }
 

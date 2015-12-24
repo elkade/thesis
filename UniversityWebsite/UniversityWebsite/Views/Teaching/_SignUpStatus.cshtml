@@ -1,0 +1,27 @@
+﻿@model UniversityWebsite.Model.SubjectListElementVm
+@using UniversityWebsite.Services.Model
+
+@switch (Model.SignUpAction)
+{
+    case SignUpAction.Submitted:
+        Html.BeginForm("ResignFromSubject", "SignUp", null, FormMethod.Post, new { @class = "sign-up-status-form" });
+    <text>Nauczyciel jest w trakcie akceptacji</text>
+    <input type="submit" value="Zrezygnuj" />
+        break;
+    case SignUpAction.Refused:
+    <text>Nauczyciel odrzucił prośbę</text>
+        break;
+    case SignUpAction.Approved: ;
+        Html.BeginForm("ResignFromSubject", "SignUp", null, FormMethod.Post, new { @class = "sign-up-status-form" });
+    <input type="submit" value="Wypisz się" />
+        break;
+    case SignUpAction.NotSubmitted:
+        Html.BeginForm("SignUpForSubject", "SignUp", null, FormMethod.Post, new { @class = "sign-up-status-form" });
+    <input type="submit" value="Zapisz się" />
+        break;
+}
+@if (Model.SignUpAction != SignUpAction.Refused)
+{
+    @Html.Hidden("subjectId", Model.SubjectId)
+    Html.EndForm();
+}

@@ -6,15 +6,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
-
     <style>
         .card {
             margin-top: 20px;
         }
-    .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
-        background: #003C58;
-    }
-</style>
+
+        .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
+            background: #003C58;
+        }
+    </style>
 }
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
 <h2>@teachingString</h2>
@@ -23,7 +23,7 @@
 {   
     <div class="medium-4 columns">
         <div class="card">
-            <a href="@Url.Action("Semester",new {number=i})">
+            <a href="@Url.Action("Semester", new { number = i })">
                 <img src="https://www.pw.edu.pl/var/pw/storage/images/studenci/aktualnosci/swiatowy-tydzien-przedsiebiorczosci-w-biurze-karier-pw/131705-1-pol-PL/Swiatowy-Tydzien-Przedsiebiorczosci-w-Biurze-Karier-PW.jpg" />
             </a>
             <div class="card-divider"></div>
@@ -33,6 +33,3 @@
         </div>
     </div>
 }
-
-
-

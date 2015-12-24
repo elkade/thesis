@@ -25,22 +25,32 @@
     @foreach (var subject in Model.Subjects)
     {
         <li>
-            @Html.ActionLink(subject.SubjectName, "Subject", new{ name = subject.SubjectUrlName })<br/>
-            @switch (subject.SignUpAction)
-            {
-                case SignUpAction.InProgress:
-                    <text>Nauczyciel jest w trakcie akceptacji.</text>
-                    break;
-                case SignUpAction.Refused:
-                <text>Nauczyciel odrzucił prośbę.</text>
-                    break;
-                case SignUpAction.Resign:
-                <text>Wypisz się.</text>
-                    break;
-                case SignUpAction.Submit:
-                <text>Zapisz się.</text>
-                    break;
+            @Html.ActionLink(subject.SubjectName, "Subject", new { name = subject.SubjectUrlName })<br />
+            @{
+        if (subject.SignUpAction != SignUpAction.None)
+        {
+                <div>
+                    @{ Html.RenderPartial("_SignUpStatus", subject); }
+                </div>
+        }
             }
         </li>
     }
 </ul>
+<script>
+    $(function () {
+        $(document).on('submit', '.sign-up-status-form', function (e) {
+            e.preventDefault();
+            var t = $(this);
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    t.parent().html(result);
+                }
+            });
+            return false;
+        });
+    });
+</script>

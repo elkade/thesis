@@ -64,7 +64,7 @@ namespace UniversityWebsite.Controllers
             var userId = User.Identity.GetUserId();
             var subjectVm = Mapper.Map<SubjectVm>(subject);
 
-            if (userId == null || !subject.Students.Select(s => s.Id).Contains(userId))
+            if (userId == null || !subject.HasStudent(userId))
                 subjectVm.Files.Clear();
 
             subjectVm.Siblings = GetSiblings();
