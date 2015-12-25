@@ -253,16 +253,6 @@ namespace UniversityWebsite.Services
 
         public void ResignFromSubject(int subjectId, string studentId)
         {
-            //var subject = _context.Subjects.Find(subjectId);
-            //if(subject==null)
-            //    throw new NotFoundException("Subject with id: "+subjectId);
-
-            //var user = _context.Users.Find(studentId);
-            //if(user==null)
-            //    throw new NotFoundException("User with id: "+studentId);
-
-            //subject.Students.Remove(user);
-
             var request = _context.SignUpRequests.SingleOrDefault(r=>r.StudentId==studentId && r.SubjectId==subjectId);
             if(request==null) throw new NotFoundException("SignUpRequest with subjectId: "+subjectId+" and studentId: "+studentId);
 

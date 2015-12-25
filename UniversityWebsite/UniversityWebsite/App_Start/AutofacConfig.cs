@@ -8,6 +8,7 @@ using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity.Owin;
 using UniversityWebsite.Core;
 using UniversityWebsite.Filters;
+using UniversityWebsite.Helper.Files;
 using UniversityWebsite.Services;
 using Module = Autofac.Module;
 
@@ -52,7 +53,9 @@ namespace UniversityWebsite
                 builder.RegisterType<MenuService>().As<IMenuService>().InstancePerRequest();
                 builder.RegisterType<PageService>().As<IPageService>().InstancePerRequest();
                 builder.RegisterType<SubjectService>().As<ISubjectService>().InstancePerRequest();
-                //builder.RegisterType<LocalPhotoManager>().As<IPhotoManager>().InstancePerRequest();
+
+                string filesWorkingFolder = HttpRuntime.AppDomainAppPath + @"\Files";
+                builder.RegisterType<FileService>().As<IFileService>().WithParameter("workingFolder",filesWorkingFolder).InstancePerRequest();
                 base.Load(builder);
             }
         }

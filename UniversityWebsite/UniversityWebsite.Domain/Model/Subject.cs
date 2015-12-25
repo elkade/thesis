@@ -16,14 +16,9 @@ namespace UniversityWebsite.Domain.Model
 
         public virtual ICollection<News> News { get; set; }
 
-       // public int SyllabusId { get; set; }
-
-        //[ForeignKey("SyllabusId")]
         public virtual Syllabus Syllabus { get; set; }
 
-        //[ForeignKey("ScheduleId")]
         public virtual Schedule Schedule { get; set; }
-        //public int ScheduleId { get; set; }
 
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<User> Teachers { get; set; }
@@ -35,6 +30,11 @@ namespace UniversityWebsite.Domain.Model
         public bool HasStudent(string userId)
         {
             return SignUpRequests.Any(r => r.StudentId == userId && r.Status == RequestStatus.Approved);
+        }
+
+        public bool HasTeacher(string userId)
+        {
+            return Teachers.Any(t=>t.Id==userId);
         }
     }
 }

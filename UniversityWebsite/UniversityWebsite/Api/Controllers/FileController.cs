@@ -7,25 +7,26 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Filters;
-using UniversityWebsite.Helper.Files;
+using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Api.Controllers
 {
     [RoutePrefix("api/file")]
     public class FileController : ApiController
     {
-        private readonly IFileManager _fileManager;
+        private readonly IFileService _fileService;
 
-        public FileController()
+        public FileController(IFileService fileService)
         {
-            _fileManager = new FileManager();
+            _fileService = fileService;
         }
 
         [Route("{id:guid}")]
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            var info = _fileManager.GetPath(id, "");
+            var userId = User.Identity.GetUserId();
+            var info = _fileService.GetPath(id, userId);
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(info.Path, FileMode.Open);
             result.Content = new StreamContent(stream);
@@ -42,7 +43,7 @@ namespace UniversityWebsite.Api.Controllers
         [HttpGet]
         public HttpResponseMessage GetImage(string id)
         {
-            var info = _fileManager.GetPath(id, "");
+            var info = _fileService.GetPath(id, "");
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(info.Path, FileMode.Open);
             result.Content = new StreamContent(stream);
@@ -65,7 +66,7 @@ namespace UniversityWebsite.Api.Controllers
         public async Task<IHttpActionResult> GetInfoBySubject(int subjectId, int? limit=null, int? offset=null)
         {
             //FilterLimitOffset(ref limit, ref offset);
-            var results = await _fileManager.GetBySubject(subjectId, limit.Value, offset.Value);
+            var results = await _fileService.GetBySubject(subjectId, limit.Value, offset.Value);
             return Ok(results);
         }
 
@@ -73,7 +74,7 @@ namespace UniversityWebsite.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetFilesNumberBySubject(int subjectId)
         {
-            var results = _fileManager.GetFilesNumberBySubject(subjectId);
+            var results = _fileService.GetFilesNumberBySubject(subjectId);
             return Ok(results);
         }
 
@@ -81,7 +82,7 @@ namespace UniversityWebsite.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetGalleryImagesNumber()
         {
-            var results = _fileManager.GetGalleryImagesNumber();
+            var results = _fileService.GetGalleryImagesNumber();
             return Ok(results);
         }
 
@@ -95,7 +96,7 @@ namespace UniversityWebsite.Api.Controllers
 
             try
             {
-                var file = await _fileManager.Add(Request, subjectId, userId);
+                var file = await _fileService.Add(Request, subjectId, userId);
                 return Ok(file);
             }
             catch (Exception ex)
@@ -115,7 +116,7 @@ namespace UniversityWebsite.Api.Controllers
 
             try
             {
-                var file = await _fileManager.Update(Request, userId, fileId);
+                var file = await _fileService.Update(Request, userId, fileId);
                 return Ok(file);
             }
             catch (Exception ex)
@@ -128,7 +129,7 @@ namespace UniversityWebsite.Api.Controllers
         [Route("{fileId:guid}")]
         public async Task<IHttpActionResult> Delete(string fileId)
         {
-            await _fileManager.Delete(fileId);
+            await _fileService.Delete(fileId);
 
             return Ok();
         }
@@ -137,8 +138,7 @@ namespace UniversityWebsite.Api.Controllers
         [Route("gallery")]
         public async Task<IHttpActionResult> GetGallery(int? limit = null, int? offset = null)
         {
-            //FilterLimitOffset(ref limit, ref offset);
-            var results = await _fileManager.GetGallery(limit.Value, offset.Value);
+            var results = await _fileService.GetGallery(limit.Value, offset.Value);
             return Ok(results);
         }
 
@@ -150,7 +150,7 @@ namespace UniversityWebsite.Api.Controllers
             var userId = User.Identity.GetUserId();
             try
             {
-                var file = await _fileManager.AddToGallery(Request, userId);
+                var file = await _fileService.AddToGallery(Request, userId);
                 return Ok(file);
             }
             catch (Exception ex)
@@ -166,7 +166,7 @@ namespace UniversityWebsite.Api.Controllers
             var userId = User.Identity.GetUserId();
             try
             {
-                var file = await _fileManager.UpdateInGallery(Request, userId, fileId);
+                var file = await _fileService.UpdateInGallery(Request, userId, fileId);
                 return Ok(file);
             }
             catch (Exception ex)
@@ -174,15 +174,5 @@ namespace UniversityWebsite.Api.Controllers
                 return BadRequest(ex.GetBaseException().Message);
             }
         }
-
-        //private static void FilterLimitOffset(ref int? limit, ref int? offset)
-        //{
-        //    if (limit == null || limit > 50)
-        //        limit = 50;
-        //    if (limit < 0) limit = 0;
-
-        //    if (offset == null || limit < 0)
-        //        offset = 0;
-        //}
     }
 }
