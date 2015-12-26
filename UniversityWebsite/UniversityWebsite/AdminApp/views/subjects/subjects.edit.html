@@ -218,12 +218,14 @@
                                     <button ngf-select="uploadFiles($files, $invalidFiles)"
                                             multiple accept="image/*"
                                             ngf-max-height="1000"
-                                            ngf-max-size="1MB">
+                                            ngf-max-size="1MB"
+                                            class="button small">
                                         Upload
                                     </button>
                                 </li>
                                 <li>
-                                    <button ng-click="removeFiles()">
+                                    <button ng-click="removeFiles()"
+                                            class="button small">
                                         Remove
                                     </button>
                                 </li>
@@ -270,6 +272,43 @@
                         </li>
                     </ul>
                     <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                </div>
+            </div>
+        </accordion-group>
+        <accordion-group heading="Pending requests from students">
+            <div class="row" ng-hide="editMode" ng-controller="subjectSignUpRequestCtrl">
+                <div class="medium-12 columns">
+                    <ul class="button-group">
+                        <li>
+                            <button class="button small" ng-click="approve()">
+                                Approve
+                            </button>
+                        </li>
+                        <li>
+                            <button class="button small" ng-click="reject()">
+                                Reject
+                            </button>
+                        </li>
+                    </ul>
+                    <table>
+                        <tr>
+                            <th style="padding-left: 40px">Student names</th>
+                            <th>Index number</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr ng-repeat="request in signUpRequests">
+                            <td>
+                                <input type="checkbox" ng-model="request.selected" id="{{request.Id}}" />
+                                <label for="{{request.Id}}">{{request.StudentLastName}} {{request.StudentFirstName}}</label>
+                            </td>
+                            <td>
+                                <span>{{request.StudentIndex}}</span>
+                            </td>
+                            <td>
+                                <span>{{request.Status}}</span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </accordion-group>

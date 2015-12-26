@@ -11,9 +11,9 @@ namespace UniversityWebsite.Api.Model.Teaching
         public string StudentIndex { get; set; }
 
         public int SubjectId { get; set; }
-        public int SubjectTitle { get; set; }
-        public int SubjectUrlName { get; set; }
+        public string SubjectTitle { get; set; }
+        public string SubjectUrlName { get; set; }
 
-        public RequestStatus Status { get; set; }
+        public string Status { get; set; }
     }
 }

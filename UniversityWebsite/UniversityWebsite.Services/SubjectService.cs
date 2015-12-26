@@ -40,7 +40,7 @@ namespace UniversityWebsite.Services
         /// <param name="limit">Maksymalna liczba zwróconych przedmiotów</param>
         /// <param name="offset">Numer porządkowy pierwszego zwróconego przedmiotu</param>
         /// <returns>Zbiór przedmitów</returns>
-        IEnumerable<SubjectDto> GetSubjects(int limit, int offset);
+        IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
         /// <summary>
         /// Zwraca liczbe wszystkich przedmiotów w systemie
         /// </summary>
@@ -60,6 +60,7 @@ namespace UniversityWebsite.Services
         void ApproveRequest(int requestId);
         void RefuseRequest(int requestId);
         int GetRequestsNumberByTeacher(string teacherId);
+        IEnumerable<SignUpRequest> GetAllRequests(int subjectId, int limit, int offset);
     }
     public class SubjectService : ISubjectService
     {
@@ -102,7 +103,7 @@ namespace UniversityWebsite.Services
             return subject;
         }
 
-        public IEnumerable<SubjectDto> GetSubjects(int limit, int offset)
+        public IEnumerable<SubjectDto> GetSubjects(int offset, int limit)
         {
             return _context.Subjects.OrderBy(s => s.Semester)
                     .ThenBy(s => s.Name)

@@ -31,7 +31,7 @@ namespace UniversityWebsite.Domain.Model
         public int SubjectId { get; set; }
 
         [Required]
-        public RequestStatus Status { get; set; }
+        public RequestStatus Status { get; private set; }
 
         [Required]
         public DateTime CreateTime { get; set; }

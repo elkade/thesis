@@ -26,7 +26,7 @@ namespace UniversityWebsite.Api.Controllers
         //[AntiForgeryValidate]
         public IEnumerable<SubjectDto> GetSubjects(int? offset = null, int? limit = null)
         {
-            return _subjectService.GetSubjects(offset.Value, limit.Value);
+            return _subjectService.GetSubjects(offset ?? 0, limit ?? 1000);
         }
         [Route("subjects/count")]
         [Authorize(Roles = "Administrator")]

@@ -5,13 +5,14 @@ using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Api.Model.Teaching;
+using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Api.Controllers
 {
     [RoutePrefix("api/signup")]
-    [Authorize(Roles = Consts.TeacherRole)]
+    //[Authorize(Roles = Consts.TeacherRole)]
     public class SignUpController : ApiController
     {
         private readonly ISubjectService _subjectService;
@@ -23,11 +24,25 @@ namespace UniversityWebsite.Api.Controllers
 
         [Limit(50),Offset]
         [Route("")]
-        public IEnumerable<RequestVm> GetRequests(int? limit = null, int? offset = null)
+        [HttpGet]
+        public IHttpActionResult GetRequests(int subjectId, int? limit = null, int? offset = null)
         {
-            var userId = User.Identity.GetUserId();
-           // var requests = _subjectService.GetRequestsByTeacher(userId, limit.Value, offset.Value);
-            return null;
+            var requests = _subjectService.GetAllRequests(subjectId, limit.Value, offset.Value).ToList();
+            
+            var result = requests.Select(r => new RequestVm
+            {
+                Id = r.Id,
+                StudentFirstName = r.Student.FirstName,
+                StudentLastName = r.Student.LastName,
+                StudentId = r.StudentId,
+                StudentIndex = r.Student.IndexNumber,
+                SubjectTitle = r.Subject.Name,
+                SubjectUrlName = r.Subject.UrlName,
+                SubjectId = r.SubjectId,
+                Status = r.Status.ToString()
+            }).ToList();
+
+            return Ok(result);
         }
 
         [Limit(50), Offset]
@@ -39,19 +54,25 @@ namespace UniversityWebsite.Api.Controllers
             return Ok(number);
         }
 
-        [Route("{id:int}")]
+        [Route("approve")]
         [HttpPost]
-        public IHttpActionResult ApproveRequest(int requestId)
+        public IHttpActionResult ApproveRequest(int[] requestIds)
         {
-            _subjectService.ApproveRequest(requestId);
+            foreach (var requestId in requestIds)
+            {
+                _subjectService.ApproveRequest(requestId);   
+            }
             return Ok();
-        }
+        }   
 
-        [Route("{id:int}")]
+        [Route("reject")]
         [HttpPost]
-        public IHttpActionResult ApproveRefuse(int requestId)
+        public IHttpActionResult ApproveRefuse(int[] requestIds)
         {
-            _subjectService.RefuseRequest(requestId);
+            foreach (var requestId in requestIds)
+            {
+                _subjectService.RefuseRequest(requestId);
+            }
             return Ok();
         }
 

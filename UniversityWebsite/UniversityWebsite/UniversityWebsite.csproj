@@ -227,6 +227,7 @@
     <Content Include="AdminApp\services\filesService.js" />
     <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
+    <Content Include="AdminApp\subjects\controllers\subjectSignUpRequestController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectStudentsController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectFilesController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectSectionFormController.js" />
