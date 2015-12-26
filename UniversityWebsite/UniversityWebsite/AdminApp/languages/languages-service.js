@@ -19,7 +19,8 @@
     });
 }])
 
-.factory('languageService', ['$http', 'utils', 'Dictionaries', function ($http, utils, Dictionaries) {
+.factory('languageService', ['$http', 'utils', 'Dictionaries', 'Languages',
+    function ($http, utils, Dictionaries, Languages) {
     var dictionariesPath = "/api/languages/dictionaries";
     var keysPath = "/api/languages/keys";
     var languagesPath = "/api/languages";
@@ -57,6 +58,8 @@
             return resp.data;
         });
     };
+
+    factory.queryLanguages = Languages.query;
 
     return factory;
 }]);

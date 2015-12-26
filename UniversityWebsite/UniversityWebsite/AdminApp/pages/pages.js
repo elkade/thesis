@@ -27,7 +27,7 @@
                             $scope.languages = languages;
 
                             $scope.add = function() {
-                                $location.path('pages/newPage');
+                                $state.go("pages.edit", {pageName: "newPage"} );
                             };
                         }
                     ]
@@ -35,7 +35,6 @@
                 })
                 .state('pages.edit', {
                     url: '/:pageName',
-
                     views: {
                         '': {
                             templateUrl: 'adminapp/views/pages/pages.edit.html',
@@ -43,5 +42,6 @@
                         },
                     }
                 });
+
         }
     ]);

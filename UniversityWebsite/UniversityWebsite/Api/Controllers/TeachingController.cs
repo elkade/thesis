@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Http;
 using AutoMapper;
@@ -18,6 +19,7 @@ namespace UniversityWebsite.Api.Controllers
         {
             _subjectService = subjectService;
         }
+
         [Route("subjects")]
         [Authorize(Roles = "Administrator")]
         //[AntiForgeryValidate]
@@ -25,6 +27,7 @@ namespace UniversityWebsite.Api.Controllers
         {
             return _subjectService.GetSubjects(offset??0, limit??50);
         }
+
         [Route("subjects")]
         public IHttpActionResult PostSubject(SubjectPost subject)
         {
@@ -35,6 +38,7 @@ namespace UniversityWebsite.Api.Controllers
             var addedSubject = _subjectService.AddSubject(subjectDto, User.Identity.GetUserId());
             return Ok(addedSubject);
         }
+
         [Route("subjects")]
         public IHttpActionResult PutSubject(SubjectPut subject)
         {
@@ -83,10 +87,24 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("subjects/{subjectId:int}")]
+
         public IHttpActionResult DeleteSubject(int subjectId)
         {
             _subjectService.DeleteSubject(subjectId);
             return Ok();
+        }
+
+        [Route("subjects/{subjectId:int}/students")]
+        public IHttpActionResult GetStudents(int subjectId, int? limit = null, int? offset = null)
+        {
+            var result = _subjectService.GetStudents(subjectId, limit ?? 50, offset ?? 0)
+                .Select(s => new UserReturnModel
+                {
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    Email = s.Email
+                });
+            return Ok(result);
         }
 
         private string PrepareUrlName(string name)

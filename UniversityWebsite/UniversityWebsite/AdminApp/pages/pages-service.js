@@ -24,6 +24,7 @@
         return pages;
     };
 
+    factory.query = Pages.query;
     factory.update = Pages.update;
     factory.post = Pages.post;
     factory.remove = Pages.remove;

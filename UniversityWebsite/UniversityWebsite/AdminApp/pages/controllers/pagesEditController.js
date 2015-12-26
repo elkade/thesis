@@ -103,5 +103,4 @@
     $scope.newTranslationAvailable = function() {
         return $scope.availableLanguages.length > 1;
     };
-
 })

@@ -10,6 +10,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/tinymce/css")
+    @Styles.Render("~/Content/AdminApp")
 
 </head>
 <body ng-cloak>
@@ -51,31 +52,14 @@
     </section>
 </nav>
 
-    <div ui-view class="container" @Html.RequestVerificationToken() >
+    <div ui-view class="container" @Html.RequestVerificationToken() us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1">
 
     </div>
 
 <script src="~/Scripts/tinymce/tinymce.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-animate.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-resource.min.js"></script>
-
 
 @Scripts.Render("~/bundles/linq")
 @Scripts.Render("~/bundles/configApp")
 
-@*<script>
-    $(document).foundation();
-</script>*@
-@*<pre>
-      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
-      $state = {{$state.current.name}}
-      $stateParams = {{$stateParams}}
-      $state full url = {{ $state.$current.url.source }}
-      <!-- $state.$current is not a public api, we are using it to
-           display the full url for learning purposes-->
-    </pre>*@
 </body>
 </html>

@@ -22,6 +22,7 @@ namespace UniversityWebsite.Services
         SubjectDto UpdateSubject(SubjectDto subject, string authorId);
         NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId);
         IEnumerable<NewsDto> GetNews(int subjectId);
+        IEnumerable<User> GetStudents(int subjectId, int limit, int offset);
         void DeleteNews(int subjectId, int newsId);
         void DeleteSubject(int subjectId);
         SignUpAction GetAvailableAction(string studentId, int subjectId);
@@ -186,6 +187,18 @@ namespace UniversityWebsite.Services
             _context.SetModified(dbNews);
             _context.SaveChanges();
             return Mapper.Map<NewsDto>(dbNews);
+        }
+
+        public IEnumerable<User> GetStudents(int subjectId, int limit, int offset)
+        {
+            return _context.Subjects
+                           .Where(s => s.Id == subjectId)
+                           .Include(s => s.Students)
+                           .SelectMany(s => s.Students)
+                           .OrderBy(s => s.LastName)
+                           .ThenBy(s => s.FirstName)
+                           .Skip(offset)
+                           .Take(limit).ToList();
         }
 
         public void SignUpForSubject(int subjectId, string studentId)

@@ -35,6 +35,7 @@ namespace UniversityWebsite
                 .IncludeDirectory("~/Scripts/tinymce/skins/lightgray", "*.css"));
 
             bundles.Add(AdminApp.Scripts());
+            bundles.Add(AdminApp.Styles());
         }  
     }
 }

@@ -5,6 +5,8 @@
     'mm.foundation.accordion',
     'mm.foundation.modal',
     'angularUtils.directives.dirPagination',
+    'ngAnimate',
+    'angularSpinner',
     'configApp.pages',
     'configApp.subjects',
     'configApp.menus',
@@ -14,8 +16,7 @@
     'configApp.utils.service',
     'configApp.files.service',
     'ui.router',
-    'ngResource',
-    'ngAnimate'])
+    'ngResource'])
 
 .directive('ncgRequestVerificationToken', ['$http', function ($http) {
     return function (scope, element, attrs) {
@@ -24,18 +25,24 @@
 }])
 
 .filter("sanitize", ['$sce', function($sce) {
-    return function(htmlCode){
+    return function(htmlCode) {
         return $sce.trustAsHtml(htmlCode);
-    }
+    };
 }])
 
-.run( 
-    [            '$http', '$rootScope', '$state', '$stateParams', 
-        function ($http, $rootScope,   $state,   $stateParams) {
-
+.run([       '$http', '$rootScope', '$state', '$stateParams', 'usSpinnerService', 
+    function ($http,   $rootScope,   $state,   $stateParams,   usSpinnerService) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-}])
+        $rootScope.$on('$stateChangeStart',
+            function(event, toState, toParams, fromState, fromParams) {
+                usSpinnerService.spin('spinner-1');
+            });
+        $rootScope.$on('$stateChangeSuccess',
+            function(event, toState, toParams, fromState, fromParams) {
+                usSpinnerService.stop('spinner-1');
+            });
+    }])
 
 .config(
 [            '$stateProvider', '$urlRouterProvider',
