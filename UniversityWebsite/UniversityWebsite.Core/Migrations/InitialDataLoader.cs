@@ -287,7 +287,11 @@ namespace UniversityWebsite.Core.Migrations
         {
             foreach (var user in Users)
             {
-                _userManager.Create(user, user.PasswordHash);
+                var result = _userManager.Create(user, user.PasswordHash);
+                if (result == IdentityResult.Failed())
+                {
+                    throw new Exception("Cannot create user");
+                }
             }
         }
 

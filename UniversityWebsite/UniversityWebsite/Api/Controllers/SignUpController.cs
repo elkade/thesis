@@ -54,5 +54,18 @@ namespace UniversityWebsite.Api.Controllers
             _subjectService.RefuseRequest(requestId);
             return Ok();
         }
+
+        //[Route("subjects/{subjectId:int}/students")]
+        //public IHttpActionResult GetStudents(int subjectId, int? limit = null, int? offset = null)
+        //{
+        //    var result = _subjectService.GetStudents(subjectId, limit ?? 50, offset ?? 0)
+        //        .Select(s => new UserReturnModel
+        //        {
+        //            FirstName = s.FirstName,
+        //            LastName = s.LastName,
+        //            Email = s.Email
+        //        });
+        //    return Ok(result);
+        //}
     }
 }

@@ -54,11 +54,9 @@ namespace UniversityWebsite.Core
         {
             PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 8,
-                RequireNonLetterOrDigit = true,
+                RequiredLength = 6,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
             };
         }
 
@@ -76,10 +74,8 @@ namespace UniversityWebsite.Core
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
             };
 
             // Configure user lockout defaults

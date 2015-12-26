@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -240,14 +241,7 @@ namespace UniversityWebsite.Services
 
         public IEnumerable<User> GetStudents(int subjectId, int limit, int offset)
         {
-            return _context.Subjects
-                           .Where(s => s.Id == subjectId)
-                           .Include(s => s.Students)
-                           .SelectMany(s => s.Students)
-                           .OrderBy(s => s.LastName)
-                           .ThenBy(s => s.FirstName)
-                           .Skip(offset)
-                           .Take(limit).ToList();
+            return null;
         }
 
         public void SignUpForSubject(int subjectId, string studentId)
