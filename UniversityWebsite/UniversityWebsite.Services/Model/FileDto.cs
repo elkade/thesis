@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace UniversityWebsite.Model
+namespace UniversityWebsite.Services.Model
 {
-    public class FileViewModel
+    public class FileDto
     {
         public string Id { get; set; }
         public string Name { get; set; }

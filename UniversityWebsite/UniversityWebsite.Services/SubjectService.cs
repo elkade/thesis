@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -15,9 +13,38 @@ namespace UniversityWebsite.Services
 {
     public interface ISubjectService
     {
-        IEnumerable<Subject> GetSemester(int number);
+        /// <summary>
+        /// Zwraca zbiór przedmiotów przypisanych do danego semestru.
+        /// </summary>
+        /// <param name="number">Numer semestru</param>
+        /// <param name="limit">Maksymalna liczba zwróconych przedmiotów</param>
+        /// <param name="offset">Numer porządkowy pierwszego zwróconego przedmiotu</param>
+        /// <returns>Zbiór przedmiotów</returns>
+        IEnumerable<Subject> GetSubjectsBySemester(int number, int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę przedmiotów w danym semestrze
+        /// </summary>
+        /// <param name="number">Numer semestru</param>
+        /// <returns>Liczba naturalna</returns>
+        int GetSubjectsNumberBySemestser(int number);
+        /// <summary>
+        /// Wyszukuje przedmiot o podanej nazwie.
+        /// </summary>
+        /// <param name="name">Nazwa przedmiotu widoczna w linku</param>
+        /// <returns>Szukany przedmiot</returns>
         Subject GetSubject(string name);
-        IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
+        /// <summary>
+        /// Zwraca zbiór wszystkich przedmiotów.
+        /// </summary>
+        /// <param name="limit">Maksymalna liczba zwróconych przedmiotów</param>
+        /// <param name="offset">Numer porządkowy pierwszego zwróconego przedmiotu</param>
+        /// <returns>Zbiór przedmitów</returns>
+        IEnumerable<SubjectDto> GetSubjects(int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbe wszystkich przedmiotów w systemie
+        /// </summary>
+        /// <returns>Liczba naturalna</returns>
+        int GetSubjectsNumber();
         SubjectDto AddSubject(SubjectDto subject, string authorId);
         SubjectDto UpdateSubject(SubjectDto subject, string authorId);
         NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId);
@@ -28,6 +55,10 @@ namespace UniversityWebsite.Services
         SignUpAction GetAvailableAction(string studentId, int subjectId);
         NewsDto UpdateNews(int subjectId, NewsDto newsDto);
         void SignUpForSubject(int subjectId, string userId);
+        void ResignFromSubject(int subjectId, string studentId);
+        void ApproveRequest(int requestId);
+        void RefuseRequest(int requestId);
+        int GetRequestsNumberByTeacher(string teacherId);
     }
     public class SubjectService : ISubjectService
     {
@@ -44,19 +75,24 @@ namespace UniversityWebsite.Services
             var request =
                 _context.SignUpRequests.SingleOrDefault(r => r.StudentId == studentId && r.SubjectId == subjectId);
             if (request == null)
-                return SignUpAction.Submit;
+                return SignUpAction.NotSubmitted;
             if (request.Status == RequestStatus.Submitted)
-                return SignUpAction.InProgress;
+                return SignUpAction.Submitted;
             if (request.Status == RequestStatus.Approved)
-                return SignUpAction.Resign;
+                return SignUpAction.Approved;
             if (request.Status == RequestStatus.Refused)
                 return SignUpAction.Refused;
             return SignUpAction.None;
         }
 
-        public IEnumerable<Subject> GetSemester(int number)
+        public IEnumerable<Subject> GetSubjectsBySemester(int number, int limit, int offset)
         {
-            return _context.Subjects.Where(s => s.Semester == number);
+            return _context.Subjects.Where(s => s.Semester == number).OrderBy(s=>s.Name).Skip(offset).Take(limit);
+        }
+
+        public int GetSubjectsNumberBySemestser(int number)
+        {
+            return _context.Subjects.Count(s=>s.Semester == number);
         }
 
         public Subject GetSubject(string name)
@@ -65,17 +101,18 @@ namespace UniversityWebsite.Services
             return subject;
         }
 
-        public IEnumerable<SubjectDto> GetSubjects(int offset, int limit)
+        public IEnumerable<SubjectDto> GetSubjects(int limit, int offset)
         {
-            if (limit < 0) return Enumerable.Empty<SubjectDto>();
-            limit = limit > 50 ? 50 : limit;
-
-            return
-                _context.Subjects.OrderBy(s => s.Semester)
+            return _context.Subjects.OrderBy(s => s.Semester)
                     .ThenBy(s => s.Name)
                     .Skip(offset)
                     .Take(limit)
                     .ProjectTo<SubjectDto>();
+        }
+
+        public int GetSubjectsNumber()
+        {
+            return _context.Subjects.Count();
         }
 
         public SubjectDto AddSubject(SubjectDto subject, string authorId)
@@ -97,26 +134,29 @@ namespace UniversityWebsite.Services
 
         public SubjectDto UpdateSubject(SubjectDto subject, string authorId)
         {
-            Subject dbSubject = _context.Subjects.Find(subject.Id);
-            if (dbSubject == null)
-                throw new PropertyValidationException("subject.Id", "No subject with id: " + subject.Id + " in database.");
+            return _context.InTransaction(() =>
+            {
+                Subject dbSubject = _context.Subjects.Find(subject.Id);
+                if (dbSubject == null)
+                    throw new PropertyValidationException("subject.Id", "No subject with id: " + subject.Id + " in database.");
 
-            dbSubject.Name = subject.Name;
+                dbSubject.Name = subject.Name;
 
-            dbSubject.Schedule.AuthorId = authorId;
-            dbSubject.Schedule.Content = subject.Schedule.Content;
-            dbSubject.Schedule.PublishDate = DateTime.Now;
+                dbSubject.Schedule.AuthorId = authorId;
+                dbSubject.Schedule.Content = subject.Schedule.Content;
+                dbSubject.Schedule.PublishDate = DateTime.Now;
 
-            dbSubject.Syllabus.AuthorId = authorId;
-            dbSubject.Syllabus.Content = subject.Syllabus.Content;
-            dbSubject.Syllabus.PublishDate = DateTime.Now;
+                dbSubject.Syllabus.AuthorId = authorId;
+                dbSubject.Syllabus.Content = subject.Syllabus.Content;
+                dbSubject.Syllabus.PublishDate = DateTime.Now;
 
-            dbSubject.Semester = subject.Semester;
-            dbSubject.UrlName = PrepareUniqueUrlName(subject.UrlName);
+                dbSubject.Semester = subject.Semester;
+                dbSubject.UrlName = PrepareUniqueUrlName(subject.UrlName);
 
-            _context.SetModified(dbSubject);
-            _context.SaveChanges();
-            return Mapper.Map<SubjectDto>(dbSubject);
+                _context.SetModified(dbSubject);
+                _context.SaveChanges();
+                return Mapper.Map<SubjectDto>(dbSubject);
+            });
         }
 
         public NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId)
@@ -145,16 +185,19 @@ namespace UniversityWebsite.Services
 
         public void DeleteSubject(int subjectId)
         {
-            var subject = _context.Subjects.Find(subjectId);
-            if (subject == null)
-                throw new NotFoundException("Subject with id: " + subjectId);
-            var newsToDelete = subject.News.ToList();
-            foreach (var news in newsToDelete)
-                _context.SetDeleted(news);
-            _context.SetDeleted(subject.Schedule);
-            _context.SetDeleted(subject.Syllabus);
-            _context.SetDeleted(subject);
-            _context.SaveChanges();
+            _context.InTransaction(() =>
+            {
+                var subject = _context.Subjects.Find(subjectId);
+                if (subject == null)
+                    throw new NotFoundException("Subject with id: " + subjectId);
+                var newsToDelete = subject.News.ToList();
+                foreach (var news in newsToDelete)
+                    _context.SetDeleted(news);
+                _context.SetDeleted(subject.Schedule);
+                _context.SetDeleted(subject.Syllabus);
+                _context.SetDeleted(subject);
+                _context.SaveChanges();
+            });
         }
 
         public IEnumerable<NewsDto> GetNews(int subjectId)
@@ -172,21 +215,27 @@ namespace UniversityWebsite.Services
                 if (!_context.Pages.Any(p => p.UrlName == bufName))
                     return bufName;
             }
-            throw new PropertyValidationException("subject.UrlName", "Przekroczono liczbę przedmiotów o tym samym tytule.");
+            throw new PropertyValidationException("subject.UrlName",
+                "Przekroczono liczbę przedmiotów o tym samym tytule.");
+
         }
 
         public NewsDto UpdateNews(int subjectId, NewsDto newsDto)
         {
-            var dbNews = _context.News.Find(newsDto.Id);
-            if (dbNews == null)
-                throw new NotFoundException("News with id: " + newsDto.Id);
-            if (subjectId != dbNews.SubjectId)
-                throw new PropertyValidationException("subjectId", "");
-            dbNews.Header = newsDto.Header;
-            dbNews.Content = newsDto.Content;
-            _context.SetModified(dbNews);
-            _context.SaveChanges();
-            return Mapper.Map<NewsDto>(dbNews);
+            return _context.InTransaction(() =>
+            {
+
+                var dbNews = _context.News.Find(newsDto.Id);
+                if (dbNews == null)
+                    throw new NotFoundException("News with id: " + newsDto.Id);
+                if (subjectId != dbNews.SubjectId)
+                    throw new PropertyValidationException("subjectId", "");
+                dbNews.Header = newsDto.Header;
+                dbNews.Content = newsDto.Content;
+                _context.SetModified(dbNews);
+                _context.SaveChanges();
+                return Mapper.Map<NewsDto>(dbNews);
+            });
         }
 
         public IEnumerable<User> GetStudents(int subjectId, int limit, int offset)
@@ -203,6 +252,9 @@ namespace UniversityWebsite.Services
 
         public void SignUpForSubject(int subjectId, string studentId)
         {
+            var subject = _context.Subjects.Find(subjectId);
+            if(subject==null)
+                throw new NotFoundException("Subject with Id: "+subjectId);
             if (_context.SignUpRequests.Any(r => r.StudentId == studentId && r.SubjectId == subjectId))
                 throw new InvalidOperationException("Request already exists.");
 
@@ -214,16 +266,12 @@ namespace UniversityWebsite.Services
 
         public void ResignFromSubject(int subjectId, string studentId)
         {
-            var subject = _context.Subjects.Find(subjectId);
-            if(subject==null)
-                throw new NotFoundException("Subject with id: "+subjectId);
+            var request = _context.SignUpRequests.SingleOrDefault(r=>r.StudentId==studentId && r.SubjectId==subjectId);
+            if(request==null) throw new NotFoundException("SignUpRequest with subjectId: "+subjectId+" and studentId: "+studentId);
 
-            var user = _context.Users.Find(studentId);
-            if(user==null)
-                throw new NotFoundException("User with id: "+studentId);
-
-            subject.Students.Remove(user);
-
+            if (request.Status == RequestStatus.Approved || request.Status == RequestStatus.Submitted)
+                _context.SetDeleted(request);
+            else throw new InvalidOperationException("Cannot delete status "+request.Status);
             _context.SaveChanges();
         }
 
@@ -251,6 +299,11 @@ namespace UniversityWebsite.Services
             else throw new InvalidOperationException("Cannot refuse refused or approved status");
 
             _context.SaveChanges();
+        }
+
+        public int GetRequestsNumberByTeacher(string teacherId)
+        {
+            return _context.SignUpRequests.Count(r => r.Subject.Teachers.Any(t => t.Id == teacherId));
         }
 
         public IEnumerable<SignUpRequest> GetSubmittedRequests(int subjectId, int limit, int offset)

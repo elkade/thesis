@@ -2,10 +2,11 @@
 {
     public enum SignUpAction
     {
-        Submit,
-        Resign,
-        InProgress,
+        Submitted = 0,
+        Approved,
         Refused,
+
+        NotSubmitted,
         None
     }
 }

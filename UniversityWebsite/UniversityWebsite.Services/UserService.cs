@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Web.Security;
-using AutoMapper;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core;
 using System.Linq;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Exceptions;
-using UniversityWebsite.Services.Model;
 using System.Collections.Generic;
+using UniversityWebsite.Services.Helpers;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
@@ -17,133 +15,226 @@ namespace UniversityWebsite.Services
     /// </summary>
     public interface IUserService
     {
-        User FindUser(string login);
-        void CreateUser(User user, string password, string role);
-        UserCreateResult CreateUser(User user, string role);
-        User UpdateUser(User user, string role);
-        User GetUser(string userId);
+        IEnumerable<UserDto> GetUsers(int limit, int offset);
+        int GetUsersNumber();
+        IEnumerable<UserDto> GetUsersByRole(string roleName, int limit, int offset);
+        int GetUsersNumberByRole(string roleName);
+        ///// <summary>
+        ///// Zwraca dane użytkownika o podanym id, lub null jeżeli użytkownik nie istnieje.
+        ///// </summary>
+        ///// <param name="login">login użytkownika</param>
+        ///// <returns>dane użytkownika lub null</returns>
+        UserDto GetUser(string login);
+        UserWithPasswordDto CreateUser(UserDto user);
+        UserDto UpdateUser(UserDto user);
 
         void DeleteUser(string userId);
 
-        void ChangePassword(string userId, string currentPassword, string newPassword);
+        //void ChangePassword(string userId, string currentPassword, string newPassword);
     }
     /// <summary>
     /// Serwis odpowiedzialny za logikę biznesową dotyczącą użytkowników systemu.
     /// </summary>
     public class UserService : IUserService
     {
-        private IDomainContext _context;
-        private ApplicationUserManager _userManager;
-        private RoleManager<IdentityRole> _roleManager;
-
-        /// <summary>
-        /// Tworzy nową instancję serwisu.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="userManager"></param>
-        /// <param name="roleManager"></param>
-        public UserService(IDomainContext context, ApplicationUserManager userManager/*, RoleManager<IdentityRole> roleManager*/)
+        private readonly IDomainContext _context;
+        private readonly ApplicationUserManager _userManager;
+        private readonly ModelFactory _modelFactory;
+        ///// <summary>
+        ///// Tworzy nową instancję serwisu.
+        ///// </summary>
+        ///// <param name="userManager"></param>
+        public UserService(IDomainContext context, ApplicationUserManager userManager)
         {
             _context = context;
             _userManager = userManager;
-           // _roleManager = roleManager;
+            _modelFactory = new ModelFactory(_userManager);
+        }
+        public UserDto GetUser(string userId)
+        {
+            var user = _userManager.FindById(userId);
+            return _modelFactory.GetDto(user);
+        }
 
-            _userManager.PasswordValidator = new PasswordValidator
+        public UserWithPasswordDto CreateUser(UserDto userDto)
+        {
+            return _context.InTransaction(() =>
             {
-                RequiredLength = 8,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
-            };
-        }
-        /// <summary>
-        /// Zwraca dane użytkownika o podanym loginie, lub null jeżeli użytkownik nie istnieje.
-        /// </summary>
-        /// <param name="login">login użytkownika</param>
-        /// <returns>dane użytkownika lub null</returns>
-        public User FindUser(string login)
-        {
-           return _context.Users.FirstOrDefault(user => user.UserName == login);
+                string password = PasswordGenerator.GeneratePassword(8);
+
+                var user = new User
+                {
+                    Email = userDto.Email,
+                    UserName = userDto.Email,
+                    FirstName = userDto.FirstName,
+                    LastName = userDto.LastName,
+                    IndexNumber = userDto.IndexNumber,
+                    Pesel = userDto.Pesel,
+                };
+
+                var result = _userManager.Create(user, password);
+                if (!result.Succeeded)
+                    throw new IdentityOperationFailedException(result);
+
+                result = _userManager.AddToRole(user.Id, userDto.Role);
+                if (!result.Succeeded)
+                    throw new IdentityOperationFailedException(result);
+
+                return _modelFactory.GetDtoWithPassword(user, password);
+            });
         }
 
-        public void CreateUser(User user, string password, string role)
+        public UserDto UpdateUser(UserDto userDto)
         {
-            var createResult = _userManager.Create(user, password);
-            if (createResult.Succeeded)
+            return _context.InTransaction(() =>
             {
-                var addToRoleResult = _userManager.AddToRole(user.Id, role);
-                if(!addToRoleResult.Succeeded)
-                    throw new Exception(addToRoleResult.Errors.First());
-            }
-            else throw new Exception(createResult.Errors.First());
-        }
+                var dbUser = _userManager.FindById(userDto.Id);
+                if (dbUser == null)
+                    throw new NotFoundException("User with id: " + userDto.Id);
+                dbUser.Email = userDto.Email;
+                dbUser.UserName = userDto.Email;
+                dbUser.FirstName = userDto.FirstName;
+                dbUser.IndexNumber = userDto.IndexNumber;
+                dbUser.LastName = userDto.LastName;
+                dbUser.Pesel = userDto.Pesel;
 
-        public UserCreateResult CreateUser(User user, string role)
-        {
-            string password = GeneratePassword();
-            user.Id = null;
-            var createResult = _userManager.Create(user, password);
-            if (createResult.Succeeded)
-                _userManager.AddToRole(user.Id, role);
-            else throw new Exception(createResult.Errors.FirstOrDefault());
-            return new UserCreateResult
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                Id = user.Id,
-                IndexNumber = user.IndexNumber,
-                LastName = user.LastName,
-                Pesel = user.Pesel,
-                Password = password,
-                Role = role
-            };
-        }
+                var result = _userManager.Update(dbUser);
 
-        public User UpdateUser(User user, string role)
-        {
-            var dbUser = _userManager.FindById(user.Id);
-            dbUser.Email = user.Email;
-            dbUser.FirstName = user.FirstName;
-            dbUser.IndexNumber = user.IndexNumber;
-            dbUser.LastName = user.LastName;
-            dbUser.Pesel = user.Pesel;
-            _userManager.Update(dbUser);
-            if(!_userManager.IsInRole(dbUser.Id, role))
-            {
-                var roles = _userManager.GetRoles(dbUser.Id).ToArray();
-                _userManager.RemoveFromRoles(dbUser.Id, roles);
-                _userManager.AddToRole(dbUser.Id, role);
-            }
-            return _userManager.FindById(user.Id);
-        }
+                if (!result.Succeeded)
+                    throw new IdentityOperationFailedException(result);
 
-        private string GeneratePassword()
-        {
-            Random r = new Random();
-            string password = Membership.GeneratePassword(5, 2) + (char)('A'+r.Next(26)) + (char)('a'+r.Next(26)) + (char)('0'+r.Next(10));
-            return password;
-        }
-
-        public User GetUser(string userId)
-        {
-            return _userManager.FindById(userId);
+                if (!_userManager.IsInRole(userDto.Id,userDto.Role))
+                {
+                    var roles = _userManager.GetRoles(userDto.Id).ToArray();
+                    result = _userManager.RemoveFromRoles(userDto.Id, roles);
+                    if (!result.Succeeded)
+                        throw new IdentityOperationFailedException(result);
+                    result = _userManager.AddToRole(userDto.Id, userDto.Role);
+                    if (!result.Succeeded)
+                        throw new IdentityOperationFailedException(result);
+                }
+                return _modelFactory.GetDto(dbUser);
+            });
         }
 
 
         public void DeleteUser(string userId)
         {
+            var suId =_userManager.SuperUserId;
+
+            if(userId == suId)
+                throw new InvalidOperationException("Cannot delete superuser");
             var user = _userManager.FindById(userId);
             if (user == null)
-                throw new NotFoundException("User with id: "+userId);
-            _userManager.Delete(user);
+                throw new NotFoundException("User with id: "+userId+" does not exist.");
+            var result = _userManager.Delete(user);
+            if (!result.Succeeded)
+                throw new IdentityOperationFailedException(result);
         }
 
-        public void ChangePassword(string userId, string currentPassword, string newPassword)
+        //public void ChangePassword(string userId, string currentPassword, string newPassword)
+        //{
+        //    var result = _userManager.ChangePassword(userId, currentPassword, newPassword);
+        //    if (!result.Succeeded)
+        //        throw new Exception(result.Errors.FirstOrDefault());
+        //}
+        public int GetUsersNumber()
         {
-            var result = _userManager.ChangePassword(userId, currentPassword, newPassword);
-            if (!result.Succeeded)
-                throw new Exception(result.Errors.FirstOrDefault());
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users
+                    .Count(u => u.Email != suLogin);
         }
+
+        public IEnumerable<UserDto> GetUsersByRole(string roleName, int limit, int offset)
+        {
+            var role = _context.Roles.SingleOrDefault(r => r.Name == roleName);
+            if (role == null)
+                return Enumerable.Empty<UserDto>();
+            var roleId = role.Id;
+
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users.Where(u => u.Roles.Any(r => r.RoleId == roleId))
+                    .Where(u => u.Email != suLogin)
+                    .OrderBy(u => u.LastName)
+                    .Skip(offset)
+                    .Take(limit)
+                    .Select(_modelFactory.GetDto);
+        }
+
+        public IEnumerable<UserDto> GetUsers(int limit, int offset)
+        {
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users
+                    .Where(u => u.Email != suLogin)
+                    .OrderBy(u => u.LastName)
+                    .Skip(offset)
+                    .Take(limit)
+                    .Select(_modelFactory.GetDto);
+        }
+
+        public int GetUsersNumberByRole(string roleName)
+        {
+            var role = _context.Roles.SingleOrDefault(r => r.Name == roleName);
+            if (role == null)
+                return 0;
+            var roleId = role.Id;
+
+            var suLogin = _userManager.SuperUserLogin;
+
+            return
+                _context.Users.Where(u => u.Email != suLogin).Count(u => u.Roles.Any(r => r.RoleId == roleId));
+        }
+        public class ModelFactory
+        {
+            private readonly ApplicationUserManager _userManager;
+
+            public ModelFactory(ApplicationUserManager userManager)
+            {
+                _userManager = userManager;
+            }
+
+            public UserDto GetDto(User appUser)
+            {
+                var roles = _userManager.GetRoles(appUser.Id);
+                string role = null;
+                if (roles.Count > 0)
+                    role = roles[0];
+                return new UserDto
+                {
+                    Id = appUser.Id,
+                    FirstName = appUser.FirstName,
+                    LastName = appUser.LastName,
+                    Email = appUser.Email,
+                    IndexNumber = appUser.IndexNumber,
+                    Pesel = appUser.Pesel,
+                    Role = role,
+                };
+            }
+            public UserWithPasswordDto GetDtoWithPassword(User appUser, string password)
+            {
+                var roles = _userManager.GetRoles(appUser.Id);
+                string role = null;
+                if (roles.Count > 0)
+                    role = roles[0];
+                return new UserWithPasswordDto
+                {
+                    Id = appUser.Id,
+                    FirstName = appUser.FirstName,
+                    LastName = appUser.LastName,
+                    Email = appUser.Email,
+                    IndexNumber = appUser.IndexNumber,
+                    Pesel = appUser.Pesel,
+                    Role = role,
+                    Password = password
+                };
+            }
+        }
+
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using UniversityWebsite.Domain.Model;
+using UniversityWebsite.Filters;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
@@ -32,10 +34,30 @@ namespace UniversityWebsite.ApiControllers
         /// </summary>
         /// <returns></returns>
         [Route("")]
+        [Limit(50), Offset]
         //[AntiForgeryValidate]
-        public IEnumerable<PageDto> GetPages()
+        public IEnumerable<PageDto> GetPages(int? limit = null, int? offset = null)
         {
-            return _pageService.GetAll();
+            return _pageService.GetAll(limit.Value, offset.Value);
+        }
+        [Route("count")]
+        //[AntiForgeryValidate]
+        public IHttpActionResult GetPagesNumber()
+        {
+            return Ok(_pageService.GetPagesNumber());
+        }
+        [Route("")]
+        [Limit(50), Offset]
+        //[AntiForgeryValidate]
+        public IEnumerable<PageDto> GetPagesByLang(string lang, int? limit = null, int? offset = null)
+        {
+            return _pageService.GetPagesByCountryCode(lang, limit.Value, offset.Value);
+        }
+        [Route("count")]
+        //[AntiForgeryValidate]
+        public IHttpActionResult GetPagesNumber(string lang)
+        {
+            return Ok(_pageService.GetPagesNumberByCountryCode(lang));
         }
         /// <summary>
         /// zwraca listę języków, na które może zostać przetłumaczona strona.

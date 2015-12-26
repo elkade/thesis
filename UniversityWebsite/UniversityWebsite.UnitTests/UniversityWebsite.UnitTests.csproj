@@ -108,6 +108,8 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DictionaryTests\SetUp.cs" />
+    <Compile Include="SubjectTests\SetUp.cs" />
+    <Compile Include="SubjectTests\Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

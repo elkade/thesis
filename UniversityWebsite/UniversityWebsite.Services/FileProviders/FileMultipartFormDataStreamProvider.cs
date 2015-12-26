@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 
-namespace UniversityWebsite.Helper.Files
+namespace UniversityWebsite.Services.FileProviders
 {
     public class FileMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
     {

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using UniversityWebsite.Model.Page;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Model
 {
@@ -11,7 +13,13 @@ namespace UniversityWebsite.Model
         public List<NewsVm> News { get; set; }
         public string Syllabus { get; set; }
         public string Schedule { get; set; }
-        public List<FileViewModel> Files { get; set; } 
+        public List<FileDto> Files { get; set; }
+
+        public SubjectVm()
+        {
+            Siblings = new List<PageMenuItemVm>();
+        }
+        public List<PageMenuItemVm> Siblings { get; set; } 
     }
 
 }

@@ -71,4 +71,12 @@ namespace UniversityWebsite.Services.Helpers
         //    Year = 4
         //}
     }
+
+    public static class CacheKeys
+    {
+        public static string MenuKey = "MenuKey_{0}_{1}";
+        public static string LanguageAllKey = "LanguageAll";
+        public static string DictionaryPhraseKey = "DictionaryPhrase_{0}_{1}";
+        public static string DictionaryAllKeysKey = "DictionaryAllKeys";
+    }
 }

@@ -96,7 +96,7 @@ namespace UniversityWebsite
                 PublishDate = p.PublishDate
             });
 
-            Mapper.CreateMap<File, FileViewModel>().ConvertUsing(p => new FileViewModel
+            Mapper.CreateMap<File, FileDto>().ConvertUsing(p => new FileDto
             {
                 Created = p.UploadDate,
                 Id = p.Id,
@@ -108,7 +108,7 @@ namespace UniversityWebsite
             Mapper.CreateMap<Subject, SubjectVm>().ConvertUsing(p => new SubjectVm
             {
                 Name = p.Name,
-                Files = Mapper.Map<List<FileViewModel>>(p.Files) ?? new List<FileViewModel>(),
+                Files = Mapper.Map<List<FileDto>>(p.Files) ?? new List<FileDto>(),
                 News = Mapper.Map<List<NewsVm>>(p.News),
                 Syllabus = p.Syllabus==null?string.Empty:p.Syllabus.Content,
                 Schedule = p.Schedule==null?string.Empty:p.Schedule.Content,

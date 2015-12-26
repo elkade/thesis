@@ -29,7 +29,7 @@ namespace UniversityWebsite.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            var tiles = _menuService.GetTilesMenu((string)Session[Consts.SessionKeyLang]);
+            var tiles = _menuService.GetTilesMenuCached((string)Session[Consts.SessionKeyLang]);
             var siblings = PageService.GetParentlessPagesWithChildren((string)Session[Consts.SessionKeyLang]).ToList();
             return View(new HomeVm { Siblings = Mapper.Map<List<PageMenuItemVm>>(siblings), Tiles = Mapper.Map<List<TileViewModel>>(tiles).ToList() });
         }

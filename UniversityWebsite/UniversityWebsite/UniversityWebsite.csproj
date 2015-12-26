@@ -860,12 +860,14 @@
     <Compile Include="Api\Controllers\LanguageController.cs" />
     <Compile Include="Api\Controllers\MenuController.cs" />
     <Compile Include="Api\Controllers\PageController.cs" />
+    <Compile Include="Api\Controllers\SignUpController.cs" />
     <Compile Include="Api\Controllers\TeachingController.cs" />
     <Compile Include="Api\Controllers\TileController.cs" />
-    <Compile Include="Api\Controllers\UsersController.cs" />
+    <Compile Include="Api\Controllers\UserController.cs" />
     <Compile Include="Api\Model\Teaching\Article.cs" />
     <Compile Include="Api\Model\Teaching\NewsPost.cs" />
     <Compile Include="Api\Model\Teaching\NewsPut.cs" />
+    <Compile Include="Api\Model\Teaching\RequestVm.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPost.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPut.cs" />
     <Compile Include="Api\Model\Users\PostUserVm.cs" />
@@ -887,22 +889,19 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
-    <Compile Include="Controllers\SubjectsController.cs" />
+    <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\TeachingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
     <Compile Include="Filters\LanguageFilterAttribute.cs" />
+    <Compile Include="Filters\LimitOffsetFilterAttributes.cs" />
     <Compile Include="Filters\MainMenuAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\AntiForgeryExtension.cs" />
     <Compile Include="Helper\AntiForgeryValidate.cs" />
-    <Compile Include="Helper\Files\PhotoMultipartFormDataStreamProvider.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
-    <Compile Include="Helper\Files\FileGetInfo.cs" />
-    <Compile Include="Helper\Files\FileMultipartFormDataStreamProvider.cs" />
-    <Compile Include="Helper\Files\FileManager.cs" />
     <Compile Include="Model\ArticleVm.cs" />
     <Compile Include="Model\HomeVm.cs" />
     <Compile Include="Model\Menu\LanguageMenuItemViewModel.cs" />
@@ -913,7 +912,6 @@
     <Compile Include="Model\Page\PageMenuItemVm.cs" />
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />
-    <Compile Include="Model\FileViewModel.cs" />
     <Compile Include="Model\SemesterVm.cs" />
     <Compile Include="Model\SubjectVm.cs" />
     <Compile Include="Model\TeachingVm.cs" />
@@ -977,6 +975,8 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Teaching\Sections\_Files.cshtml" />
     <Content Include="Views\Teaching\Sections\_News.cshtml" />
+    <Content Include="Views\Shared\_NavMenu.cshtml" />
+    <Content Include="Views\Teaching\_SignUpStatus.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

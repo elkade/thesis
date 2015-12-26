@@ -18,10 +18,27 @@ namespace UniversityWebsite.UnitTests
             dbSetMock.Setup(m => m.Expression).Returns(queryableData.Expression);
             dbSetMock.Setup(m => m.ElementType).Returns(queryableData.ElementType);
             dbSetMock.Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
-            dbSetMock.Setup(m => m.Add(It.IsAny<T>())).Callback((T t) => data.Add(t));
+            dbSetMock.Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
+            dbSetMock.Setup(m => m.Add(It.IsAny<T>())).Returns((T t) =>
+            {
+                data.Add(t);
+                return t;
+            });
             contextMock
                 .Setup(propExp)
                 .Returns(() => dbSetMock.Object);
+            return contextMock;
+        }
+
+        public static Mock<IDomainContext> SetupTransaction(this Mock<IDomainContext> contextMock)
+        {
+            contextMock.Setup(x => x.InTransaction(It.IsAny<Action>())).Callback((Action action) => action());
+            return contextMock;
+        }
+
+        public static Mock<IDomainContext> SetupTransaction<T>(this Mock<IDomainContext> contextMock)
+        {
+            contextMock.Setup(x => x.InTransaction(It.IsAny<Func<T>>())).Returns((Func<T> func) => func());
             return contextMock;
         }
     }

@@ -17,7 +17,7 @@ namespace UniversityWebsite.Domain.Model
 
         public SignUpRequest()
         {
-            
+            CreateTime = DateTime.Now;
         }
         [Key]
         public int Id { get; set; }
@@ -39,12 +39,12 @@ namespace UniversityWebsite.Domain.Model
         public void Approve()
         {
             Status = RequestStatus.Approved;
-            Subject.Students.Add(Student);
         }
 
         public void Refuse()
         {
             Status = RequestStatus.Refused;
         }
+
     }
 }

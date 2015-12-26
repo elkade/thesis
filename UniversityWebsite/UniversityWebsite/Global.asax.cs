@@ -16,14 +16,6 @@ namespace UniversityWebsite
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Configure();
             AutoMapperServiceConfig.Configure();
-
-
-            const string subPath = "/Files";
-
-            bool exists = Directory.Exists(Server.MapPath(subPath));
-
-            if (!exists)
-                Directory.CreateDirectory(Server.MapPath(subPath));
         }
         //protected void Session_Start(object sender, EventArgs e)
         //{

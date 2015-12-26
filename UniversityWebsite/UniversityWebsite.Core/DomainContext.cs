@@ -1,5 +1,5 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using System;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core.Migrations;
@@ -23,11 +23,10 @@ namespace UniversityWebsite.Core
         IDbSet<News> News { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
-        //DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
         void SetModified(object entity);
         void SetDeleted(object entity);
-        Database Database { get; }
-
+        T InTransaction<T>(Func<T> func);
+        void InTransaction(Action action);
     }
 
     public class DomainContext : ApplicationDbContext, IDomainContext
@@ -40,7 +39,41 @@ namespace UniversityWebsite.Core
 
         public DomainContext()
         {
+            
+        }
 
+        public T InTransaction<T>(Func<T> func )
+        {
+            using (DbContextTransaction dbTran = Database.BeginTransaction())
+            {
+                try
+                {
+                    T result =  func();
+                    dbTran.Commit();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
+                    throw;
+                }
+            }
+        }
+        public void InTransaction(Action action)
+        {
+            using (DbContextTransaction dbTran = Database.BeginTransaction())
+            {
+                try
+                {
+                    action();
+                    dbTran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
+                    throw;
+                }
+            }
         }
 
         public void SetModified(object entity)
