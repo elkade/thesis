@@ -1,11 +1,19 @@
 ﻿angular.module('configApp.subjects')
 
-.controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService, filesService, Upload, $timeout) {
+.controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService) {
+    $scope.subject = $stateParams.subject;
+    $scope.studentsSection = { name: 'students', url: 'adminapp/views/subjects/section.students.html' };
+    $scope.filesSection = { name: 'files', url: 'adminapp/views/subjects/section.files.html' };
+    $scope.requestsSection = { name: 'requests', url: 'adminapp/views/subjects/section.requests.html' };
+    $scope.newsSection = { name: 'news', url: 'adminapp/views/subjects/section.news.html' };
+    $scope.syllabusSection = { name: 'syllabus', url: 'adminapp/views/subjects/section.syllabus.html' };
+    $scope.scheduleSection = { name: 'schedule', url: 'adminapp/views/subjects/section.schedule.html' };
+
     $scope.editMode = false;
     if ($stateParams.subjectName == "newSubject") {
         $scope.editMode = true;
     }
-    $scope.subject = utils.findByName($scope.subjects, $stateParams.subjectName);
+
     //$scope.oneAtATime = true;
 
     $scope.tinymceOptions = {

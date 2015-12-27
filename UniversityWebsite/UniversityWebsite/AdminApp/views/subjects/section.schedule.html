@@ -1,0 +1,37 @@
+﻿<div class="medium-12 columns">
+    <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
+        <div class="row">
+            <div class="medium-12 columns">
+                <h5>{{subject.Schedule.Header}}</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <span class="news-content" ng-bind-html="subject.Schedule.Content | sanitize"></span>
+            </div>
+        </div>
+    </div>
+
+    <div ng-hide="formHide">
+        <form name="form" novalidate class="css-form">
+            <div class="row">
+                <div class="medium-12 columns">
+                    <input type="text" ng-model="subject.Schedule.Header" placeholder="Header" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.Schedule.Content" required></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <ul class="button-group">
+                        <li><button class="button small" type="submit" ng-click="updateSubject(subject); $event.stopPropagation();">Update</button></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

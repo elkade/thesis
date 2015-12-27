@@ -35,7 +35,7 @@ a.add-button{
                         total-items="totalSubjects"
                         current-page="pagination.current"
                         pagination-id="subjects">
-                        <a ui-sref="subjects.edit({subjectName:subject.Name})">{{subject.Name}}</a>
+                        <a ui-sref="subjects.edit({subjectName:subject.Name, subject: subject})">{{subject.Name}}</a>
                     </li>
                 </ul>
                 <dir-pagination-controls on-page-change="pageChanged(newPageNumber)" 
