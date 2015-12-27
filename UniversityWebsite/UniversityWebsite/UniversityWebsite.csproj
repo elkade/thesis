@@ -196,6 +196,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AdminApp\gallery\controllers\galleryController.js" />
+    <Content Include="AdminApp\gallery\gallery.js" />
+    <Content Include="AdminApp\gallery\images-service.js" />
     <Content Include="AdminApp\languages\controllers\languagesController.js" />
     <Content Include="AdminApp\languages\controllers\langWizardController.js" />
     <Content Include="AdminApp\languages\controllers\newLangModalController.js" />
@@ -231,8 +234,14 @@
     <Content Include="AdminApp\subjects\controllers\subjectStudentsController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectFilesController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectSectionFormController.js" />
+    <Content Include="AdminApp\tests\karma.conf.js" />
+    <Content Include="AdminApp\tests\lib\angular-mocks.js" />
+    <Content Include="AdminApp\tests\lib\sinon-1.17.2.js" />
+    <Content Include="AdminApp\tests\unit\subjectSignUpRequestControllerSpec.js" />
+    <Content Include="AdminApp\tests\unit\util-serviceSpec.js" />
     <Content Include="AdminApp\users\controllers\userEditController.js" />
     <Content Include="AdminApp\users\controllers\userSubjectsEditController.js" />
+    <Content Include="AdminApp\views\gallery\gallery.html" />
     <Content Include="AdminApp\views\languages\languages.html" />
     <Content Include="AdminApp\views\languages\newLangModal.html" />
     <Content Include="AdminApp\views\languages\languageWizard.html" />

@@ -5,9 +5,9 @@
     loadSignUpRequsts();
 
     function loadSignUpRequsts() {
-        subjectsService.getSignUpRequests({ subjectId: $scope.subject.Id })
-        .$promise.then(function (signUpRequests) {
-            $scope.signUpRequests = signUpRequests;
+        subjectsService.getSignUpRequests($scope.subject.Id)
+            .then(function (data) {
+            $scope.signUpRequests = data.signUpRequests;
         });
     };
 

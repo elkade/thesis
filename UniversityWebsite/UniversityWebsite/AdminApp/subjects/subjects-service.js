@@ -29,32 +29,14 @@
     });
 }])
 
-.factory("SignUpRequests", ['$resource', function ($resource) {
-    return $resource('/api/signup', {subjectId: '@id'}, {
-        query: { method: 'GET', isArray: true },
-        post: { method: 'POST' },
-        update: { method: 'PUT' },
-        remove: { method: 'DELETE' }
-    });
-}])
-
-.factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', 'Students', 'SignUpRequests',
-    function ($http, utils, Subjects, News, Students, SignUpRequests) {
+.factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', 'Students',
+    function ($http, utils, Subjects, News, Students) {
     var path = "/api/subjects";
 
-    var subjects = $http.get(path).then(function (resp) {
-        return resp.data;
-    });
-
     var factory = {};
-    factory.all = function () {
-        return subjects;
-    };
 
-    factory.get = function (id) {
-        return subjects.then(function() {
-            return utils.findByName(subjects, id);
-        });
+    factory.querySubjects = function (limit, offset) {
+        return $http.get(path, { params: { limit: limit, offset: offset } });
     };
 
     factory.post = Subjects.post;
@@ -66,7 +48,9 @@
 
     factory.getStudents = Students.query;
 
-    factory.getSignUpRequests = SignUpRequests.query;
+    factory.getSignUpRequests = function(subjectId) {
+        return $http.get('/api/signup', { params: { subjectId: subjectId } });
+    };
     factory.approveSignUpRequests = function(ids) {
         return $http.post('/api/signup/approve', ids);
     };

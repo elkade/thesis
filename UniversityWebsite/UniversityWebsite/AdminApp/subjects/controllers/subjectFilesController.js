@@ -1,7 +1,7 @@
 ﻿angular.module('configApp.subjects')
 
 .controller('subjectFilesCtrl', function ($scope, filesService, utils, $timeout) {
-    $scope.totalFiles = 50;
+    $scope.totalFiles = 10;
     $scope.currentPage = 1;
     $scope.filesPerPage = 8;
 

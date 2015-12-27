@@ -1,7 +1,7 @@
 ﻿angular.module('configApp.subjects')
 
 .controller('subjectStudentsCtrl', function ($scope, subjectsService, utils, $timeout) {
-    $scope.totalStudents = 50;
+    $scope.totalStudents = 10;
     $scope.currentPage = 1;
     $scope.studentsPerPage = 8;
 

@@ -5,7 +5,7 @@
 .factory('Pages', ['$resource', function ($resource) {
     var path = "/api/page";
     return $resource(path + '/:id', {}, {
-        query: { method: 'GET', isArray: true },
+        query: { method: 'GET'},
         post: { method: 'POST' },
         update: { method: 'PUT' },
         remove: { method: 'DELETE' }

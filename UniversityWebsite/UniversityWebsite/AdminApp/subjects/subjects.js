@@ -6,30 +6,12 @@
     [
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
-            var getSubjects = function(subjectsService) {
-                return subjectsService.all();
-            };
 
             $stateProvider
                 .state('subjects', {
                     url: '/subjects',
                     templateUrl: 'adminapp/views/subjects/subjects.html',
-
-                    resolve: {
-                        subjects: getSubjects
-                    },
-
-                    controller: [
-                        '$scope', '$state', 'subjects', '$location',
-                        function ($scope, $state, subjects, $location) {
-                            $scope.subjects = subjects;
-                            
-                            $scope.add = function () {
-                                $location.path('subjects/newSubject');
-                            };
-
-                        }
-                    ]
+                    controller: 'subjectsCtrl'
             })
             .state('subjects.edit', {
                 url: '/:subjectName',

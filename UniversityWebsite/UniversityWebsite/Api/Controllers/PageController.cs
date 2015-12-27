@@ -37,11 +37,11 @@ namespace UniversityWebsite.ApiControllers
         [Route("")]
         [Limit(50), Offset]
         //[AntiForgeryValidate]
-        public PaginationVm<PageDto> GetPages(int limit = 50, int offset = 0)
+        public IHttpActionResult GetPages(int limit = 50, int offset = 0)
         {
             var pages = _pageService.GetAll(limit, offset);
             var number = _pageService.GetPagesNumber();
-            return new PaginationVm<PageDto>(pages, number, limit, offset);
+            return Ok(new PaginationVm<PageDto>(pages, number, limit, offset));
         }
 
         [Route("")]
