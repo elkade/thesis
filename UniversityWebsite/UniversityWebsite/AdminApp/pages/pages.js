@@ -23,7 +23,8 @@
                     controller: [
                         '$scope', '$state', 'pages', '$location', 'languages',
                         function ($scope, $state, pages, $location, languages) {
-                            $scope.pages = pages;
+                            $scope.pages = pages.Elements;
+                            //TODO: paginacja
                             $scope.languages = languages;
 
                             $scope.add = function() {

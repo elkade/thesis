@@ -235,6 +235,7 @@
     <Content Include="AdminApp\tests\lib\angular-mocks.js" />
     <Content Include="AdminApp\tests\lib\sinon-1.17.2.js" />
     <Content Include="AdminApp\tests\unit\subjectSignUpRequestControllerSpec.js" />
+    <Content Include="AdminApp\tests\unit\util-serviceSpec.js" />
     <Content Include="AdminApp\users\controllers\userEditController.js" />
     <Content Include="AdminApp\users\controllers\userSubjectsEditController.js" />
     <Content Include="AdminApp\views\languages\languages.html" />
