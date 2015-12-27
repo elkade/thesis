@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using UniversityWebsite.Filters;
+using UniversityWebsite.Model;
 using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Exceptions;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Controllers
 {
@@ -19,17 +23,21 @@ namespace UniversityWebsite.Controllers
         private readonly IPageService _pageService;
         private readonly ILanguageService _languageService;
         private readonly IMenuService _menuService;
+        private readonly IDictionaryService _dictionaryService;
+
         /// <summary>
         /// Tworzy nową instancję kontrollera.
         /// </summary>
         /// <param name="pageService"></param>
         /// <param name="languageService"></param>
         /// <param name="menuService"></param>
-        public PageController(IPageService pageService, ILanguageService languageService, IMenuService menuService)
+        /// <param name="dictionaryService"></param>
+        public PageController(IPageService pageService, ILanguageService languageService, IMenuService menuService, IDictionaryService dictionaryService)
         {
             _pageService = pageService;
             _languageService = languageService;
             _menuService = menuService;
+            _dictionaryService = dictionaryService;
         }
         /// <summary>
         /// Zwraca stronę o podanym UrlName
@@ -41,40 +49,60 @@ namespace UniversityWebsite.Controllers
         public ActionResult Index(string name)
         {
             var page = _pageService.FindPage(name);
-            var siblings = _pageService.FindSiblingsWithChildren(name).ToList();
+            string countryCode;
+            PageViewModel pageVm;
+            IEnumerable<PageMenuItem> siblings;
+            LanguageMenuViewModel languageMenu;
             if (page == null)
-                throw new NotFoundException("Nie znaleziono strony: " + name);
+            {
+                Response.StatusCode = 404;
+                countryCode = (string) HttpContext.Session[Consts.SessionKeyLang];
+                pageVm = new PageViewModel
+                {
+                    Title = _dictionaryService.GetTranslationCached("notFoundTitle", countryCode),
+                    Content = _dictionaryService.GetTranslationCached("notFoundText", countryCode)
+                };
+                siblings = _pageService.GetParentlessPagesWithChildren(countryCode).ToList();
+                languageMenu = null;
+            }
+            else
+            {
+                countryCode = page.CountryCode;
+                pageVm = Mapper.Map<PageViewModel>(page);
+                siblings = _pageService.FindSiblingsWithChildren(name).ToList();
+                HttpContext.Session[Consts.SessionKeyLang] = countryCode;
+                SetCookie(Consts.CookieKeyLang, countryCode, HttpContext.Response);
 
-            HttpContext.Session[Consts.SessionKeyLang] = page.CountryCode;
-            SetCookie(Consts.CookieKeyLang, page.CountryCode, HttpContext.Response);
-            var mainMenu = _menuService.GetMainMenuCached(page.CountryCode);
+                var languages = _languageService.GetLanguagesCached().ToList();
 
-            var pageVm = Mapper.Map<PageViewModel>(page);
+                var translations = _pageService.GetTranslations(name).ToList();
+
+                var query = from language in languages
+                            where language.CountryCode != countryCode
+                            join page1 in translations on language.CountryCode equals page1.CountryCode into gj
+                            from page2 in gj.DefaultIfEmpty()
+                            select new LanguageMenuItemViewModel
+                            {
+                                CountryCode = language.CountryCode,
+                                Text = language.Title,
+                                Href = page2 == null ? null : page2.UrlName
+                            };
+                languageMenu = new LanguageMenuViewModel
+                {
+                    Current = languages.Single(l => l.CountryCode == countryCode).Title,
+                    Items = query.ToList()
+                };
+            }
+
+            var mainMenu = _menuService.GetMainMenuCached(countryCode);
 
             pageVm.Siblings = Mapper.Map<List<PageMenuItemVm>>(siblings);
 
-            var languages = _languageService.GetLanguagesCached().ToList();
 
-            var translations = _pageService.GetTranslations(name).ToList();
-
-            var query = from language in languages
-                        where language.CountryCode != page.CountryCode
-                        join page1 in translations on language.CountryCode equals page1.CountryCode into gj
-                        from page2 in gj.DefaultIfEmpty()
-                        select new LanguageMenuItemViewModel
-                        {
-                            CountryCode = language.CountryCode,
-                            Text = language.Title,
-                            Href = page2 == null ? null : page2.UrlName
-                        };
             ViewData[Consts.MainMenuKey] = new MainMenuViewModel(
                 mainMenu.Items,
-                new LanguageMenuViewModel
-                {
-                    Current = languages.Single(l => l.CountryCode == page.CountryCode).Title,
-                    Items = query.ToList()
-                });
-            ViewBag.Title = page.Title;
+                languageMenu
+                );
             return View(pageVm);
         }
         private static void SetCookie(string key, string value, HttpResponseBase response)

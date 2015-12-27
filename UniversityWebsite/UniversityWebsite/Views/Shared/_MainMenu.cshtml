@@ -23,8 +23,12 @@
         @*<li><a href="@Url.Action("Register", "Account")" class="button">Register</a></li>*@
 
         @Html.Partial("_LoginPartial")
-
-        @{Html.RenderPartial("_LanguageSwitcher", Model.LanguageMenu);}
+        
+        @if (Model.LanguageMenu != null)
+        {
+             Html.RenderPartial("_LanguageSwitcher", Model.LanguageMenu);
+        }
+       
 
     </ul>
 

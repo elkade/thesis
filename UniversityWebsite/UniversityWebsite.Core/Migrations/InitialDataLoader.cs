@@ -113,6 +113,11 @@ namespace UniversityWebsite.Core.Migrations
             _context.Phrases.Add(new Phrase { Key = "files", CountryCode = "pl", Value = "Materiały dydaktyczne" });
             _context.Phrases.Add(new Phrase { Key = "files", CountryCode = "en", Value = "Files" });
 
+            _context.Phrases.Add(new Phrase { Key = "notFoundTitle", CountryCode = "pl", Value = "Nie znaleziono strony" });
+            _context.Phrases.Add(new Phrase { Key = "notFoundTitle", CountryCode = "en", Value = "Not found" });
+
+            _context.Phrases.Add(new Phrase { Key = "notFoundText", CountryCode = "pl", Value = "Strona o podanym adresie nie istnieje." });
+            _context.Phrases.Add(new Phrase { Key = "notFoundText", CountryCode = "en", Value = "This page does not exist." });
 
         }
 

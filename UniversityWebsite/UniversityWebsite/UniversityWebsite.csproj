@@ -849,6 +849,8 @@
     <Content Include="Scripts\tinymce\tinymce.min.js" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="AdminApp\views\users\users.html" />
+    <Content Include="Views\Error\Error.aspx" />
+    <Content Include="Views\Error\Error.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
