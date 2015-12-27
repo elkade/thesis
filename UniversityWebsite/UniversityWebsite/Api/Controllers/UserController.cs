@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using UniversityWebsite.Api.Model;
 using UniversityWebsite.Api.Model.Users;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Core;
@@ -23,25 +24,18 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("")]
-        [Limit(50),Offset]
-        public IHttpActionResult GetUsers(string role=null, int? limit = null, int? offset = null)
-        {
-            IEnumerable<UserDto> users = role == null ? 
-                _userService.GetUsers(limit.Value, offset.Value) :
-                _userService.GetUsersByRole(role, limit.Value, offset.Value);
-
-            return Ok(users.ToList());
-        }
-
-        [Route("count")]
         [Limit(50), Offset]
-        public IHttpActionResult GetUsersNumber(string role = null)
+        public PaginationVm<UserDto> GetUsers(string role = null, int limit = 50, int offset = 0)
         {
+            IEnumerable<UserDto> users = role == null ?
+                _userService.GetUsers(limit, offset) :
+                _userService.GetUsersByRole(role, limit, offset);
+
             int number = role == null ?
                 _userService.GetUsersNumber() :
                 _userService.GetUsersNumberByRole(role);
 
-            return Ok(number);
+            return new PaginationVm<UserDto>(users, number, limit, offset);
         }
 
         [Route("{userId:guid}")]
@@ -143,5 +137,5 @@ namespace UniversityWebsite.Api.Controllers
             return null;
         }
     }
-    
+
 }

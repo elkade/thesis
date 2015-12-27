@@ -103,6 +103,8 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="LanguageTests\SetUp.cs" />
     <Compile Include="LanguageTests\Tests.cs" />
+    <Compile Include="MenuTests\SetUp.cs" />
+    <Compile Include="MenuTests\Tests.cs" />
     <Compile Include="PageTests\PageServiceTests.cs" />
     <Compile Include="PageTests\Tests.cs" />
     <Compile Include="Properties\Annotations.cs" />

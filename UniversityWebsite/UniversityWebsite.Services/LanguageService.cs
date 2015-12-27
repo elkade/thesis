@@ -37,6 +37,11 @@ namespace UniversityWebsite.Services
         /// </summary>
         /// <returns>Wyliczenie języków</returns>
         IEnumerable<Language> GetLanguagesCached();
+        /// <summary>
+        /// Pobiera listę języków.
+        /// </summary>
+        /// <returns>Wyliczenie języków</returns>
+        IEnumerable<Language> GetLanguages();
     }
     /// <summary>
     /// Implementacja serwisu realizującego logikę biznesową dotyczącą języków systemu.
@@ -108,9 +113,13 @@ namespace UniversityWebsite.Services
         {
             var languages = CacheHelper.GetOrInvoke<List<Language>>(
                 CacheKeys.LanguageAllKey,
-                () => _context.Languages.ToList(),
+                GetLanguages,
                 TimeSpan.FromSeconds(10));//Todo
             return languages;
+        }
+        public IEnumerable<Language> GetLanguages()
+        {
+            return _context.Languages.ToList();
         }
     }
 }

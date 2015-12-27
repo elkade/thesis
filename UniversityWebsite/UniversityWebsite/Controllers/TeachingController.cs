@@ -50,7 +50,8 @@ namespace UniversityWebsite.Controllers
                     SignUpAction = isStudent ? _subjectService.GetAvailableAction(userId, s.Id) : SignUpAction.None,
                     SubjectId = s.Id
                 }).ToList(),
-                Siblings = GetSiblings()
+                Siblings = GetSiblings(),
+                Number = number
             });
         }
 

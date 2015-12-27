@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
+using AutoMapper.Internal;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Enums;
@@ -40,7 +41,7 @@ namespace UniversityWebsite.Services
         /// <param name="limit">Maksymalna liczba zwróconych przedmiotów</param>
         /// <param name="offset">Numer porządkowy pierwszego zwróconego przedmiotu</param>
         /// <returns>Zbiór przedmitów</returns>
-        IEnumerable<SubjectDto> GetSubjects(int offset, int limit);
+        IEnumerable<SubjectDto> GetSubjects(int limit, int offset);
         /// <summary>
         /// Zwraca liczbe wszystkich przedmiotów w systemie
         /// </summary>
@@ -50,7 +51,12 @@ namespace UniversityWebsite.Services
         SubjectDto UpdateSubject(SubjectDto subject, string authorId);
         NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId);
         IEnumerable<NewsDto> GetNews(int subjectId);
+        int GetNewsNumber(int subjectId);
         IEnumerable<User> GetStudents(int subjectId, int limit, int offset);
+        int GetStudentsNumber(int subjectId);
+        IEnumerable<User> GetTeachers(int subjectId);
+        void AddTeachers(int subjectId, string[] teacherIds);
+        void DeleteTeachers(int subjectId, string[] teacherIds);
         void DeleteNews(int subjectId, int newsId);
         void DeleteSubject(int subjectId);
         SignUpAction GetAvailableAction(string studentId, int subjectId);
@@ -59,8 +65,10 @@ namespace UniversityWebsite.Services
         void ResignFromSubject(int subjectId, string studentId);
         void ApproveRequest(int requestId);
         void RefuseRequest(int requestId);
+        IEnumerable<SignUpRequest> GetRequestsByTeacher(string userId, int limit, int offset);
         int GetRequestsNumberByTeacher(string teacherId);
-        IEnumerable<SignUpRequest> GetAllRequests(int subjectId, int limit, int offset);
+        IEnumerable<SignUpRequest> GetRequestsBySubject(int subjectId, int limit, int offset);
+        int GetRequestsNumberBySubject(int subjectId);
     }
     public class SubjectService : ISubjectService
     {
@@ -89,12 +97,12 @@ namespace UniversityWebsite.Services
 
         public IEnumerable<Subject> GetSubjectsBySemester(int number, int limit, int offset)
         {
-            return _context.Subjects.Where(s => s.Semester == number).OrderBy(s=>s.Name).Skip(offset).Take(limit);
+            return _context.Subjects.Where(s => s.Semester == number).OrderBy(s => s.Name).Skip(offset).Take(limit);
         }
 
         public int GetSubjectsNumberBySemestser(int number)
         {
-            return _context.Subjects.Count(s=>s.Semester == number);
+            return _context.Subjects.Count(s => s.Semester == number);
         }
 
         public Subject GetSubject(string name)
@@ -103,7 +111,7 @@ namespace UniversityWebsite.Services
             return subject;
         }
 
-        public IEnumerable<SubjectDto> GetSubjects(int offset, int limit)
+        public IEnumerable<SubjectDto> GetSubjects(int limit, int offset)
         {
             return _context.Subjects.OrderBy(s => s.Semester)
                     .ThenBy(s => s.Name)
@@ -207,6 +215,11 @@ namespace UniversityWebsite.Services
             return _context.News.Where(n => n.SubjectId == subjectId).ProjectTo<NewsDto>();
         }
 
+        public int GetNewsNumber(int subjectId)
+        {
+            return _context.News.Count(n => n.SubjectId == subjectId);
+        }
+
         private string PrepareUniqueUrlName(string baseUrlName)
         {
             if (!_context.Subjects.Any(p => p.UrlName == baseUrlName))
@@ -240,16 +253,56 @@ namespace UniversityWebsite.Services
             });
         }
 
+        public IEnumerable<User> GetTeachers(int subjectId)
+        {
+            var subject = _context.Subjects.Find(subjectId);
+            if(subject==null)
+                throw new NotFoundException("Subject with id: "+subjectId);
+            return subject.Teachers.Select(t=>t.Teacher);
+        }
+
+        public void AddTeachers(int subjectId, string[] teacherIds)
+        {
+            //var subject = _context.Subjects.Find(subjectId);
+            //if (subject == null)
+            //    throw new NotFoundException("Subject with id: " + subjectId);
+            //var teachers = subject.Teachers.Where(t => teacherIds.Any(id => id == t.TeacherId)).Select(t => t.Teacher);
+        }
+
+        public void DeleteTeachers(int subjectId, string[] teacherIds)
+        {
+            //var subject = _context.Subjects.Find(subjectId);
+            //if (subject == null)
+            //    throw new NotFoundException("Subject with id: " + subjectId);
+        }
+
         public IEnumerable<User> GetStudents(int subjectId, int limit, int offset)
         {
-            return null;
+            var subject = _context.Subjects.Find(subjectId);
+            if (subject == null)
+                throw new NotFoundException("Subject with id: " + subjectId);
+            return
+                subject.SignUpRequests.Where(r => r.Status == RequestStatus.Approved)
+                    .OrderBy(r => r.CreateTime)
+                    .Skip(offset)
+                    .Take(limit)
+                    .Select(r => r.Student);
+        }
+
+        public int GetStudentsNumber(int subjectId)
+        {
+            var subject = _context.Subjects.Find(subjectId);
+            if (subject == null)
+                throw new NotFoundException("Subject with id: " + subjectId);
+            return
+                subject.SignUpRequests.Count(r => r.Status == RequestStatus.Approved);
         }
 
         public void SignUpForSubject(int subjectId, string studentId)
         {
             var subject = _context.Subjects.Find(subjectId);
-            if(subject==null)
-                throw new NotFoundException("Subject with Id: "+subjectId);
+            if (subject == null)
+                throw new NotFoundException("Subject with Id: " + subjectId);
             if (_context.SignUpRequests.Any(r => r.StudentId == studentId && r.SubjectId == subjectId))
                 throw new InvalidOperationException("Request already exists.");
 
@@ -261,12 +314,12 @@ namespace UniversityWebsite.Services
 
         public void ResignFromSubject(int subjectId, string studentId)
         {
-            var request = _context.SignUpRequests.SingleOrDefault(r=>r.StudentId==studentId && r.SubjectId==subjectId);
-            if(request==null) throw new NotFoundException("SignUpRequest with subjectId: "+subjectId+" and studentId: "+studentId);
+            var request = _context.SignUpRequests.SingleOrDefault(r => r.StudentId == studentId && r.SubjectId == subjectId);
+            if (request == null) throw new NotFoundException("SignUpRequest with subjectId: " + subjectId + " and studentId: " + studentId);
 
             if (request.Status == RequestStatus.Approved || request.Status == RequestStatus.Submitted)
                 _context.SetDeleted(request);
-            else throw new InvalidOperationException("Cannot delete status "+request.Status);
+            else throw new InvalidOperationException("Cannot delete status " + request.Status);
             _context.SaveChanges();
         }
 
@@ -276,7 +329,7 @@ namespace UniversityWebsite.Services
             var request = _context.SignUpRequests.Find(requestId);
             if (request == null)
                 throw new NotFoundException("Request with id: " + requestId);
-            if(request.Status==RequestStatus.Approved)
+            if (request.Status == RequestStatus.Approved)
                 throw new InvalidOperationException("Cannot approve approved status");
             request.Approve();
 
@@ -289,16 +342,11 @@ namespace UniversityWebsite.Services
             if (request == null)
                 throw new NotFoundException("Request with id: " + requestId);
 
-            if(request.Status==RequestStatus.Submitted)
+            if (request.Status == RequestStatus.Submitted)
                 request.Refuse();
             else throw new InvalidOperationException("Cannot refuse refused or approved status");
 
             _context.SaveChanges();
-        }
-
-        public int GetRequestsNumberByTeacher(string teacherId)
-        {
-            return _context.SignUpRequests.Count(r => r.Subject.Teachers.Any(t => t.Id == teacherId));
         }
 
         public IEnumerable<SignUpRequest> GetSubmittedRequests(int subjectId, int limit, int offset)
@@ -318,9 +366,32 @@ namespace UniversityWebsite.Services
                 .Take(limit);
         }
 
-        public IEnumerable<SignUpRequest> GetAllRequests(int subjectId, int limit, int offset)
+        public IEnumerable<SignUpRequest> GetRequestsBySubject(int subjectId, int limit, int offset)
         {
-            return _context.SignUpRequests.Where(r => r.SubjectId == subjectId);
+            return
+                _context.SignUpRequests.Where(r => r.SubjectId == subjectId)
+                    .OrderBy(r => r.CreateTime)
+                    .Skip(offset)
+                    .Take(limit);
+        }
+
+        public int GetRequestsNumberBySubject(int subjectId)
+        {
+            return _context.SignUpRequests.Count(r => r.Subject.Id == subjectId);
+        }
+
+        public IEnumerable<SignUpRequest> GetRequestsByTeacher(string teacherId, int limit, int offset)
+        {
+            return
+                _context.SignUpRequests.Where(r => r.Subject.Teachers.Any(t => t.TeacherId == teacherId))
+                    .OrderBy(r => r.CreateTime)
+                    .Skip(offset)
+                    .Take(limit);
+        }
+
+        public int GetRequestsNumberByTeacher(string teacherId)
+        {
+            return _context.SignUpRequests.Count(r => r.Subject.Teachers.Any(t => t.TeacherId == teacherId));
         }
     }
 }

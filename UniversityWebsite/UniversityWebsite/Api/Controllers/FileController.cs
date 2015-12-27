@@ -1,13 +1,14 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using UniversityWebsite.Api.Model;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
+using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Api.Controllers
 {
@@ -32,10 +33,8 @@ namespace UniversityWebsite.Api.Controllers
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType =
                 new MediaTypeHeaderValue("application/octet-stream");
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = info.Name
-            };
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            result.Content.Headers.ContentDisposition.FileName = info.Name;
             return result;
         }
 
@@ -49,13 +48,11 @@ namespace UniversityWebsite.Api.Controllers
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType =
                 new MediaTypeHeaderValue("application/octet-stream");
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = info.Name
-            };
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            result.Content.Headers.ContentDisposition.FileName = info.Name;
             var extension = Path.GetExtension(info.Name);
             if (extension == null) return result;
-            var contenttype = "image/"+extension.Trim(new[] {'.'});
+            var contenttype = "image/" + extension.Trim(new[] { '.' });
             result.Content.Headers.ContentType = new MediaTypeHeaderValue(contenttype);
             return result;
         }
@@ -63,27 +60,11 @@ namespace UniversityWebsite.Api.Controllers
         [Route("")]
         [Limit(50), Offset]
         [HttpGet]
-        public async Task<IHttpActionResult> GetInfoBySubject(int subjectId, int? limit=null, int? offset=null)
+        public async Task<PaginationVm<FileDto>> GetInfoBySubject(int subjectId, int limit = 50, int offset = 0)
         {
-            //FilterLimitOffset(ref limit, ref offset);
-            var results = await _fileService.GetBySubject(subjectId, limit.Value, offset.Value);
-            return Ok(results);
-        }
-
-        [Route("count")]
-        [HttpGet]
-        public IHttpActionResult GetFilesNumberBySubject(int subjectId)
-        {
-            var results = _fileService.GetFilesNumberBySubject(subjectId);
-            return Ok(results);
-        }
-
-        [Route("gallery/count")]
-        [HttpGet]
-        public IHttpActionResult GetGalleryImagesNumber()
-        {
-            var results = _fileService.GetGalleryImagesNumber();
-            return Ok(results);
+            var files = await _fileService.GetBySubject(subjectId, limit, offset);
+            var number = _fileService.GetFilesNumberBySubject(subjectId);
+            return new PaginationVm<FileDto>(files, number, limit, offset);
         }
 
         [Route("")]
@@ -94,16 +75,8 @@ namespace UniversityWebsite.Api.Controllers
 
             var userId = User.Identity.GetUserId();
 
-            try
-            {
-                var file = await _fileService.Add(Request, subjectId, userId);
-                return Ok(file);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.GetBaseException().Message);
-            }
-
+            var file = await _fileService.Add(Request, subjectId, userId);
+            return Ok(file);
         }
         [Route("{fileId:guid}")]
         [HttpPut]
@@ -114,16 +87,8 @@ namespace UniversityWebsite.Api.Controllers
 
             var userId = User.Identity.GetUserId();
 
-            try
-            {
-                var file = await _fileService.Update(Request, userId, fileId);
-                return Ok(file);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.GetBaseException().Message);
-            }
-
+            var file = await _fileService.Update(Request, userId, fileId);
+            return Ok(file);
         }
         [HttpDelete]
         [Route("{fileId:guid}")]
@@ -136,10 +101,11 @@ namespace UniversityWebsite.Api.Controllers
 
         [Limit(50), Offset]
         [Route("gallery")]
-        public async Task<IHttpActionResult> GetGallery(int? limit = null, int? offset = null)
+        public async Task<PaginationVm<FileDto>> GetGallery(int limit = 50, int offset = 0)
         {
-            var results = await _fileService.GetGallery(limit.Value, offset.Value);
-            return Ok(results);
+            var images = await _fileService.GetGallery(limit, offset);
+            var number = _fileService.GetGalleryImagesNumber();
+            return new PaginationVm<FileDto>(images, number, limit, offset);
         }
 
         [Route("gallery")]
@@ -148,15 +114,8 @@ namespace UniversityWebsite.Api.Controllers
             if (!Request.Content.IsMimeMultipartContent("form-data"))
                 return BadRequest("Unsupported media type");
             var userId = User.Identity.GetUserId();
-            try
-            {
-                var file = await _fileService.AddToGallery(Request, userId);
-                return Ok(file);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.GetBaseException().Message);
-            }
+            var file = await _fileService.AddToGallery(Request, userId);
+            return Ok(file);
         }
         [Route("gallery/{fileId:guid}")]
         public async Task<IHttpActionResult> PutGallery(string fileId)
@@ -164,15 +123,8 @@ namespace UniversityWebsite.Api.Controllers
             if (!Request.Content.IsMimeMultipartContent("form-data"))
                 return BadRequest("Unsupported media type");
             var userId = User.Identity.GetUserId();
-            try
-            {
-                var file = await _fileService.UpdateInGallery(Request, userId, fileId);
-                return Ok(file);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.GetBaseException().Message);
-            }
+            var file = await _fileService.UpdateInGallery(Request, userId, fileId);
+            return Ok(file);
         }
     }
 }

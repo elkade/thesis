@@ -40,7 +40,7 @@ namespace UniversityWebsite.ApiControllers
         [ResponseType(typeof(MenuDto))]
         public IHttpActionResult GetMenu(string lang)
         {
-            return Ok(_menuService.GetMainMenuCached(lang));
+            return Ok(_menuService.GetMainMenu(lang));
         }
         /// <summary>
         /// Nadpisuje pola menu głównego o podanym języku.

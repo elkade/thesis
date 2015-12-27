@@ -28,6 +28,7 @@ namespace UniversityWebsite
                 cfg.AddProfile(new SubjectProfile());
                 cfg.AddProfile(new LanguageProfile());
                 cfg.AddProfile(new UserProfile());
+                cfg.AddProfile(new RequestProfile());
             });
         }
     }
@@ -198,6 +199,28 @@ namespace UniversityWebsite
         protected override void Configure()
         {
             Mapper.CreateMap<NewLanguage, DictionaryDto>();
+        }
+    }
+
+    /// <summary>
+    /// Odpowiada za część konfiguracji AutoMappera dotyczącą próśbo o zapisanie na przedmiot
+    /// </summary>
+    public class RequestProfile : Profile
+    {
+        protected override void Configure()
+        {
+            Mapper.CreateMap<SignUpRequest, RequestVm>().ConvertUsing(r=>new RequestVm
+            {
+                Id = r.Id,
+                StudentFirstName = r.Student.FirstName,
+                StudentLastName = r.Student.LastName,
+                StudentId = r.StudentId,
+                StudentIndex = r.Student.IndexNumber,
+                SubjectTitle = r.Subject.Name,
+                SubjectUrlName = r.Subject.UrlName,
+                SubjectId = r.SubjectId,
+                Status = r.Status.ToString()
+            });
         }
     }
 }

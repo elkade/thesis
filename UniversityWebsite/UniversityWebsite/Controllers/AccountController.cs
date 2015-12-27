@@ -101,7 +101,7 @@ namespace UniversityWebsite.Controllers
             {
                 case SignInStatus.Success:
                 {
-                    if (returnUrl.IsEmpty()) return RedirectToAction("Index", "Page");
+                    if (returnUrl.IsEmpty()) return RedirectToAction("Index", "Home");
                     return RedirectToLocal(returnUrl);
                 }
                 case SignInStatus.LockedOut:
