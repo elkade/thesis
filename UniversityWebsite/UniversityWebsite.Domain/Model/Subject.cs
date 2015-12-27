@@ -21,7 +21,7 @@ namespace UniversityWebsite.Domain.Model
         public virtual Schedule Schedule { get; set; }
 
         public virtual ICollection<File> Files { get; set; }
-        public virtual ICollection<User> Teachers { get; set; }
+        public virtual ICollection<TeacherSubject> Teachers { get; set; }
         public virtual ICollection<SignUpRequest> SignUpRequests { get; set; }
 
         [Required]
@@ -34,7 +34,7 @@ namespace UniversityWebsite.Domain.Model
 
         public bool HasTeacher(string userId)
         {
-            return Teachers.Any(t=>t.Id==userId);
+            return Teachers.Any(t=>t.TeacherId == userId);
         }
     }
 }

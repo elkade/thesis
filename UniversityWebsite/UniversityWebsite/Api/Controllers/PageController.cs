@@ -4,6 +4,7 @@ using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
+using UniversityWebsite.Api.Model;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Model.Page;
@@ -36,28 +37,21 @@ namespace UniversityWebsite.ApiControllers
         [Route("")]
         [Limit(50), Offset]
         //[AntiForgeryValidate]
-        public IEnumerable<PageDto> GetPages(int? limit = null, int? offset = null)
+        public PaginationVm<PageDto> GetPages(int limit = 50, int offset = 0)
         {
-            return _pageService.GetAll(limit.Value, offset.Value);
+            var pages = _pageService.GetAll(limit, offset);
+            var number = _pageService.GetPagesNumber();
+            return new PaginationVm<PageDto>(pages, number, limit, offset);
         }
-        [Route("count")]
-        //[AntiForgeryValidate]
-        public IHttpActionResult GetPagesNumber()
-        {
-            return Ok(_pageService.GetPagesNumber());
-        }
+
         [Route("")]
         [Limit(50), Offset]
         //[AntiForgeryValidate]
-        public IEnumerable<PageDto> GetPagesByLang(string lang, int? limit = null, int? offset = null)
+        public PaginationVm<PageDto> GetPagesByLang(string lang, int limit = 50, int offset = 0)
         {
-            return _pageService.GetPagesByCountryCode(lang, limit.Value, offset.Value);
-        }
-        [Route("count")]
-        //[AntiForgeryValidate]
-        public IHttpActionResult GetPagesNumber(string lang)
-        {
-            return Ok(_pageService.GetPagesNumberByCountryCode(lang));
+            var pages = _pageService.GetPagesByCountryCode(lang, limit, offset);
+            var number = _pageService.GetPagesNumberByCountryCode(lang);
+            return new PaginationVm<PageDto>(pages, number, limit, offset);
         }
         /// <summary>
         /// zwraca listę języków, na które może zostać przetłumaczona strona.

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Http;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
+using UniversityWebsite.Api.Model;
 using UniversityWebsite.Api.Model.Teaching;
-using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
 
@@ -25,33 +23,29 @@ namespace UniversityWebsite.Api.Controllers
         [Limit(50),Offset]
         [Route("")]
         [HttpGet]
-        public IHttpActionResult GetRequests(int subjectId, int? limit = null, int? offset = null)
+        public PaginationVm<RequestVm> GetRequestsBySubject(int subjectId, int limit = 50, int offset = 0)
         {
-            var requests = _subjectService.GetAllRequests(subjectId, limit.Value, offset.Value).ToList();
-            
-            var result = requests.Select(r => new RequestVm
-            {
-                Id = r.Id,
-                StudentFirstName = r.Student.FirstName,
-                StudentLastName = r.Student.LastName,
-                StudentId = r.StudentId,
-                StudentIndex = r.Student.IndexNumber,
-                SubjectTitle = r.Subject.Name,
-                SubjectUrlName = r.Subject.UrlName,
-                SubjectId = r.SubjectId,
-                Status = r.Status.ToString()
-            }).ToList();
+            var requests = _subjectService.GetRequestsBySubject(subjectId, limit, offset);
 
-            return Ok(result);
+            int number = _subjectService.GetRequestsNumberBySubject(subjectId);
+
+            return new PaginationVm<RequestVm>(Mapper.Map<List<RequestVm>>(requests),number,limit,offset);
         }
 
+
         [Limit(50), Offset]
-        [Route("count")]
-        public IHttpActionResult GetRequestsNumber()
+        [Route("")]
+        [HttpGet]
+        //[Authorize(Roles=Consts.TeacherRole)]
+        public PaginationVm<RequestVm> GetRequestsByTeacher(int limit = 50, int offset = 0)
         {
             var userId = User.Identity.GetUserId();
+
+            var requests = _subjectService.GetRequestsByTeacher(userId, limit, offset);
+
             int number = _subjectService.GetRequestsNumberByTeacher(userId);
-            return Ok(number);
+
+            return new PaginationVm<RequestVm>(Mapper.Map<List<RequestVm>>(requests), number, limit, offset);
         }
 
         [Route("approve")]
@@ -67,7 +61,7 @@ namespace UniversityWebsite.Api.Controllers
 
         [Route("reject")]
         [HttpPost]
-        public IHttpActionResult ApproveRefuse(int[] requestIds)
+        public IHttpActionResult RefuseRequest(int[] requestIds)
         {
             foreach (var requestId in requestIds)
             {
@@ -75,18 +69,5 @@ namespace UniversityWebsite.Api.Controllers
             }
             return Ok();
         }
-
-        //[Route("subjects/{subjectId:int}/students")]
-        //public IHttpActionResult GetStudents(int subjectId, int? limit = null, int? offset = null)
-        //{
-        //    var result = _subjectService.GetStudents(subjectId, limit ?? 50, offset ?? 0)
-        //        .Select(s => new UserReturnModel
-        //        {
-        //            FirstName = s.FirstName,
-        //            LastName = s.LastName,
-        //            Email = s.Email
-        //        });
-        //    return Ok(result);
-        //}
     }
 }

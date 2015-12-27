@@ -51,9 +51,20 @@ namespace UniversityWebsite.Services
         /// <param name="countryCode">Kod języka</param>
         /// <returns>Wyliczenie kafelków</returns>
         IEnumerable<Tile> GetTilesMenu(string countryCode);
-
+        /// <summary>
+        /// Wyszukuje menu kafelków w podanym języku z pamięci cache.
+        /// Jeżeli menu nie znajduje się w pamięci, wyszukuje w bazie danych.
+        /// </summary>
+        /// <param name="countryCode">Kod języka menu</param>
+        /// <returns>Wyliczenie kafelków</returns>
         IEnumerable<Tile> GetTilesMenuCached(string countryCode);
+        /// <summary>
+        /// Id grupy menu kafelkowego w bazie danych.
+        /// </summary>
         int TilesMenuGroupId { get; }
+        /// <summary>
+        /// Id grupy menu głównego w bazie danych.
+        /// </summary>
         int MainMenuGroupId { get; }
     }
     /// <summary>
@@ -61,14 +72,6 @@ namespace UniversityWebsite.Services
     /// </summary>
     public class MenuService : IMenuService
     {
-        public int TilesMenuGroupId
-        {
-            get { return 2; }
-        }
-        public int MainMenuGroupId
-        {
-            get { return 1; }
-        }
         private readonly IDomainContext _context;
         /// <summary>
         /// Tworzy nową instancję serwisu.
@@ -77,6 +80,14 @@ namespace UniversityWebsite.Services
         public MenuService(IDomainContext context)
         {
             _context = context;
+        }
+        public int TilesMenuGroupId
+        {
+            get { return 2; }
+        }
+        public int MainMenuGroupId
+        {
+            get { return 1; }
         }
         public MenuDto GetMainMenu(string countryCode)
         {

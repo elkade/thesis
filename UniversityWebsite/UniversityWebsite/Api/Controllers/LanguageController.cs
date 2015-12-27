@@ -7,7 +7,7 @@ using UniversityWebsite.Model;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
-namespace UniversityWebsite.ApiControllers
+namespace UniversityWebsite.Api.Controllers
 {
     /// <summary>
     /// Kontroler odpowiedzialny za operacje CRUD na językach dostępnych w systemie.
@@ -37,7 +37,7 @@ namespace UniversityWebsite.ApiControllers
         [Route("")]
         public IEnumerable<Language> GetLanguages()
         {
-            return _languageService.GetLanguagesCached();
+            return _languageService.GetLanguages();
         }
 
         // POST api/Page

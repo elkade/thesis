@@ -866,12 +866,14 @@
     <Compile Include="Api\Controllers\TeachingController.cs" />
     <Compile Include="Api\Controllers\TileController.cs" />
     <Compile Include="Api\Controllers\UserController.cs" />
+    <Compile Include="Api\Model\PaginationVm.cs" />
     <Compile Include="Api\Model\Teaching\Article.cs" />
     <Compile Include="Api\Model\Teaching\NewsPost.cs" />
     <Compile Include="Api\Model\Teaching\NewsPut.cs" />
     <Compile Include="Api\Model\Teaching\RequestVm.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPost.cs" />
     <Compile Include="Api\Model\Teaching\SubjectPut.cs" />
+    <Compile Include="Api\Model\Teaching\UserTeachingVm.cs" />
     <Compile Include="Api\Model\Users\PostUserVm.cs" />
     <Compile Include="Api\Model\Users\PutUserVm.cs" />
     <Compile Include="Api\Model\Users\UserEditVm.cs" />

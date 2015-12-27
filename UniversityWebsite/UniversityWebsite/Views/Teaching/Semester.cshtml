@@ -11,15 +11,13 @@
 @section Styles {
 
     <style>
-        
-
         .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
             background: #003C58;
         }
     </style>
 }
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
-<h2>@semesterString</h2>
+<h2>@semesterString @Model.Number</h2>
 
 
 @foreach (var subject in Model.Subjects)

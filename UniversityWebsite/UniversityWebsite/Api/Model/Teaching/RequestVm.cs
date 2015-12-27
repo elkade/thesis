@@ -1,10 +1,9 @@
-﻿using UniversityWebsite.Domain.Enums;
-
-namespace UniversityWebsite.Api.Model.Teaching
+﻿namespace UniversityWebsite.Api.Model.Teaching
 {
     public class RequestVm
     {
         public int Id { get; set; }
+
         public string StudentId { get; set; }
         public string StudentFirstName { get; set; }
         public string StudentLastName { get; set; }

@@ -12,7 +12,9 @@ namespace UniversityWebsite.Model
         {
             Siblings = new List<PageMenuItemVm>();
         }
-        public List<PageMenuItemVm> Siblings { get; set; } 
+        public List<PageMenuItemVm> Siblings { get; set; }
+        public int Number { get; set; }
+
     }
 
     public class SubjectListElementVm
