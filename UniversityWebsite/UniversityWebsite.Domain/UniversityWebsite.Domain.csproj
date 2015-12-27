@@ -78,7 +78,7 @@
     <Compile Include="Model\SignUpRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Subject.cs" />
-    <Compile Include="TeacherSubject.cs" />
+    <Compile Include="Model\TeacherSubject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
