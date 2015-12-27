@@ -230,6 +230,7 @@
     <Content Include="AdminApp\services\filesService.js" />
     <Content Include="AdminApp\subjects\controllers\newsFormController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectEditController.js" />
+    <Content Include="AdminApp\subjects\controllers\subjectsController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectSignUpRequestController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectStudentsController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectFilesController.js" />
@@ -249,6 +250,11 @@
     <Content Include="AdminApp\views\main-pages\tile.edit.html" />
     <Content Include="AdminApp\views\partials\menu.list.html" />
     <Content Include="AdminApp\views\partials\pages.list.html" />
+    <Content Include="AdminApp\views\subjects\section.files.html" />
+    <Content Include="AdminApp\views\subjects\section.requests.html" />
+    <Content Include="AdminApp\views\subjects\section.schedule.html" />
+    <Content Include="AdminApp\views\subjects\section.students.html" />
+    <Content Include="AdminApp\views\subjects\section.syllabus.html" />
     <Content Include="AdminApp\views\users\user.edit.html" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\invalid.png" />
@@ -654,6 +660,7 @@
     <Content Include="AdminApp\libs\file-upload\LICENSE" />
     <Content Include="AdminApp\libs\file-upload\README.md" />
     <Content Include="AdminApp\libs\pagination\README.md" />
+    <Content Include="AdminApp\views\subjects\section.news.html" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Resources\Styles\home-style.css" />
     <Content Include="AdminApp\app.js" />
