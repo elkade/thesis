@@ -90,8 +90,9 @@ namespace UniversityWebsite.Api.Controllers
             var file = await _fileService.Update(Request, userId, fileId);
             return Ok(file);
         }
+
         [HttpDelete]
-        [Route("{fileId:guid}")]
+        [Route("{fileId}")]
         public async Task<IHttpActionResult> Delete(string fileId)
         {
             await _fileService.Delete(fileId);
