@@ -11,11 +11,12 @@ namespace UniversityWebsite.Filters
     {
         public override void OnException(HttpActionExecutedContext context)
         {
-            if (context.Exception is NotFoundException)
-            {
-                context.Response = new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-            else if (context.Exception is PropertyValidationException)
+            //if (context.Exception is NotFoundException)
+            //{
+            //    context.Response = new HttpResponseMessage(HttpStatusCode.NotFound);
+            //}
+            //else
+            if (context.Exception is PropertyValidationException)
             {
                 var ex = context.Exception as PropertyValidationException;
                 context.Response = new HttpResponseMessage(HttpStatusCode.BadRequest);

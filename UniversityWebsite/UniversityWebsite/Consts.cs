@@ -10,5 +10,6 @@
         public const string AdministratorRole = "Administrator";
         public const string TeacherRole = "Teacher";
         public const string StudentRole = "Student";
+        public const string HttpStatusCodeKey = "httpStatusCode";
     }
 }
