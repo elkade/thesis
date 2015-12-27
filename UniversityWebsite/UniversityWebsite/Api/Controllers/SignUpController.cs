@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
@@ -10,7 +11,6 @@ using UniversityWebsite.Services;
 namespace UniversityWebsite.Api.Controllers
 {
     [RoutePrefix("api/signup")]
-    //[Authorize(Roles = Consts.TeacherRole)]
     public class SignUpController : ApiController
     {
         private readonly ISubjectService _subjectService;
@@ -23,6 +23,7 @@ namespace UniversityWebsite.Api.Controllers
         [Limit(50),Offset]
         [Route("")]
         [HttpGet]
+        [Authorize(Roles=Consts.AdministratorRole)]
         public PaginationVm<RequestVm> GetRequestsBySubject(int subjectId, int limit = 50, int offset = 0)
         {
             var requests = _subjectService.GetRequestsBySubject(subjectId, limit, offset);
@@ -50,23 +51,21 @@ namespace UniversityWebsite.Api.Controllers
 
         [Route("approve")]
         [HttpPost]
+        //[Authorize(Roles=Consts.TeacherRole)]
         public IHttpActionResult ApproveRequest(int[] requestIds)
         {
-            foreach (var requestId in requestIds)
-            {
-                _subjectService.ApproveRequest(requestId);   
-            }
+            var userId = User.Identity.GetUserId();
+            _subjectService.ApproveRequests(requestIds.Distinct(), userId);
             return Ok();
         }   
 
         [Route("reject")]
         [HttpPost]
+        //[Authorize(Roles=Consts.TeacherRole)]
         public IHttpActionResult RefuseRequest(int[] requestIds)
         {
-            foreach (var requestId in requestIds)
-            {
-                _subjectService.RefuseRequest(requestId);
-            }
+            var userId = User.Identity.GetUserId();
+            _subjectService.RefuseRequests(requestIds.Distinct(), userId);
             return Ok();
         }
     }

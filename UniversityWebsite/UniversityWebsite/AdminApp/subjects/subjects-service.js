@@ -3,7 +3,7 @@
 ])
 
 .factory('Subjects', ['$resource', function ($resource) {
-    return $resource('/api/teaching/subjects', {}, {
+    return $resource('/api/subjects', {}, {
         query: { method: 'GET', isArray: true },
         post: { method: 'POST' },
         update: { method: 'PUT' },
@@ -12,7 +12,7 @@
 }])
 
 .factory("News", ['$resource', function($resource) {
-        return $resource('/api/teaching/subjects/:subjectId/news/:id', {subjectId: '@id'}, {
+        return $resource('/api/subjects/:subjectId/news/:id', {subjectId: '@id'}, {
             query: { method: 'GET', isArray: true },
             post: { method: 'POST' },
             update: { method: 'PUT' },
@@ -21,7 +21,7 @@
 }])
 
 .factory("Students", ['$resource', function($resource) {
-    return $resource('/api/teaching/subjects/:subjectId/students', {}, {
+    return $resource('/api/subjects/:subjectId/students', {}, {
         query: { method: 'GET', isArray: true },
         post: { method: 'POST' },
         update: { method: 'PUT' },
@@ -40,7 +40,7 @@
 
 .factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', 'Students', 'SignUpRequests',
     function ($http, utils, Subjects, News, Students, SignUpRequests) {
-    var path = "/api/teaching/subjects";
+    var path = "/api/subjects";
 
     var subjects = $http.get(path).then(function (resp) {
         return resp.data;

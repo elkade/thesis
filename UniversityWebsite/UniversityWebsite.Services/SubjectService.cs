@@ -5,7 +5,9 @@ using System.Linq;
 using AutoMapper;
 using AutoMapper.Internal;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
+using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Enums;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Exceptions;
@@ -55,16 +57,16 @@ namespace UniversityWebsite.Services
         IEnumerable<User> GetStudents(int subjectId, int limit, int offset);
         int GetStudentsNumber(int subjectId);
         IEnumerable<User> GetTeachers(int subjectId);
-        void AddTeachers(int subjectId, string[] teacherIds);
-        void DeleteTeachers(int subjectId, string[] teacherIds);
+        void AddTeachers(int subjectId, IEnumerable<string> teacherIds);
+        void DeleteTeachers(int subjectId, IEnumerable<string> teacherIds);
         void DeleteNews(int subjectId, int newsId);
         void DeleteSubject(int subjectId);
         SignUpAction GetAvailableAction(string studentId, int subjectId);
         NewsDto UpdateNews(int subjectId, NewsDto newsDto);
         void SignUpForSubject(int subjectId, string userId);
         void ResignFromSubject(int subjectId, string studentId);
-        void ApproveRequest(int requestId);
-        void RefuseRequest(int requestId);
+        void ApproveRequests(IEnumerable<int> requestIds, string teacherId);
+        void RefuseRequests(IEnumerable<int> requestIds, string teacherId);
         IEnumerable<SignUpRequest> GetRequestsByTeacher(string userId, int limit, int offset);
         int GetRequestsNumberByTeacher(string teacherId);
         IEnumerable<SignUpRequest> GetRequestsBySubject(int subjectId, int limit, int offset);
@@ -73,11 +75,13 @@ namespace UniversityWebsite.Services
     public class SubjectService : ISubjectService
     {
         private readonly IDomainContext _context;
+        private readonly ApplicationUserManager _userManager;
         private const int SameTitleSubjectsMaxNumber = 100;
 
-        public SubjectService(IDomainContext context)
+        public SubjectService(IDomainContext context, ApplicationUserManager userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public SignUpAction GetAvailableAction(string studentId, int subjectId)
@@ -261,19 +265,45 @@ namespace UniversityWebsite.Services
             return subject.Teachers.Select(t=>t.Teacher);
         }
 
-        public void AddTeachers(int subjectId, string[] teacherIds)
+        public void AddTeachers(int subjectId, IEnumerable<string> teacherIds)
         {
-            //var subject = _context.Subjects.Find(subjectId);
-            //if (subject == null)
-            //    throw new NotFoundException("Subject with id: " + subjectId);
-            //var teachers = subject.Teachers.Where(t => teacherIds.Any(id => id == t.TeacherId)).Select(t => t.Teacher);
+            _context.InTransaction(() =>
+            {
+                var subject = _context.Subjects.Find(subjectId);
+                if (subject == null)
+                    throw new NotFoundException("Subject with id: " + subjectId);
+
+                foreach (var teacherId in teacherIds)
+                {
+                    if (!_userManager.IsInRole(teacherId, "Teacher"))
+                        throw new PropertyValidationException("teacherIds", "User with id: " + teacherId + " is not a teacher");
+                    if (subject.Teachers.All(t => t.TeacherId != teacherId))
+                        subject.Teachers.Add(new TeacherSubject { TeacherId = teacherId, SubjectId = subjectId });
+                    else throw new PropertyValidationException("teacherIds", "Teacher with id: " + teacherId + " is already assigned to subject "+subjectId);
+                }
+                _context.SaveChanges();
+            });
         }
 
-        public void DeleteTeachers(int subjectId, string[] teacherIds)
+        public void DeleteTeachers(int subjectId, IEnumerable<string> teacherIds)
         {
-            //var subject = _context.Subjects.Find(subjectId);
-            //if (subject == null)
-            //    throw new NotFoundException("Subject with id: " + subjectId);
+            _context.InTransaction(() =>
+            {
+                var subject = _context.Subjects.Find(subjectId);
+                if (subject == null)
+                    throw new NotFoundException("Subject with id: " + subjectId);
+
+                foreach (var teacherId in teacherIds)
+                {
+                    if (!_userManager.IsInRole(teacherId, "Teacher"))
+                        throw new PropertyValidationException("teacherIds", "User with id: " + teacherId + " is not a teacher");
+                    var teacher = subject.Teachers.SingleOrDefault(t => t.TeacherId == teacherId);
+                    if(teacher==null)
+                        throw new PropertyValidationException("teacherIds", "Teacher with id: " + teacherId + " is not assigned to subject " + subjectId);
+                    _context.SetDeleted(teacher);
+                }
+                _context.SaveChanges();
+            });
         }
 
         public IEnumerable<User> GetStudents(int subjectId, int limit, int offset)
@@ -324,29 +354,44 @@ namespace UniversityWebsite.Services
         }
 
 
-        public void ApproveRequest(int requestId)
+        public void ApproveRequests(IEnumerable<int> requestIds, string teacherId)
         {
-            var request = _context.SignUpRequests.Find(requestId);
-            if (request == null)
-                throw new NotFoundException("Request with id: " + requestId);
-            if (request.Status == RequestStatus.Approved)
-                throw new InvalidOperationException("Cannot approve approved status");
-            request.Approve();
+            _context.InTransaction(() =>
+            {
+                foreach (var requestId in requestIds)
+                {
+                    var request = _context.SignUpRequests.Find(requestId);
+                    if (request == null)
+                        throw new NotFoundException("Request with id: " + requestId);
+                    if (!request.Subject.HasTeacher(teacherId))
+                        throw new UnauthorizedAccessException("Teacher with id: " + teacherId + " does not have access to subject with id: " + request.Subject.Id);
+                    if (request.Status == RequestStatus.Approved)
+                        throw new InvalidOperationException("Cannot approve approved status");
 
-            _context.SaveChanges();
+                    request.Approve();
+                }
+                _context.SaveChanges();
+            });
         }
 
-        public void RefuseRequest(int requestId)
+        public void RefuseRequests(IEnumerable<int> requestIds, string teacherId)
         {
-            var request = _context.SignUpRequests.Find(requestId);
-            if (request == null)
-                throw new NotFoundException("Request with id: " + requestId);
+            _context.InTransaction(() =>
+            {
+                foreach (var requestId in requestIds)
+                {
+                    var request = _context.SignUpRequests.Find(requestId);
+                    if (request == null)
+                        throw new NotFoundException("Request with id: " + requestId);
+                    if (!request.Subject.HasTeacher(teacherId))
+                        throw new UnauthorizedAccessException("Teacher with id: " + teacherId + " does not have access to subject with id: " + request.Subject.Id);
+                    if (request.Status == RequestStatus.Submitted)
+                        request.Refuse();
+                    else throw new InvalidOperationException("Cannot refuse refused or approved status");
 
-            if (request.Status == RequestStatus.Submitted)
-                request.Refuse();
-            else throw new InvalidOperationException("Cannot refuse refused or approved status");
-
-            _context.SaveChanges();
+                    _context.SaveChanges();
+                }
+            });
         }
 
         public IEnumerable<SignUpRequest> GetSubmittedRequests(int subjectId, int limit, int offset)
@@ -369,8 +414,9 @@ namespace UniversityWebsite.Services
         public IEnumerable<SignUpRequest> GetRequestsBySubject(int subjectId, int limit, int offset)
         {
             return
-                _context.SignUpRequests.Where(r => r.SubjectId == subjectId)
-                    .OrderBy(r => r.CreateTime)
+                _context.SignUpRequests.Where(r => r.SubjectId == subjectId && (r.Status == RequestStatus.Submitted || r.Status == RequestStatus.Refused))
+                    .OrderBy(r => r.Status)
+                    .ThenBy(r => r.CreateTime)
                     .Skip(offset)
                     .Take(limit);
         }
@@ -382,11 +428,16 @@ namespace UniversityWebsite.Services
 
         public IEnumerable<SignUpRequest> GetRequestsByTeacher(string teacherId, int limit, int offset)
         {
-            return
-                _context.SignUpRequests.Where(r => r.Subject.Teachers.Any(t => t.TeacherId == teacherId))
-                    .OrderBy(r => r.CreateTime)
+            var requests =
+                _context.SignUpRequests.Where(r => r.Subject.Teachers.Any(t => t.TeacherId == teacherId) ).ToList();
+            requests = requests.Where(r=> (r.Status == RequestStatus.Submitted || r.Status == RequestStatus.Refused))
+                    .OrderBy(r=>r.Status)
+                    .ThenBy(r => r.CreateTime)
                     .Skip(offset)
-                    .Take(limit);
+                    .Take(limit)
+                    .ToList();
+
+            return requests;
         }
 
         public int GetRequestsNumberByTeacher(string teacherId)

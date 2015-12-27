@@ -24,7 +24,7 @@ namespace UniversityWebsite.Services
         ///// </summary>
         ///// <param name="login">login użytkownika</param>
         ///// <returns>dane użytkownika lub null</returns>
-        UserDto GetUser(string login);
+        UserDto GetUser(string userId);
         UserWithPasswordDto CreateUser(UserDto user);
         UserDto UpdateUser(UserDto user);
 

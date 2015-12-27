@@ -121,7 +121,7 @@ namespace UniversityWebsite.Api.Controllers
         [Route("{subjectId:int}/teachers")]
         public IHttpActionResult AddTeachers(int subjectId, [FromBody]string[] teacherIds)
         {
-            _subjectService.AddTeachers(subjectId, teacherIds);
+            _subjectService.AddTeachers(subjectId, teacherIds.Distinct());
             return Ok();
         }
 
@@ -129,7 +129,7 @@ namespace UniversityWebsite.Api.Controllers
         [Route("{subjectId:int}/teachers")]
         public IHttpActionResult DeleteTeachers(int subjectId, [FromBody]string[] teacherIds)
         {
-            _subjectService.DeleteTeachers(subjectId, teacherIds);
+            _subjectService.DeleteTeachers(subjectId, teacherIds.Distinct());
             return Ok();
         }
 
