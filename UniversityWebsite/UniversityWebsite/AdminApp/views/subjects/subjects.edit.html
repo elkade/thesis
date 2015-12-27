@@ -240,7 +240,10 @@
                                 <div style="width:{{file.progress}}%; background: #368a55;" ng-bind="'Upload: ' + file.progress + '%'"></div>
                             </span>
                             <ul class="vcard">
-                                <li dir-paginate="file in files | itemsPerPage: filesPerPage" total-items="totalFiles" current-page="pagination.current">
+                                <li dir-paginate="file in files | itemsPerPage: filesPerPage" 
+                                    total-items="totalFiles" 
+                                    current-page="pagination.current"
+                                    pagination-id="files">
                                     <div class="switch small">
                                         <input id="{{file.Id}}" type="checkbox" ng-model="file.selected">
                                         <label for="{{file.Id}}"></label>
@@ -248,7 +251,8 @@
                                     </div>
                                 </li>
                             </ul>
-                            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"
+                                                     pagination-id="files" />
                         </div>
                     </div>
                 </div>
@@ -267,11 +271,15 @@
             <div class="row">
                 <div class="small-12 medium-6 columns">
                     <ul class="vcard">
-                        <li dir-paginate="student in students| itemsPerPage: studentsPerPage" total-items="totalStudents" current-page="pagination.current">
+                        <li dir-paginate="student in students| itemsPerPage: studentsPerPage" 
+                            total-items="totalStudents" 
+                            current-page="pagination.current"
+                            pagination-id="students">
                             {{student.LastName}} {{student.FirstName}}
                         </li>
                     </ul>
-                    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"
+                                             pagination-id="students"/>
                 </div>
             </div>
         </accordion-group>
