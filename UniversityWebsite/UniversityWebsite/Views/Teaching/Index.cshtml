@@ -21,15 +21,7 @@
 
 @for (int i = 1; i <= Model.SemestersCount; i++)
 {   
-    <div class="medium-4 columns">
-        <div class="card">
-            <a href="@Url.Action("Semester", new { number = i })">
-                <img src="https://www.pw.edu.pl/var/pw/storage/images/studenci/aktualnosci/swiatowy-tydzien-przedsiebiorczosci-w-biurze-karier-pw/131705-1-pol-PL/Swiatowy-Tydzien-Przedsiebiorczosci-w-Biurze-Karier-PW.jpg" />
-            </a>
-            <div class="card-divider"></div>
-            <div class="content">
-                <span class="title">@semesterString @i</span>
-            </div>
-        </div>
-    </div>
+    var href = Url.Action("Semester", new {number = i});
+
+    @TileHelpers.ImageTile(href, semesterString + " " + i, "")
 }

@@ -28,18 +28,5 @@
 
 @foreach(var page in Model.Tiles)
 {   
-    <div class="medium-4 columns">
-        <div class="card">
-            @*<a href="@page.UrlName"><img src="http://www.klbjfm.com/sites/g/files/exi626/f/article-images-featured/267731-147736.jpg"/></a>*@
-            <a href="@page.UrlName"><img src="https://www.pw.edu.pl/var/pw/storage/images/studenci/aktualnosci/swiatowy-tydzien-przedsiebiorczosci-w-biurze-karier-pw/131705-1-pol-PL/Swiatowy-Tydzien-Przedsiebiorczosci-w-Biurze-Karier-PW.jpg" /></a>
-            <div class="card-divider"></div>
-            <div class="content">
-                <span class="title">@page.Title</span>
-                <p>@page.Description</p>
-            </div>
-        </div>
-    </div>
+    @TileHelpers.ImageTile(page.UrlName, page.Title, page.Description)
 }
-
-
-

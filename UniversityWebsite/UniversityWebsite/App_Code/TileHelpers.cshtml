@@ -1,0 +1,62 @@
+﻿@using System.Web.Mvc
+
+@helper ImageTile(string href, string title, Action action)
+{
+    <div class="medium-4 columns columns-align-left">
+        <div class="card">
+            <div class="image">
+                <a href="@href">
+                    <img src="http://static.pexels.com/wp-content/uploads/2014/07/alone-clouds-hills-1909-527x350.jpg">
+                </a>
+                <span class="title">@title</span>
+            </div>
+            <div class="content">
+                @if (action != null)
+                {
+                    action();
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@helper ImageTile(string href, string title, string content = null)
+{
+    <div class="medium-4 columns columns-align-left">
+        <div class="card">
+
+            <div class="image">
+                <a href="@href">
+                    <img src="http://static.pexels.com/wp-content/uploads/2014/07/alone-clouds-hills-1909-527x350.jpg">
+                </a>
+                <span class="title">@title</span>
+            </div>
+
+            <div class="content">
+                @content
+            </div>
+        </div>
+    </div>
+}
+
+
+@helper TextTile(string href, string title, Action action = null)
+{
+    <div class="medium-4 columns columns-align-left">
+        <div class="card">
+            <div class="content">
+                <div class="title" style="padding-bottom: 1rem; padding-top: 1rem;">
+                    <a href="@href" class="title">@title</a>
+                </div>
+                <div>
+                    @if (action != null)
+                    {
+                        action();
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

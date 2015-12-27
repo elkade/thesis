@@ -1,4 +1,6 @@
-﻿@using UniversityWebsite.Services.Model
+﻿@using System.Web.UI.WebControls
+@using UniversityWebsite.Model
+@using UniversityWebsite.Services.Model
 @model UniversityWebsite.Model.SemesterVm
 
 @{
@@ -9,9 +11,7 @@
 @section Styles {
 
     <style>
-        .card {
-            margin-top: 20px;
-        }
+        
 
         .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
             background: #003C58;
@@ -21,22 +21,19 @@
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
 <h2>@semesterString</h2>
 
-<ul>
-    @foreach (var subject in Model.Subjects)
+
+@foreach (var subject in Model.Subjects)
+{
+    Action content = null;
+    if (subject.SignUpAction != SignUpAction.None)
     {
-        <li>
-            @Html.ActionLink(subject.SubjectName, "Subject", new { name = subject.SubjectUrlName })<br />
-            @{
-        if (subject.SignUpAction != SignUpAction.None)
-        {
-                <div>
-                    @{ Html.RenderPartial("_SignUpStatus", subject); }
-                </div>
-        }
-            }
-        </li>
+        var localSubject = subject;
+        content = () => Html.RenderPartial("_SignUpStatus", localSubject);
     }
-</ul>
+    var href = Url.Action("Subject", new {name = subject.SubjectUrlName});
+    
+    @TileHelpers.TextTile(href, subject.SubjectName, content)
+}
 <script>
     $(function () {
         $(document).on('submit', '.sign-up-status-form', function (e) {
