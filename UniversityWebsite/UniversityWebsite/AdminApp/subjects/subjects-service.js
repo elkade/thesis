@@ -33,6 +33,10 @@
     function ($http, utils, Subjects, News, Students) {
     var path = "/api/subjects";
 
+.factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', 'Students', 'SignUpRequests',
+    function ($http, utils, Subjects, News, Students, SignUpRequests) {
+    var path = "/api/subjects";
+
     var subjects = $http.get(path).then(function (resp) {
         return resp.data;
     });

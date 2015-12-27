@@ -34,7 +34,7 @@ namespace UniversityWebsite.UnitTests.SubjectTests
             contextMock
                 .SetupDbSet(_subjects, x => x.Subjects);
 
-            _subjectService = new SubjectService(contextMock.Object);
+            _subjectService = new SubjectService(contextMock.Object, null);
 
         }
 
