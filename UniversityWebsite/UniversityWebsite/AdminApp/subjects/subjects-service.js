@@ -36,7 +36,7 @@
     var factory = {};
 
     factory.querySubjects = function (limit, offset) {
-        return $http.get(path, { params: { limit: limit, offset: offset } });
+        return $http.get(path, { params: {limit: limit, offset: offset } });
     };
 
     factory.post = Subjects.post;

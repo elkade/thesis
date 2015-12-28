@@ -58,266 +58,29 @@
 <div>
     <accordion>
         <accordion-group heading="News" is-disabled="true">
-            <div ng-hide="editMode">
-                <!--<div class="row">
-                    <div class="medium-2 columns">
-                        <input type="text" placeholder="rrrr-mm-dd" />
-                    </div>
-                    <div class="medium-2 columns">
-                        <input type="text" placeholder="rrrr-mm-dd" />
-                    </div>
-                    <div class="small-2 columns">
-                        <button type="submit">Filtruj</button>
-                    </div>
-                    <div class="medium-5 columns"></div>
-                </div>-->
-                <div class="row">
-                    <div class="medium-12 columns">
-                        <button class="button small" ng-click="createNews()">Add new</button>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="medium-12 columns panel" ng-repeat="news in subject.News | orderBy: '-PublishDate'" ng-controller="newsFormCtrl" ng-init="init(news)">
-
-                        <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <h5>{{news.Header}}</h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <h5>{{news.PublishDate}}</h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <span class="news-content" ng-bind-html="news.Content | limitTo: newsMaxLength | sanitize "></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div ng-hide="formHide">
-                            <form name="form" novalidate class="css-form">
-                                <div class="row">
-                                    <div class="medium-12 columns">
-                                        <input type="text" ng-model="news.Header" required placeholder="Header" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="medium-12 columns">
-                                        <textarea ui-tinymce="tinymceOptions" data-ng-model="news.Content" required></textarea>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="medium-12 columns">
-                                        <ul class="button-group">
-                                            <li><button class="button small" type="submit" ng-click="updateNews(subject, news); $event.stopPropagation();">Update</button></li>
-                                            <li><button class="button small danger" ng-click="remove(subject, news)">Remove</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-
-                </div>
+            <div ng-hide="editMode" ng-include="newsSection.url">
             </div>
         </accordion-group>
         <accordion-group heading="Schedule">
-            <div class="row" ng-hide="editMode" ng-controller="subjectSectionFormCtrl">
-                <div class="medium-12 columns">
-                    <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
-                        <div class="row">
-                            <div class="medium-12 columns">
-                                <h5>{{subject.Schedule.Header}}</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="medium-12 columns">
-                                <span class="news-content" ng-bind-html="subject.Schedule.Content | sanitize"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div ng-hide="formHide">
-                        <form name="form" novalidate class="css-form">
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <input type="text" ng-model="subject.Schedule.Header" placeholder="Header" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.Schedule.Content" required></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <ul class="button-group">
-                                        <li><button class="button small" type="submit" ng-click="updateSubject(subject); $event.stopPropagation();">Update</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
+            <div class="row" ng-hide="editMode" ng-controller="subjectSectionFormCtrl" ng-include="scheduleSection.url">
             </div>
         </accordion-group>
         <accordion-group heading="Syllabus">
-            <div class="row" ng-hide="editMode" ng-controller="subjectSectionFormCtrl">
-                <div class="medium-12 columns">
-                    <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
-                        <div class="row">
-                            <div class="medium-12 columns">
-                                <h5>{{subject.Syllabus.Header}}</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="medium-12 columns">
-                                <span class="news-content" ng-bind-html="subject.Syllabus.Content | sanitize"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div ng-hide="formHide">
-                        <form name="form" novalidate class="css-form">
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <input type="text" ng-model="subject.Syllabus.Header" placeholder="Header" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <textarea ui-tinymce="tinymceOptions" data-ng-model="subject.Syllabus.Content" required></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <ul class="button-group">
-                                        <li><button class="button small" type="submit" ng-click="updateSubject(subject); $event.stopPropagation();">Update</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
+            <div class="row" ng-hide="editMode" ng-controller="subjectSectionFormCtrl" ng-include="syllabusSection.url">
             </div>
         </accordion-group>
         <accordion-group heading="Files">
-            <div class="row" ng-hide="editMode" ng-controller="subjectFilesCtrl">
-                <div class="medium-12 columns">
-                    <div class="row">
-                        <div class="medium-12 columns">
-                            <ul class="button-group">
-                                <li>
-                                    <button ngf-select="uploadFiles($files, $invalidFiles)"
-                                            multiple accept="image/*"
-                                            ngf-max-height="1000"
-                                            ngf-max-size="1MB"
-                                            class="button small">
-                                        Upload
-                                    </button>
-                                </li>
-                                <li>
-                                    <button ng-click="removeFiles()"
-                                            class="button small">
-                                        Remove
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="small-12 medium-6 columns">
-                            {{errorMsg}}
-                            <span class="progress" ng-show="file.progress >= 0">
-                                <div style="width:{{file.progress}}%; background: #368a55;" ng-bind="'Upload: ' + file.progress + '%'"></div>
-                            </span>
-                            <ul class="vcard">
-                                <li dir-paginate="file in files | itemsPerPage: filesPerPage" 
-                                    total-items="totalFiles" 
-                                    current-page="pagination.current"
-                                    pagination-id="files">
-                                    <div class="switch small">
-                                        <input id="{{file.Id}}" type="checkbox" ng-model="file.selected">
-                                        <label for="{{file.Id}}"></label>
-                                        {{file.Name}}
-                                    </div>
-                                </li>
-                            </ul>
-                            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"
-                                                     pagination-id="files" />
-                        </div>
-                    </div>
-                </div>
+            <div class="row" ng-hide="editMode" ng-include="filesSection.url" ng-controller="subjectFilesCtrl">
             </div>
         </accordion-group>
         <accordion-group heading="Students">
-            <div class="row" ng-hide="editMode" ng-controller="subjectStudentsCtrl">
-                <div class="medium-12 columns">
-                    <div class="row">
-                        <div class="medium-12 columns">
-                            
-                        </div>
-                    </div>
-                </div>
+            <div class="row" ng-hide="editMode" ng-include="studentsSection.url" ng-controller="subjectStudentsCtrl">
+                
             </div>
-            <div class="row">
-                <div class="small-12 medium-6 columns">
-                    <ul class="vcard">
-                        <li dir-paginate="student in students| itemsPerPage: studentsPerPage" 
-                            total-items="totalStudents" 
-                            current-page="pagination.current"
-                            pagination-id="students">
-                            {{student.LastName}} {{student.FirstName}}
-                        </li>
-                    </ul>
-                    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"
-                                             pagination-id="students"/>
-                </div>
-            </div>
+            
         </accordion-group>
         <accordion-group heading="Pending requests from students">
-            <div class="row" ng-hide="editMode" ng-controller="subjectSignUpRequestCtrl">
-                <div class="medium-12 columns">
-                    <ul class="button-group">
-                        <li>
-                            <button class="button small" ng-click="approve()">
-                                Approve
-                            </button>
-                        </li>
-                        <li>
-                            <button class="button small" ng-click="reject()">
-                                Reject
-                            </button>
-                        </li>
-                    </ul>
-                    <table>
-                        <tr>
-                            <th style="padding-left: 40px">Student names</th>
-                            <th>Index number</th>
-                            <th>Status</th>
-                        </tr>
-                        <tr ng-repeat="request in signUpRequests">
-                            <td>
-                                <input type="checkbox" ng-model="request.selected" id="{{request.Id}}" />
-                                <label for="{{request.Id}}">{{request.StudentLastName}} {{request.StudentFirstName}}</label>
-                            </td>
-                            <td>
-                                <span>{{request.StudentIndex}}</span>
-                            </td>
-                            <td>
-                                <span>{{request.Status}}</span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="row" ng-hide="editMode" ng-include="requestsSection.url" ng-controller="subjectSignUpRequestCtrl">
             </div>
         </accordion-group>
     </accordion>

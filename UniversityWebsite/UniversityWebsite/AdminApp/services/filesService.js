@@ -12,17 +12,22 @@
     });
 }])
 .factory('filesService', ['$http', 'Files', 'Upload', function ($http, Files, Upload) {
-
+    var path = "/api/file";
     var factory = {};
 
-    factory.allFiles = Files.query;
-    factory.remove = Files.remove;
+    factory.remove = function(fileId) {
+        return Files.remove({ fileId: fileId });
+    };
 
     factory.upload = function(subjectId, file) {
         return Upload.upload({
             url: 'api/file?subjectId=' + subjectId,
             data: { file: file }
         });
+    };
+
+    factory.queryFiles = function (subjectId, limit, offset) {
+        return $http.get(path, { params: { subjectId: subjectId, limit: limit, offset: offset } });
     };
 
     return factory;

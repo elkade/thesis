@@ -15,7 +15,9 @@
             })
             .state('subjects.edit', {
                 url: '/:subjectName',
-
+                params: {
+                    subject : null
+                },
                 views: {
                     '': {
                         templateUrl: 'adminapp/views/subjects/subjects.edit.html',
