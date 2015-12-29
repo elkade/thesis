@@ -5,8 +5,13 @@
     $scope.totalImages = 0;
     $scope.currentPage = 1;
     $scope.imagesPerPage = 8;
+    if ($stateParams.multipleSelection) {
+        $scope.multipleSelection = true;
+    }
 
     getPage(1);
+
+    $scope.url = "/adminapp/views/gallery/images.html";
 
     $scope.pageChanged = function (newPage) {
         getPage(newPage);
@@ -51,6 +56,24 @@
         if (image.selected == null) {
             image.selected = false;
         }
+        if (!$scope.multipleSelection && !image.Selected) {
+            unselectAllImages();
+        }
         image.selected = !image.selected;
+
     };
+
+    function unselectAllImages() {
+        Enumerable.From($scope.images).ForEach(function(image) {
+            image.selected = false;
+        });
+    };
+
+    $scope.select = function () {
+        var selectedImage = Enumerable.From($scope.images).First(function (image) { return image.selected; });
+        var imageUrl = "/api/file/gallery/" + selectedImage.Id;
+        top.tinymce.activeEditor.windowManager.getParams().oninsert(imageUrl);
+        top.tinymce.activeEditor.windowManager.close();
+    };
+
 })

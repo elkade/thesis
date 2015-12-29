@@ -39,7 +39,9 @@ namespace UniversityWebsite.Bundles
                 .IncludeDirectory("~/AdminApp/users/controllers", "*.js")
                 .IncludeDirectory("~/AdminApp/gallery", "*.js")
                 .IncludeDirectory("~/AdminApp/gallery/controllers", "*.js")
-                .Include("~/AdminApp/app.js");
+                .Include("~/AdminApp/app.js")
+                .IncludeDirectory("~/AdminApp/directives", "*.js")
+                .Include("~/AdminApp/views/gallery/galleryApp.js");
         }
     }
 }

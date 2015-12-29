@@ -1,0 +1,37 @@
+﻿<style>
+    #image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    img.selected {
+        border: 2px solid red;
+    }
+
+    .gallery-image {
+        margin-bottom: 2rem;
+    }
+
+</style>
+<div class="row">
+    <div class="small-12 medium-3 columns large-centered medium-centered small-centered">
+        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+    </div>
+</div>
+<div class="row fullWidth">
+    <div class="small-12 columns">
+        <div class="row">
+            <div class="large-3 medium-4 small-6 columns gallery-image columns-align-left"
+                 dir-paginate="image in images | itemsPerPage: imagesPerPage"
+                 total-items="totalImages"
+                 current-page="pagination.current">
+                <img ng-class="{selected : image.selected}"
+                     ng-src="/api/file/gallery/{{image.Id}}"
+                     ng-click="imgClicked(image)"
+                     ng-dblclick="select()"
+                     width="300" height="200"
+                     id="image" />
+            </div>
+        </div>
+    </div>
+</div>

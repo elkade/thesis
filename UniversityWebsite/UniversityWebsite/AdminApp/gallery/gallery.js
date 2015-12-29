@@ -13,6 +13,9 @@
                 .state('gallery', {
                     url: '/gallery',
                     templateUrl: 'adminapp/views/gallery/gallery.html',
+                    params: {
+                        multipleSelection: true
+                    },
                     controller: 'galleryCtrl'
                 });
         }

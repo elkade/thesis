@@ -1,16 +1,4 @@
 ﻿<style>
-    img {
-        max-height: 200px;
-    }
-
-        img.selected {
-            border: 2px solid red;
-        }
-
-    .gallery-image {
-        margin-bottom: 2rem;
-    }
-
     button.file-upload > input[type='file'] {
         cursor: pointer;
         position: absolute;
@@ -42,24 +30,4 @@
         </ul>
     </div>
 </div>
-<div class="row">
-    <div class="small-12 medium-4 large-2 columns large-centered medium-centered small-centered">
-        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
-    </div>
-</div>
-<div class="row fullWidth">
-    <div class="small-12 columns">
-        <div class="row">
-            <div class="small-3 columns gallery-image columns-align-left"
-                 dir-paginate="image in images | itemsPerPage: imagesPerPage"
-                 total-items="totalImages"
-                 current-page="pagination.current">
-                <img ng-class="{selected : image.selected}"
-                     ng-src="/api/file/gallery/{{image.Id}}"
-                     ng-click="imgClicked(image)" />
-                <span>{{image.Name}}</span>
-            </div>
-        </div>
-
-    </div>
-</div>
+<div class="container" ng-include="url"></div>
