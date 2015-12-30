@@ -28,7 +28,7 @@
                     <th>Approved</th>
                     <th>Locked Out</th>
                     <th>Roles</th>
-                    <th>Delete</th>
+@*                    <th>Delete</th>*@
                 </tr>
             </thead>
             <tbody>
@@ -58,20 +58,20 @@
                                     var showChecked = user.Roles.Contains(role.RoleName) ? "checked='checked'" : "";
                                     var disablecb = disabled ? "disabled='disabled'" : "";
                                     <span class="listrolecb">
-                                        <input type="radio" name="Roles-@user.Id" value="@role.RoleName" @showChecked @disablecb /> @Html.Raw(role.RoleName)
+                                        <input type="radio" name="Roles-@user.Id" disabled value="@role.RoleName" @showChecked @disablecb /> @Html.Raw(role.RoleName)
                                     </span>
                                 }
                                 <input type="hidden" id="userId" value="@user.Id" />
                             </span>
                         </td>
-                        <td>
+@*                        <td>
                             @if (!disabled)
                             {
                                 <a href="@Url.Action("Delete", new { user.Id, p = Model.PageIndex, search = Model.Search})" class="btn-mvc">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </a>
                             }
-                        </td>
+                        </td>*@
                     </tr>
                 }
             </tbody>

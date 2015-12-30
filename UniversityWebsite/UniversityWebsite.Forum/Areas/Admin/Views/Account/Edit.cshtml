@@ -21,29 +21,29 @@
             @Html.ValidationSummary(false)
 
 
-            <div class="form-group">
-                @Html.LabelFor(x => x.UserName)
-                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.UserName)
-            </div>
+            @*<div class="form-group">
+                @Html.LabelFor(x => x.UserName)*@
+                @Html.HiddenFor(x => x.UserName)
+                @*@Html.ValidationMessageFor(x => x.UserName)*@
+            @*</div>
 
-            <div class="form-group">
-                @Html.LabelFor(x => x.PasswordQuestion)
-                @Html.TextBoxFor(x => x.PasswordQuestion, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.PasswordQuestion)
-            </div>
+            <div class="form-group">*@
+                @*@Html.LabelFor(x => x.PasswordQuestion)*@
+                @Html.HiddenFor(x => x.PasswordQuestion)
+                @*@Html.ValidationMessageFor(x => x.PasswordQuestion)*@
+            @*</div>
 
-            <div class="form-group">
-                @Html.LabelFor(x => x.PasswordAnswer)
-                @Html.TextBoxFor(x => x.PasswordAnswer, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.PasswordAnswer)
-            </div>
+            <div class="form-group">*@
+                @*@Html.LabelFor(x => x.PasswordAnswer)*@
+                @Html.HiddenFor(x => x.PasswordAnswer)
+                @*@Html.ValidationMessageFor(x => x.PasswordAnswer)*@
+            @*</div>
 
-            <div class="form-group">
-                @Html.LabelFor(x => x.Email)
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email" })
-                @Html.ValidationMessageFor(x => x.Email)
-            </div>
+            <div class="form-group">*@
+                @*@Html.LabelFor(x => x.Email)*@
+                @Html.HiddenFor(x => x.Email)
+                @*@Html.ValidationMessageFor(x => x.Email)*@
+            @*</div>*@
 
             <div class="form-group">
                 @Html.LabelFor(x => x.Age)
@@ -160,10 +160,10 @@
 
             <div class="submit-holder">
                 <input type="submit" class="btn-mvc-green" value="@(buttonText)" />
-                @if (Model.Id != Guid.Empty)
+@*                @if (Model.Id != Guid.Empty)
                 {
                     <a href="@Url.Action("Delete", new{Model.Id})" onclick="return confirm('Are you sure you want to delete @Model.UserName?')" class="btn-mvc-red" role="button">Delete</a>
-                }                
+                }   *@             
             </div>
         }
 
