@@ -19,15 +19,7 @@
                 </label>
             </div>
         </div>
-        <div class="row">
-            <div class="medium-12 columns">
-                <ul class="custom-side-nav">
-                    <li ng-animate="'animate'" ng-repeat="page in pages">
-                        <a ui-sref="pages.edit({pageName:page.Title})">{{page.UrlName}}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <page-list showTitle="false"/>
     </div>
 
 

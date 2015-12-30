@@ -1,8 +1,8 @@
 ﻿angular.module('configApp.menus')
 
-.controller('menusEditCtrl', function ($scope, $state, menus, pages, utils, menuService) {
+.controller('menusEditCtrl', function ($scope, $state, menus, utils, menuService) {
     $scope.menus = menus;
-    $scope.pages = pages;
+    //$scope.pages = pages;
     $scope.alerts = [];
 
     $scope.activeMenu = menus[0];

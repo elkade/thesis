@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UniversityWebsite.Services.Model
 {
@@ -14,5 +15,6 @@ namespace UniversityWebsite.Services.Model
         public string CountryCode { get; set; }
         public ParentDto Parent { get; set; }
         public string Description { get; set; }
+        public IEnumerable<PageDto> Translations { get; set; }
     }
 }

@@ -5,9 +5,9 @@
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
 
-            var getPages = function (pagesService) {
-                return pagesService.all();
-            };
+            //var getPages = function (pagesService) {
+            //    return pagesService.all();
+            //};
 
             var getMenus = function(menuService) {
                 return menuService.allMenus();
@@ -19,7 +19,6 @@
                     templateUrl: 'adminapp/views/menus/menus.html',
                     resolve: {
                         menus: getMenus,
-                        pages: getPages
                     },
                     controller: 'menusEditCtrl'
 

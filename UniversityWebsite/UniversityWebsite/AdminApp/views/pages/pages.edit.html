@@ -112,14 +112,14 @@
                     </label>
                 </div>
             </div>
-            <div class="row" ng-repeat="translation in translations">
+            <div class="row" ng-repeat="translation in page.Translations">
                 <div class="large-12 columns">
-                    <a ui-sref="pages.edit({pageName:translation.Title})">{{translation.CountryCode + " - " + translation.Title}}</a>
+                    <a ui-sref="pages.edit({pageName: translation.UrlName, page: translation })">{{translation.CountryCode + " - " + translation.Title}}</a>
                 </div>
             </div>
             <div class="row" ng-hide="!newTranslationAvailable()">
                 <div class="large-12 columns">
-                    <a ng-click="add(page.GroupId)">Add translation</a>
+                    <a ui-sref="pages.edit({pageName:translation.UrlName, page: { Id: null, GroupId: page.GroupId }})">Add translation</a>
                 </div>
             </div>
         </div>

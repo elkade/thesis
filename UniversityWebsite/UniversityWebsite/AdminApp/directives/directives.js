@@ -21,3 +21,42 @@ configApp.directive('ncgRequestVerificationToken', [
         };
     }
 ]);
+
+configApp.directive('pageList', function() {
+    return {
+        restrict: "E",
+        templateUrl: "/adminapp/views/pages/pages.list.html",
+        scope: {
+            selected: '&',
+            showTitle: '='
+        },
+        controller: function ($scope, pagesService) {
+            $scope.totalPages = 0;
+            $scope.currentPage = 1;
+            $scope.pagesPerPage = 8;
+            $scope.actionAvailable = $scope.selected() != null;
+
+            getPage(1);
+
+            $scope.pageChanged = function (newPage) {
+                getPage(newPage);
+            };
+
+            $scope.pagination = {
+                current: 1
+            };
+
+            function getPage(pageNumber) {
+                var offset = (pageNumber - 1) * $scope.pagesPerPage;
+                pagesService.queryPages($scope.pagesPerPage, offset).then(function (response) {
+                    $scope.totalPages = response.data.Number;
+                    $scope.pages = response.data.Elements;
+                });
+            };
+
+            $scope.select = function(page) {
+                $scope.selected()(page);
+            };
+        }
+    };
+});

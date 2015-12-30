@@ -198,7 +198,6 @@
   <ItemGroup>
     <Content Include="AdminApp\directives\directives.js" />
     <Content Include="AdminApp\gallery\controllers\galleryController.js" />
-    <Content Include="AdminApp\gallery\controllers\testCtrl.js" />
     <Content Include="AdminApp\gallery\gallery.js" />
     <Content Include="AdminApp\gallery\images-service.js" />
     <Content Include="AdminApp\languages\controllers\languagesController.js" />
@@ -244,17 +243,17 @@
     <Content Include="AdminApp\tests\unit\util-serviceSpec.js" />
     <Content Include="AdminApp\users\controllers\userEditController.js" />
     <Content Include="AdminApp\users\controllers\userSubjectsEditController.js" />
-    <Content Include="AdminApp\views\gallery\galleryApp.js" />
+    <Content Include="AdminApp\galleryApp.js" />
     <Content Include="AdminApp\views\gallery\gallery.html" />
-    <Content Include="AdminApp\views\gallery\galleryPopup.html" />
+    <Content Include="AdminApp\views\galleryPopup.html" />
     <Content Include="AdminApp\views\gallery\images.html" />
     <Content Include="AdminApp\views\languages\languages.html" />
     <Content Include="AdminApp\views\languages\newLangModal.html" />
     <Content Include="AdminApp\views\languages\languageWizard.html" />
     <Content Include="AdminApp\views\languages\translations.html" />
     <Content Include="AdminApp\views\main-pages\tile.edit.html" />
+    <Content Include="AdminApp\views\pages\pages.list.html" />
     <Content Include="AdminApp\views\partials\menu.list.html" />
-    <Content Include="AdminApp\views\partials\pages.list.html" />
     <Content Include="AdminApp\views\subjects\section.files.html" />
     <Content Include="AdminApp\views\subjects\section.requests.html" />
     <Content Include="AdminApp\views\subjects\section.schedule.html" />
@@ -262,9 +261,10 @@
     <Content Include="AdminApp\views\subjects\section.syllabus.html" />
     <Content Include="AdminApp\views\users\user.edit.html" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\background.jpg" />
     <Content Include="Content\images\invalid.png" />
     <Content Include="Content\site.css" />
-    <Content Include="Content\foundation\foundation-icons.css" />
+    <Content Include="Content\images\foundation\foundation-icons.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\foundation\foundation-icons.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

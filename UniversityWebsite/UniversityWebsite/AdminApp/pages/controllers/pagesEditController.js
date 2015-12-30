@@ -1,23 +1,17 @@
 ﻿angular.module('configApp.pages')
 
 .controller('pagesEditCtrl', function ($scope, $stateParams, $modal, $location, utils, pagesService) {
-    if ($stateParams.pageName == "newPage") {
-        $scope.page = { Id: null };
-        
-    } else if ($stateParams.pageName == 'newPageTranslation') {
-        $scope.page = { Id: null, GroupId: window.GroupId };
-    } else {
-        $scope.page = utils.findByTitle($scope.pages, $stateParams.pageName);
-    }
+    $scope.page = $stateParams.page;
+    
 
-    var translations = Enumerable.From($scope.pages)
-        .Where(function (p) {
-            return p.GroupId == $scope.page.GroupId
-                && p.CountryCode != $scope.page.CountryCode;
-        });
-    $scope.translations = translations.ToArray();
+    //var translations = Enumerable.From($scope.pages)
+    //    .Where(function (p) {
+    //        return p.GroupId == $scope.page.GroupId
+    //            && p.CountryCode != $scope.page.CountryCode;
+    //    });
+    //$scope.translations = translations.ToArray();
 
-    $scope.availableLanguages = findAvailableLanguages($scope.languages, translations);
+    //$scope.availableLanguages = findAvailableLanguages($scope.languages, translations);
 
     var errorHandler = function(response) {
         $scope.errors = utils.parseErrors(response.data.ModelState);
@@ -105,9 +99,8 @@
             .ToArray();
     };
 
-    $scope.add = function (groupId) {
-        window.GroupId = groupId;
-        $location.path('pages/newPageTranslation');
+    function findPage(id) {
+        return pagesService.findPage(id);
     };
 
     $scope.newTranslationAvailable = function() {

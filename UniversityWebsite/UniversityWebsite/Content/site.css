@@ -45,6 +45,7 @@ p.title {
 
 html, body {
     background: #F6F6FA;
+    background: url("images/background.jpg")
 }
 
 .light-color {
@@ -54,10 +55,6 @@ html, body {
 .row {
     max-width: 72.5rem;
 }
-
-@import url(//fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900);
-html, body {
-  background: #FAFAFA; }
 
 .card {
   font-family: 'Roboto', sans-serif;
@@ -91,7 +88,8 @@ html, body {
       padding: 1.3rem;
       color: #fff; }
     .card .image img {
-      border-radius: 2px 2px 0 0; }
+      border-radius: 2px 2px 0 0; }
+
 
 /*.card {
     font-family: 'Roboto', sans-serif;

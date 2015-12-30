@@ -212,7 +212,30 @@ namespace UniversityWebsite.Services
         }
         public IEnumerable<PageDto> GetAll(int limit, int offset)
         {
-            return _context.Pages.OrderBy(p=>p.Title).Skip(offset).Take(limit).ProjectTo<PageDto>();
+            var pages = _context.Pages.OrderBy(p => p.Title).Skip(offset).Take(limit).ToList();
+            return pages.Select(p => new PageDto
+            {
+                Content = p.Content,
+                Title = p.Title,
+                Id = p.Id,
+                UrlName = p.UrlName,
+                CountryCode = p.CountryCode,
+                CreationDate = p.CreationDate,
+                Description = p.Description,
+                GroupId = p.GroupId,
+                LastUpdateDate = p.LastUpdateDate,
+                Parent = p.Parent == null ? null : new ParentDto { Title = p.Parent.Title, UrlName = p.Parent.UrlName },
+                Translations = p.Group.Pages
+                    .Where(translation => translation.Id != p.Id)
+                    .Select(translation => 
+                        new PageDto
+                        {
+                            Id = translation.Id, 
+                            Title = translation.Title, 
+                            UrlName = translation.UrlName,
+                            CountryCode = translation.CountryCode
+                        })
+            });
         }
 
         public int GetPagesNumber()

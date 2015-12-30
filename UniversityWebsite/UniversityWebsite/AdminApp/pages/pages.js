@@ -6,9 +6,6 @@
             var getLanguages = function (languageService) {
                 return languageService.allLanguages();
             };
-            var getPages = function (pagesService) {
-                return pagesService.all();
-            };
 
             $stateProvider
                 .state('pages', {
@@ -16,19 +13,16 @@
                     templateUrl: 'adminapp/views/pages/pages.html',
 
                     resolve: {
-                        pages: getPages,
                         languages: getLanguages
                     },
 
                     controller: [
-                        '$scope', '$state', 'pages', '$location', 'languages',
-                        function ($scope, $state, pages, $location, languages) {
-                            $scope.pages = pages.Elements;
-                            //TODO: paginacja
+                        '$scope', '$state', '$location', 'languages',
+                        function ($scope, $state, $location, languages) {
                             $scope.languages = languages;
 
                             $scope.add = function() {
-                                $state.go("pages.edit", {pageName: "newPage"} );
+                                $state.go("pages.edit", {pageName: "newPage", page: {Id: null}} );
                             };
                         }
                     ]
@@ -36,6 +30,9 @@
                 })
                 .state('pages.edit', {
                     url: '/:pageName',
+                    params: {
+                        page: null
+                    },
                     views: {
                         '': {
                             templateUrl: 'adminapp/views/pages/pages.edit.html',

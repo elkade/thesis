@@ -5,10 +5,6 @@
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
 
-            var getPages = function (pagesService) {
-                return pagesService.all();
-            };
-
             var getMainPages = function(mainPages) {
                 return mainPages.all();
             };
@@ -20,7 +16,6 @@
 
                     resolve: {
                         menus: getMainPages,
-                        pages: getPages
                     },
 
                     controller: 'mainPagesEditCtrl'

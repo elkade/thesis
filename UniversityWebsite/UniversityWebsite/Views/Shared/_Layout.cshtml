@@ -16,6 +16,12 @@
 
     <title>@ViewBag.Title</title>
     @RenderSection("Styles", false)
+    <style>
+        .banner > div.columns{
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
 </head>
 
 
@@ -32,7 +38,7 @@
         </div>
     </div>
       
-    <div class="row">
+    <div class="row banner">
         <div class="large-12 columns">
             <div id="slider">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/Polish_Wikinews_header_image.png"/>

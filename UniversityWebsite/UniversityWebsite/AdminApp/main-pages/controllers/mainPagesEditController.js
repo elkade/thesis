@@ -1,8 +1,7 @@
 ﻿angular.module('configApp.main-pages')
 
-.controller('mainPagesEditCtrl', function ($scope, $state, menus, pages, utils, MainPages) {
+.controller('mainPagesEditCtrl', function ($scope, $state, menus, utils, MainPages) {
     $scope.menus = menus;
-    $scope.pages = pages;
     $scope.alerts = [];
 
     $scope.activeMenu = menus[0];
@@ -77,9 +76,9 @@
         $scope.alerts.push(alert);
     };
 
-    var errorHandler = function (response) {
+    var errorHandler = function(response) {
         var alert = { type: 'error', msg: 'Error: The ' + menu.CountryCode + ' menu cannot be updated.' };
         $scope.addAlert(alert);
-    }
+    };
 
 })

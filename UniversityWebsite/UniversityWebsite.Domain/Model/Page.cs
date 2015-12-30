@@ -28,7 +28,7 @@ namespace UniversityWebsite.Domain.Model
         public int GroupId { get; set; }
         [Required]
         [ForeignKey("GroupId")]
-        public PageGroup Group { get; set; }
+        public virtual PageGroup Group { get; set; }
         public int? ParentId { get; set; }
         [ForeignKey("ParentId")]
         public virtual Page Parent { get; set; }
