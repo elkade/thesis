@@ -11,9 +11,8 @@ namespace UniversityWebsite.Model
         public HomeVm()
         {
             Tiles = new List<TileViewModel>();
-            Siblings = new List<PageMenuItemVm>();
         }
         public List<TileViewModel> Tiles { get; set; }
-        public List<PageMenuItemVm> Siblings { get; set; } 
+        public NavMenuVm NavMenu { get; set; } 
     }
 }

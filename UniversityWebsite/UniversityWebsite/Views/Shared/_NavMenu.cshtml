@@ -1,38 +1,51 @@
-﻿@using Microsoft.Ajax.Utilities
-@model List<UniversityWebsite.Model.Page.PageMenuItemVm>
+﻿@model UniversityWebsite.Model.NavMenuVm
 @{
     string homeString = GetPhrase("home");
     string teachingString = GetPhrase("teaching");
-
+    string forumString = GetPhrase("forum");
 }
-<nav class="top-bar" data-topbar role="navigation">
-    <section class="top-bar-section">
-        <ul class="left">
-            <li>
-                @Html.ActionLink(homeString, "Index", "Home", null, null)
+<div id="nav-menu">
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+            <li class="name">
+                <h1></h1>
             </li>
-            <li>
-                @Html.ActionLink(teachingString, "Index", "Teaching", null, null)
-            </li>
-            @foreach (var item in Model)
-            {
-                if (item.Children.Any())
-                {
-                <li class="has-dropdown">
-                    @Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)
-                    <ul class="dropdown">
-                        @foreach (var subitem in item.Children)
-                        {
-                            <li>@Html.ActionLink(subitem.Title, "Index", "Page", new { name = subitem.UrlName }, null)</li>
-                        }
-                    </ul>
-                </li>
-                }
-                else
-                {
-                <li>@Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)</li>
-                }
-            }
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
         </ul>
-    </section>
-</nav>
+        <section class="top-bar-section">
+            <ul class="left">
+                @if (Model.IsTopLevel)
+                {
+                    <li>
+                        @Html.ActionLink(homeString, "Index", "Home", null, null)
+                    </li>
+                    <li>
+                        @Html.ActionLink(teachingString, "Index", "Teaching", null, null)
+                    </li>
+                    <li>
+                        <a href="/Forum">@forumString</a>
+                    </li>
+                }
+                @foreach (var item in Model.Items)
+                {
+                    if (item.Children.Any())
+                    {
+                    <li class="has-dropdown">
+                        @Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)
+                        <ul class="dropdown">
+                            @foreach (var subitem in item.Children)
+                            {
+                                <li>@Html.ActionLink(subitem.Title, "Index", "Page", new { name = subitem.UrlName }, null)</li>
+                            }
+                        </ul>
+                    </li>
+                    }
+                    else
+                    {
+                    <li>@Html.ActionLink(item.Title, "Index", "Page", new { name = item.UrlName }, null)</li>
+                    }
+                }
+            </ul>
+        </section>
+    </nav>
+</div>

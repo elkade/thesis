@@ -24,17 +24,9 @@
         .section-footer {
             border-top: 2px solid gray;
         }
-
-        .card {
-            margin-top: 20px;
-        }
-
-        .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
-            background: #003C58;
-        }
     </style>
 }
-@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
+@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
 
 <h2>@Model.Name</h2>
 @if (Model.News.Count > 0)

@@ -8,15 +8,7 @@
     ViewBag.Title = semesterString;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
-
-    <style>
-        .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
-            background: #003C58;
-        }
-    </style>
-}
-@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
+@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
 <h2>@semesterString @Model.Number</h2>
 
 

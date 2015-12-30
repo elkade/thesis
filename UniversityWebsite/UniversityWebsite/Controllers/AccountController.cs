@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using System.Web.WebPages;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -101,6 +102,7 @@ namespace UniversityWebsite.Controllers
             {
                 case SignInStatus.Success:
                 {
+                    FormsAuthentication.SetAuthCookie(model.Email, false);
                     if (returnUrl.IsEmpty()) return RedirectToAction("Index", "Home");
                     return RedirectToLocal(returnUrl);
                 }
@@ -417,6 +419,7 @@ namespace UniversityWebsite.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
 

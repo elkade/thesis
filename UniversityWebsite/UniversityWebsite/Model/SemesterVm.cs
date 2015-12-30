@@ -7,12 +7,7 @@ namespace UniversityWebsite.Model
     public class SemesterVm
     {
         public List<SubjectListElementVm> Subjects { get; set; }
-
-        public SemesterVm()
-        {
-            Siblings = new List<PageMenuItemVm>();
-        }
-        public List<PageMenuItemVm> Siblings { get; set; }
+        public NavMenuVm NavMenu { get; set; }
         public int Number { get; set; }
 
     }

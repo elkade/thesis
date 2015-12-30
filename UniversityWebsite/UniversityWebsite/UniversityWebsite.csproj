@@ -930,6 +930,7 @@
     <Compile Include="Model\Menu\LanguageMenuItemViewModel.cs" />
     <Compile Include="Model\Menu\MainMenuViewModel.cs" />
     <Compile Include="Model\Menu\MenuItemPut.cs" />
+    <Compile Include="Model\NavMenuVm.cs" />
     <Compile Include="Model\NewLanguage.cs" />
     <Compile Include="Model\NewsVm.cs" />
     <Compile Include="Model\Page\PageMenuItemVm.cs" />
@@ -1049,8 +1050,7 @@
           <IISUrl>http://localhost:1625/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl>http://universitywebsite.localhost</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
