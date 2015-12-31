@@ -5,32 +5,26 @@
 }
 @if (Request.IsAuthenticated)
 {
-        <li class="not-click">
-        <a href="#">@User.Identity.Name.Substring(0, User.Identity.Name.IndexOf('@'))</a>
-    </li>
-    if (User.IsInRole(Consts.AdministratorRole))
-    {
-    <li><a href="@Url.Action("Index", "Admin")">@manageString</a></li>
-    }
-   
-    
-    <li class="has-form">
-        <div class="row collapse">
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>*@
+
+    <li>
+        <a href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button dropdown">@User.Identity.Name.Substring(0, User.Identity.Name.IndexOf('@'))</a>
+        <ul id="user-items" data-dropdown-content class="f-dropdown" aria-hidden="true">
+            @if (this.User.IsInRole("Administrator"))
             {
-                @Html.AntiForgeryToken()
-                <a class="alert button expand" href="javascript:document.getElementById('logoutForm').submit()">
-                    @logOffString
-                </a>
+                <li><a href="@Url.Action("Index", "Admin")">@manageString</a></li>
             }
-        </div>
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()">@logOffString</a>
+                }
+            </li>
+        </ul>
     </li>
 }
 else
-{   
-    <li class="has-form">
-        <div class="row collapse">
-            <a class="alert button expand" href="@Url.Action("Login", "Account")" id="loginLink">@logInString</a>
-        </div>
-    </li>
+{
+    <li><a class="button" href="@Url.Action("Login", "Account")" id="loginLink">@logInString</a></li>
 }

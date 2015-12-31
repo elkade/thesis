@@ -2,54 +2,34 @@
 @{
     string homeString = GetPhrase("home");
     string teachingString = GetPhrase("teaching");
-    string forumString = GetPhrase("forum");
 }
+<nav class="main-menu large-9 columns">
+    <ul class="right button-group">
+        @*        <li>
+                @Html.ActionLink(homeString, "Index", "Home", null, new { @class = "button" })
+            </li>*@
+        <li>
+            @Html.ActionLink(teachingString, "Index", "Teaching", null, new { @class = "button" })
+        </li>
 
-<nav class="top-bar" data-topbar="" role="navigation">
-        <ul class="title-area">
-            <li class="name">
-                <h1>
-                    <a href="@Url.Action("Index", "Home")">
-                    </a>
-                </h1>
-            </li>
-            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-        </ul>
-
-    <section class="top-bar-section">
-
-        <!-- Top Bar Left Nav Elements -->
-        <ul class="left">
-                        <li>
-                @Html.ActionLink(teachingString, "Index", "Teaching", null, null)
-            </li>
+        @foreach (var menuItem in Model.MainMenuItems)
+        {
             <li>
-                <a href="/Forum">@forumString</a>
+                @Html.ActionLink(menuItem.Title, "Index", "Page", new { name = menuItem.UrlName }, new { @class = "button" })
+                @*<a class="button" href="@menuItem.Href" title="@menuItem.Title">@menuItem.Text</a>*@
             </li>
-            @foreach (var menuItem in Model.MainMenuItems)
-            {
-                <li>
-                    @Html.ActionLink(menuItem.Title, "Index", "Page", new { name = menuItem.UrlName }, null)
-                </li>
-            }
-        </ul>
+        }
 
-        <!-- Top Bar Right Nav Elements -->
-        <ul class="right">
-            <!-- Divider -->
+        @*<li><a href="@Url.Action("Register", "Account")" class="button">Register</a></li>*@
 
-            @if (Model.LanguageMenu != null)
-            {
-                            <li class="divider"></li>
+        @Html.Partial("_LoginPartial")
 
-                Html.RenderPartial("_LanguageSwitcher", Model.LanguageMenu);
-            }
-
-                        <li class="divider"></li>
-            
-            @Html.Partial("_LoginPartial")
+        @if (Model.LanguageMenu != null)
+        {
+            Html.RenderPartial("_LanguageSwitcher", Model.LanguageMenu);
+        }
 
 
-        </ul>
-    </section>
+    </ul>
+
 </nav>
