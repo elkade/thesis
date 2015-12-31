@@ -6,10 +6,7 @@ namespace UniversityWebsite.Model.Page
 {
     public class PageViewModel
     {
-        public PageViewModel()
-        {
-            Siblings = new List<PageMenuItemVm>();
-        }
+        public NavMenuVm NavMenu { get; set; }
         public string Title { get; set; }
         public string CountryCode { get; set; }
         [AllowHtml]

@@ -19,38 +19,38 @@
         );
     });
 
-    // Someone has clicked one of the roles checkboxes
-    // On the list page so update
-    var listrolecbholder = 'span.listrolecbholder';
-    $(listrolecbholder).click(function () {
-        var checkedRoles = [];
-        $(this).find('input[type=radio]:checked').each(function () {
-            checkedRoles.push($(this).val());
-        });
+    //// Someone has clicked one of the roles checkboxes
+    //// On the list page so update
+    //var listrolecbholder = 'span.listrolecbholder';
+    //$(listrolecbholder).click(function () {
+    //    var checkedRoles = [];
+    //    $(this).find('input[type=radio]:checked').each(function () {
+    //        checkedRoles.push($(this).val());
+    //    });
 
-        var userId = $(this).find('#userId').val();
+    //    var userId = $(this).find('#userId').val();
 
-        // Make a view model instance
-        var ajaxRoleUpdateViewModel = new Object();
-        ajaxRoleUpdateViewModel.Id = userId;
-        ajaxRoleUpdateViewModel.Roles = checkedRoles;
+    //    // Make a view model instance
+    //    var ajaxRoleUpdateViewModel = new Object();
+    //    ajaxRoleUpdateViewModel.Id = userId;
+    //    ajaxRoleUpdateViewModel.Roles = checkedRoles;
 
-        // Ajax call to post the view model to the controller
-        var strung = JSON.stringify(ajaxRoleUpdateViewModel);
+    //    // Ajax call to post the view model to the controller
+    //    var strung = JSON.stringify(ajaxRoleUpdateViewModel);
 
-        $.ajax({
-            url: app_base + 'Admin/Account/UpdateUserRoles',
-            type: 'POST',
-            data: strung,
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                ShowUserMessage("Roles updated");
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                ShowUserMessage("Error: " + xhr.status + " " + thrownError);
-            }
-        });
-    });
+    //    $.ajax({
+    //        url: app_base + 'Admin/Account/UpdateUserRoles',
+    //        type: 'POST',
+    //        data: strung,
+    //        contentType: 'application/json; charset=utf-8',
+    //        success: function (data) {
+    //            ShowUserMessage("Roles updated");
+    //        },
+    //        error: function (xhr, ajaxOptions, thrownError) {
+    //            ShowUserMessage("Error: " + xhr.status + " " + thrownError);
+    //        }
+    //    });
+    //});
 
     // Permissions table
     $('span.permissioncheckbox').click(function () {

@@ -1,21 +1,18 @@
 ﻿@model UniversityWebsite.Model.Menu.LanguageMenuViewModel
-
-<a id="langButton" href="#" data-dropdown="langs" aria-controls="langs" aria-expanded="false" class="button dropdown">@Model.Current</a>
-<ul id="langs" data-dropdown-content class="f-dropdown" aria-hidden="true">
-
-    @foreach (var language in Model.Items)
-    {
-        <li>
-            @if (language.Href == null)
-            {
-                @Html.ActionLink(language.Text, "Index", "Home", new{l=language.CountryCode}, null)
-            }
-            else
-            {
-                <a href="@language.Href">@language.Text</a>
-            }
-            @*ViewContext.RouteData.Values["action"].ToString(), new {l = language.CountryCode})*@
-        </li>
-    }
-</ul>
-
+            <li class="has-dropdown not-click"><a href="#">@Model.Current</a>
+                <ul class="dropdown">
+        @foreach (var language in Model.Items)
+        {
+            <li>
+                @if (language.Href == null)
+                {
+                    @Html.ActionLink(language.Text, "Index", "Home", new { l = language.CountryCode }, null)
+                }
+                else
+                {
+                    <a href="@language.Href">@language.Text</a>
+                }
+            </li>
+        }
+                </ul>
+            </li>

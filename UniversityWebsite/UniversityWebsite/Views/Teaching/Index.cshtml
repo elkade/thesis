@@ -5,18 +5,7 @@
     ViewBag.Title = teachingString;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
-    <style>
-        .card {
-            margin-top: 20px;
-        }
-
-        .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
-            background: #003C58;
-        }
-    </style>
-}
-@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
+@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
 <h2>@teachingString</h2>
 
 @for (int i = 1; i <= Model.SemestersCount; i++)

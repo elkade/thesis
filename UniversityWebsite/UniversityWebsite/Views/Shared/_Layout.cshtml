@@ -6,50 +6,61 @@
 <head>
     @*Set the viewport width to device width for mobile *@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     @RenderSection("head", required: false)
     @Styles.Render("~/Content/foundation/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
 
     <title>@ViewBag.Title</title>
     @RenderSection("Styles", false)
     <style>
-        .banner > div.columns{
-            padding-left: 0;
-            padding-right: 0;
+        #main-menu .top-bar, #main-menu .top-bar-section li:not(.has-form) a:not(.button) {
+            background: #003C58;
+        }
+
+        #nav-menu .top-bar, #nav-menu .top-bar-section li:not(.has-form) a:not(.button) {
+            background: #003366;
+        }
+
+        #main-menu .top-bar .name h1 a:before {
+            background-image: url('https://www.pw.edu.pl/design/pl_mob_merge/images/pw_logo_naglowek.png');
+            background-repeat: no-repeat;
+            content: "";
+            display: inline-block;
+            height: 45px;
+            position: relative;
+            width: 196px;
+            background-size: 100%;
+        }
+                #main-menu .top-bar .name h1 a{
+                    padding: 0;
+                    margin: 0;
+                        height: 45px;
         }
     </style>
 </head>
 
-
 <body>
-    <div class="container light-color">
-        <div class="row ">
-            <div class="large-3 columns">
-                <h1><a href="@Url.Action("Index", "Home")"><img src="https://www.pw.edu.pl/design/pl_mob_merge/images/pw_logo_naglowek.png" /></a></h1>
-            </div>
-            @if (mainMenuViewModel!=null)
-            {
-                Html.RenderPartial("_MainMenu", mainMenuViewModel);
-            }
-        </div>
+    <div class="row" id="main-menu">
+
+        @if (mainMenuViewModel != null)
+        {
+            Html.RenderPartial("_MainMenu", mainMenuViewModel);
+        }
     </div>
-      
-    <div class="row banner">
-        <div class="large-12 columns">
-            <div id="slider">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/Polish_Wikinews_header_image.png"/>
-            </div>
+
+
+    <div class="row">
+        <div id="slider">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/Polish_Wikinews_header_image.png" />
         </div>
     </div>
 
     <div class="row light-color">
-        <div class="large-12 columns">
-           @RenderBody() 
-        </div>
+        @RenderBody()
     </div>
 
 
@@ -71,48 +82,42 @@
           
         </div>
     </div>*@
-     
+
     <footer class="row">
-        <div class="large-12 columns">
-            <hr/>
-            <div class="row">
-                <div class="large-6 columns">
-                    <p>© Copyright no one at all. Go to town.</p>
-                </div>
-                <div class="large-6 columns">
-                  <ul class="inline-list right">
-                    <li><a href="#">Link 1</a></li>
-                    <li><a href="#">Link 2</a></li>
-                    <li><a href="#">Link 3</a></li>
-                    <li><a href="#">Link 4</a></li>
-                  </ul>
-                </div>
-            </div>
-        </div> 
+        <hr />
+        <div class="large-6 columns">
+            <p>© Copyright no one at all. Go to town.</p>
+        </div>
+        <div class="large-6 columns">
+            <ul class="inline-list right">
+                <li><a href="#">Link 1</a></li>
+                <li><a href="#">Link 2</a></li>
+                <li><a href="#">Link 3</a></li>
+                <li><a href="#">Link 4</a></li>
+            </ul>
+        </div>
     </footer>
-    
-    
     @Scripts.Render("~/bundles/foundation")
     @RenderSection("Scripts", false)
-<script>
-    $(document).foundation();
-</script>
+    <script>
+        $(document).foundation();
+    </script>
 
-<script> //TODO: zrobic cos z tym
-$(document).foundation({
-    accordion: {
-        // specify the class used for accordion panels
-        content_class: 'content',
-        // specify the class used for active (or open) accordion panels
-        active_class: 'active',
-        // allow multiple accordion panels to be active at the same time
-        multi_expand: true,
-        // allow accordion panels to be closed by clicking on their headers
-        // setting to false only closes accordion panels when another is opened
-        toggleable: true
-    }
-});
-</script>
+    <script> //TODO: zrobic cos z tym
+        $(document).foundation({
+            accordion: {
+                // specify the class used for accordion panels
+                content_class: 'content',
+                // specify the class used for active (or open) accordion panels
+                active_class: 'active',
+                // allow multiple accordion panels to be active at the same time
+                multi_expand: true,
+                // allow accordion panels to be closed by clicking on their headers
+                // setting to false only closes accordion panels when another is opened
+                toggleable: true
+            }
+        });
+    </script>
 </body>
 
 </html>

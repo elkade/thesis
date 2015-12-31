@@ -30,21 +30,21 @@
             <fieldset>
                 <legend>@ViewBag.Title</legend>
 
-                <p class="changepasswordtext">
+@*                <p class="changepasswordtext">
                     @Html.Raw(string.Format(Html.LanguageString("Members.ChangePassword.Link"), string.Format("<a href=\"{0}\">{1}</a>", Url.Action("ChangePassword"), Html.LanguageString("Members.ChangePassword.Title"))))
-                </p>
+                </p>*@
 
-                <div class="form-group">
-                    @Html.LabelFor(x => x.UserName)
-                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.UserName)
+                @*<div class="form-group">
+                    @Html.LabelFor(x => x.UserName)*@
+                    @Html.HiddenFor(x => x.UserName)
+                    @*@Html.ValidationMessageFor(x => x.UserName)
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(x => x.Email)
-                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email" })
-                    @Html.ValidationMessageFor(x => x.Email)
-                </div>
+                    @Html.LabelFor(x => x.Email)*@
+                    @Html.HiddenFor(x => x.Email)
+                    @*@Html.ValidationMessageFor(x => x.Email)
+                </div>*@
 
                 @if (!Model.DisableFileUploads)
                 {

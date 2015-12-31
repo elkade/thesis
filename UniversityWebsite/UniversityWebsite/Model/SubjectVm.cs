@@ -15,11 +15,7 @@ namespace UniversityWebsite.Model
         public string Schedule { get; set; }
         public List<FileDto> Files { get; set; }
 
-        public SubjectVm()
-        {
-            Siblings = new List<PageMenuItemVm>();
-        }
-        public List<PageMenuItemVm> Siblings { get; set; } 
+        public NavMenuVm NavMenu { get; set; }
     }
 
 }

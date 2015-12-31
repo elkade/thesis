@@ -31,7 +31,7 @@ namespace UniversityWebsite.Controllers
 
         public ActionResult Index()
         {
-            return View(new TeachingVm { SemestersCount = 10, Siblings = GetSiblings() });
+            return View(new TeachingVm { SemestersCount = 10, NavMenu = new NavMenuVm { Items = GetSiblings(), IsTopLevel = true } });
         }
 
         public ActionResult Semester(int number)
@@ -50,7 +50,7 @@ namespace UniversityWebsite.Controllers
                     SignUpAction = isStudent ? _subjectService.GetAvailableAction(userId, s.Id) : SignUpAction.None,
                     SubjectId = s.Id
                 }).ToList(),
-                Siblings = GetSiblings(),
+                NavMenu = new NavMenuVm{Items = GetSiblings(), IsTopLevel = true},
                 Number = number
             });
         }
@@ -68,7 +68,7 @@ namespace UniversityWebsite.Controllers
             if (userId == null || !subject.HasStudent(userId))
                 subjectVm.Files.Clear();
 
-            subjectVm.Siblings = GetSiblings();
+            subjectVm.NavMenu = new NavMenuVm {Items = GetSiblings(), IsTopLevel = true};
 
             return View(subjectVm);
         }

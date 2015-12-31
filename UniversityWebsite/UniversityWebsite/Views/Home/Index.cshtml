@@ -6,19 +6,8 @@
     string lang = (string)ViewData["lang"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
 
-    <style>
-        .card {
-
-            margin-top: 20px;
-        }
-    .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
-        background: #003C58;
-    }
-</style>
-}
-@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.Siblings);}
+@{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
 <h2>@GetPhrase("welcome")</h2>
 
 <form enctype="multipart/form-data" action="/api/file/gallery" method="post">
