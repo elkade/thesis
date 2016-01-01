@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using UniversityWebsite.Core.Migrations;
@@ -27,6 +28,9 @@ namespace UniversityWebsite.Core
         void SetDeleted(object entity);
         T InTransaction<T>(Func<T> func);
         void InTransaction(Action action);
+
+        void SetPropertyModified<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> property)
+            where TEntity : class;
     }
 
     public class DomainContext : ApplicationDbContext, IDomainContext
@@ -74,6 +78,12 @@ namespace UniversityWebsite.Core
                     throw;
                 }
             }
+        }
+
+        public void SetPropertyModified<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> property)
+            where TEntity : class
+        {
+            Entry(entity).Property(property).IsModified = true;
         }
 
         public void SetModified(object entity)

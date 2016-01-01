@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
 using System.Linq;
@@ -58,11 +59,12 @@ namespace UniversityWebsite.Services
 
         public UserWithPasswordDto CreateUser(UserDto userDto)
         {
-            return _context.InTransaction(() =>
+            User user = new User();
+            var createdUser = _context.InTransaction(() =>
             {
                 string password = PasswordGenerator.GeneratePassword(8);
 
-                var user = new User
+                user = new User
                 {
                     Email = userDto.Email,
                     UserName = userDto.Email,
@@ -82,6 +84,12 @@ namespace UniversityWebsite.Services
 
                 return _modelFactory.GetDtoWithPassword(user, password);
             });
+            using (var client = new ForumUserClient(ConfigurationManager.AppSettings["hostName"]))
+                user.HasForumAccount = client.TryAddUser(createdUser.Email, createdUser.Password, createdUser.Role == "Administrator");
+            _context.Users.Attach(user);
+            _context.SetPropertyModified(user, u=>u.HasForumAccount);
+            _context.SaveChanges();
+            return createdUser;
         }
 
         public UserDto UpdateUser(UserDto userDto)
