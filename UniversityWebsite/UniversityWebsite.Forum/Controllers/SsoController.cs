@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -61,21 +62,15 @@ namespace UniversityWebsite.Forum.Controllers
 
         public class CreateUserViewModel
         {
-            [EmailAddress]
-            [ForumMvcResourceDisplayName("Members.Label.EmailAddress")]
             [Required]
+            [StringLength(150, MinimumLength = 4)]
             public string Email { get; set; }
             [DataType(DataType.Password)]
-            [ForumMvcResourceDisplayName("Members.Label.Password")]
             [Required]
             [StringLength(100, MinimumLength = 6)]
             public string Password { get; set; }
-            [ForumMvcResourceDisplayName("Members.Label.Roles")]
-            public string[] Roles { get; set; }
-            [ForumMvcResourceDisplayName("Members.Label.Username")]
             [Required]
-            [StringLength(150, MinimumLength = 4)]
-            public string UserName { get; set; }
+            public bool IsAdmin { get; set; }
         }
 
         /// <summary>
@@ -88,22 +83,35 @@ namespace UniversityWebsite.Forum.Controllers
         [System.Web.Http.Authorize(Roles = AppConstants.AdminRoleName)]
         public JsonResult Register(CreateUserViewModel userModel)
         {
-            if (SettingsService.GetSettings().SuspendRegistration != true)
+            try
             {
-                using (UnitOfWorkManager.NewUnitOfWork())
+                if (SettingsService.GetSettings().SuspendRegistration != true)
                 {
-                    // Secondly see if the email is banned
-                    if (_bannedEmailService.EmailIsBanned(userModel.Email))
+                    using (UnitOfWorkManager.NewUnitOfWork())
                     {
-                        return Json(LocalizationService.GetResourceString("Error.EmailIsBanned"));
+                        // Secondly see if the email is banned
+                        if (_bannedEmailService.EmailIsBanned(userModel.Email))
+                        {
+                            return
+                                Json(
+                                    new
+                                    {
+                                        IsSuccess = false,
+                                        Message = LocalizationService.GetResourceString("Error.EmailIsBanned")
+                                    });
+                        }
                     }
+
+                    // Do the register logic
+                    return MemberRegisterLogic(userModel);
+
                 }
-
-                // Do the register logic
-                return MemberRegisterLogic(userModel);
-
+                return Json(new {IsSuccess = false, Message = ""});
             }
-            return Json("");
+            catch (Exception ex)
+            {
+                return Json(new { IsSuccess = true, Message = ex.ToString() });
+            }
         }
 
         public JsonResult MemberRegisterLogic(CreateUserViewModel userModel)
@@ -112,7 +120,7 @@ namespace UniversityWebsite.Forum.Controllers
             {
                 var userToSave = new MembershipUser
                 {
-                    UserName = _bannedWordService.SanitiseBannedWords(userModel.UserName),
+                    UserName = _bannedWordService.SanitiseBannedWords(userModel.Email),
                     Email = userModel.Email,
                     Password = userModel.Password,
                     IsApproved = true,
@@ -129,6 +137,7 @@ namespace UniversityWebsite.Forum.Controllers
                 }
 
                 var createStatus = MembershipService.CreateUser(userToSave);
+
                 if (createStatus != MembershipCreateStatus.Success)
                 {
                     ModelState.AddModelError(string.Empty, MembershipService.ErrorCodeToString(createStatus));
@@ -138,17 +147,24 @@ namespace UniversityWebsite.Forum.Controllers
                     try
                     {
                         unitOfWork.Commit();
+                        if (userModel.IsAdmin)
+                        {
+                            var user = MembershipService.GetUserByEmail(userModel.Email);
+                            var role = RoleService.GetRole(AppConstants.AdminRoleName);
+                            user.Roles = new List<MembershipRole> { role };
+                        }
+                        unitOfWork.Commit();
                     }
                     catch (Exception ex)
                     {
                         unitOfWork.Rollback();
                         LoggingService.Error(ex);
-                        return Json(ex);
+                        return Json(new { IsSuccess = true, Message = ex.ToString() });
                     }
                 }
             }
 
-            return Json("");
+            return Json(new { IsSuccess = true });
         }
 
     }

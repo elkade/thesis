@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -102,7 +103,7 @@ namespace UniversityWebsite.Controllers
             {
                 case SignInStatus.Success:
                 {
-                    FormsAuthentication.SetAuthCookie(model.Email, false);
+                    SignUserInForum(model.Email);
                     if (returnUrl.IsEmpty()) return RedirectToAction("Index", "Home");
                     return RedirectToLocal(returnUrl);
                 }
@@ -115,6 +116,26 @@ namespace UniversityWebsite.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");//todo
                     return View(model);
             }
+        }
+
+        private void SignUserInForum(string email)
+        {
+            var user = UserManager.FindByName(email);
+            if (user == null)
+                throw new Exception("User with name: " + email + " does not exist.");
+            if (user.HasForumAccount)
+                FormsAuthentication.SetAuthCookie(email, false);
+        }
+
+        private void SignUserOutForum()
+        {
+            if (!User.Identity.IsAuthenticated) return;
+            var id = User.Identity.GetUserId();
+            var user = UserManager.FindById(id);
+            if (user == null)
+                throw new Exception("User with id: " + id + " does not exist.");
+            if (user.HasForumAccount)
+                FormsAuthentication.SignOut();
         }
 
         //
@@ -418,8 +439,8 @@ namespace UniversityWebsite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            SignUserOutForum();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
 

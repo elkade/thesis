@@ -15,12 +15,18 @@ namespace UniversityWebsite.Domain.Model
             // Add custom user claims here
             return userIdentity;
         }
+
+        public User()
+        {
+            HasForumAccount = false;
+        }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         [MinLength(6), MaxLength(6)]
         public string IndexNumber { get; set; }
         [MinLength(11), MaxLength(11)]
         public string Pesel { get; set; }
+        public bool HasForumAccount { get; set; }
     }
 
 }
