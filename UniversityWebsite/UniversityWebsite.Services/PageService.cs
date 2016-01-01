@@ -127,9 +127,37 @@ namespace UniversityWebsite.Services
 
         public PageDto FindPage(int id)
         {
-            var pages = _context.Pages.Where(p => p.Id == id)
-                .ProjectTo<PageDto>();
-            return pages.SingleOrDefault();
+            var page = _context.Pages.Include("Group.Pages").Single(p => p.Id == id);
+            return new PageDto
+            {
+                Content = page.Content,
+                Title = page.Title,
+                Id = page.Id,
+                UrlName = page.UrlName,
+                CountryCode = page.CountryCode,
+                CreationDate = page.CreationDate,
+                Description = page.Description,
+                GroupId = page.GroupId,
+                LastUpdateDate = page.LastUpdateDate,
+                Parent =
+                    page.Parent == null
+                        ? null
+                        : new ParentDto
+                        {
+                            Title = page.Parent.Title, 
+                            UrlName = page.Parent.UrlName
+                        },
+                Translations = page.Group.Pages
+                    .Where(translation => translation.Id != page.Id)
+                    .Select(translation =>
+                        new PageDto
+                        {
+                            Id = translation.Id,
+                            Title = translation.Title,
+                            UrlName = translation.UrlName,
+                            CountryCode = translation.CountryCode
+                        })
+            };
         }
         public PageDto FindPage(string name)
         {
@@ -212,30 +240,7 @@ namespace UniversityWebsite.Services
         }
         public IEnumerable<PageDto> GetAll(int limit, int offset)
         {
-            var pages = _context.Pages.OrderBy(p => p.Title).Skip(offset).Take(limit).ToList();
-            return pages.Select(p => new PageDto
-            {
-                Content = p.Content,
-                Title = p.Title,
-                Id = p.Id,
-                UrlName = p.UrlName,
-                CountryCode = p.CountryCode,
-                CreationDate = p.CreationDate,
-                Description = p.Description,
-                GroupId = p.GroupId,
-                LastUpdateDate = p.LastUpdateDate,
-                Parent = p.Parent == null ? null : new ParentDto { Title = p.Parent.Title, UrlName = p.Parent.UrlName },
-                Translations = p.Group.Pages
-                    .Where(translation => translation.Id != p.Id)
-                    .Select(translation => 
-                        new PageDto
-                        {
-                            Id = translation.Id, 
-                            Title = translation.Title, 
-                            UrlName = translation.UrlName,
-                            CountryCode = translation.CountryCode
-                        })
-            });
+            return _context.Pages.OrderBy(p => p.Title).Skip(offset).Take(limit).ProjectTo<PageDto>();
         }
 
         public int GetPagesNumber()
@@ -299,7 +304,7 @@ namespace UniversityWebsite.Services
             };
             Page createdPage = _context.Pages.Add(newPage);
             _context.SaveChanges();
-            return Mapper.Map<PageDto>(createdPage);
+            return FindPage(createdPage.Id);
         }
 
         public string PrepareUniqueUrlName(string baseUrlName)
@@ -355,7 +360,7 @@ namespace UniversityWebsite.Services
             _context.SetModified(dbPage);
 
             _context.SaveChanges();
-            return Mapper.Map<PageDto>(dbPage);
+            return FindPage(dbPage.Id);
         }
 
         public void Delete(int id)

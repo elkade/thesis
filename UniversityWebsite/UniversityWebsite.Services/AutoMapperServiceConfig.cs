@@ -17,7 +17,7 @@ namespace UniversityWebsite.Services
         public static void Configure()
         {
             Mapper.CreateMap<Page, PageDto>()
-                .ForMember(dto => dto.Parent, conf => conf.MapFrom(p => p.Parent == null ? null : new ParentDto { Title = p.Parent.Title, UrlName = p.Parent.UrlName }));
+                .ForMember(dto => dto.Parent, conf => conf.MapFrom(p => new ParentDto()));//parent niepotrzeby przy zwracaniu listy, tylko przy zwracaniu pojedynczego page
             Mapper.CreateMap<MenuItem, MenuItemDto>()
                 .ForMember(dto => dto.UrlName, conf => conf.MapFrom(p => p.Page.UrlName))
                 .ForMember(dto => dto.Title, conf => conf.MapFrom(p => p.Page.Title));

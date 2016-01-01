@@ -33,12 +33,7 @@
     };
 
     factory.findPage = function (pageId) {
-        var page;
-
-        Pages.query({ id: pageId }).then(function(resp) {
-            page = resp.data;
-        });
-        return page;
+        return Pages.query({ id: pageId });
     };
 
     return factory;

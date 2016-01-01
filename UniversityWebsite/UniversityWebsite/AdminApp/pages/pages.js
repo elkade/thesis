@@ -18,11 +18,11 @@
 
                     controller: [
                         '$scope', '$state', '$location', 'languages',
-                        function ($scope, $state, $location, languages) {
+                        function($scope, $state, $location, languages) {
                             $scope.languages = languages;
 
                             $scope.add = function() {
-                                $state.go("pages.edit", {pageName: "newPage", page: {Id: null}} );
+                                $state.go("pages.edit", { pageName: "newPage", page: { Id: null } });
                             };
                         }
                     ]
@@ -36,7 +36,20 @@
                     views: {
                         '': {
                             templateUrl: 'adminapp/views/pages/pages.edit.html',
-                            controller: 'pagesEditCtrl'
+                            controller: 'pagesEditCtrl',
+                            resolve: {
+                                pagesService: "pagesService",
+                                $stateParams: "$stateParams",
+                                page: function (pagesService, $stateParams) {
+                                    var page = $stateParams.page;
+                                    if (page.Id != null) {
+                                        return pagesService.findPage(page.Id).$promise.then(function (response) {
+                                            return response;
+                                        });
+                                    }
+                                    return page;
+                                }
+                            },
                         },
                     }
                 });

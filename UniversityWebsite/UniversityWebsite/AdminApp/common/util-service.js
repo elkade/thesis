@@ -74,7 +74,6 @@
 
         showValidation: function(form) {
             window.angular.forEach(form.$error, function (field) {
-                console.log(field);
                 window.angular.forEach(field, function(errorField) {
                     errorField.$setTouched();
                 });
