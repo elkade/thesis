@@ -1,6 +1,6 @@
 ﻿angular.module('configApp.main-pages')
 
-.controller('mainPagesEditCtrl', function ($scope, $state, menus, utils, MainPages) {
+.controller('mainPagesEditCtrl', function ($scope, $state, $modal, menus, utils, MainPages) {
     $scope.menus = menus;
     $scope.alerts = [];
 
@@ -22,8 +22,6 @@
         menuItem.Title = page.Title;
         menuItem.PageId = page.Id;
 
-        console.log(menuItem.Order);
-        console.log($scope.activeMenu.CountryCode);
         $scope.activeMenu.Items.push(menuItem);
     },
 
@@ -68,6 +66,20 @@
         return menu.CountryCode == $scope.activeMenu.CountryCode;
     },
 
+
+    $scope.openGallery = function (menu) {
+        var modalInstance = $modal.open({
+            templateUrl: 'adminapp/views/gallery/gallery.modal.html',
+            controller: 'modalCtrl',
+        });
+
+        modalInstance.result.then(function (selectedImageUrl) {
+            menu.ImageUrl = selectedImageUrl;
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+
     $scope.closeAlert = function (index) {
         $scope.alerts.splice(index, 1);
     };
@@ -77,7 +89,7 @@
     };
 
     var errorHandler = function(response) {
-        var alert = { type: 'error', msg: 'Error: The ' + menu.CountryCode + ' menu cannot be updated.' };
+        var alert = { type: 'alert', msg: 'Error: The ' + menu.CountryCode + ' menu cannot be updated.' };
         $scope.addAlert(alert);
     };
 

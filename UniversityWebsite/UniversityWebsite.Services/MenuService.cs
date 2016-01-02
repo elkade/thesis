@@ -126,7 +126,16 @@ namespace UniversityWebsite.Services
                     _context.MenuItems.Remove(item);
 
                 foreach (var item in menu.Items)
-                    dbMenu.Items.Add(new MenuItem { Menu = dbMenu, Order = item.Order, Page = _context.Pages.Single(p => p.Id == item.PageId) });
+                    dbMenu.Items.Add(
+                        new MenuItem
+                        {
+                            Menu = dbMenu, 
+                            Order = item.Order,  
+                            Description = item.Description,
+                            Title = item.Title,
+                            Page = _context.Pages.Single(p => p.Id == item.PageId),
+                            ImageUrl = item.ImageUrl
+                        });
 
                 _context.SaveChanges();
 
@@ -159,14 +168,16 @@ namespace UniversityWebsite.Services
 
         public IEnumerable<Tile> GetTilesMenu(string countryCode)
         {
+            
             var menuItems = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == countryCode).Items;
             return menuItems.OrderByDescending(mi => mi.Order)
                 .Select(mi =>
                     new Tile
                     {
-                        Title = mi.Page.Title,
+                        Title = !String.IsNullOrWhiteSpace(mi.Title) ? mi.Title : mi.Page.Title,
                         UrlName = mi.Page.UrlName,
-                        Description = mi.Page.Description,
+                        Description = !String.IsNullOrWhiteSpace(mi.Description) ? mi.Description : mi.Page.Description,
+                        ImageUrl = mi.ImageUrl
                     });
         }
     }

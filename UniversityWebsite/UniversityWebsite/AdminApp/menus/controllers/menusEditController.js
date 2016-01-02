@@ -76,7 +76,7 @@
     };
 
     var errorHandler = function(response) {
-        var alert = { type: 'error', msg: 'Error: The ' + menu.CountryCode + ' menu cannot be updated.' };
+        var alert = { type: 'alert', msg: 'Error: The ' + menu.CountryCode + ' menu cannot be updated.' };
         $scope.addAlert(alert);
     };
 

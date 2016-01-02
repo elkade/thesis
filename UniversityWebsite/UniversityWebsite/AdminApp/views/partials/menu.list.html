@@ -44,8 +44,8 @@
                             </div>
                         </accordion-heading>
                         <div>
+                            <a ng-click="remove(menuItem, menu.Items)"><i class="fa fa-trash"></i> Remove item</a>
                             <div ng-include="menuEdit.url"></div>
-                            <a ng-click="remove(menuItem, menu.Items)">Remove</a>
                         </div>
                     </accordion-group>
                 </accordion>

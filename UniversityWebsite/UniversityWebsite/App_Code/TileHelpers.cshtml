@@ -1,12 +1,12 @@
 ﻿@using System.Web.Mvc
 
-@helper ImageTile(string href, string title, Action action)
+@helper ImageTile(string href, string title, string imageUrl, Action action)
 {
-    <div class="medium-4 columns columns-align-left">
+    <div class="medium-4 columns columns-align-left tile">
         <div class="card">
             <div class="image">
                 <a href="@href">
-                    <img src="http://static.pexels.com/wp-content/uploads/2014/07/alone-clouds-hills-1909-527x350.jpg">
+                    <img style="max-height: 100px" src="@imageUrl">
                 </a>
                 <span class="title">@title</span>
             </div>
@@ -20,14 +20,14 @@
     </div>
 }
 
-@helper ImageTile(string href, string title, string content = null)
+@helper ImageTile(string href, string title, string imageUrl, string content = null)
 {
-    <div class="medium-4 columns columns-align-left">
+    <div class="medium-4 columns columns-align-left tile">
         <div class="card">
 
             <div class="image">
                 <a href="@href">
-                    <img src="http://static.pexels.com/wp-content/uploads/2014/07/alone-clouds-hills-1909-527x350.jpg">
+                    <img src="@imageUrl">
                 </a>
                 <span class="title">@title</span>
             </div>
@@ -42,7 +42,7 @@
 
 @helper TextTile(string href, string title, Action action = null)
 {
-    <div class="medium-4 columns columns-align-left">
+    <div class="medium-4 columns columns-align-left tile">
         <div class="card">
             <div class="content">
                 <div class="title" style="padding-bottom: 1rem; padding-top: 1rem;">

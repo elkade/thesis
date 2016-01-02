@@ -72,8 +72,12 @@
     $scope.select = function () {
         var selectedImage = Enumerable.From($scope.images).First(function (image) { return image.selected; });
         var imageUrl = "/api/file/gallery/" + selectedImage.Id;
-        top.tinymce.activeEditor.windowManager.getParams().oninsert(imageUrl);
-        top.tinymce.activeEditor.windowManager.close();
+        if (top.tinymce.activeEditor != null) {
+            top.tinymce.activeEditor.windowManager.getParams().oninsert(imageUrl);
+            top.tinymce.activeEditor.windowManager.close();
+        } else {
+            $scope.$parent.selectImage(imageUrl);
+        }
     };
 
 })

@@ -14,3 +14,16 @@
         </label>
     </div>
 </div>
+<div class="row">
+    <div class="medium-12 columns">
+        <ul class="button-group">
+            <li><input type="text" ng-model="menuItem.ImageUrl" /></li>
+            <li><button class="button small" ng-click="openGallery(menuItem)"><i class="fa fa-search"></i></button></li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-6 columns">
+        <img ng-if="menuItem.ImageUrl != null" ng-src="{{menuItem.ImageUrl}}" style="max-height: 300px"/>
+    </div>
+</div>

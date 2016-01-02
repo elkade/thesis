@@ -8,14 +8,13 @@
 }
 
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
-<h2>@GetPhrase("welcome")</h2>
+@*<h2>@GetPhrase("welcome")</h2>
 
 <form enctype="multipart/form-data" action="/api/file/gallery" method="post">
     <input type="file" name="myFile"/><br/>
     <button type="submit"></button><br/>
-</form>
-
-@foreach(var page in Model.Tiles)
-{   
-    @TileHelpers.ImageTile(page.UrlName, page.Title, page.Description)
+</form>*@
+@foreach (var page in Model.Tiles)
+{
+    @TileHelpers.ImageTile(page.UrlName, page.Title, page.ImageUrl, page.Description)
 }

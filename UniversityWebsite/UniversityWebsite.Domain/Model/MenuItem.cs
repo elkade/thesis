@@ -12,7 +12,7 @@ namespace UniversityWebsite.Domain.Model
         [ForeignKey("PageId")]
         public virtual Page Page { get; set; }
 
-        public string ImagePath { get; set; }
+        public string ImageUrl { get; set; }
 
         public int MenuId { get; set; }
         //[Required]
@@ -20,5 +20,7 @@ namespace UniversityWebsite.Domain.Model
         public virtual Menu Menu { get; set; }
 
         public int Order { get; set; }
+        public string Description { get; set; }
+        public string Title { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace UniversityWebsite.Services.Model
         public string Title { get; set; }
         public int Order { get; set; }
         public int PageId { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
     }
 
     public class MenuData
@@ -29,5 +31,8 @@ namespace UniversityWebsite.Services.Model
     {
         public int PageId { get; set; }
         public int Order { get; set; }
+        public string Description { get; set; }
+        public string Title { get; set; }
+        public string ImageUrl { get; set; }
     }
 }
