@@ -6,7 +6,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-    @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>@
+    @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>*@
 
     <li>
         <a href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button dropdown">@User.Identity.Name.Substring(0, User.Identity.Name.IndexOf('@'))</a>
