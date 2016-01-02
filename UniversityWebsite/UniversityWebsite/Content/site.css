@@ -43,7 +43,7 @@ p.title {
 
 @import url(//fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900);
 
-html, body {
+body {
     background: #F6F6FA;
     background: url("images/background.jpg");
 }

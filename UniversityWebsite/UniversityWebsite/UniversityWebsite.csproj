@@ -243,6 +243,7 @@
     <Content Include="AdminApp\tests\unit\subjectSignUpRequestControllerSpec.js" />
     <Content Include="AdminApp\tests\unit\util-serviceSpec.js" />
     <Content Include="AdminApp\users\controllers\userEditController.js" />
+    <Content Include="AdminApp\users\controllers\usersController.js" />
     <Content Include="AdminApp\users\controllers\userSubjectsEditController.js" />
     <Content Include="AdminApp\galleryApp.js" />
     <Content Include="AdminApp\views\gallery\gallery.html" />
@@ -265,6 +266,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\background.jpg" />
     <Content Include="Content\images\invalid.png" />
+    <Content Include="Content\images\semester.jpg" />
     <Content Include="Content\site.css" />
     <Content Include="Content\images\foundation\foundation-icons.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />

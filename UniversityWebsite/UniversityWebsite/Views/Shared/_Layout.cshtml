@@ -33,40 +33,16 @@
     </div>
 
     <div class="row">
-        <div class="large-12 columns">
-            <div id="slider">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/Polish_Wikinews_header_image.png" />
-            </div>
+        <div id="slider">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/Polish_Wikinews_header_image.png" />
         </div>
     </div>
 
-    <div class="row light-color">
-        <div class="large-12 columns">
-            @RenderBody()
-        </div>
+    <div class="row light-color" data-equalizer="tile">
+        @RenderBody()
     </div>
 
-
-    @*<div class="row">
-            <div class="large-12 columns">
-
-                <div class="panel">
-                    <h4>Get in touch!</h4>
-
-                    <div class="row">
-                        <div class="large-9 columns">
-                            <p>We'd love to hear from you, you attractive person you.</p>
-                        </div>
-                        <div class="large-3 columns">
-                            <a href="#" class="radius button right">Contact Us</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>*@
-
-    <footer class="row">
+    <footer class="row light-color">
         <div class="large-12 columns">
             <hr />
             <div class="row">
@@ -88,9 +64,6 @@
 
     @Scripts.Render("~/bundles/foundation")
     @RenderSection("Scripts", false)
-    <script>
-        $(document).foundation();
-    </script>
 
     <script>
  //TODO: zrobic cos z tym
@@ -105,6 +78,10 @@
                 // allow accordion panels to be closed by clicking on their headers
                 // setting to false only closes accordion panels when another is opened
                 toggleable: true
+            },
+            equalizer : {
+                // Specify if Equalizer should make elements equal height once they become stacked.
+                equalize_on_stack: true
             }
         });
     </script>

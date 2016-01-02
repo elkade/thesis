@@ -17,7 +17,7 @@
                     resolve: {
                         menus: getMainPages,
                     },
-
+                    data: { auth: "admin"},
                     controller: 'mainPagesEditCtrl'
                 });
         }

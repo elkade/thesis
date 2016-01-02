@@ -26,8 +26,8 @@ configApp.filter("sanitize", ['$sce', function ($sce) {
     };
 }]);
 
-configApp.run(['$http', '$rootScope', '$state', '$stateParams', 'usSpinnerService',
-    function ($http, $rootScope, $state, $stateParams, usSpinnerService) {
+configApp.run(['$http', '$rootScope', '$state', '$stateParams', 'usSpinnerService', 'user',
+    function ($http, $rootScope, $state, $stateParams, usSpinnerService, user) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
@@ -38,6 +38,17 @@ configApp.run(['$http', '$rootScope', '$state', '$stateParams', 'usSpinnerServic
         $rootScope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
                 usSpinnerService.stop('spinner-1');
+            });
+
+        $rootScope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (toState.data.auth === "admin" && !user.isAdmin) {
+                    event.preventDefault();
+                    usSpinnerService.stop('spinner-1');
+                    //TODO: redirect to error page
+                    return false;
+                }
+                return true;
             });
     }
 ]);
@@ -60,11 +71,18 @@ configApp.config(
 
           // If the url is ever invalid, e.g. '/asdf', then redirect to '/' aka the home state
           .otherwise('/');
-
+        
         $stateProvider
             .state("dashboard", {
                 url: "/",
-                templateUrl: 'adminapp/views/dashboard.html'
+                templateUrl: 'adminapp/views/dashboard.html',
+                data: { auth: "admin" },
+                controller: [
+                        '$scope', 'user',
+                        function ($scope, user) {
+                            $scope.user = user;
+                        }
+                ]
             });
     }]);
 

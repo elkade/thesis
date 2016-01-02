@@ -17,8 +17,7 @@ namespace UniversityWebsite.Bundles
                       "~/Scripts/foundation/fastclick.js",
                       "~/Scripts/jquery.cookie.js",
                       "~/Scripts/foundation/foundation.js",
-                      "~/Scripts/foundation/foundation.*",
-                      "~/Scripts/foundation/app.js");
+                      "~/Scripts/foundation/foundation.*");
         }
     }
 }

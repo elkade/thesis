@@ -1,56 +1,50 @@
-﻿<div class="row">
-    <div class="small-12 columns">
-        <h1>Panel admina</h1>
-    </div>
-</div>
+﻿
 
-<div>
+<div style="margin-top: 2rem;">
     <div class="row" data-equalizer>
-        <div class="large-3 columns">
+        <div class="medium-3 columns columns-align-left" ng-if="user.isAdmin">
             <a ui-sref="users">
                 <div class="panel" data-equalizer-watch>
                     <h3>Użytkownicy</h3><span>Zarzadzaj użytkownikami systemu</span>
                 </div>
             </a>
         </div>
-        <div class="large-3 columns">
+        <div class="medium-3 columns columns-align-left">
             <a ui-sref="subjects">
                 <div class="panel" data-equalizer-watch>
                     <h3>Przedmioty</h3><span>Zarządzaj i dodawaj nowe przedmioty</span>
                 </div>
             </a>
         </div>
-        <div class="large-3 columns">
+        <div class="medium-3 columns columns-align-left" ng-if="user.isAdmin">
             <a ui-sref="menus">
                 <div class="panel" data-equalizer-watch>
                     <h3>Menu nawigacyjne</h3><span>Dostosuj górne menu</span>
                 </div>
             </a>
         </div>
-        <div class="large-3 columns">
+        <div class="medium-3 columns columns-align-left" ng-if="user.isAdmin">
             <a ui-sref="languages">
                 <div class="panel" data-equalizer-watch>
                     <h3>Języki</h3><span>Zarządzaj jezykami i wyświetlanymi tlumaczeniami</span>
                 </div>
             </a>
         </div>
-    </div>
-    <div class="row">
-        <div class="large-6 columns">
+        <div class="medium-6 columns columns-align-left" ng-if="user.isAdmin">
             <a ui-sref="pages">
                 <div class="panel">
                     <h3>Strony</h3><span class="rb-temp">Modyfikuj i dodawaj nowe strony</span>
                 </div>
             </a>
         </div>
-        <div class="large-3 columns">
+        <div class="medium-3 columns columns-align-left" ng-if="user.isAdmin">
             <a ui-sref="main-pages">
                 <div class="panel">
                     <h3>Strona główna</h3><span class="rb-temp">Dodawaj i usuwaj kafelki na stronie głównej</span>
                 </div>
             </a>
         </div>
-        <div class="large-3 columns">
+        <div class="medium-3 columns columns-align-left">
             <a ui-sref="gallery">
                 <div class="panel">
                     <h3>Image gallery</h3><span class="rb-temp">Upload and remove images.</span>
@@ -58,5 +52,4 @@
             </a>
         </div>
     </div>
-
 </div>

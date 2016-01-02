@@ -123,6 +123,9 @@ namespace UniversityWebsite.Core.Migrations
             _context.Phrases.Add(new Phrase { Key = "notFoundText", CountryCode = "pl", Value = "Strona o podanym adresie nie istnieje." });
             _context.Phrases.Add(new Phrase { Key = "notFoundText", CountryCode = "en", Value = "This page does not exist." });
 
+            _context.Phrases.Add(new Phrase { Key = "mySubjects", CountryCode = "pl", Value = "Moje przedmioty" });
+            _context.Phrases.Add(new Phrase { Key = "mySubjects", CountryCode = "en", Value = "My subjects" });
+
         }
 
         private void AddPagesAndMenus()

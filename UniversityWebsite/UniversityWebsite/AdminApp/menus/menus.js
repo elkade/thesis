@@ -20,12 +20,13 @@
                     resolve: {
                         menus: getMenus,
                     },
-                    controller: 'menusEditCtrl'
+                    controller: 'menusEditCtrl',
+                    data: { auth: "admin"}
 
                 })
                 .state('menus.edit', {
                     url: '/:lang',
-
+                    data: { auth: "admin"},
                     views: {
                         '': {
                             templateUrl: 'scripts/app/views/menus/menus.edit.html',

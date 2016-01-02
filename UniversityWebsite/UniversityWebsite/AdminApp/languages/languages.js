@@ -25,14 +25,14 @@
                         languages: getLanguages,
                         dictionaries: getDictionaries
                     },
-
+                    data: { auth: "admin"},
                     controller: 'languagesCtrl'
 
                 })
                 .state('languageForm', {
                     url: '/languageForm',
                     templateUrl: 'adminapp/views/languages/languageWizard.html',
-
+                    data: { auth: "admin"},
                     resolve: {
                         translationKeys: translationKeys
                     },
@@ -42,10 +42,12 @@
                 .state('languageForm.basic', {
                     url: '/basic',
                     templateUrl: 'adminapp/views/languages/languageWizard.basic.html',
+                    data: { auth: "admin" }
                 })
                 .state('languageForm.translations', {
                     url: '/translations',
                     templateUrl: 'adminapp/views/languages/languageWizard.translations.html',
+                    data: { auth: "admin" }
                 });
             //$urlRouterProvider.otherwise('/languageForm/basic');
         }

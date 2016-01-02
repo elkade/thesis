@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -27,16 +28,22 @@ namespace UniversityWebsite.Api.Controllers
 
         [Limit(50), Offset]
         [Route("")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Teacher")]
         //[AntiForgeryValidate]
         public PaginationVm<SubjectDto> GetSubjects(int limit = 50, int offset = 0)
         {
-            var subjects = _subjectService.GetSubjects(limit, offset);
+            String userId = null;
+            if (User.IsInRole("Teacher"))
+            {
+                userId = User.Identity.GetUserId();
+            }
+            var subjects = _subjectService.GetSubjects(limit, offset, userId);
             var number = _subjectService.GetSubjectsNumber();
             return new PaginationVm<SubjectDto>(subjects, number, limit, offset);
         }
 
         [Route("")]
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult PostSubject(SubjectPost subject)
         {
             if (!ModelState.IsValid)
@@ -47,6 +54,7 @@ namespace UniversityWebsite.Api.Controllers
             return Ok(addedSubject);
         }
         [Route("")]
+        [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult PutSubject(SubjectPut subject)
         {
             if (!ModelState.IsValid)
@@ -58,6 +66,7 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("{subjectId:int}")]
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult DeleteSubject(int subjectId)
         {
             _subjectService.DeleteSubject(subjectId);
@@ -66,6 +75,7 @@ namespace UniversityWebsite.Api.Controllers
 
         [Limit(50), Offset]
         [Route("{subjectId:int}/news")]
+        [Authorize(Roles = "Administrator, Teacher")]
         public PaginationVm<NewsDto> GetNews(int subjectId, int limit = 50, int offset = 0)
         {
             var news = _subjectService.GetNews(subjectId);
@@ -74,6 +84,7 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("{subjectId:int}/news")]
+        [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult PostNews(int subjectId, [FromBody]NewsPost news)
         {
             if (!ModelState.IsValid)
@@ -84,6 +95,7 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("{subjectId:int}/news/{newsId:int}")]
+        [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult PutNews(int subjectId, int newsId, [FromBody]NewsPut news)
         {
             if (newsId != news.Id)
@@ -97,6 +109,7 @@ namespace UniversityWebsite.Api.Controllers
 
 
         [Route("{subjectId:int}/news/{newsId:int}")]
+        [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult DeleteNews(int subjectId, int newsId)
         {
             _subjectService.DeleteNews(subjectId, newsId);
@@ -104,6 +117,7 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         [Route("{subjectId:int}/teachers")]
+        [Authorize(Roles = "Administrator")]
         public IEnumerable<UserTeachingVm> GetTeachers(int subjectId)
         {
             var teachers = _subjectService.GetTeachers(subjectId)
@@ -119,6 +133,7 @@ namespace UniversityWebsite.Api.Controllers
 
         [HttpPost]
         [Route("{subjectId:int}/teachers")]
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult AddTeachers(int subjectId, [FromBody]string[] teacherIds)
         {
             _subjectService.AddTeachers(subjectId, teacherIds.Distinct());
@@ -127,6 +142,7 @@ namespace UniversityWebsite.Api.Controllers
 
         [HttpDelete]
         [Route("{subjectId:int}/teachers")]
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult DeleteTeachers(int subjectId, [FromBody]string[] teacherIds)
         {
             _subjectService.DeleteTeachers(subjectId, teacherIds.Distinct());
@@ -135,6 +151,7 @@ namespace UniversityWebsite.Api.Controllers
 
         [Limit(50), Offset]
         [Route("{subjectId:int}/students")]
+        [Authorize(Roles = "Administrator, Teacher")]
         public PaginationVm<UserTeachingVm> GetStudents(int subjectId, int limit = 50, int offset = 0)
         {
             var students = _subjectService.GetStudents(subjectId, limit, offset)

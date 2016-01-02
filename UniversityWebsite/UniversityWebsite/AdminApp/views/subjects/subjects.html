@@ -14,7 +14,7 @@ a.add-button{
                 <h3>Subjects</h3>
             </div>
             <div class="small-5 columns" style="text-align: right">
-                <a ng-click="add()" class="add-button">
+                <a ng-click="add()" class="add-button" ng-if="user.isAdmin">
                     <i class="fi-page-add" style="font-size: 15pt"></i>
                     Add
                 </a>

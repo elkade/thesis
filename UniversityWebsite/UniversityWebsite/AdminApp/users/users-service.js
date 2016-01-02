@@ -16,31 +16,10 @@
 .factory('userService', ['$http', 'utils', 'Users', function ($http, utils, Users) {
     var path = "/api/users/";
 
-    var users = $http.get(path).then(function (resp) {
-        return resp.data;
-    });
-
     var factory = {};
-    factory.allUsers = function () {
-        return users;
-        //return [
-        //    {
-        //        Id: '1',
-        //        FirstName: 'Jan',
-        //        LastName: 'Kowalski',
-        //        Login: 'jkowalski',
-        //        Email: 'jkowalski@kkk.pl',
-        //        OwnedSubjects: [{Name: 'Algebra'}, {Name: 'Analiza'}],
-        //        ParticipatedSubjects: [{Name: 'Algebra 2', Id: 1}, {Name: 'Analiza 2', Id: 2}],
-        //    },
-        //    {
-        //        Id: '2',
-        //        FirstName: 'Anna',
-        //        LastName: 'Nowak',
-        //        Login: 'anowak',
-        //        Email: 'anowak@kkk.pl'
-        //    },
-        //];
+
+    factory.queryUsers = function (limit, offset) {
+        return $http.get(path, { params: { limit: limit, offset: offset } });
     };
 
     factory.update = Users.update;

@@ -12,17 +12,19 @@
 </style>
 
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
-<div class="row">
-    <div class="medium-12 columns">
-        <h3>
-            @Model.Title
-        </h3>
+<div class="medium-12 columns">
+    <div class="row">
+        <div class="medium-12 columns">
+            <h3>
+                @Model.Title
+            </h3>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="medium-12 columns">
-        <div>
-            @Html.Raw(Model.Content)
+    <div class="row">
+        <div class="medium-12 columns">
+            <div>
+                @Html.Raw(Model.Content)
+            </div>
         </div>
     </div>
 </div>
