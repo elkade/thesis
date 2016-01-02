@@ -21,7 +21,7 @@
 
     function getPage(pageNumber) {
         var offset = (pageNumber - 1) * $scope.usersPerPage;
-        userService.queryUsers($scope.usersPerPage, offset).then(function (response) {
+        userService.queryUsers(null, $scope.usersPerPage, offset).then(function (response) {
             $scope.totalUsers = response.data.Number;
             $scope.users = response.data.Elements;
         });

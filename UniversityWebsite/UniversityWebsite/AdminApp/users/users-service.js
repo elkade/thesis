@@ -18,8 +18,8 @@
 
     var factory = {};
 
-    factory.queryUsers = function (limit, offset) {
-        return $http.get(path, { params: { limit: limit, offset: offset } });
+    factory.queryUsers = function (userRole, limit, offset) {
+        return $http.get(path, { params: {role: userRole, limit: limit, offset: offset } });
     };
 
     factory.update = Users.update;

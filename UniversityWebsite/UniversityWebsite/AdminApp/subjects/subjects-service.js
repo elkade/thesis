@@ -75,5 +75,9 @@
         return Teachers.post({ subjectId: subjectId }, teacherIds);
     };
 
+    factory.removeTeachers = function (subjectId, teacherIds) {
+        return Teachers.update({ subjectId: subjectId}, teacherIds);
+    };
+
     return factory;
 }]);

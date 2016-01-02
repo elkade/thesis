@@ -60,3 +60,43 @@ configApp.directive('pageList', function() {
         }
     };
 });
+
+configApp.directive('userList', function () {
+    return {
+        restrict: "E",
+        templateUrl: "/adminapp/views/users/user.list.html",
+        scope: {
+            showTitle: '=',
+            role: '=',
+            doubleClick: '&'
+        },
+        controller: function ($scope, userService) {
+            $scope.totalUsers = 0;
+            $scope.currentPage = 1;
+            $scope.usersPerPage = 8;
+            
+            getPage(1);
+
+            $scope.pageChanged = function (newPage) {
+                getPage(newPage);
+            };
+
+            $scope.pagination = {
+                current: 1
+            };
+
+            function getPage(pageNumber) {
+                var offset = (pageNumber - 1) * $scope.usersPerPage;
+                userService.queryUsers($scope.role, $scope.usersPerPage, offset).then(function (response) {
+                    console.log(response);
+                    $scope.totalUsers = response.data.Number;
+                    $scope.users = response.data.Elements;
+                });
+            };
+
+            $scope.select = function (user) {
+                $scope.doubleClick()(user.Id);
+            };
+        }
+    };
+});

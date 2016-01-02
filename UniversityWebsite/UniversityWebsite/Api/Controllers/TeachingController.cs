@@ -137,11 +137,19 @@ namespace UniversityWebsite.Api.Controllers
         public IHttpActionResult AddTeachers(int subjectId, [FromBody]string[] teacherIds)
         {
             _subjectService.AddTeachers(subjectId, teacherIds.Distinct());
+            var teachers = _subjectService.GetTeachers(subjectId)
+                .Select(s => new UserTeachingVm
+                {
+                    Id = s.Id,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    Email = s.Email
+                });
             return Ok();
         }
 
-        [HttpDelete]
-        [Route("{subjectId:int}/teachers")]
+        [HttpPut]
+        [Route("{subjectId}/teachers")]
         [Authorize(Roles = "Administrator")]
         public IHttpActionResult DeleteTeachers(int subjectId, [FromBody]string[] teacherIds)
         {
