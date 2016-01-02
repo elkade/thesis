@@ -129,12 +129,13 @@ namespace UniversityWebsite.Controllers
 
         private void SignUserOutForum()
         {
-            if (!User.Identity.IsAuthenticated) return;
-            var id = User.Identity.GetUserId();
-            var user = UserManager.FindById(id);
-            if (user == null)
-                throw new Exception("User with id: " + id + " does not exist.");
-            if (user.HasForumAccount)
+            //if (!User.Identity.IsAuthenticated) return;
+            //var id = User.Identity.GetUserId();
+            //var user = UserManager.FindById(id);
+            //if (user == null)
+            //    return;
+            //    //throw new Exception("User with id: " + id + " does not exist.");
+            //if (user.HasForumAccount)
                 FormsAuthentication.SignOut();
         }
 

@@ -8,7 +8,6 @@ using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity.Owin;
 using UniversityWebsite.Core;
 using UniversityWebsite.Filters;
-using UniversityWebsite.Helper.Files;
 using UniversityWebsite.Services;
 using Module = Autofac.Module;
 

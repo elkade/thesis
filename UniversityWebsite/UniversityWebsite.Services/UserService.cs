@@ -38,6 +38,7 @@ namespace UniversityWebsite.Services
     /// </summary>
     public class UserService : IUserService
     {
+        private readonly string _hostName = ConfigurationManager.AppSettings["hostName"];
         private readonly IDomainContext _context;
         private readonly ApplicationUserManager _userManager;
         private readonly ModelFactory _modelFactory;
@@ -84,28 +85,33 @@ namespace UniversityWebsite.Services
 
                 return _modelFactory.GetDtoWithPassword(user, password);
             });
-            using (var client = new ForumUserClient(ConfigurationManager.AppSettings["hostName"]))
+            using (var client = new ForumUserClient(_hostName))
                 user.HasForumAccount = client.TryAddUser(createdUser.Email, createdUser.Password, createdUser.Role == "Administrator");
             _context.Users.Attach(user);
             _context.SetPropertyModified(user, u=>u.HasForumAccount);
             _context.SaveChanges();
+            createdUser.HasForumAccount = user.HasForumAccount;
             return createdUser;
         }
 
         public UserDto UpdateUser(UserDto userDto)
         {
-            return _context.InTransaction(() =>
+            bool? isAdmin = null;
+            bool hasForumAccount = false;
+            string oldMail=null;
+            var user = _context.InTransaction(() =>
             {
                 var dbUser = _userManager.FindById(userDto.Id);
                 if (dbUser == null)
                     throw new NotFoundException("User with id: " + userDto.Id);
+                oldMail = dbUser.Email;
                 dbUser.Email = userDto.Email;
                 dbUser.UserName = userDto.Email;
                 dbUser.FirstName = userDto.FirstName;
                 dbUser.IndexNumber = userDto.IndexNumber;
                 dbUser.LastName = userDto.LastName;
                 dbUser.Pesel = userDto.Pesel;
-
+                hasForumAccount = dbUser.HasForumAccount;
                 var result = _userManager.Update(dbUser);
 
                 if (!result.Succeeded)
@@ -120,9 +126,15 @@ namespace UniversityWebsite.Services
                     result = _userManager.AddToRole(userDto.Id, userDto.Role);
                     if (!result.Succeeded)
                         throw new IdentityOperationFailedException(result);
+
+                    isAdmin = userDto.Role == "Administrator";
                 }
                 return _modelFactory.GetDto(dbUser);
             });
+            if(isAdmin.HasValue && hasForumAccount)
+                using (var client = new ForumUserClient(_hostName))
+                    client.TryEditUser(oldMail, isAdmin.Value, user.Email);
+            return user;
         }
 
 
@@ -135,9 +147,14 @@ namespace UniversityWebsite.Services
             var user = _userManager.FindById(userId);
             if (user == null)
                 throw new NotFoundException("User with id: "+userId+" does not exist.");
+            bool hasForumAccount = user.HasForumAccount;
+            string email = user.Email;
             var result = _userManager.Delete(user);
             if (!result.Succeeded)
                 throw new IdentityOperationFailedException(result);
+            if (!hasForumAccount) return;
+            using (var client = new ForumUserClient(_hostName))
+                client.TryDeleteUser(email);
         }
 
         //public void ChangePassword(string userId, string currentPassword, string newPassword)
