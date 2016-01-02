@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Http;
 using System.Web.Mvc;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
-using MVCForum.Website.Application;
 
 namespace UniversityWebsite.Forum.Controllers
 {
@@ -21,35 +19,15 @@ namespace UniversityWebsite.Forum.Controllers
         protected readonly ISettingsService SettingsService;
         protected readonly ILoggingService LoggingService;
 
-        protected MembershipUser LoggedOnReadOnlyUser;
-        protected MembershipRole UsersRole;
 
-
-
-        private readonly IPostService _postService;
-        private readonly IReportService _reportService;
-        private readonly IEmailService _emailService;
-        private readonly IPrivateMessageService _privateMessageService;
         private readonly IBannedEmailService _bannedEmailService;
         private readonly IBannedWordService _bannedWordService;
-        private readonly ITopicNotificationService _topicNotificationService;
-        private readonly IPollAnswerService _pollAnswerService;
-        private readonly IVoteService _voteService;
-        private readonly ICategoryService _categoryService;
 
         public SsoController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService,
-            IRoleService roleService, ISettingsService settingsService, IPostService postService, IReportService reportService, IEmailService emailService, IPrivateMessageService privateMessageService, IBannedEmailService bannedEmailService, IBannedWordService bannedWordService, ITopicNotificationService topicNotificationService, IPollAnswerService pollAnswerService, IVoteService voteService, ICategoryService categoryService)
+            IRoleService roleService, ISettingsService settingsService, IBannedEmailService bannedEmailService, IBannedWordService bannedWordService)
         {
-            _postService = postService;
-            _reportService = reportService;
-            _emailService = emailService;
-            _privateMessageService = privateMessageService;
             _bannedEmailService = bannedEmailService;
             _bannedWordService = bannedWordService;
-            _topicNotificationService = topicNotificationService;
-            _pollAnswerService = pollAnswerService;
-            _voteService = voteService;
-            _categoryService = categoryService;
 
 
             UnitOfWorkManager = unitOfWorkManager;
@@ -58,6 +36,21 @@ namespace UniversityWebsite.Forum.Controllers
             RoleService = roleService;
             SettingsService = settingsService;
             LoggingService = loggingService;
+        }
+
+        public class ResultViewModel
+        {
+            public ResultViewModel()
+            {
+                
+            }
+            public ResultViewModel(bool isSuccess, string message=null)
+            {
+                Message = message;
+                IsSuccess = isSuccess;  
+            }
+            public string Message { get; set; }
+            public bool IsSuccess { get; set; }
         }
 
         public class CreateUserViewModel
@@ -78,11 +71,12 @@ namespace UniversityWebsite.Forum.Controllers
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns></returns>
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Route("register")]
-        [System.Web.Http.Authorize(Roles = AppConstants.AdminRoleName)]
+        [HttpPost]
         public JsonResult Register(CreateUserViewModel userModel)
         {
+            if (!ModelState.IsValid)
+                throw new Exception("Model invalid");
+
             try
             {
                 if (SettingsService.GetSettings().SuspendRegistration != true)
@@ -94,7 +88,7 @@ namespace UniversityWebsite.Forum.Controllers
                         {
                             return
                                 Json(
-                                    new
+                                    new ResultViewModel
                                     {
                                         IsSuccess = false,
                                         Message = LocalizationService.GetResourceString("Error.EmailIsBanned")
@@ -106,11 +100,11 @@ namespace UniversityWebsite.Forum.Controllers
                     return MemberRegisterLogic(userModel);
 
                 }
-                return Json(new {IsSuccess = false, Message = ""});
+                return Json(new ResultViewModel { IsSuccess = false, Message = "" });
             }
             catch (Exception ex)
             {
-                return Json(new { IsSuccess = true, Message = ex.ToString() });
+                return Json(new ResultViewModel { IsSuccess = false, Message = ex.Message });
             }
         }
 
@@ -147,25 +141,143 @@ namespace UniversityWebsite.Forum.Controllers
                     try
                     {
                         unitOfWork.Commit();
-                        if (userModel.IsAdmin)
-                        {
-                            var user = MembershipService.GetUserByEmail(userModel.Email);
-                            var role = RoleService.GetRole(AppConstants.AdminRoleName);
-                            user.Roles = new List<MembershipRole> { role };
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        return Json(new ResultViewModel { IsSuccess = false, Message = ex.ToString() });
+                    }
+                }
+            }
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (userModel.IsAdmin)
+                {
+                    var user = MembershipService.GetUserByEmail(userModel.Email);
+                    var role = RoleService.GetRole(AppConstants.AdminRoleName);
+                    user.Roles = new List<MembershipRole> { role };
+                }
+                try
+                {
+                    unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    return Json(new ResultViewModel {IsSuccess = false, Message = ex.ToString()});
+                }
+            }
+            return Json(new ResultViewModel { IsSuccess = true });
+        }
+
+        public class EditUserViewModel
+        {
+            [Required]
+            public string OldEmail { get; set; }
+            [Required]
+            [StringLength(150, MinimumLength = 4)]
+            public string NewEmail { get; set; }
+            [Required]
+            public bool IsAdmin { get; set; }
+        }
+
+        [HttpPost]
+        public JsonResult Edit(EditUserViewModel userModel)
+        {
+            if (!ModelState.IsValid)
+                throw new Exception("Model invalid");
+
+            try
+            {
+                using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+                {
+                    var user = MembershipService.GetUserByEmail(userModel.OldEmail);
+                    if (user == null)
+                    {
+                        throw new ApplicationException("Cannot edit user - user does not exist");
+                    }
+                    if (userModel.OldEmail != userModel.NewEmail)
+                    {
+                        user.Email = userModel.NewEmail;
+                        user.UserName = userModel.NewEmail;
+                    }
+                    MembershipRole role = RoleService.GetRole(userModel.IsAdmin ? AppConstants.AdminRoleName : "Standard Members");
+                    user.Roles = new List<MembershipRole> { role };
+                    try
+                    {
                         unitOfWork.Commit();
                     }
                     catch (Exception ex)
                     {
                         unitOfWork.Rollback();
                         LoggingService.Error(ex);
-                        return Json(new { IsSuccess = true, Message = ex.ToString() });
+                        return Json(new ResultViewModel { IsSuccess = false, Message = ex.ToString() });
                     }
                 }
             }
-
-            return Json(new { IsSuccess = true });
+            catch (Exception ex)
+            {
+                LoggingService.Error(ex);
+                return Json(new ResultViewModel { IsSuccess = false, Message = ex.ToString() });
+            }
+            return Json(new ResultViewModel { IsSuccess = true });
+        }
+        public class DeleteUserViewModel
+        {
+            [Required]
+            public string Email { get; set; }
         }
 
+        [HttpPost]
+        public JsonResult Remove(DeleteUserViewModel userModel)
+        {
+            if(!ModelState.IsValid)
+                throw new Exception("Model invalid");
+            try
+            {
+                using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+                {
+                    var user = MembershipService.GetUserByEmail(userModel.Email);
+                    if (user == null)
+                    {
+                        throw new ApplicationException("Cannot delete user - user does not exist");
+                    }
+                    MembershipService.Delete(user, unitOfWork);
+                    try
+                    {
+                        unitOfWork.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        return Json(new ResultViewModel { IsSuccess = false, Message = ex.Message });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingService.Error(ex);
+                return Json(new ResultViewModel { IsSuccess = false, Message = ex.Message });
+            }
+            return Json(new ResultViewModel { IsSuccess = true });
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Exception e = filterContext.Exception;
+            //Log Exception e
+            filterContext.ExceptionHandled = true;
+            filterContext.Result = Json(new ResultViewModel { IsSuccess = false, Message = e.ToString() });
+        }
+        //protected override void OnAuthorization(AuthorizationContext filterContext)
+        //{
+        //    base.OnAuthorization(filterContext);
+
+        //    if (!User.Identity.IsAuthenticated)
+        //        filterContext.Result = Json(new { IsSuccess = false, Message = "Access denied." });
+        //}
     }
 }

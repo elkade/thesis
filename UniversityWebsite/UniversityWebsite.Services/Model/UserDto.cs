@@ -13,5 +13,6 @@
     public class UserWithPasswordDto : UserDto
     {
         public string Password { get; set; }
+        public bool HasForumAccount { get; set; }
     }
 }
