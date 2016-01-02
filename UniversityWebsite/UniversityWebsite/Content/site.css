@@ -220,3 +220,8 @@ input.title-input {
 .pages-list ul {
     padding-top: 0;
 }
+
+.modal-dialog {
+    width: 40%;
+    max-width: 800px;
+}

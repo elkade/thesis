@@ -237,6 +237,7 @@
     <Content Include="AdminApp\subjects\controllers\subjectStudentsController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectFilesController.js" />
     <Content Include="AdminApp\subjects\controllers\subjectSectionFormController.js" />
+    <Content Include="AdminApp\subjects\controllers\subjectTeachersController.js" />
     <Content Include="AdminApp\tests\karma.conf.js" />
     <Content Include="AdminApp\tests\lib\angular-mocks.js" />
     <Content Include="AdminApp\tests\lib\sinon-1.17.2.js" />
@@ -244,6 +245,7 @@
     <Content Include="AdminApp\tests\unit\util-serviceSpec.js" />
     <Content Include="AdminApp\users\controllers\userEditController.js" />
     <Content Include="AdminApp\users\controllers\usersController.js" />
+    <Content Include="AdminApp\users\controllers\usersModalController.js" />
     <Content Include="AdminApp\users\controllers\userSubjectsEditController.js" />
     <Content Include="AdminApp\galleryApp.js" />
     <Content Include="AdminApp\views\gallery\gallery.html" />
@@ -262,7 +264,10 @@
     <Content Include="AdminApp\views\subjects\section.schedule.html" />
     <Content Include="AdminApp\views\subjects\section.students.html" />
     <Content Include="AdminApp\views\subjects\section.syllabus.html" />
+    <Content Include="AdminApp\views\subjects\section.teachers.html" />
+    <Content Include="AdminApp\views\users\user.list.html" />
     <Content Include="AdminApp\views\users\user.edit.html" />
+    <Content Include="AdminApp\views\users\users.modal.html" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\background.jpg" />
     <Content Include="Content\images\invalid.png" />

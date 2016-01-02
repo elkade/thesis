@@ -1,0 +1,32 @@
+﻿
+<div class="box left-box">
+    <h4 ng-if="showTitle">Users</h4>
+    <!--<div class="row">
+        <div class="medium-12 columns">
+            <label>
+                <input type="text" placeholder="Search" ng-model="searchPage" />
+            </label>
+        </div>
+    </div>-->
+    <div class="row pages-list">
+        <div class="medium-12 columns">
+            <ul class="custom-side-nav">
+                <li dir-paginate="user in users | itemsPerPage: usersPerPage"
+                    total-items="totalUsers"
+                    current-page="pagination.current"
+                    pagination-id="users"
+                    class="row">
+                    <a ng-if="!doubleClick" ui-sref="users.edit({userId:user.Id, user: user})">{{user.FirstName + " " + user.LastName}}</a>
+                    <a ng-if="doubleClick" ng-dblclick="select(user)">{{user.FirstName + " " + user.LastName}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row fullWidth">
+        <div class="small-12 columns small-centered">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"
+                                     pagination-id="users"
+                                     max-size="5" />
+        </div>
+    </div>
+</div>
