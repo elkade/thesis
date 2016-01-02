@@ -1,0 +1,28 @@
+﻿<div class="medium-12 columns">
+    <div class="row">
+        <div class="medium-12 columns">
+            <ul class="button-group">
+                <li><button class="button small" ng-click="add()">Add</button></li>
+                <li><button class="button small" ng-click="remove()">Remove</button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row" ng-hide="!newTeacher.edit">
+        <div class="medium-12 columns">
+            <input type="text" ng-model="newTeacher.id"/>
+            <ul class="button-group">
+                <li><button class="button small" ng-click="update()">OK</button></li>
+                <li><button class="button small" ng-click="cancel()">Cancel</button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 medium-6 columns">
+            <ul class="vcard">
+                <li ng-repeat="teacher in teachers">
+                    {{teacher.LastName}} {{teacher.FirstName}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

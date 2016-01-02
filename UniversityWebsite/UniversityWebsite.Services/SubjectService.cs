@@ -37,13 +37,15 @@ namespace UniversityWebsite.Services
         /// <param name="name">Nazwa przedmiotu widoczna w linku</param>
         /// <returns>Szukany przedmiot</returns>
         Subject GetSubject(string name);
+
         /// <summary>
         /// Zwraca zbiór wszystkich przedmiotów.
         /// </summary>
         /// <param name="limit">Maksymalna liczba zwróconych przedmiotów</param>
         /// <param name="offset">Numer porządkowy pierwszego zwróconego przedmiotu</param>
+        /// <param name="userId">Id użytkonika, jeśli jest podane list przedmiotów bedzie zwrócona dla których podany użytkownik jest nauczycielem</param>
         /// <returns>Zbiór przedmitów</returns>
-        IEnumerable<SubjectDto> GetSubjects(int limit, int offset);
+        IEnumerable<SubjectDto> GetSubjects(int limit, int offset, string userId = null);
         /// <summary>
         /// Zwraca liczbe wszystkich przedmiotów w systemie
         /// </summary>
@@ -115,9 +117,15 @@ namespace UniversityWebsite.Services
             return subject;
         }
 
-        public IEnumerable<SubjectDto> GetSubjects(int limit, int offset)
+        public IEnumerable<SubjectDto> GetSubjects(int limit, int offset, string userId = null)
         {
-            return _context.Subjects.OrderBy(s => s.Semester)
+            var subjectQuery = _context.Subjects.AsQueryable();
+            if (userId != null)
+            {
+                subjectQuery = subjectQuery.Where(s => s.Teachers.Any(t => t.Teacher.Id == userId));
+            } 
+            return subjectQuery
+                    .OrderBy(s => s.Semester)
                     .ThenBy(s => s.Name)
                     .Skip(offset)
                     .Take(limit)

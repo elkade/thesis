@@ -11,11 +11,10 @@
                 .state('pages', {
                     url: '/pages',
                     templateUrl: 'adminapp/views/pages/pages.html',
-
+                    data: { auth: "admin"},
                     resolve: {
                         languages: getLanguages
                     },
-
                     controller: [
                         '$scope', '$state', '$location', 'languages',
                         function($scope, $state, $location, languages) {
@@ -26,7 +25,6 @@
                             };
                         }
                     ]
-
                 })
                 .state('pages.edit', {
                     url: '/:pageName',
@@ -37,6 +35,7 @@
                         '': {
                             templateUrl: 'adminapp/views/pages/pages.edit.html',
                             controller: 'pagesEditCtrl',
+                            data: { auth: "admin"},
                             resolve: {
                                 pagesService: "pagesService",
                                 $stateParams: "$stateParams",

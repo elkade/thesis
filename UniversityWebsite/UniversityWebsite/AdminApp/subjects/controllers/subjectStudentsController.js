@@ -18,8 +18,8 @@
     function getPage(pageNumber) {
         var offset = (pageNumber - 1) * $scope.studentsPerPage;
         console.log($scope.subject.Id);
-        subjectsService.getStudents({ subjectId: $scope.subject.Id, limit: $scope.studentsPerPage, offset: offset }, function (students) {
-            $scope.students = students;
-        });
+        //subjectsService.getStudents({ subjectId: $scope.subject.Id, limit: $scope.studentsPerPage, offset: offset }, function (students) {
+        //    $scope.students = students;
+        //});
     };
 });

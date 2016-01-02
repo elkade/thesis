@@ -19,9 +19,9 @@ namespace UniversityWebsite.Controllers
             _domainContext = domainContext;
         }
 
-        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
+            ViewBag.IsAdmin = User.IsInRole("Administrator");
             return View();
         }
     }

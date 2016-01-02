@@ -2,7 +2,7 @@
 
 @helper ImageTile(string href, string title, string imageUrl, Action action)
 {
-    <div class="medium-4 columns columns-align-left tile">
+    <div class="small-6 medium-4 columns columns-align-left tile">
         <div class="card">
             <div class="image">
                 <a href="@href">
@@ -22,8 +22,8 @@
 
 @helper ImageTile(string href, string title, string imageUrl, string content = null)
 {
-    <div class="medium-4 columns columns-align-left tile">
-        <div class="card">
+    <div class="small-6 medium-4 columns columns-align-left tile">
+        <div class="card" data-equalizer-watch="tile">
 
             <div class="image">
                 <a href="@href">
@@ -42,7 +42,7 @@
 
 @helper TextTile(string href, string title, Action action = null)
 {
-    <div class="medium-4 columns columns-align-left tile">
+    <div class="small-6 medium-4 columns columns-align-left tile">
         <div class="card">
             <div class="content">
                 <div class="title" style="padding-bottom: 1rem; padding-top: 1rem;">

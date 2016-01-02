@@ -7,39 +7,22 @@
         '$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
 
-            var getUsers = function (userService) {
-                return userService.allUsers();
-            };
-
             $stateProvider
                 .state('users', {
                     url: '/users',
                     templateUrl: 'adminapp/views/users/users.html',
-                    resolve: {
-                        users: getUsers
-                    },
-                    controller: [
-                        '$scope', '$state', '$location', 'users', 
-                        function ($scope, $state, $location, users) {
-                            $scope.users = users;
-
-                            $scope.addUser = function () {
-                                $location.path('users/newUser');
-                            };
-                        }
-                    ]
-
+                    controller: 'usersCtrl',
+                    data: { auth: "admin" }
                 })
                 .state('users.edit', {
                     url: '/:userId',
-
+                    params: {
+                        user: null
+                    },
                     views: {
                         '': {
                             templateUrl: 'adminapp/views/users/user.edit.html',
-                            resolve: {
-                                users: getUsers
-                            },
-                            //controller: 'userEditCtrl'
+                            data: { auth: "admin" }
                         },
                     }
                 });

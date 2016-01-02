@@ -2,10 +2,11 @@
     var logOffString = GetPhrase("logOff");
     var logInString = GetPhrase("logIn");
     var manageString = GetPhrase("manage");
+    var mySubjectsString = GetPhrase("mySubjects");
 }
 @if (Request.IsAuthenticated)
 {
-    @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>*@
+    @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>@
 
     <li>
         <a href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button dropdown">@User.Identity.Name.Substring(0, User.Identity.Name.IndexOf('@'))</a>
@@ -13,6 +14,11 @@
             @if (this.User.IsInRole("Administrator"))
             {
                 <li><a href="@Url.Action("Index", "Admin")">@manageString</a></li>
+            }
+            
+            @if (this.User.IsInRole("Teacher"))
+            {
+                <li><a href="@Url.Content("/Admin#/subjects")">@mySubjectsString</a></li>
             }
             <li>
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))

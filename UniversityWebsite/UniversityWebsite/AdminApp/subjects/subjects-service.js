@@ -29,8 +29,17 @@
     });
 }])
 
-.factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', 'Students',
-    function ($http, utils, Subjects, News, Students) {
+.factory("Teachers", ['$resource', function ($resource) {
+    return $resource('/api/subjects/:subjectId/teachers', {}, {
+        query: { method: 'GET', isArray: true },
+        post: { method: 'POST' },
+        update: { method: 'PUT' },
+        remove: { method: 'DELETE' }
+    });
+}])
+
+.factory('subjectsService', ['$http', 'utils', 'Subjects', 'News', 'Students', 'Teachers',
+    function ($http, utils, Subjects, News, Students, Teachers) {
     var path = "/api/subjects";
 
     var factory = {};
@@ -56,6 +65,14 @@
     };
     factory.rejectSignUpRequests = function (ids) {
         return $http.post('api/signup/reject', ids);
+    };
+
+    factory.queryTeachers = function(subjectId) {
+        return Teachers.query({ subjectId: subjectId });
+    };
+
+    factory.updateTeachers = function (subjectId, teacherIds) {
+        return Teachers.post({ subjectId: subjectId }, teacherIds);
     };
 
     return factory;

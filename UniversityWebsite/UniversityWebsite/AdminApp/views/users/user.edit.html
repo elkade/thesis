@@ -53,39 +53,38 @@
                     </label>
                 </div>
             </div>
-            
+
             <!--<div class="row" ng-hide="$stateParams.userId == 'newUser'">
-                <div class="small-12 medium-6 columns">
-                    <label>
-                        <input type="checkbox" ng-model="changePassword" />
-                        Change password
-                    </label>
-                </div>
-            </div>-->
-            
+            <div class="small-12 medium-6 columns">
+                <label>
+                    <input type="checkbox" ng-model="changePassword" />
+                    Change password
+                </label>
+            </div>
+        </div>-->
             <!--<div class="row" ng-if="changePassword">
-                <div class="small-12 medium-6 columns">
-                    <label>
-                        Password
-                        <input type="text" placeholder="password" required ng-model="user.Password" style="font-weight: bold"/>
-                    </label>
-                </div>
-            </div>-->
+            <div class="small-12 medium-6 columns">
+                <label>
+                    Password
+                    <input type="text" placeholder="password" required ng-model="user.Password" style="font-weight: bold"/>
+                </label>
+            </div>
+        </div>-->
             <!--<div class="row" ng-if="changePassword">
-                <div class="small-12 medium-6 columns">
-                    <label>
-                        Confirm password
-                        <input type="password" placeholder="confirm password" required ng-model="user.ConfirmPassword" />
-                    </label>
-                </div>
-            </div>-->
-            
+            <div class="small-12 medium-6 columns">
+                <label>
+                    Confirm password
+                    <input type="password" placeholder="confirm password" required ng-model="user.ConfirmPassword" />
+                </label>
+            </div>
+        </div>-->
+
             <div class="row">
                 <div class="small-12 medium-6 columns">
                     <label>
                         Role
                         <select ng-model="user.Role" name="role" required>
-                            <option  ng-repeat="role in roles" value="{{role}}">{{role}}</option>
+                            <option ng-repeat="role in roles" value="{{role}}">{{role}}</option>
                         </select>
                     </label>
                 </div>

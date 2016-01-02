@@ -73,6 +73,12 @@
             <div class="row" ng-hide="editMode" ng-include="filesSection.url" ng-controller="subjectFilesCtrl">
             </div>
         </accordion-group>
+        <accordion-group heading="Teachers">
+            <div class="row" ng-hide="editMode" ng-include="teachersSection.url" ng-controller="subjectTeachersCtrl">
+
+            </div>
+
+        </accordion-group>
         <accordion-group heading="Students">
             <div class="row" ng-hide="editMode" ng-include="studentsSection.url" ng-controller="subjectStudentsCtrl">
                 

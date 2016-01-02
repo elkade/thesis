@@ -11,13 +11,15 @@
                 .state('subjects', {
                     url: '/subjects',
                     templateUrl: 'adminapp/views/subjects/subjects.html',
-                    controller: 'subjectsCtrl'
+                    controller: 'subjectsCtrl',
+                    data: { auth: "" },
             })
             .state('subjects.edit', {
                 url: '/:subjectName',
                 params: {
                     subject : null
                 },
+                data: { auth: "" },
                 views: {
                     '': {
                         templateUrl: 'adminapp/views/subjects/subjects.edit.html',

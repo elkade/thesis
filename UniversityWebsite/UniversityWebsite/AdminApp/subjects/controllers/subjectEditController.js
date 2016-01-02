@@ -3,6 +3,7 @@
 .controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService) {
     $scope.subject = $stateParams.subject;
     $scope.studentsSection = { name: 'students', url: 'adminapp/views/subjects/section.students.html' };
+    $scope.teachersSection = { name: 'teachers', url: 'adminapp/views/subjects/section.teachers.html' };
     $scope.filesSection = { name: 'files', url: 'adminapp/views/subjects/section.files.html' };
     $scope.requestsSection = { name: 'requests', url: 'adminapp/views/subjects/section.requests.html' };
     $scope.newsSection = { name: 'news', url: 'adminapp/views/subjects/section.news.html' };
