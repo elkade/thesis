@@ -93,7 +93,7 @@ namespace UniversityWebsite.Controllers
 
             var mainMenu = _menuService.GetMainMenuCached(countryCode);
 
-            pageVm.NavMenu = new NavMenuVm {Items = Mapper.Map<List<PageMenuItemVm>>(siblings), IsTopLevel = page==null||page.Parent==null};
+            pageVm.NavMenu = new NavMenuVm {Items = Mapper.Map<List<PageMenuItemVm>>(siblings), IsTopLevel = page==null||page.Parent.Id==0};
 
 
             ViewData[Consts.MainMenuKey] = new MainMenuViewModel(

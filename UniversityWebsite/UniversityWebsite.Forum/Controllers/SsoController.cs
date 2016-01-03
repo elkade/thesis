@@ -9,6 +9,9 @@ using MVCForum.Domain.Interfaces.UnitOfWork;
 
 namespace UniversityWebsite.Forum.Controllers
 {
+    /// <summary>
+    /// Kontroler odpowiedzialny za zarządzanie użytkownikami forum w celu integraci z główną częścią serwisu.
+    /// </summary>
     [System.Web.Http.RoutePrefix("sso")]
     public class SsoController : Controller
     {
@@ -23,6 +26,17 @@ namespace UniversityWebsite.Forum.Controllers
         private readonly IBannedEmailService _bannedEmailService;
         private readonly IBannedWordService _bannedWordService;
 
+        /// <summary>
+        /// Tworzy nową instancję kontrolera.
+        /// </summary>
+        /// <param name="loggingService"></param>
+        /// <param name="unitOfWorkManager"></param>
+        /// <param name="membershipService"></param>
+        /// <param name="localizationService"></param>
+        /// <param name="roleService"></param>
+        /// <param name="settingsService"></param>
+        /// <param name="bannedEmailService"></param>
+        /// <param name="bannedWordService"></param>
         public SsoController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService,
             IRoleService roleService, ISettingsService settingsService, IBannedEmailService bannedEmailService, IBannedWordService bannedWordService)
         {
@@ -38,7 +52,7 @@ namespace UniversityWebsite.Forum.Controllers
             LoggingService = loggingService;
         }
 
-        public class ResultViewModel
+        private class ResultViewModel
         {
             public ResultViewModel()
             {
@@ -67,10 +81,11 @@ namespace UniversityWebsite.Forum.Controllers
         }
 
         /// <summary>
-        /// Add a new user
+        /// Dodaje nowego użytkownika do bazy forum.
         /// </summary>
-        /// <param name="userModel"></param>
-        /// <returns></returns>
+        /// <param name="userModel">Dane noego użytkownika</param>
+        /// <returns>Informacja o powodzeniu utworzenia użytkownika.</returns>
+        /// <exception cref="Exception"></exception>
         [HttpPost]
         public JsonResult Register(CreateUserViewModel userModel)
         {
@@ -108,7 +123,7 @@ namespace UniversityWebsite.Forum.Controllers
             }
         }
 
-        public JsonResult MemberRegisterLogic(CreateUserViewModel userModel)
+        private JsonResult MemberRegisterLogic(CreateUserViewModel userModel)
         {
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
@@ -183,6 +198,13 @@ namespace UniversityWebsite.Forum.Controllers
             public bool IsAdmin { get; set; }
         }
 
+        /// <summary>
+        /// Nadpisuje dane użytkownika.
+        /// </summary>
+        /// <param name="userModel">Dane do nadpisania.</param>
+        /// <returns>Informacja o powodzeniu edycji.</returns>
+        /// <exception cref="Exception"></exception>
+        /// <exception cref="ApplicationException"></exception>
         [HttpPost]
         public JsonResult Edit(EditUserViewModel userModel)
         {
@@ -230,6 +252,13 @@ namespace UniversityWebsite.Forum.Controllers
             public string Email { get; set; }
         }
 
+        /// <summary>
+        /// Usuwa użytkownika z bazy forum.
+        /// </summary>
+        /// <param name="userModel">Obiekt zawierający email użytkownik do usunięcia.</param>
+        /// <returns>Informacja o powodzeniu usunięcia.</returns>
+        /// <exception cref="Exception"></exception>
+        /// <exception cref="ApplicationException"></exception>
         [HttpPost]
         public JsonResult Remove(DeleteUserViewModel userModel)
         {

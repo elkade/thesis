@@ -7,6 +7,10 @@ namespace UniversityWebsite
 {
     public partial class Startup
     {
+        /// <summary>
+        /// Wywołuje metody konfigurujące uwierzytelnianie w systemie i rejestrujące moduł api w kontenerze IOC
+        /// </summary>
+        /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);

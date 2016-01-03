@@ -1,5 +1,8 @@
 ﻿namespace UniversityWebsite
 {
+    /// <summary>
+    /// Zawiera wartości stałych użytych w aplikacji.
+    /// </summary>
     public static class Consts
     {
         public const string CookieKeyLang = "c_lang";

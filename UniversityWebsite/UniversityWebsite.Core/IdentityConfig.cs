@@ -10,34 +10,25 @@ using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Core
 {
-    public class EmailService : IIdentityMessageService
-    {
-        public Task SendAsync(IdentityMessage message)
-        {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
-        }
-    }
-
-    public class SmsService : IIdentityMessageService
-    {
-        public Task SendAsync(IdentityMessage message)
-        {
-            // Plug in your SMS service here to send a text message.
-            return Task.FromResult(0);
-        }
-    }
-
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+    /// <summary>
+    /// Manager zarządzający użytkownikami systemu.
+    /// </summary>
     public class ApplicationUserManager : UserManager<User>
     {
         private const string _superUserLogin = "su@su.su";
 
+        /// <summary>
+        /// Nazwa super administratora systemu, którego nie można modyfikować.
+        /// </summary>
         public string SuperUserLogin
         {
             get { return _superUserLogin;}
         }
 
+        /// <summary>
+        /// Id super administratora systemu, którego nie można modyfikować.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public string SuperUserId
         {
             get
@@ -49,6 +40,10 @@ namespace UniversityWebsite.Core
             }
         }
 
+        /// <summary>
+        /// Tworzy nową instancję managera.
+        /// </summary>
+        /// <param name="store">Opcje tworzenia managera</param>
         public ApplicationUserManager(IUserStore<User> store)
             : base(store)
         {
@@ -60,6 +55,12 @@ namespace UniversityWebsite.Core
             };
         }
 
+        /// <summary>
+        /// Tworzy nową instancję managera.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="context">Kontekst OWIN</param>
+        /// <returns></returns>
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<User>(context.Get<DomainContext>()));
@@ -94,8 +95,6 @@ namespace UniversityWebsite.Core
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
-            manager.EmailService = new EmailService();
-            manager.SmsService = new SmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
@@ -105,11 +104,17 @@ namespace UniversityWebsite.Core
             return manager;
         }
     }
-
-    // Configure the application sign-in manager which is used in this application.
+    /// <summary>
+    /// Manager zarządzający uwierzytelnianiem użytkowników systemu.
+    /// </summary>
     public class ApplicationSignInManager : SignInManager<User, string>
     {
-        public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        /// <summary>
+        /// Tworzy nową instancję managera.
+        /// </summary>
+        /// <param name="userManager">Manager zarządzający użytkownikami systemu.</param>
+        /// <param name="authenticationManager">Podstawowy manager zarządzający uwierzytelnianiem użytkowników systemu.</param>
+        private ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
@@ -119,6 +124,12 @@ namespace UniversityWebsite.Core
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
 
+        /// <summary>
+        /// Tworzy nową instancję managera.
+        /// </summary>
+        /// <param name="options">Opcje tworzenia managera</param>
+        /// <param name="context">Kontekst OWIN</param>
+        /// <returns></returns>
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
