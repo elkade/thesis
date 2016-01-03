@@ -5,6 +5,7 @@
     $scope.formHide = true;
     
     $scope.updateSubject = function (subject) {
+        console.log($scope.form);
         utils.showValidation($scope.form);
         if ($scope.form.$valid) {
             subjectsService.update({ id: subject.Id }, subject, function (response) {

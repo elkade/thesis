@@ -229,3 +229,7 @@ input.title-input {
     width: 40%;
     max-width: 800px;
 }
+
+.with-border {
+    border: 1px solid black;
+}

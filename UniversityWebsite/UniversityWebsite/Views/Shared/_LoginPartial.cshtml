@@ -1,7 +1,7 @@
 ﻿@{
     var logOffString = GetPhrase("logOff");
     var logInString = GetPhrase("logIn");
-    var manageString = GetPhrase("manage");
+    var adminPanel = GetPhrase("adminPanel");
     var mySubjectsString = GetPhrase("mySubjects");
     var changePasswordString = GetPhrase("changePassword");
 }
@@ -14,7 +14,7 @@
         <ul id="user-items" data-dropdown-content class="f-dropdown" aria-hidden="true">
             @if (this.User.IsInRole("Administrator"))
             {
-                <li><a href="@Url.Action("Index", "Admin")">@manageString</a></li>
+                <li><a href="@Url.Action("Index", "Admin")">@adminPanel</a></li>
             }
             
             @if (this.User.IsInRole("Teacher"))

@@ -17,7 +17,6 @@
 
     function getPage(pageNumber) {
         var offset = (pageNumber - 1) * $scope.studentsPerPage;
-        console.log($scope.subject.Id);
         subjectsService.queryStudents($scope.subject.Id, $scope.studentsPerPage, offset).$promise.then(function (resp){
             $scope.students = resp.Elements;
             $scope.totalStudents = resp.Number;

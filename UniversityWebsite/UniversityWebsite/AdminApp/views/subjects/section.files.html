@@ -32,10 +32,11 @@
                     total-items="totalFiles"
                     current-page="pagination.current"
                     pagination-id="files">
+                    
                     <div class="">
                         <input id="{{file.Id}}" type="checkbox" ng-model="file.selected">
                         <label for="{{file.Id}}"></label>
-                        {{file.Name}}
+                        <a ng-href="/api/file/{{file.Id}}">{{file.Name}}</a>
                     </div>
                 </li>
             </ul>
