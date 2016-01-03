@@ -11,26 +11,16 @@
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
+@section Styles{
     <style>
-        div.section:nth-child(2n+1) {
-            background: #f7f7f7;
-        }
-
-        .section {
-            padding: 1rem 0.1rem;
-        }
-
-        .section-footer {
-            border-top: 2px solid gray;
-        }
-
         .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
             background: #003C58;
         }
     </style>
 }
+<input type="hidden" value="@Model.UrlName" class="subject-urlname" />
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
+
 
 <div class="medium-12 columns">
     <h2>@Model.Name</h2>
@@ -45,18 +35,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="medium-12 columns">
-                        @foreach (var news in Model.News)
-                        {
-                            Html.RenderPartial("Sections/_News", news);
-                        }
-                        <div class="row">
-                            <div class="medium-12 columns">
-                                <div class="section-footer">
-                                    <a>‹ Previous</a>  <a>1</a> <a>2</a>  <a>Next ›</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="medium-12 columns" id="news-list">
+                        @{ Html.RenderPartial("Sections/_News", Model.PaginateNews); }
                     </div>
                 </div>
             </div>
@@ -128,3 +108,32 @@
         </div>
     }
 </div>
+
+<script type="text/javascript">
+    $().ready(function () {
+        $('#news-list').on('click', '.page-number', function () {
+            var page = parseInt($(this).html());
+            var subjectName = $('.subject-urlname').val();
+
+            $.ajax({
+                url: '@Url.Action("NewsList")',
+                data: { 'subjectName': subjectName, 'page': page },
+                success: function (data) {
+                    $('#news-list').html(data);
+                }
+            });
+        });
+
+        $('#news-list').on('click', 'li.arrow > a.next', function () {
+            var current = $("li.current");
+            console.log(current.next().html());
+            current.next().children('a').trigger("click");
+        });
+
+        $('#news-list').on('click', 'li.arrow > a.prev', function () {
+            var current = $("li.current");
+            current.prev().children('a').trigger("click");
+        });
+
+    });
+</script>

@@ -649,6 +649,7 @@
     <Compile Include="Model\NavMenuVm.cs" />
     <Compile Include="Model\NewLanguage.cs" />
     <Compile Include="Model\NewsVm.cs" />
+    <Compile Include="Model\PagedData.cs" />
     <Compile Include="Model\Page\PageMenuItemVm.cs" />
     <Compile Include="Model\Page\PagePosted.cs" />
     <Compile Include="Model\Page\PagePut.cs" />

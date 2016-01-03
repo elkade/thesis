@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Configuration;
 using System.Web.Mvc;
 using AutoMapper;
@@ -22,6 +23,7 @@ namespace UniversityWebsite.Controllers
     public class TeachingController : Controller
     {
         private readonly ISubjectService _subjectService;
+        private const int PageSize = 5;
         private readonly IPageService _pageService;
         private readonly ApplicationUserManager _userManager;
 
@@ -88,6 +90,12 @@ namespace UniversityWebsite.Controllers
 
             var userId = User.Identity.GetUserId();
             var subjectVm = Mapper.Map<SubjectVm>(subject);
+            subjectVm.PaginateNews = new PagedData<NewsVm>
+            {
+                CurrentPage = 1,
+                Data = subject.News.OrderByDescending(n => n.PublishDate).Take(PageSize).Select(Mapper.Map<NewsVm>).ToList(),
+                NumberOfPages = Convert.ToInt32(Math.Ceiling((double)subject.News.Count() / PageSize))
+            };
 
             if (userId == null || !subject.HasStudent(userId))
                 subjectVm.Files.Clear();
@@ -95,6 +103,18 @@ namespace UniversityWebsite.Controllers
             subjectVm.NavMenu = new NavMenuVm {Items = GetSiblings(), IsTopLevel = true};
 
             return View(subjectVm);
+        }
+
+        public ActionResult NewsList(string subjectName, int page)
+        {
+            var subject = _subjectService.GetSubject(subjectName);
+            var news = new PagedData<NewsVm>
+            {
+                CurrentPage = page,
+                Data = subject.News.OrderByDescending(n => n.PublishDate).Skip(PageSize * (page - 1)).Take(PageSize).Select(Mapper.Map<NewsVm>).ToList(),
+                NumberOfPages = Convert.ToInt32(Math.Ceiling((double)subject.News.Count() / PageSize))
+            };
+            return PartialView("Sections/_News", news);
         }
 
         private List<PageMenuItemVm> GetSiblings()

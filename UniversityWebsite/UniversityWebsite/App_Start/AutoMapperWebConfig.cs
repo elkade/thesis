@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using UniversityWebsite.Api.Model;
 using UniversityWebsite.Api.Model.Teaching;
 using UniversityWebsite.Api.Model.Users;
 using UniversityWebsite.Domain.Model;
@@ -109,8 +110,9 @@ namespace UniversityWebsite
             Mapper.CreateMap<Subject, SubjectVm>().ConvertUsing(p => new SubjectVm
             {
                 Name = p.Name,
+                UrlName = p.UrlName,
                 Files = Mapper.Map<List<FileDto>>(p.Files) ?? new List<FileDto>(),
-                News = Mapper.Map<List<NewsVm>>(p.News),
+                News = Mapper.Map<List<NewsVm>>(p.News.OrderByDescending(n => n.PublishDate)),
                 Syllabus = p.Syllabus==null?string.Empty:p.Syllabus.Content,
                 Schedule = p.Schedule==null?string.Empty:p.Schedule.Content,
 
