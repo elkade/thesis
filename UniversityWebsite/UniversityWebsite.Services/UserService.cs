@@ -16,22 +16,55 @@ namespace UniversityWebsite.Services
     /// </summary>
     public interface IUserService
     {
+        /// <summary>
+        /// Zwraca użytkowników systemu.
+        /// </summary>
+        /// <param name="limit">Maksymalna liczba zwróconych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu, który ma zostać zwrócony</param>
+        /// <returns>Zbiór obiektów reprezentujących użytkowników systemu.</returns>
         IEnumerable<UserDto> GetUsers(int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę użytkowników systemu.
+        /// </summary>
+        /// <returns>Liczba naturalna.</returns>
         int GetUsersNumber();
+        /// <summary>
+        /// Zwraca użytkowników systemu o danej roli.
+        /// </summary>
+        /// <param name="roleName">Nazwa roli</param>
+        /// <param name="limit">Maksymalna liczba zwróconych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu, który ma zostać zwrócony</param>
+        /// <returns>Zbiór obiektów reprezentujących użytkowników systemu.</returns>
         IEnumerable<UserDto> GetUsersByRole(string roleName, int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę użytkowników systemu o danej roli.
+        /// </summary>
+        /// <param name="roleName">Nazwa roli.</param>
+        /// <returns>Liczba naturalna.</returns>
         int GetUsersNumberByRole(string roleName);
-        ///// <summary>
-        ///// Zwraca dane użytkownika o podanym id, lub null jeżeli użytkownik nie istnieje.
-        ///// </summary>
-        ///// <param name="login">login użytkownika</param>
-        ///// <returns>dane użytkownika lub null</returns>
+        /// <summary>
+        /// Zwraca dane użytkownika o podanym id, lub null jeżeli użytkownik nie istnieje.
+        /// </summary>
+        /// <param name="userId">Id użytkownika</param>
+        /// <returns>Obiekt reprezentujący użytkownika systemu.</returns>
         UserDto GetUser(string userId);
+        /// <summary>
+        /// Tworzy nowegu użytkownika na podstawie danych wejściowych i zapiuje go w bazie danych.
+        /// </summary>
+        /// <param name="user">Dane użytkownika</param>
+        /// <returns>Dane użytkownika umieszczone w bazie danych.</returns>
         UserWithPasswordDto CreateUser(UserDto user);
+        /// <summary>
+        /// Aktualizuje dane użytkownika.
+        /// </summary>
+        /// <param name="user">Dane użytkownika</param>
+        /// <returns>Obiekt reprezentujący zaktualizowane dane użytkownika.</returns>
         UserDto UpdateUser(UserDto user);
-
+        /// <summary>
+        /// Usuwa użytkownika z systemu.
+        /// </summary>
+        /// <param name="userId">Id użytkownika do usunięcia</param>
         void DeleteUser(string userId);
-
-        //void ChangePassword(string userId, string currentPassword, string newPassword);
     }
     /// <summary>
     /// Serwis odpowiedzialny za logikę biznesową dotyczącą użytkowników systemu.
@@ -42,10 +75,11 @@ namespace UniversityWebsite.Services
         private readonly IDomainContext _context;
         private readonly ApplicationUserManager _userManager;
         private readonly ModelFactory _modelFactory;
-        ///// <summary>
-        ///// Tworzy nową instancję serwisu.
-        ///// </summary>
-        ///// <param name="userManager"></param>
+        /// <summary>
+        /// Tworzy nową instancję serwisu.
+        /// </summary>
+        /// <param name="context">Kontekst domeny systemu.</param>
+        /// <param name="userManager">Manaer bezpośrednio zarządzający użytkownikami systemu.</param>
         public UserService(IDomainContext context, ApplicationUserManager userManager)
         {
             _context = context;

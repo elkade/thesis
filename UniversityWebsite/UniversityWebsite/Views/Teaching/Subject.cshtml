@@ -11,8 +11,13 @@
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {}
-
+@section Styles{
+    <style>
+        .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
+            background: #003C58;
+        }
+    </style>
+}
 <input type="hidden" value="@Model.UrlName" class="subject-urlname" />
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
 

@@ -12,6 +12,9 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
+    /// <summary>
+    /// Serwis odpowiadający za zarządzanie plikami zapisanymi w systemie.
+    /// </summary>
     public interface IFileService
     {
         /// <summary>
@@ -57,12 +60,38 @@ namespace UniversityWebsite.Services
         /// <param name="userId">Id użytkownika</param>
         /// <returns>Link do pliku lub wyjątek UnauthorizedAccessException, jeżeli użytkownik nie ma dostępu do pliku.</returns>
         FileBasicInfo GetPath(string fileId, string userId);
+        /// <summary>
+        /// Zwraca zbiór informacji o plikach.
+        /// </summary>
+        /// <param name="limit">Maksymalna liczba zwróconych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu, który ma zostać zwrócony</param>
+        /// <returns>Zbiór obiektów reprezentujących dane plików.</returns>
         Task<IEnumerable<FileDto>> GetGallery(int limit, int offset);
+        /// <summary>
+        /// Dodaje plik graficzny.
+        /// </summary>
+        /// <param name="request">Żądanie HTTP zawierające plik do zapisania na serwerze.</param>
+        /// <param name="userId">Id użytkownika dodającego plik.</param>
+        /// <returns>Metadane dodanego pliku.</returns>
         Task<FileDto> AddToGallery(HttpRequestMessage request, string userId);
+        /// <summary>
+        /// Aktualizuje plik graficzny.
+        /// </summary>
+        /// <param name="request">Żądanie HTTP zawierające plik do zapisania na serwerze.</param>
+        /// <param name="userId">Id użytkownika aktualizującego plik.</param>
+        /// <param name="fileId">In aktualizowanego pliku.</param>
+        /// <returns>Nowe metadane zaktualizowanego pliku.</returns>
         Task<FileDto> UpdateInGallery(HttpRequestMessage request, string userId, string fileId);
+        /// <summary>
+        /// Zwraca liczbę Plików graficznych w galerii systemu.
+        /// </summary>
+        /// <returns>Liczba naturalna.</returns>
         int GetGalleryImagesNumber();
     }
 
+    /// <summary>
+    /// Implementuje serwis odpowiedzialny za zarządzanie plikami systemu. 
+    /// </summary>
     public class FileService : IFileService
     {
         private readonly string _workingFolder;
@@ -74,6 +103,11 @@ namespace UniversityWebsite.Services
 
         private readonly IDomainContext _context;
 
+        /// <summary>
+        /// Tworzy nową instncję serwisu.
+        /// </summary>
+        /// <param name="context">Kontekst domeny systemu.</param>
+        /// <param name="workingFolder">Ścieżka do folderu przechowującego pliki.</param>
         public FileService(IDomainContext context, string workingFolder)
         {
             _context = context;

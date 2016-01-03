@@ -4,10 +4,17 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Filters
 {
+    /// <summary>
+    /// Filtr odpowiedzialny za obsługę języka, w jakim wyświetlane są strony systemu.
+    /// </summary>
     public class LanguageFilterAttribute : ActionFilterAttribute, IActionFilter
     {
         private readonly ILanguageService _languageService;
 
+        /// <summary>
+        /// Tworzy nową instancję filtru
+        /// </summary>
+        /// <param name="languageService">Serwis odpowiedzialny za zarządzanie językami systemu</param>
         public LanguageFilterAttribute(ILanguageService languageService)
         {
             _languageService = languageService;
@@ -42,7 +49,7 @@ namespace UniversityWebsite.Filters
             base.OnActionExecuted(filterContext);
         }
 
-        public void SetCookie(string key, string value, HttpResponseBase response)
+        private void SetCookie(string key, string value, HttpResponseBase response)
         {
             var encodedValue = HttpUtility.UrlEncode(value);
             var cookie = new HttpCookie(key, encodedValue)
@@ -52,7 +59,7 @@ namespace UniversityWebsite.Filters
             response.AppendCookie(cookie);
         }
 
-        public string GetCookie(string key, HttpRequestBase request)
+        private string GetCookie(string key, HttpRequestBase request)
         {
             var cookie = request.Cookies[key];
             if (cookie == null)

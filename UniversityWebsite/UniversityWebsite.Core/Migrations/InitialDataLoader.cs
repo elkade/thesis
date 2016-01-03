@@ -8,6 +8,9 @@ using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite.Core.Migrations
 {
+    /// <summary>
+    /// Odpowiada za wypełnienie bazy danych wartościamy początkowymi.
+    /// </summary>
     public class InitialDataLoader
     {
         private readonly string Admin;
@@ -23,6 +26,10 @@ namespace UniversityWebsite.Core.Migrations
         private readonly RoleManager<IdentityRole> _roleManager;
         private User _admin;
 
+        /// <summary>
+        /// Tworzy nową instancję inicjalizatora
+        /// </summary>
+        /// <param name="domainContext">Obiekt kontekstu domeny.</param>
         public InitialDataLoader(DomainContext domainContext)
         {
             _context = domainContext;
@@ -40,6 +47,10 @@ namespace UniversityWebsite.Core.Migrations
             };
         }
 
+        /// <summary>
+        /// Wykonuje inicjalizację bazy za pomocą domyślnych wartości początkowych
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void WithDefault()
         {
             try
@@ -233,7 +244,7 @@ namespace UniversityWebsite.Core.Migrations
             _context.Menus.Add(menuEn);
         }
 
-        public void WithSubjects()
+        private void WithSubjects()
         {
             string[] subjects1 = {"Analiza 1", "Algebra", "Podstawy programowania strukturalnego"};
             string[] subjects1Names = {"analiza-1", "algebra", "podstawy-programowania-strukturalnego"};
@@ -299,7 +310,7 @@ namespace UniversityWebsite.Core.Migrations
             }
         }
 
-        public void WithRoles()
+        private void WithRoles()
         {
             foreach (var roleName in RoleNames)
             {
@@ -307,7 +318,7 @@ namespace UniversityWebsite.Core.Migrations
             }
         }
 
-        public void WithUsers()
+        private void WithUsers()
         {
             foreach (var user in Users)
             {
@@ -319,7 +330,7 @@ namespace UniversityWebsite.Core.Migrations
             }
         }
 
-        public void WithAdmin(string userName)
+        private void WithAdmin(string userName)
         {
             if (_admin != null)
             {

@@ -10,16 +10,30 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Api.Controllers
 {
+    /// <summary>
+    /// Kontroler odpowiedzialny za zarządzanie statusem rejestracji uczniów na przedmiot.
+    /// </summary>
     [RoutePrefix("api/signup")]
     public class SignUpController : ApiController
     {
         private readonly ISubjectService _subjectService;
 
+        /// <summary>
+        /// Tworzy nową instancję kontrolera.
+        /// </summary>
+        /// <param name="subjectService">Serwis zarządzający przedmiotami systemu</param>
         public SignUpController(ISubjectService subjectService)
         {
             _subjectService = subjectService;
         }
 
+        /// <summary>
+        /// Pobiera zbiór wniosków o dodanie do przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id danego przedmiotu</param>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Zbior obiektów reprezentujących wniosek o zapisanie się na przedmiot</returns>
         [Limit(50),Offset]
         [Route("")]
         [HttpGet]
@@ -34,6 +48,12 @@ namespace UniversityWebsite.Api.Controllers
         }
 
 
+        /// <summary>
+        /// Pobierz zbiór wniosków o zapisanie się na przedmioty administrowane przez zalogowanego nauczyciela.
+        /// </summary>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Zbiór obiektów reprezentujących wnioski o zapisanie się na przedmiot</returns>
         [Limit(50), Offset]
         [Route("")]
         [HttpGet]
@@ -49,6 +69,11 @@ namespace UniversityWebsite.Api.Controllers
             return new PaginationVm<RequestVm>(Mapper.Map<List<RequestVm>>(requests), number, limit, offset);
         }
 
+        /// <summary>
+        /// Zmienia status wniosków na "Zatwierdzony"
+        /// </summary>
+        /// <param name="requestIds">Tablica id wniosków do zatwierdzenia</param>
+        /// <returns>Status HTTP</returns>
         [Route("approve")]
         [HttpPost]
         //[Authorize(Roles=Consts.TeacherRole)]
@@ -57,8 +82,13 @@ namespace UniversityWebsite.Api.Controllers
             var userId = User.Identity.GetUserId();
             _subjectService.ApproveRequests(requestIds.Distinct(), userId);
             return Ok();
-        }   
+        }
 
+        /// <summary>
+        /// Zmienia status wniosków na "Odrzucony"
+        /// </summary>
+        /// <param name="requestIds">Tablica id wniosków do odrzucenia</param>
+        /// <returns>Status HTTP</returns>
         [Route("reject")]
         [HttpPost]
         //[Authorize(Roles=Consts.TeacherRole)]

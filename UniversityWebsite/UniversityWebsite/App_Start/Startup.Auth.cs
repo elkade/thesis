@@ -9,9 +9,16 @@ using UniversityWebsite.Domain.Model;
 
 namespace UniversityWebsite
 {
+    /// <summary>
+    /// Odpowiada za konfigurację autentykacji w systemie
+    /// </summary>
     public partial class Startup
     {
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        /// <summary>
+        /// Konfiguruje autentykację w systemie.
+        /// </summary>
+        /// <param name="app">Obiekt reprezentujący dane aplikacji</param>
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request

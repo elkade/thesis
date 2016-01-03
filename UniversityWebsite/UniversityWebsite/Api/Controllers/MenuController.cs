@@ -4,7 +4,7 @@ using System.Web.Http.Description;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
-namespace UniversityWebsite.ApiControllers
+namespace UniversityWebsite.Api.Controllers
 {
     /// <summary>
     /// Kontroler odpowiedzialny za operacje pobierania menu głównego i edycję jego elementów.
@@ -16,6 +16,10 @@ namespace UniversityWebsite.ApiControllers
     {
         private readonly IMenuService _menuService;
 
+        /// <summary>
+        /// Tworzy nową instancję kontrolera
+        /// </summary>
+        /// <param name="menuService">Serwis zarządzający menu zawartymi w systemie</param>
         public MenuController(IMenuService menuService)
         {
             _menuService = menuService;
@@ -23,7 +27,7 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// Zwraca listę menu głównych systemu we wszystkich językach zdefiniowanych w systemie.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Lista menu</returns>
         [Route("main")]
         [HttpGet]
         public IEnumerable<MenuDto> GetAllMain()
@@ -34,7 +38,7 @@ namespace UniversityWebsite.ApiControllers
         /// Zwraca menu główne systemu w podanym języku.
         /// </summary>
         /// <param name="lang"></param>
-        /// <returns></returns>
+        /// <returns>Menu</returns>
         [Route("main/{lang}", Name = "GetMainMenu")]
         [HttpGet]
         [ResponseType(typeof(MenuDto))]
@@ -45,9 +49,9 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// Nadpisuje pola menu głównego o podanym języku.
         /// </summary>
-        /// <param name="lang"></param>
-        /// <param name="menu"></param>
-        /// <returns></returns>
+        /// <param name="lang">Kod danego języka</param>
+        /// <param name="menu">Dane menu, którymi ma zostać nadpisane istniejące menu</param>
+        /// <returns>Dane menu po nadpisaniu</returns>
         [Route("main/{lang}")]
         [HttpPut]
         [HttpPost]

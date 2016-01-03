@@ -5,12 +5,13 @@
     var homeString = GetPhrase("home");
     ViewBag.Title = Model.Title;
 }
-<style>
-    .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
-        background: #003C58;
-    }
-</style>
-
+@section Styles{
+    <style>
+        .top-bar, .top-bar-section li:not(.has-form) a:not(.button) {
+            background: #003C58;
+        }
+    </style>
+}
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
 <div class="medium-12 columns">
     <div class="row">

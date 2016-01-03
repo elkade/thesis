@@ -21,8 +21,8 @@ namespace UniversityWebsite.Api.Controllers
         /// <summary>
         /// Konstruktor przyjmujący serwis do obsługi języków.
         /// </summary>
-        /// <param name="languageService"></param>
-        /// <param name="dictionaryService"></param>
+        /// <param name="languageService">Serwis zrządzający językami dostępnymi w systemie</param>
+        /// <param name="dictionaryService">Serwis zarządzający tłumaczeniem fraz zdefiniowanych w systemie</param>
         public LanguageController(ILanguageService languageService, IDictionaryService dictionaryService)
         {
             _languageService = languageService;

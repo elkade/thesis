@@ -1,36 +1,36 @@
-using System.Web.Mvc;
-using Microsoft.Practices.Unity;
-using Unity.Mvc4;
+//using System.Web.Mvc;
+//using Microsoft.Practices.Unity;
+//using Unity.Mvc4;
 
-namespace UniversityWebsite.Forum
-{
-  public static class Bootstrapper
-  {
-    public static IUnityContainer Initialise()
-    {
-      var container = BuildUnityContainer();
+//namespace UniversityWebsite.Forum
+//{
+//  public static class Bootstrapper
+//  {
+//    public static IUnityContainer Initialise()
+//    {
+//      var container = BuildUnityContainer();
 
-      DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+//      DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 
-      return container;
-    }
+//      return container;
+//    }
 
-    private static IUnityContainer BuildUnityContainer()
-    {
-      var container = new UnityContainer();
+//    private static IUnityContainer BuildUnityContainer()
+//    {
+//      var container = new UnityContainer();
 
-      // register all your components with the container here
-      // it is NOT necessary to register your controllers
+//      // register all your components with the container here
+//      // it is NOT necessary to register your controllers
 
-      // e.g. container.RegisterType<ITestService, TestService>();    
-      RegisterTypes(container);
+//      // e.g. container.RegisterType<ITestService, TestService>();    
+//      RegisterTypes(container);
 
-      return container;
-    }
+//      return container;
+//    }
 
-    public static void RegisterTypes(IUnityContainer container)
-    {
+//    public static void RegisterTypes(IUnityContainer container)
+//    {
     
-    }
-  }
-}
+//    }
+//  }
+//}

@@ -5,11 +5,17 @@ using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Filters
 {
+    /// <summary>
+    /// Filtr odpowiedzialny za dodawanie menu głównego do stron systemu.
+    /// </summary>
     public class MainMenuAttribute : ActionFilterAttribute, IActionFilter
     {
         private readonly ILanguageService _languageService;
         private readonly IMenuService _menuService;
 
+        /// <summary>
+        /// Tworzy nową instancję filtru.
+        /// </summary>
         public MainMenuAttribute()
         {
             _languageService = DependencyResolver.Current.GetService<ILanguageService>();

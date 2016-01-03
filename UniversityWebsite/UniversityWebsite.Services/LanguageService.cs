@@ -51,7 +51,7 @@ namespace UniversityWebsite.Services
         /// <summary>
         /// Tworzy nową instancję serwisu.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Kontekst domeny systemu.</param>
         public LanguageService(IDomainContext context)
         {
             _context = context;

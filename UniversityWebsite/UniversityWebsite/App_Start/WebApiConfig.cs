@@ -6,8 +6,15 @@ using UniversityWebsite.Filters;
 
 namespace UniversityWebsite
 {
+    /// <summary>
+    /// Odpowiada za konfigurację kontenera Dependency Injection Autofac dotyczącą modułu api
+    /// </summary>
     public class WebApiConfig
     {
+        /// <summary>
+        /// Rejestruje Kontrolery, na których zastosowane zostanie wstrzykiwanie zależności.
+        /// </summary>
+        /// <param name="app">Obiekt reprezentujący dane palikacji</param>
         public static void Register(IAppBuilder app)
         {
             var config = new HttpConfiguration();

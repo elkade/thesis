@@ -1,6 +1,4 @@
 ﻿using System.Web.Mvc;
-using UniversityWebsite.Core;
-using UniversityWebsite.Services;
 
 namespace UniversityWebsite.Controllers
 {
@@ -10,15 +8,10 @@ namespace UniversityWebsite.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-        private readonly IPageService _pageService;
-        private readonly IDomainContext _domainContext;
-
-        public AdminController(IPageService pageService, IDomainContext domainContext)
-        {
-            _pageService = pageService;
-            _domainContext = domainContext;
-        }
-
+        /// <summary>
+        /// Zwraca widok panelu administratora.
+        /// </summary>
+        /// <returns>Obiekt widoku</returns>
         public ActionResult Index()
         {
             ViewBag.IsAdmin = User.IsInRole("Administrator");

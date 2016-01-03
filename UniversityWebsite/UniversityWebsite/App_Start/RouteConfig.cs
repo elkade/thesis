@@ -3,8 +3,15 @@ using System.Web.Routing;
 
 namespace UniversityWebsite
 {
+    /// <summary>
+    /// Odpowiada za konfigurację trasowania adresów URL aplikacji
+    /// </summary>
     public class RouteConfig
     {
+        /// <summary>
+        /// Konfiguruje routing aplikacji
+        /// </summary>
+        /// <param name="routes">Kolekcja obiektów trasowania</param>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

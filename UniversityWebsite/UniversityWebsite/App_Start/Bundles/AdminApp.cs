@@ -2,14 +2,24 @@
 
 namespace UniversityWebsite.Bundles
 {
+    /// <summary>
+    /// Odpowiada za konfigurację grup danych przesyłanych przy żądaniu HTTP do modułu panelu administratora.
+    /// </summary>
     public class AdminApp
     {
+        /// <summary>
+        /// Konfiguruje grupy styli przesyłanych przy żądaniu HTTP do modułu panelu administratora.
+        /// </summary>
+        /// <returns>Grupa styli</returns>
         public static Bundle Styles()
         {
             return new StyleBundle("~/Content/AdminApp").Include(
                        "~/Content/angular-busy.css");
         }
-
+        /// <summary>
+        /// Konfiguruje grupy skryptów przesyłanych przy żądaniu HTTP do modułu panelu administratora.
+        /// </summary>
+        /// <returns>Grupa skryptów</returns>
         public static Bundle Scripts()
         {
             return new ScriptBundle("~/bundles/configApp")
