@@ -15,6 +15,9 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Controllers
 {
+    /// <summary>
+    /// Kontroler odpowiedzialny za wyświetlanie danych modułu dydaktyki systemu.
+    /// </summary>
     [MainMenu]
     public class TeachingController : Controller
     {
@@ -22,6 +25,12 @@ namespace UniversityWebsite.Controllers
         private readonly IPageService _pageService;
         private readonly ApplicationUserManager _userManager;
 
+        /// <summary>
+        /// Tworzy nową instancję kontrolera.
+        /// </summary>
+        /// <param name="subjectService">Serwis odpowiedzialny za zarządzanie przedmiotami systemu</param>
+        /// <param name="pageService">Serwis odpowiedzialny za zarządzanie stronami systemu</param>
+        /// <param name="userManager">Manager odpowiedzialny za bezpośrednie zarządzanie użytkownikami</param>
         public TeachingController(ISubjectService subjectService, IPageService pageService, ApplicationUserManager userManager)
         {
             _subjectService = subjectService;
@@ -29,11 +38,20 @@ namespace UniversityWebsite.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Zwraca widok listy semestrów.
+        /// </summary>
+        /// <returns>Obiekt widoku listy semestrów</returns>
         public ActionResult Index()
         {
             return View(new TeachingVm { SemestersCount = 10, NavMenu = new NavMenuVm { Items = GetSiblings(), IsTopLevel = true } });
         }
 
+        /// <summary>
+        /// Zwraca widok semestru zawierający listę przypianych do niego przedmiotów.
+        /// </summary>
+        /// <param name="number">Numer semestru</param>
+        /// <returns>Obiekt widoku</returns>
         public ActionResult Semester(int number)
         {
             var userId = User.Identity.GetUserId();
@@ -55,6 +73,12 @@ namespace UniversityWebsite.Controllers
             });
         }
 
+        /// <summary>
+        /// Zwraca widok przedmiotu.
+        /// </summary>
+        /// <param name="name">Nazwa przedmiotu</param>
+        /// <returns>Obiekt widoku</returns>
+        /// <exception cref="NotFoundException"></exception>
         public ActionResult Subject(string name)
         {
             var subject = _subjectService.GetSubject(name);

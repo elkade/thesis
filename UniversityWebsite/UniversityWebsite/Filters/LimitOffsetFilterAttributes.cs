@@ -3,10 +3,17 @@ using System.Web.Http.Filters;
 
 namespace UniversityWebsite.Filters
 {
+    /// <summary>
+    /// Filtr odpowiedzialny za validację i ograniczenie wartości parametru "limit" w żądainu HTTP
+    /// </summary>
     public class LimitAttribute : ActionFilterAttribute
     {
         private readonly int _max;
 
+        /// <summary>
+        /// Tworzy nową instancję filtru.
+        /// </summary>
+        /// <param name="max">MAksymalna wartość parametru "limit", do której param. zostaje zawężony, gdy ją przekracza.</param>
         public LimitAttribute(int max)
         {
             _max = max;
@@ -29,6 +36,9 @@ namespace UniversityWebsite.Filters
         }
     }
 
+    /// <summary>
+    /// Filtr odpowiedzialny za validację i ograniczenie wartości parametru "offset" w żądainu HTTP
+    /// </summary>
     public class OffsetAttribute : ActionFilterAttribute
     {
         private const string Key = "offset";

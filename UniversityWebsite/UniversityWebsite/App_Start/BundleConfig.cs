@@ -3,8 +3,15 @@ using UniversityWebsite.Bundles;
 
 namespace UniversityWebsite
 {
+    /// <summary>
+    /// Odpowiada za konfigurację grupowania danych wysyłanych przy żądaniach HTTP.
+    /// </summary>
     public class BundleConfig
     {
+        /// <summary>
+        /// Rejestruje grupy danych wysyłanych przy żądaniach HTTP.
+        /// </summary>
+        /// <param name="bundles">Obiekt reprezentujący grupy danych</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

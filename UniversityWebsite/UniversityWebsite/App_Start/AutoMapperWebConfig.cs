@@ -203,7 +203,7 @@ namespace UniversityWebsite
     }
 
     /// <summary>
-    /// Odpowiada za część konfiguracji AutoMappera dotyczącą próśbo o zapisanie na przedmiot
+    /// Odpowiada za część konfiguracji AutoMappera dotyczącą wniosków o zapisanie na przedmiot
     /// </summary>
     public class RequestProfile : Profile
     {

@@ -7,6 +7,9 @@ using UniversityWebsite.Services.Exceptions;
 
 namespace UniversityWebsite.Filters
 {
+    /// <summary>
+    /// Filtr odpowiedzialny za obsługę wyjątków w systemie.
+    /// </summary>
     public class CustomExceptionFilterAttribute : ExceptionFilterAttribute
     {
         public override void OnException(HttpActionExecutedContext context)

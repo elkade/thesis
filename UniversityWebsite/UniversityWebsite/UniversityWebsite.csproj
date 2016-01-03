@@ -620,7 +620,6 @@
     <Compile Include="App_Start\Bundles\AdminApp.cs" />
     <Compile Include="App_Start\Bundles\Foundation.cs" />
     <Compile Include="Consts.cs" />
-    <Compile Include="App_Start\FiltersConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

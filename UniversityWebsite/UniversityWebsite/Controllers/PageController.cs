@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
-using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
 using UniversityWebsite.Model.Menu;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
-using UniversityWebsite.Services.Exceptions;
 using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Controllers
@@ -26,12 +23,12 @@ namespace UniversityWebsite.Controllers
         private readonly IDictionaryService _dictionaryService;
 
         /// <summary>
-        /// Tworzy nową instancję kontrollera.
+        /// Tworzy nową instancję kontrolera.
         /// </summary>
-        /// <param name="pageService"></param>
-        /// <param name="languageService"></param>
-        /// <param name="menuService"></param>
-        /// <param name="dictionaryService"></param>
+        /// <param name="pageService">Serwis zarządzający stronami systemu</param>
+        /// <param name="languageService">Serwis zarządzający językami systemu</param>
+        /// <param name="menuService">Serwis zarządzający menu systemu</param>
+        /// <param name="dictionaryService">Serwis zarządzający tłumaczeniem fraz w systemie</param>
         public PageController(IPageService pageService, ILanguageService languageService, IMenuService menuService, IDictionaryService dictionaryService)
         {
             _pageService = pageService;
@@ -42,8 +39,8 @@ namespace UniversityWebsite.Controllers
         /// <summary>
         /// Zwraca stronę o podanym UrlName
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">UrlName strony</param>
+        /// <returns>Obiekt widoku</returns>
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Index(string name)

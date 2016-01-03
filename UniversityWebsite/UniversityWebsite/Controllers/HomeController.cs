@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Security;
 using AutoMapper;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
@@ -17,8 +16,13 @@ namespace UniversityWebsite.Controllers
     public class HomeController : Controller
     {
         private readonly IMenuService _menuService;
-        public IPageService PageService { get; set; }
+        private IPageService PageService { get; set; }
 
+        /// <summary>
+        /// Tworzy nową instancję kontrolera.
+        /// </summary>
+        /// <param name="menuService">Serwis odpowiedzialny za zarządzanie menu systemu</param>
+        /// <param name="pageService">Serwis odpowiedzialny za zarządzanie stronami systemu</param>
         public HomeController(IMenuService menuService, IPageService pageService)
         {
             _menuService = menuService;
@@ -27,7 +31,7 @@ namespace UniversityWebsite.Controllers
         /// <summary>
         /// Zwraca widok strony głównej.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Obiekt widoku</returns>
         public ActionResult Index()
         {
             var tiles = _menuService.GetTilesMenuCached((string)Session[Consts.SessionKeyLang]);
