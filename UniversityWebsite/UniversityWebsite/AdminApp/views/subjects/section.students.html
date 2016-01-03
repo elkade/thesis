@@ -1,19 +1,24 @@
 ﻿<div class="medium-12 columns">
     <div class="row">
-        <div class="medium-12 columns">
-            Studenty
-        </div>
-    </div>
-    <div class="row">
         <div class="small-12 medium-6 columns">
-            <ul class="vcard">
-                <li dir-paginate="student in students| itemsPerPage: studentsPerPage"
+            <table class="vcard">
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Index number</th>
+                </tr>
+                
+                <tr dir-paginate="student in students| itemsPerPage: studentsPerPage"
                     total-items="totalStudents"
                     current-page="pagination.current"
                     pagination-id="students">
-                    {{student.LastName}} {{student.FirstName}}
-                </li>
-            </ul>
+                    <td>{{student.LastName}}</td> 
+                    <td>{{student.FirstName}}</td>
+                    <td>{{student.Email}}</td> 
+                    <td>{{student.IndexNumber}}</td>
+                </tr>
+            </table>
             <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"
                                      pagination-id="students" />
         </div>

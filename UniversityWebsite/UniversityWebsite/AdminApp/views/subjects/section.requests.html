@@ -17,7 +17,10 @@
             <th>Index number</th>
             <th>Status</th>
         </tr>
-        <tr ng-repeat="request in signUpRequests">
+        <tr dir-paginate="request in requests | itemsPerPage: requestsPerPage"
+            total-items="totalRequests"
+            current-page="pagination.current"
+            pagination-id="requests">
             <td>
                 <input type="checkbox" ng-model="request.selected" id="{{request.Id}}" />
                 <label for="{{request.Id}}">{{request.StudentLastName}} {{request.StudentFirstName}}</label>
@@ -30,4 +33,11 @@
             </td>
         </tr>
     </table>
+    <div class="row">
+        <div class="small-12 columns small-centered">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"
+                                     pagination-id="requests"
+                                     max-size="5" />
+        </div>
+    </div>
 </div>

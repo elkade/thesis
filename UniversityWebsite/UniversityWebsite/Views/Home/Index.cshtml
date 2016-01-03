@@ -16,5 +16,13 @@
 </form>*@
 @foreach (var page in Model.Tiles)
 {
-    @TileHelpers.ImageTile(page.UrlName, page.Title, page.ImageUrl, page.Description)
+    if (String.IsNullOrWhiteSpace(page.ImageUrl))
+    {
+        @TileHelpers.TextTile(page.UrlName, page.Title, page.Description)
+
+    }
+    else
+    {
+        @TileHelpers.ImageTile(page.UrlName, page.Title, page.ImageUrl, page.Description)
+    }
 }

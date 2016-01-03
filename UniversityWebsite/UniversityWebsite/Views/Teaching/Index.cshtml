@@ -6,11 +6,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
-<h2>@teachingString</h2>
 
-@for (int i = 1; i <= Model.SemestersCount; i++)
-{   
-    var href = Url.Action("Semester", new {number = i});
+<div class="medium-12 columns">
+    <h2>@teachingString</h2>
+    @for (int i = 1; i <= Model.SemestersCount; i++)
+    {
+        var href = Url.Action("Semester", new { number = i });
 
-    @TileHelpers.ImageTile(href, semesterString + " " + i, "/Content/images/semester.jpg")
-}
+        @TileHelpers.ImageTile(href, semesterString + " " + i, "/Content/images/semester.jpg")
+    }
+</div>

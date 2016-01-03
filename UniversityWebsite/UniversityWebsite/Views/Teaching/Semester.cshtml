@@ -9,21 +9,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
-<h2>@semesterString @Model.Number</h2>
+<div class="medium-12 columns">
+    <h2>@semesterString @Model.Number</h2>
 
 
-@foreach (var subject in Model.Subjects)
-{
-    Action content = null;
-    if (subject.SignUpAction != SignUpAction.None)
+    @foreach (var subject in Model.Subjects)
     {
-        var localSubject = subject;
-        content = () => Html.RenderPartial("_SignUpStatus", localSubject);
+        Action content = null;
+        if (subject.SignUpAction != SignUpAction.None)
+        {
+            var localSubject = subject;
+            content = () => Html.RenderPartial("_SignUpStatus", localSubject);
+        }
+        var href = Url.Action("Subject", new { name = subject.SubjectUrlName });
+
+        @TileHelpers.TextTile(href, subject.SubjectName, content)
     }
-    var href = Url.Action("Subject", new {name = subject.SubjectUrlName});
-    
-    @TileHelpers.TextTile(href, subject.SubjectName, content)
-}
+</div>
+
 <script>
     $(function () {
         $(document).on('submit', '.sign-up-status-form', function (e) {

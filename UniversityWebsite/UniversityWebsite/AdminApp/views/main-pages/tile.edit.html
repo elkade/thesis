@@ -1,7 +1,7 @@
 ﻿<div class="row">
     <div class="medium-12 columns">
         <label>
-            Label
+            Title
             <input type="text" ng-model="menuItem.Title" />
         </label>
     </div>
@@ -17,7 +17,12 @@
 <div class="row">
     <div class="medium-12 columns">
         <ul class="button-group">
-            <li><input type="text" ng-model="menuItem.ImageUrl" /></li>
+            <li>
+                <label>
+                    Image url
+                    <input type="text" ng-model="menuItem.ImageUrl" />
+                </label>
+            </li>
             <li><button class="button small" ng-click="openGallery(menuItem)"><i class="fa fa-search"></i></button></li>
         </ul>
     </div>

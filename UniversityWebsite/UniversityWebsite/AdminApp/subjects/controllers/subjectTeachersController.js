@@ -1,13 +1,17 @@
 ﻿angular.module('configApp.subjects')
 
-.controller('subjectTeachersCtrl', function ($scope, subjectsService, $modal) {
+.controller('subjectTeachersCtrl', function ($scope, subjectsService, $modal, utils) {
     loadTeachers();
 
-    $scope.update = function (teacherId) {
+    $scope.update = function (teacher) {
         var teacherIds = [];
-        teacherIds.push(teacherId);
-        subjectsService.updateTeachers($scope.subject.Id, teacherIds).$promise.then(function(resp) {
+        teacherIds.push(teacher.Id);
+        subjectsService.updateTeachers($scope.subject.Id, teacherIds).$promise.then(function (resp) {
+            var alert = { type: 'success', msg: 'Teacher ' + teacher.FirstName + ' ' + teacher.LastName + ' was successfully added to the subject.' };
+            $scope.addAlert(alert);
             loadTeachers();
+        }, function (error) {
+            errorHandler(error);
         });
     };
 
@@ -17,10 +21,13 @@
         }).Select(function(teacher) {
             return teacher.Id;
         }).ToArray();
+
         subjectsService.removeTeachers($scope.subject.Id, selectedTeachers).$promise.then(function(resp) {
             loadTeachers();
+            var alert = { type: 'success', msg: 'Selected teachers were successfully removed from the subject.' };
+            $scope.addAlert(alert);
         }, function(error) {
-            
+            errorHandler(error);
         });
     };
 
@@ -35,8 +42,8 @@
             windowClass: 'small'
         });
 
-        modalInstance.result.then(function (selectedUserId) {
-            $scope.update(selectedUserId);
+        modalInstance.result.then(function (selectedUser) {
+            $scope.update(selectedUser);
         }, function () {
             console.log('Modal dismissed at: ' + new Date());
         });
@@ -47,6 +54,10 @@
     };
 
     var errorHandler = function (response) {
-        
+        var errors = utils.parseErrors(response.data.ModelState);
+        for (var i = 0; i < errors.length; i++) {
+            var alert = { type: 'alert', msg: 'Error: ' + errors[i] };
+            $scope.addAlert(alert);
+        }
     };
 });

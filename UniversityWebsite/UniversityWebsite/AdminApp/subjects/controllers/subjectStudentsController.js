@@ -1,7 +1,7 @@
 ﻿angular.module('configApp.subjects')
 
 .controller('subjectStudentsCtrl', function ($scope, subjectsService, utils, $timeout) {
-    $scope.totalStudents = 10;
+    $scope.totalStudents = 0;
     $scope.currentPage = 1;
     $scope.studentsPerPage = 8;
 
@@ -18,8 +18,9 @@
     function getPage(pageNumber) {
         var offset = (pageNumber - 1) * $scope.studentsPerPage;
         console.log($scope.subject.Id);
-        //subjectsService.getStudents({ subjectId: $scope.subject.Id, limit: $scope.studentsPerPage, offset: offset }, function (students) {
-        //    $scope.students = students;
-        //});
+        subjectsService.queryStudents($scope.subject.Id, $scope.studentsPerPage, offset).$promise.then(function (resp){
+            $scope.students = resp.Elements;
+            $scope.totalStudents = resp.Number;
+        });
     };
 });

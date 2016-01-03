@@ -22,7 +22,7 @@
 
 .factory("Students", ['$resource', function($resource) {
     return $resource('/api/subjects/:subjectId/students', {}, {
-        query: { method: 'GET', isArray: true },
+        query: { method: 'GET' },
         post: { method: 'POST' },
         update: { method: 'PUT' },
         remove: { method: 'DELETE' }
@@ -55,10 +55,12 @@
     factory.updateNews = News.update;
     factory.removeNews = News.remove;
 
-    factory.getStudents = Students.query;
+    factory.queryStudents = function(subjectId, limit, offset) {
+        return Students.query({ subjectId: subjectId, limit: limit, offset: offset });
+    };
 
-    factory.getSignUpRequests = function(subjectId) {
-        return $http.get('/api/signup', { params: { subjectId: subjectId } });
+    factory.querySignUpRequests = function(subjectId, limit, offset) {
+        return $http.get('/api/signup', { params: { subjectId: subjectId, limit: limit, offset: offset } });
     };
     factory.approveSignUpRequests = function(ids) {
         return $http.post('/api/signup/approve', ids);

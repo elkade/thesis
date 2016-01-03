@@ -168,7 +168,8 @@ namespace UniversityWebsite.Api.Controllers
                     Id = s.Id,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
-                    Email = s.Email
+                    Email = s.Email,
+                    IndexNumber = s.IndexNumber
                 });
             var count = _subjectService.GetStudentsNumber(subjectId);
             return new PaginationVm<UserTeachingVm>(students, count, limit, offset);

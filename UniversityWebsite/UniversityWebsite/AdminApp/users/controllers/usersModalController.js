@@ -11,7 +11,7 @@
         $modalInstance.dismiss('cancel');
     };
 
-    $scope.selectUser = function(userId) {
-        $modalInstance.close(userId);
+    $scope.selectUser = function(user) {
+        $modalInstance.close(user);
     };
 })

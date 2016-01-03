@@ -95,7 +95,7 @@ configApp.directive('userList', function () {
             };
 
             $scope.select = function (user) {
-                $scope.doubleClick()(user.Id);
+                $scope.doubleClick()(user);
             };
         }
     };

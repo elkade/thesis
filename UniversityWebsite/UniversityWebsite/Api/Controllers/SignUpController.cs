@@ -23,7 +23,7 @@ namespace UniversityWebsite.Api.Controllers
         [Limit(50),Offset]
         [Route("")]
         [HttpGet]
-        [Authorize(Roles=Consts.AdministratorRole)]
+        [Authorize(Roles=Consts.AdministratorRole + "," + Consts.TeacherRole)]
         public PaginationVm<RequestVm> GetRequestsBySubject(int subjectId, int limit = 50, int offset = 0)
         {
             var requests = _subjectService.GetRequestsBySubject(subjectId, limit, offset);

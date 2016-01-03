@@ -2,6 +2,7 @@
 
 .controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService) {
     $scope.subject = $stateParams.subject;
+    $scope.alerts = [];
     $scope.studentsSection = { name: 'students', url: 'adminapp/views/subjects/section.students.html' };
     $scope.teachersSection = { name: 'teachers', url: 'adminapp/views/subjects/section.teachers.html' };
     $scope.filesSection = { name: 'files', url: 'adminapp/views/subjects/section.files.html' };
@@ -53,7 +54,6 @@
                 }, errorHandler);
             }
         }
-
     };
 
     $scope.createNews = function () {
@@ -62,6 +62,26 @@
     };
 
     var errorHandler = function (response) {
-        $scope.errors = utils.parseErrors(response.data.ModelState);
+        var errors = utils.parseErrors(response.data.ModelState);
+        for (var i = 0; i < errors.length; i++) {
+            var alert = { type: 'alert', msg: 'Error: ' + errors[i] };
+            $scope.addAlert(alert);
+        }
+    };
+
+    /**
+     * Removes alert with given idex
+     * @param {int} index
+     */
+    $scope.closeAlert = function (index) {
+        $scope.alerts.splice(index, 1);
+    };
+
+    /**
+     * Adds alert to set of allerts assosiated with edited page.
+     * @param {type} alert
+     */
+    $scope.addAlert = function (alert) {
+        $scope.alerts.push(alert);
     };
 })

@@ -9,22 +9,25 @@
         margin-bottom: 20px !important;
     }
 
-    .panel {
-    }
-
     .mousetrap {
         cursor: pointer !important;
     }
 </style>
 
 <div class="row">
+    <div class="medium-12 columns">
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+</div>
+
+<!--<div class="row">
     <div class="large-12 columns">
         <div data-alert class="alert-box alert" ng-repeat="error in errors">
             {{error}}
             <a href="#" class="close" ng-click="">&times;</a>
         </div>
     </div>
-</div>
+</div>-->
 
 <div class="row" ng-hide="editMode">
     <div class="medium-10 columns">

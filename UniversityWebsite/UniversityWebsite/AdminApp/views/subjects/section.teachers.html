@@ -12,7 +12,7 @@
             <ul class="vcard">
                 <li ng-repeat="teacher in teachers">
                     <input id="{{teacher.Id}}" type="checkbox" ng-model="teacher.selected">
-                    <label for="{{teacher.Id}}">{{teacher.LastName}} {{teacher.FirstName}}</label>
+                    <label for="{{teacher.Id}}">{{teacher.LastName}} {{teacher.FirstName}} ({{teacher.Email}})</label>
                 </li>
             </ul>
         </div>

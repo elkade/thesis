@@ -28,97 +28,99 @@
 }
 @{Html.RenderPartial("~/Views/Shared/_NavMenu.cshtml", Model.NavMenu);}
 
-<h2>@Model.Name</h2>
-@if (Model.News.Count > 0)
-{
-    <div class="row section">
-        <div class="medium-12 columns">
-            <div class="row">
-                <div class="medium-12 columns">
-                    <h3><a id="@newsString">@newsString</a></h3>
+<div class="medium-12 columns">
+    <h2>@Model.Name</h2>
+    @if (Model.News.Count > 0)
+    {
+        <div class="row section">
+            <div class="medium-12 columns">
+                <div class="row">
+                    <div class="medium-12 columns">
+                        <h3><a id="@newsString">@newsString</a></h3>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="medium-12 columns">
-                    @foreach (var news in Model.News)
-                    {
-                        Html.RenderPartial("Sections/_News", news);
-                    }
-                    <div class="row">
-                        <div class="medium-12 columns">
-                            <div class="section-footer">
-                                <a>‹ Previous</a>  <a>1</a> <a>2</a>  <a>Next ›</a>
+                <div class="row">
+                    <div class="medium-12 columns">
+                        @foreach (var news in Model.News)
+                        {
+                            Html.RenderPartial("Sections/_News", news);
+                        }
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <div class="section-footer">
+                                    <a>‹ Previous</a>  <a>1</a> <a>2</a>  <a>Next ›</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-}
-@if (!string.IsNullOrEmpty(Model.Schedule))
-{
-    <div class="row section">
-        <div class="medium-12 columns">
-            <div class="row">
-                <div class="medium-12 columns">
-                    <h3><a id="@scheduleString">@scheduleString</a></h3>
+    }
+    @if (!string.IsNullOrEmpty(Model.Schedule))
+    {
+        <div class="row section">
+            <div class="medium-12 columns">
+                <div class="row">
+                    <div class="medium-12 columns">
+                        <h3><a id="@scheduleString">@scheduleString</a></h3>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="medium-12 columns">
-                    @Html.Raw(Model.Schedule)
+                <div class="row">
+                    <div class="medium-12 columns">
+                        @Html.Raw(Model.Schedule)
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-}
-@if (!string.IsNullOrEmpty(Model.Syllabus))
-{
-    <div class="row section">
-        <div class="medium-12 columns">
-            <div class="row">
-                <div class="medium-12 columns">
-                    <h3><a id="@syllabusString">@syllabusString</a></h3>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="medium-12 columns">
-                    @Html.Raw(Model.Syllabus)
+    }
+    @if (!string.IsNullOrEmpty(Model.Syllabus))
+    {
+        <div class="row section">
+            <div class="medium-12 columns">
+                <div class="row">
+                    <div class="medium-12 columns">
+                        <h3><a id="@syllabusString">@syllabusString</a></h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-12 columns">
+                        @Html.Raw(Model.Syllabus)
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-}
-@if (Model.Files.Count > 0)
-{
-    <div class="row section">
-        <div class="medium-12 columns">
-            <div class="row">
-                <div class="medium-12 columns">
-                    <h3><a id="@filesString">@filesString</a></h3>
+    }
+    @if (Model.Files.Count > 0)
+    {
+        <div class="row section">
+            <div class="medium-12 columns">
+                <div class="row">
+                    <div class="medium-12 columns">
+                        <h3><a id="@filesString">@filesString</a></h3>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="medium-12 columns">
-                    @foreach (var file in Model.Files)
-                    {
-                        <ul>
-                            <li>
-                                <span>
-                                    <a href="/api/file/@file.Id">@file.Name</a><br />
-                                    version: @file.Version
-                                </span>
-                            </li>
-                        </ul>
-                    }
+                <div class="row">
+                    <div class="medium-12 columns">
+                        @foreach (var file in Model.Files)
+                        {
+                            <ul>
+                                <li>
+                                    <span>
+                                        <a href="/api/file/@file.Id">@file.Name</a><br />
+                                        version: @file.Version
+                                    </span>
+                                </li>
+                            </ul>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-}
+    }
+</div>
