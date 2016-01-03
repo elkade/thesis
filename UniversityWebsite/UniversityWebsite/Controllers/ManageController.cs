@@ -6,11 +6,13 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UniversityWebsite.Core;
+using UniversityWebsite.Filters;
 using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite.Controllers
 {
     [Authorize]
+    [MainMenu]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -236,7 +238,7 @@ namespace UniversityWebsite.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return RedirectToAction("Index", "Home", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
             return View(model);

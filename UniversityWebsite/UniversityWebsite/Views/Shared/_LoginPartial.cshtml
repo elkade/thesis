@@ -3,13 +3,14 @@
     var logInString = GetPhrase("logIn");
     var manageString = GetPhrase("manage");
     var mySubjectsString = GetPhrase("mySubjects");
+    var changePasswordString = GetPhrase("changePassword");
 }
 @if (Request.IsAuthenticated)
 {
     @*<li><a href="@Url.Action("General", "Manage")" class="button">@User.Identity.GetUserName()</a></li>*@
 
     <li>
-        <a href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button dropdown">@User.Identity.Name.Substring(0, User.Identity.Name.IndexOf('@'))</a>
+        <a href="#" data-dropdown="user-items" aria-controls="user-items" aria-expanded="false" class="button small dropdown">@User.Identity.Name.Substring(0, User.Identity.Name.IndexOf('@'))</a>
         <ul id="user-items" data-dropdown-content class="f-dropdown" aria-hidden="true">
             @if (this.User.IsInRole("Administrator"))
             {
@@ -27,10 +28,11 @@
                     <a href="javascript:document.getElementById('logoutForm').submit()">@logOffString</a>
                 }
             </li>
+            <li><a href="@Url.Action("ChangePassword", "Manage")" id="loginLink">@changePasswordString</a></li>
         </ul>
     </li>
 }
 else
 {
-    <li><a class="button" href="@Url.Action("Login", "Account")" id="loginLink">@logInString</a></li>
+    <li><a class="button small" href="@Url.Action("Login", "Account")" id="loginLink">@logInString</a></li>
 }

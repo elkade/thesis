@@ -1,6 +1,6 @@
 ﻿@model UniversityWebsite.Model.Menu.LanguageMenuViewModel
 
-<a id="langButton" href="#" data-dropdown="langs" aria-controls="langs" aria-expanded="false" class="button dropdown">@Model.Current</a>
+<li><a id="langButton" href="#" data-dropdown="langs" aria-controls="langs" aria-expanded="false" class="button small dropdown">@Model.Current</a></li>
 <ul id="langs" data-dropdown-content class="f-dropdown" aria-hidden="true">
 
     @foreach (var language in Model.Items)
