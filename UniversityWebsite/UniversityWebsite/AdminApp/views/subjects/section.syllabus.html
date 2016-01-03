@@ -1,5 +1,5 @@
-﻿<div class="medium-12 columns">
-    <div ng-hide="!formHide" ng-click="edit()" class="mousetrap">
+﻿<div class="medium-12 columns" ng-controller="subjectSectionFormCtrl">
+    <div ng-hide="!formHide" ng-click="edit()" class="mousetrap" ng-class="{'with-border': formHide}">
         <div class="row">
             <div class="medium-12 columns">
                 <h5>{{subject.Syllabus.Header}}</h5>
