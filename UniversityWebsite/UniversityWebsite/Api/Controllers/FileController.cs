@@ -12,16 +12,28 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Api.Controllers
 {
+    /// <summary>
+    /// Kontroler odpowiedzialny za zarządzanie materiałami dydaktycznymi oraz galerią obrazków przechowywanymi w systemie.
+    /// </summary>
     [RoutePrefix("api/file")]
     public class FileController : ApiController
     {
         private readonly IFileService _fileService;
 
+        /// <summary>
+        /// Tworzy nową instancję kontrolera.
+        /// </summary>
+        /// <param name="fileService">Serwis zarządzający plikami systemu</param>
         public FileController(IFileService fileService)
         {
             _fileService = fileService;
         }
 
+        /// <summary>
+        /// Pobiera plik o podanym id.
+        /// </summary>
+        /// <param name="id">Guid pliku</param>
+        /// <returns>Plik lub NotFound, jeżeli plik o podanym id nie istnieje w systemie.</returns>
         [Route("{id:guid}")]
         [HttpGet]
         public HttpResponseMessage Get(string id)
@@ -38,6 +50,11 @@ namespace UniversityWebsite.Api.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Pobiera obrazek o podanym id.
+        /// </summary>
+        /// <param name="id">Guid obrazka</param>
+        /// <returns>Plik graficzny lub NotFound, jeżeli plik o podanym id nie istnieje w systemie.</returns>
         [Route("gallery/{id:guid}")]
         [HttpGet]
         public HttpResponseMessage GetImage(string id)
@@ -57,6 +74,13 @@ namespace UniversityWebsite.Api.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Zwraza listę obiektów zawierających informacje o plikach będących materiałami dydaktycznymi danego przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Lista obiektów zawierających informacje o pliku</returns>
         [Route("")]
         [Limit(50), Offset]
         [HttpGet]
@@ -67,6 +91,11 @@ namespace UniversityWebsite.Api.Controllers
             return new PaginationVm<FileDto>(files, number, limit, offset);
         }
 
+        /// <summary>
+        /// Dodaje nowy plik zawarty w kontekście zapytania do pdanego przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <returns>Dane dodanego pliku.</returns>
         [Route("")]
         public async Task<IHttpActionResult> Post(int subjectId)
         {
@@ -78,6 +107,11 @@ namespace UniversityWebsite.Api.Controllers
             var file = await _fileService.Add(Request, subjectId, userId);
             return Ok(file);
         }
+        /// <summary>
+        /// Nadpisuje istniejący plik nową wersją, zachowując dane starego pliku.
+        /// </summary>
+        /// <param name="fileId">Id aktualizowanrgo pliku</param>
+        /// <returns>Dane zaktualizowanego pliku.</returns>
         [Route("{fileId:guid}")]
         [HttpPut]
         public async Task<IHttpActionResult> Put(string fileId)
@@ -91,6 +125,11 @@ namespace UniversityWebsite.Api.Controllers
             return Ok(file);
         }
 
+        /// <summary>
+        /// Usuwa plik o podanym id z systemu.
+        /// </summary>
+        /// <param name="fileId">Guid pliku</param>
+        /// <returns>Status HTTP</returns>
         [HttpDelete]
         [Route("{fileId}")]
         public async Task<IHttpActionResult> Delete(string fileId)
@@ -100,6 +139,12 @@ namespace UniversityWebsite.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Zwraza listę obiektów zawierających informacje o obrazkach znajdujących się w galerii obrazków systemu.
+        /// </summary>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Lista obiektów zawierających informacje o pliku graficznym</returns>
         [Limit(50), Offset]
         [Route("gallery")]
         public async Task<PaginationVm<FileDto>> GetGallery(int limit = 50, int offset = 0)
@@ -109,6 +154,10 @@ namespace UniversityWebsite.Api.Controllers
             return new PaginationVm<FileDto>(images, number, limit, offset);
         }
 
+        /// <summary>
+        /// Dodaje nowy obrazek do galerii systemu.
+        /// </summary>
+        /// <returns>Informacje o obrazku</returns>
         [Route("gallery")]
         public async Task<IHttpActionResult> PostGallery()
         {
@@ -118,6 +167,11 @@ namespace UniversityWebsite.Api.Controllers
             var file = await _fileService.AddToGallery(Request, userId);
             return Ok(file);
         }
+        /// <summary>
+        /// Nadpisuje istniejący obrazek nową wersją, zachowując dane starego pliku graficznego.
+        /// </summary>
+        /// <param name="fileId">Id aktualizowanrgo obrazka</param>
+        /// <returns>Dane zaktualizowanego obrazka.</returns>
         [Route("gallery/{fileId:guid}")]
         public async Task<IHttpActionResult> PutGallery(string fileId)
         {

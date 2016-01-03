@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,18 +13,29 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Api.Controllers
 {
+    /// <summary>
+    /// Kontroler odpowiedzialny za zarządzanie modułem dydaktyki.
+    /// </summary>
     [RoutePrefix("api/subjects")]
     public class TeachingController : ApiController
     {
         private readonly ISubjectService _subjectService;
-        private readonly IUserService _userService;
 
-        public TeachingController(ISubjectService subjectService, IUserService userService)
+        /// <summary>
+        /// Tworzy nową instancję kontrolera.
+        /// </summary>
+        /// <param name="subjectService">Serwis zarządzający przedmiotami systemu</param>
+        public TeachingController(ISubjectService subjectService)
         {
             _subjectService = subjectService;
-            _userService = userService;
         }
 
+        /// <summary>
+        /// Pobiera zbiór przedmiotów zdefiniowanych w systemie.
+        /// </summary>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Zbiór obiektów reprezentujących przedmioty</returns>
         [Limit(50), Offset]
         [Route("")]
         [Authorize(Roles = "Administrator, Teacher")]
@@ -42,6 +52,11 @@ namespace UniversityWebsite.Api.Controllers
             return new PaginationVm<SubjectDto>(subjects, number, limit, offset);
         }
 
+        /// <summary>
+        /// Dodaje nowy przedmiot do systemu.
+        /// </summary>
+        /// <param name="subject">Dane nowego przedmiotu</param>
+        /// <returns>Obiekt reprezentujący dane nowododanego przedmiotu</returns>
         [Route("")]
         [Authorize(Roles = "Administrator")]
         public IHttpActionResult PostSubject(SubjectPost subject)
@@ -53,6 +68,11 @@ namespace UniversityWebsite.Api.Controllers
             var addedSubject = _subjectService.AddSubject(subjectDto, User.Identity.GetUserId());
             return Ok(addedSubject);
         }
+        /// <summary>
+        /// Nadpisuje dane przedmiotu istniejacego w systemie.
+        /// </summary>
+        /// <param name="subject">Dane, którymi ma zostać nadpisany przedmiot</param>
+        /// <returns>Dane nadpisanego przedmiotu</returns>
         [Route("")]
         [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult PutSubject(SubjectPut subject)
@@ -65,6 +85,11 @@ namespace UniversityWebsite.Api.Controllers
             return Ok(updatedSubject);
         }
 
+        /// <summary>
+        /// Usuwa przedmiot z systemu.
+        /// </summary>
+        /// <param name="subjectId">Id usuwanego przedmiotu</param>
+        /// <returns>Status HTTP</returns>
         [Route("{subjectId:int}")]
         [Authorize(Roles = "Administrator")]
         public IHttpActionResult DeleteSubject(int subjectId)
@@ -73,6 +98,13 @@ namespace UniversityWebsite.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Pobiera listę aktualności należących do przedmoiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Zbiór obiektów reprezentujących aktualności</returns>
         [Limit(50), Offset]
         [Route("{subjectId:int}/news")]
         [Authorize(Roles = "Administrator, Teacher")]
@@ -83,6 +115,12 @@ namespace UniversityWebsite.Api.Controllers
             return new PaginationVm<NewsDto>(news, number, limit, offset);
         }
 
+        /// <summary>
+        /// Dodaje nowy wpis w aktualnościach przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="news">Dane aktualności</param>
+        /// <returns>Dane dodanego wpisu</returns>
         [Route("{subjectId:int}/news")]
         [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult PostNews(int subjectId, [FromBody]NewsPost news)
@@ -94,6 +132,13 @@ namespace UniversityWebsite.Api.Controllers
             return Ok(addedNews);
         }
 
+        /// <summary>
+        /// Aktualizuje dany wpis w aktualnościach danego przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="newsId">Id wpisu w aktualnościach</param>
+        /// <param name="news">Dane wpisu do nadpisania</param>
+        /// <returns>Dane nadpisanego wpisu</returns>
         [Route("{subjectId:int}/news/{newsId:int}")]
         [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult PutNews(int subjectId, int newsId, [FromBody]NewsPut news)
@@ -108,6 +153,12 @@ namespace UniversityWebsite.Api.Controllers
         }
 
 
+        /// <summary>
+        /// Usuwa wpis w aktualnościach z przedmiotu
+        /// </summary>
+        /// <param name="subjectId">Id danego przedmiotu</param>
+        /// <param name="newsId">Id wpisu w aktualnościach</param>
+        /// <returns>Status HTTP</returns>
         [Route("{subjectId:int}/news/{newsId:int}")]
         [Authorize(Roles = "Administrator, Teacher")]
         public IHttpActionResult DeleteNews(int subjectId, int newsId)
@@ -116,6 +167,11 @@ namespace UniversityWebsite.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Zwraca zbiór nauczycieli administrujących danym przedmiotem
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <returns>Zbiór obiektów reprezentujących nauczycieli</returns>
         [Route("{subjectId:int}/teachers")]
         [Authorize(Roles = "Administrator")]
         public IEnumerable<UserTeachingVm> GetTeachers(int subjectId)
@@ -131,6 +187,12 @@ namespace UniversityWebsite.Api.Controllers
             return teachers;
         }
 
+        /// <summary>
+        /// Dodaje nauczycieli do przedmiotu
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="teacherIds">Tablica id nauczycieli</param>
+        /// <returns>Status HTTP</returns>
         [HttpPost]
         [Route("{subjectId:int}/teachers")]
         [Authorize(Roles = "Administrator")]
@@ -148,6 +210,12 @@ namespace UniversityWebsite.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Zabiera nauczycielowi prawa do zarządzania przedmiotem.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="teacherIds">Id nauczyciela</param>
+        /// <returns>Status HTTP</returns>
         [HttpPut]
         [Route("{subjectId}/teachers")]
         [Authorize(Roles = "Administrator")]
@@ -157,6 +225,13 @@ namespace UniversityWebsite.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Pobiera listę studentów zapisanych na przedmiot
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Zbiór obiektów reprezentujących studentów</returns>
         [Limit(50), Offset]
         [Route("{subjectId:int}/students")]
         [Authorize(Roles = "Administrator, Teacher")]

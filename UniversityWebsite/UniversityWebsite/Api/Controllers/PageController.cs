@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
@@ -11,7 +10,7 @@ using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
-namespace UniversityWebsite.ApiControllers
+namespace UniversityWebsite.Api.Controllers
 {
     /// <summary>
     /// Kontroler api służący do wykonywania operacji CRUD na stronach systemu.
@@ -23,6 +22,12 @@ namespace UniversityWebsite.ApiControllers
         private readonly IPageService _pageService;
         private readonly IMenuService _menuService;
 
+        /// <summary>
+        /// Tworzy nową instancje kontrolera.
+        /// </summary>
+        /// <param name="pageService">Serwis zarządzający stronami dostępnymi w systemie</param>
+        /// <param name="languageService">Serwis zarządzający językami dostępnymi w systemie</param>
+        /// <param name="menuService">Serwis zarządzający menu zawartymi w systemie</param>
         public PageController(IPageService pageService, ILanguageService languageService, IMenuService menuService)
         {
             _pageService = pageService;
@@ -33,7 +38,9 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// Zwraca wszystkie strony systemu.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Zbiór stron</returns>
         [Route("")]
         [Limit(50), Offset]
         //[AntiForgeryValidate]
@@ -44,6 +51,13 @@ namespace UniversityWebsite.ApiControllers
             return Ok(new PaginationVm<PageDto>(pages, number, limit, offset));
         }
 
+        /// <summary>
+        /// Zwraca wszystkie strony systemu w danym języku
+        /// </summary>
+        /// <param name="lang">język, w którym mają zostać wyszukane strony</param>
+        /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
+        /// <returns>Zbiór stron</returns>
         [Route("")]
         [Limit(50), Offset]
         //[AntiForgeryValidate]
@@ -56,8 +70,8 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// zwraca listę języków, na które może zostać przetłumaczona strona.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id danej strony</param>
+        /// <returns>Zbiór języków</returns>
         [Route("{id:int}/availableLanguages")]
         public IEnumerable<Language> GetAvailableLanguages(int id)
         {
@@ -71,8 +85,8 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// Zwraca stronę o danym id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id strony</param>
+        /// <returns>Dane strony o podanym id</returns>
         [Route("{id:int}", Name = "GetPage")]
         [ResponseType(typeof(PageDto))]
         public IHttpActionResult GetPage(int id)
@@ -88,8 +102,8 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// Nadpisuje pola strony o danym id.
         /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
+        /// <param name="page">Dane, którymi ma zostać nadpisana strona</param>
+        /// <returns>Dane strony po aktualizacji</returns>
         [Route("{name}")]
         //[AntiForgeryValidate]
         [ResponseType(typeof(PageDto))]
@@ -105,8 +119,8 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// Dodaje nową stronę.
         /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
+        /// <param name="page">Dane nowej strony</param>
+        /// <returns>Dane nowej strony po dodaniu</returns>
         [Route("")]
         //[AntiForgeryValidate]
         [ResponseType(typeof(PageDto))]
@@ -124,8 +138,8 @@ namespace UniversityWebsite.ApiControllers
         /// <summary>
         /// Usuwa stronę o danym id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id strony do usunięcia</param>
+        /// <returns>Status HTTP</returns>
         [Route("{id:int}")]
         //[AntiForgeryValidate]
         public IHttpActionResult DeletePage(int id)
