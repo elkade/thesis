@@ -48,6 +48,10 @@ body {
     background: url("images/background.jpg");
 }
 
+.button-group > li {
+    margin: 0 -3px;
+}
+
 .light-color {
     background: #FCFCFF;
 }
