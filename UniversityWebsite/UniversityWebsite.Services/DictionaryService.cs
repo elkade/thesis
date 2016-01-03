@@ -67,6 +67,10 @@ namespace UniversityWebsite.Services
         private readonly IDbSet<Phrase> _phrases;
         private IDomainContext _context;
 
+        /// <summary>
+        /// Tworzy nową instancję serwisu.
+        /// </summary>
+        /// <param name="domainContext">Kontekst domeny systemu.</param>
         public DictionaryService(IDomainContext domainContext)
         {
             _phrases = domainContext.Phrases;

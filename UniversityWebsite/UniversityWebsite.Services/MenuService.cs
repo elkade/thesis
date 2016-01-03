@@ -76,7 +76,7 @@ namespace UniversityWebsite.Services
         /// <summary>
         /// Tworzy nową instancję serwisu.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Kontekst domeny systemu.</param>
         public MenuService(IDomainContext context)
         {
             _context = context;

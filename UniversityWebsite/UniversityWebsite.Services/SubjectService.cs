@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
-using AutoMapper.Internal;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNet.Identity;
 using UniversityWebsite.Core;
-using UniversityWebsite.Domain;
 using UniversityWebsite.Domain.Enums;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Services.Exceptions;
@@ -15,6 +12,9 @@ using UniversityWebsite.Services.Model;
 
 namespace UniversityWebsite.Services
 {
+    /// <summary>
+    /// Serwis realizujący logikę biznesową dotyczącą przedmiotów systemu.
+    /// </summary>
     public interface ISubjectService
     {
         /// <summary>
@@ -37,7 +37,6 @@ namespace UniversityWebsite.Services
         /// <param name="name">Nazwa przedmiotu widoczna w linku</param>
         /// <returns>Szukany przedmiot</returns>
         Subject GetSubject(string name);
-
         /// <summary>
         /// Zwraca zbiór wszystkich przedmiotów.
         /// </summary>
@@ -51,35 +50,167 @@ namespace UniversityWebsite.Services
         /// </summary>
         /// <returns>Liczba naturalna</returns>
         int GetSubjectsNumber();
+
+
+
+        /// <summary>
+        /// Dodaje nowy przedmiot do systemu.
+        /// </summary>
+        /// <param name="subject">Dane przedmiotu</param>
+        /// <param name="authorId">Id użytkownika tworzącego przedmiot</param>
+        /// <returns>Dane dodanego przedmiotu.</returns>
         SubjectDto AddSubject(SubjectDto subject, string authorId);
+        /// <summary>
+        /// Aktualizuje dane przedmiotu istniejącego w systemie.
+        /// </summary>
+        /// <param name="subject">Dane przedmiotu</param>
+        /// <param name="authorId">Id użytkownika aktualizującego przedmiot</param>
+        /// <returns>Dane przedmiotu po edycji.</returns>
         SubjectDto UpdateSubject(SubjectDto subject, string authorId);
+        /// <summary>
+        /// Dodaje wpis w sekcji aktualności przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="newsDto">Dane wpisu</param>
+        /// <param name="authorId">Id użytkownika dokonującego edycji</param>
+        /// <returns>Dane dodanego wpisu.</returns>
         NewsDto AddNews(int subjectId, NewsDto newsDto, string authorId);
+        /// <summary>
+        /// Zwraca wpis w sekcji aktualności.
+        /// </summary>
+        /// <param name="subjectId">Id wpisu.</param>
+        /// <returns>Dana dodanego wpisu.</returns>
         IEnumerable<NewsDto> GetNews(int subjectId);
-        int GetNewsNumber(int subjectId);
-        IEnumerable<User> GetStudents(int subjectId, int limit, int offset);
-        int GetStudentsNumber(int subjectId);
-        IEnumerable<User> GetTeachers(int subjectId);
-        void AddTeachers(int subjectId, IEnumerable<string> teacherIds);
-        void DeleteTeachers(int subjectId, IEnumerable<string> teacherIds);
+        /// <summary>
+        /// Usuwa wpis w sekcji aktualności przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="newsId">Id wpisu</param>
         void DeleteNews(int subjectId, int newsId);
-        void DeleteSubject(int subjectId);
-        SignUpAction GetAvailableAction(string studentId, int subjectId);
+        /// <summary>
+        /// Aktualizuje wpis w aktualnościach przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="newsDto">Dane wpisu</param>
+        /// <returns>Dane wpisu po edycji.</returns>
         NewsDto UpdateNews(int subjectId, NewsDto newsDto);
+        /// <summary>
+        /// Zwraca liczbę wpisów w sekcji aktualności dla danego przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu.</param>
+        /// <returns>Liczba naturalna.</returns>
+        int GetNewsNumber(int subjectId);
+        /// <summary>
+        /// Zwraca zbiór studentów zapisanych na dany przedmiot.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="limit">Maksymalna liczba zwróconych obiektów</param>
+        /// <param name="offset">Numer porządkowy pierwszego zwróconego obiektu</param>
+        /// <returns>Zbiór obiektów reprezentujących studentów.</returns>
+        IEnumerable<User> GetStudents(int subjectId, int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę studentów zapisanych na przedmiot.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu.</param>
+        /// <returns>Liczba naturalna.</returns>
+        int GetStudentsNumber(int subjectId);
+        /// <summary>
+        /// Zwraca zbiór nauczycieli administrujących danym przedmiotem.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu.</param>
+        /// <returns>Zbiór obiektów reprezentujących nauczycieli.</returns>
+        IEnumerable<User> GetTeachers(int subjectId);
+        /// <summary>
+        /// Dodaje nauczycieli do zbioru administratorów przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="teacherIds">Zbiór id nauczycieli</param>
+        void AddTeachers(int subjectId, IEnumerable<string> teacherIds);
+        /// <summary>
+        /// Usuwa nauczycieli ze zbioru administratorów przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="teacherIds">Zbiór id nauczycieli</param>
+        void DeleteTeachers(int subjectId, IEnumerable<string> teacherIds);
+        /// <summary>
+        /// Usuwa przedmiot z systemu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        void DeleteSubject(int subjectId);
+        /// <summary>
+        /// Zwraca identyfikator dostępnej akcji zmiany statusu wniosku o rejestrację na przedmiot przez studenta.
+        /// </summary>
+        /// <param name="studentId">Id studenta</param>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <returns>Id akcji</returns>
+        SignUpAction GetAvailableAction(string studentId, int subjectId);
+        /// <summary>
+        /// Dodaje do systemu wniosek studenta o zapisanie go na przedmiot.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="userId">Id studenta</param>
         void SignUpForSubject(int subjectId, string userId);
+        /// <summary>
+        /// Usuwa zo systemu wniosek studenta o zapisanie go na przedmiot.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="studentId">Id studenta</param>
         void ResignFromSubject(int subjectId, string studentId);
+        /// <summary>
+        /// Zmienia status wniosków na "Pozytywnie rozpatrzony" jeżeli dotyczą one przedmiotów zarządzanych przez danego nauczyciela.
+        /// </summary>
+        /// <param name="requestIds">Zbiór id wniosków</param>
+        /// <param name="teacherId">Id nauczyciela</param>
         void ApproveRequests(IEnumerable<int> requestIds, string teacherId);
+        /// <summary>
+        /// Zmienia status wniosków na "Odrzucony" jeżeli dotyczą one przedmiotów zarządzanych przez danego nauczyciela.
+        /// </summary>
+        /// <param name="requestIds">Zbiór id wniosków</param>
+        /// <param name="teacherId">Id nauczyciela</param>
         void RefuseRequests(IEnumerable<int> requestIds, string teacherId);
+        /// <summary>
+        /// Zwraca zbiór wniosków o zapisanie na przedmiot dotyczących przedmiotów zarządzanych przez danego nauczyciela.
+        /// </summary>
+        /// <param name="userId">Id nauczyciela</param>
+        /// <param name="limit">Maksymalna liczba zwróconych wniosków</param>
+        /// <param name="offset">Numer porządkowy pierwszego zwróconego wniosku</param>
+        /// <returns>Zbiór wniosków</returns>
         IEnumerable<SignUpRequest> GetRequestsByTeacher(string userId, int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę wniosków o zapisanie na przedmiot dotyczących przedmiotów zarządzanych przez danego nauczyciela.
+        /// </summary>
+        /// <param name="teacherId">Id nauczyciela</param>
+        /// <returns>Liczb naturalna.</returns>
         int GetRequestsNumberByTeacher(string teacherId);
+        /// <summary>
+        /// Zwraca zbiór wniosków o zapisania się na przedmiot dotyczących danego przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <param name="limit">Maksymalna liczba zwróconych wniosków</param>
+        /// <param name="offset">Numer porządkowy pierwszego zwróconego wniosku</param>
+        /// <returns>Zbiór wniosków.</returns>
         IEnumerable<SignUpRequest> GetRequestsBySubject(int subjectId, int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę wniosków o zapisania się na przedmiot dotyczących danego przedmiotu.
+        /// </summary>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <returns>Liczba naturalna</returns>
         int GetRequestsNumberBySubject(int subjectId);
     }
+    /// <summary>
+    /// Implementacja serwisu realizującego logikę biznesową dotyczącą przedmiotów systemu.
+    /// </summary>
     public class SubjectService : ISubjectService
     {
         private readonly IDomainContext _context;
         private readonly ApplicationUserManager _userManager;
         private const int SameTitleSubjectsMaxNumber = 100;
 
+        /// <summary>
+        /// Tworzy nową instancję 
+        /// </summary>
+        /// <param name="context">Kontekst domeny systemu.</param>
+        /// <param name="userManager">Manaer odpowiedzialny za bezpośrednie operacje na użytkowniku systemu.</param>
         public SubjectService(IDomainContext context, ApplicationUserManager userManager)
         {
             _context = context;

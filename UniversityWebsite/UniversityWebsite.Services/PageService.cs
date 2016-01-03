@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
@@ -105,8 +104,19 @@ namespace UniversityWebsite.Services
         /// <param name="id">Id danej strony</param>
         /// <returns>Wyliczenie kodów językowych</returns>
         IEnumerable<string> GetTranslationsLanguages(int id);
-
+        /// <summary>
+        /// Zwraca zbiór stron o danym języku.
+        /// </summary>
+        /// <param name="countryCode">Id języka zwracanych stron</param>
+        /// <param name="limit">Maksymalna liczba zwróconych stron</param>
+        /// <param name="offset">Numer porządkowy pierwszej strony, która ma zostać zwrócona</param>
+        /// <returns>Zbiór stron</returns>
         IEnumerable<PageDto> GetPagesByCountryCode(string countryCode, int limit, int offset);
+        /// <summary>
+        /// Zwraca liczbę stron o danym języku.
+        /// </summary>
+        /// <param name="countryCode">Id języka zwracanych stron</param>
+        /// <returns>Liczba naturalna.</returns>
         int GetPagesNumberByCountryCode(string countryCode);
     }
     /// <summary>
