@@ -65,6 +65,18 @@ namespace UniversityWebsite.Services
         /// </summary>
         /// <param name="userId">Id użytkownika do usunięcia</param>
         void DeleteUser(string userId);
+        /// <summary>
+        /// Deaktywuje użytkownika
+        /// </summary>
+        /// <param name="userId">Id użytkownika</param>
+        /// <returns></returns>
+        UserDto DisableUser(string userId);
+        /// <summary>
+        /// Aktywuje deaktywowanego użytkownika
+        /// </summary>
+        /// <param name="userId">Id użytkownika</param>
+        /// <returns></returns>
+        UserDto ActivateUser(string userId);
     }
     /// <summary>
     /// Serwis odpowiedzialny za logikę biznesową dotyczącą użytkowników systemu.
@@ -237,6 +249,52 @@ namespace UniversityWebsite.Services
                     .Select(_modelFactory.GetDto);
         }
 
+        public UserDto DisableUser(string userId)
+        {
+            var user = _context.InTransaction(() =>
+            {
+                var dbUser = _userManager.FindById(userId);
+                if (dbUser == null)
+                    throw new NotFoundException("User with id: " + userId);
+                dbUser.LockoutEndDateUtc = DateTime.Now.AddYears(1000);
+
+                var result = _userManager.Update(dbUser);
+
+                if (!result.Succeeded)
+                    throw new IdentityOperationFailedException(result);
+
+                return _modelFactory.GetDto(dbUser);
+            });
+
+            return user;
+        }
+        public UserDto ActivateUser(string userId)
+        {
+            var user = _context.InTransaction(() =>
+            {
+                var dbUser = _userManager.FindById(userId);
+                if (dbUser == null)
+                    throw new NotFoundException("User with id: " + userId);
+                var password = PasswordGenerator.GeneratePassword(8);
+                var token = _userManager.GeneratePasswordResetToken(userId);
+                var result = _userManager.ResetPassword(userId, token, password);
+
+                if (!result.Succeeded)
+                    throw new IdentityOperationFailedException(result);
+
+                dbUser.LockoutEndDateUtc = null;
+
+                result = _userManager.Update(dbUser);
+
+                if (!result.Succeeded)
+                    throw new IdentityOperationFailedException(result);
+
+                return _modelFactory.GetDtoWithPassword(dbUser, password);
+            });
+
+            return user;
+        }
+
         public int GetUsersNumberByRole(string roleName)
         {
             var role = _context.Roles.SingleOrDefault(r => r.Name == roleName);
@@ -273,6 +331,7 @@ namespace UniversityWebsite.Services
                     IndexNumber = appUser.IndexNumber,
                     Pesel = appUser.Pesel,
                     Role = role,
+                    Disabled = appUser.LockoutEndDateUtc > DateTime.Now
                 };
             }
             public UserWithPasswordDto GetDtoWithPassword(User appUser, string password)
@@ -290,7 +349,8 @@ namespace UniversityWebsite.Services
                     IndexNumber = appUser.IndexNumber,
                     Pesel = appUser.Pesel,
                     Role = role,
-                    Password = password
+                    Password = password,
+                    Disabled = appUser.LockoutEndDateUtc > DateTime.Now
                 };
             }
         }

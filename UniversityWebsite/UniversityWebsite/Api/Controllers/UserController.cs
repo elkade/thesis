@@ -113,6 +113,53 @@ namespace UniversityWebsite.Api.Controllers
             }
         }
 
+        [Route("dupa")]
+        [HttpPost]
+        public IHttpActionResult Dupa()
+        {
+            return Ok("Dupa");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("disable")]
+        [HttpPost]
+        public IHttpActionResult DisableUser(string[] userIds)
+        {
+            try
+            {
+                var user = _userService.DisableUser(userIds[0]);
+                return Ok(user);
+            }
+            catch (IdentityOperationFailedException ex)
+            {
+                return GetErrorResult(ex.IdentityResult);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("activate")]
+        [HttpPost]
+        public IHttpActionResult ActivateUser(string[] userIds)
+        {
+            try
+            {
+                var user = _userService.ActivateUser(userIds[0]);
+                return Ok(user);
+            }
+            catch (IdentityOperationFailedException ex)
+            {
+                return GetErrorResult(ex.IdentityResult);
+            }
+        }
+
         protected IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
@@ -136,6 +183,8 @@ namespace UniversityWebsite.Api.Controllers
 
             return null;
         }
+
+
     }
 
 }

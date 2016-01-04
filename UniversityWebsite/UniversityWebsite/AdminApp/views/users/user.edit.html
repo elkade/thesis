@@ -55,29 +55,29 @@
             </div>
 
             <!--<div class="row" ng-hide="$stateParams.userId == 'newUser'">
-            <div class="small-12 medium-6 columns">
-                <label>
-                    <input type="checkbox" ng-model="changePassword" />
-                    Change password
-                </label>
-            </div>
-        </div>-->
+                    <div class="small-12 medium-6 columns">
+                        <label>
+                            <input type="checkbox" ng-model="changePassword" />
+                            Change password
+                        </label>
+                    </div>
+                </div>-->
             <!--<div class="row" ng-if="changePassword">
-            <div class="small-12 medium-6 columns">
-                <label>
-                    Password
-                    <input type="text" placeholder="password" required ng-model="user.Password" style="font-weight: bold"/>
-                </label>
-            </div>
-        </div>-->
+                    <div class="small-12 medium-6 columns">
+                        <label>
+                            Password
+                            <input type="text" placeholder="password" required ng-model="user.Password" style="font-weight: bold"/>
+                        </label>
+                    </div>
+                </div>-->
             <!--<div class="row" ng-if="changePassword">
-            <div class="small-12 medium-6 columns">
-                <label>
-                    Confirm password
-                    <input type="password" placeholder="confirm password" required ng-model="user.ConfirmPassword" />
-                </label>
-            </div>
-        </div>-->
+                    <div class="small-12 medium-6 columns">
+                        <label>
+                            Confirm password
+                            <input type="password" placeholder="confirm password" required ng-model="user.ConfirmPassword" />
+                        </label>
+                    </div>
+                </div>-->
 
             <div class="row">
                 <div class="small-12 medium-6 columns">
@@ -92,12 +92,16 @@
 
             <div class="row">
                 <div class="small-12 medium-6 columns">
-                    <button class="button small" type="submit">Update</button>
+                    <ul class="button-group">
+                        <li><button class="button small" type="submit">Update</button></li>
+                        <li ng-hide="user.Disabled"><button class="button small" ng-click="disable();" type="button">Disable</button></li>
+                        <li ng-hide="!user.Disabled"><button class="button small" ng-click="activ();" type="button">Activate</button></li>
+                    </ul>
                 </div>
             </div>
         </form>
     </tab>
-    <tab heading="Subjects">
+    <!--<tab heading="Subjects">
         <form name="userSubjectsForm" novalidate class="css-form" ng-submit="update()" ng-controller="userSubjectsEditCtrl">
             <div class="row">
                 <div class="medium-12 columns">
@@ -118,5 +122,5 @@
                 </div>
             </div>
         </form>
-    </tab>
+    </tab>-->
 </tabset>

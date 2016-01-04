@@ -18,7 +18,7 @@ namespace UniversityWebsite.Api.Controllers
     /// </summary>
     [RoutePrefix("api/subjects")]
     public class TeachingController : ApiController
-    {
+    {   
         private readonly ISubjectService _subjectService;
 
         /// <summary>

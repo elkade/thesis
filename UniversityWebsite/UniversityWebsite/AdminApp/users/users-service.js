@@ -25,5 +25,13 @@
     factory.update = Users.update;
     factory.post = Users.post;
 
+    factory.disableUser = function(userId) {
+        return $http.post("api/users/disable", [userId]);
+    };
+
+    factory.activateUser = function (userId) {
+        return $http.post("api/users/activate", [userId]);
+    };
+
     return factory;
 }]);

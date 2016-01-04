@@ -9,6 +9,7 @@
         public string IndexNumber { get; set; }
         public string Pesel { get; set; }
         public string Role { get; set; }
+        public bool Disabled { get; set; }
     }
     public class UserWithPasswordDto : UserDto
     {
