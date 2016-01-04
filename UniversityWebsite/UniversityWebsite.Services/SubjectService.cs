@@ -195,8 +195,12 @@ namespace UniversityWebsite.Services
         /// </summary>
         /// <param name="subjectId">Id przedmiotu</param>
         /// <returns>Liczba naturalna</returns>
-        int GetRequestsNumberBySubject(int subjectId);
-        /// <summary>
+        int GetRequestsNumberBySubject(int subjectId);        /// <summary>
+        /// Usuwa listę podanych studentów z przedmiotu
+        /// </summary>
+        /// <param name="subjectId"></param>
+        /// <param name="studentsIds"></param>
+        void RemoveFromSubject(int subjectId, string[] studentsIds);        /// <summary>
         /// Sprawdza, czy nauczyciel ma prawa administracyjne do przedmiotu.
         /// </summary>
         /// <param name="userId">Id nauczyciela</param>
@@ -209,8 +213,7 @@ namespace UniversityWebsite.Services
         /// <param name="userId">Id nauczyciela</param>
         /// <param name="subjectId">Id przedmiotu</param>
         /// <returns>Wartość logiczna</returns>
-        bool HasStudentAccessToSubject(string userId, int subjectId);
-    }
+        bool HasStudentAccessToSubject(string userId, int subjectId);    }
     /// <summary>
     /// Implementacja serwisu realizującego logikę biznesową dotyczącą przedmiotów systemu.
     /// </summary>
@@ -506,6 +509,16 @@ namespace UniversityWebsite.Services
             _context.SaveChanges();
         }
 
+        public void RemoveFromSubject(int subjectId, string[] studentsIds)
+        {
+            var requests =
+                _context.SignUpRequests.Where(r => r.SubjectId == subjectId && studentsIds.Contains(r.StudentId));
+            foreach (var signUpRequest in requests)
+            {
+                _context.SetDeleted(signUpRequest);
+            }
+            _context.SaveChanges();
+        }
 
         public void ApproveRequests(IEnumerable<int> requestIds, string teacherId)
         {
