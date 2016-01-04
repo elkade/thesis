@@ -170,7 +170,7 @@ namespace UniversityWebsite.Services
         {
             
             var menuItems = _context.Menus.Single(m => m.GroupId == TilesMenuGroupId && m.CountryCode == countryCode).Items;
-            return menuItems.OrderBy(mi => mi.Order)
+            return menuItems.OrderByDescending(mi => mi.Order)
                 .Select(mi =>
                     new Tile
                     {
