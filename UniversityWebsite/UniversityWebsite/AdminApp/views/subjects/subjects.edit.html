@@ -20,21 +20,15 @@
     </div>
 </div>
 
-<!--<div class="row">
-    <div class="large-12 columns">
-        <div data-alert class="alert-box alert" ng-repeat="error in errors">
-            {{error}}
-            <a href="#" class="close" ng-click="">&times;</a>
-        </div>
-    </div>
-</div>-->
-
 <div class="row" ng-hide="editMode">
-    <div class="medium-10 columns">
+    <div class="medium-9 columns">
         <h3>{{subject.Name}}</h3>
     </div>
-    <div class="medium-2 columns">
-        <button class="button" ng-click="edit()">Edit</button>
+    <div class="medium-3 columns">
+        <ul class="button-group">
+            <li><button class="button small" ng-click="edit()">Edit</button></li>
+            <li><button class="button small" ng-click="openDeleteModal()" ng-if="user.isAdmin">Remove</button></li>
+        </ul>
     </div>
 </div>
 
@@ -88,7 +82,7 @@
             </div>
             
         </accordion-group>
-        <accordion-group heading="Pending requests from students">
+        <accordion-group heading="Rrequests from students">
             <div class="row" ng-hide="editMode" ng-include="requestsSection.url" ng-controller="subjectSignUpRequestCtrl">
             </div>
         </accordion-group>

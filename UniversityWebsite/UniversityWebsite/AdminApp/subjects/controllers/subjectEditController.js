@@ -1,6 +1,6 @@
 ﻿angular.module('configApp.subjects')
 
-.controller('subjectsEditCtrl', function ($scope, $stateParams, utils, subjectsService) {
+.controller('subjectsEditCtrl', function ($scope, $stateParams, $modal, utils, subjectsService) {
     $scope.subject = $stateParams.subject;
     $scope.alerts = [];
     $scope.studentsSection = { name: 'students', url: 'adminapp/views/subjects/section.students.html' };
@@ -34,6 +34,30 @@
     $scope.edit = function() {
         $scope.editMode = true;
         //TODO:
+    };
+
+
+    /**
+     * Opens confirmation window before delete current subject.
+     */
+    $scope.openDeleteModal = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'adminapp/views/partials/confirmation.modal.html',
+            controller: 'deleteSubjectModalCtrl',
+            resolve: {
+                subject: function () {
+                    return $scope.subject;
+                },
+                subjects: function() {
+                    return $scope.subjects;
+                }
+            }
+        });
+        modalInstance.result.then(function () {
+        }, function(error) {
+            var alert = { type: 'alert', msg: 'Error: ' + "unable to remove subject" };
+            $scope.addAlert(alert);
+        });
     };
 
     $scope.update = function () {

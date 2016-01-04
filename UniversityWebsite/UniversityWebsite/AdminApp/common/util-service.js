@@ -40,6 +40,14 @@
             }
         },
 
+        removeByName: function removeByName(a, name) {
+            for (var i = a.length - 1; i >= 0; i--) {
+                if (a[i].Name == name) {
+                    a.splice(i, 1);
+                }
+            }
+        },
+
         removeByHeader: function removeByHeader(a, header) {
             for (var i = a.length - 1; i >= 0; i--) {
                 if (a[i].Header == header) {

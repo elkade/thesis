@@ -3,6 +3,7 @@
     var logInString = GetPhrase("logIn");
     var passwordString = GetPhrase("password");
     var emailString = GetPhrase("email");
+    var forgotPasswordString = GetPhrase("forgotPassword");
     ViewBag.Title = logInString;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -35,7 +36,13 @@
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder=passwordString })
                         </div>
                     </div>
+                    
                     <input type="submit" value="@logInString" class="button" />
+                    <div class="row">
+                        <div class="small-6 columns small-centered">
+                            @Html.ActionLink(forgotPasswordString, "ForgotPassword", "Account")
+                        </div>
+                    </div>
                 }
             </div>
         </div>

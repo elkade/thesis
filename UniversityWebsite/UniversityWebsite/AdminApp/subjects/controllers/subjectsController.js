@@ -1,7 +1,8 @@
 ﻿angular.module('configApp.subjects')
 
 
-.controller('subjectsCtrl', function ($scope, $state, $location, subjectsService) {
+.controller('subjectsCtrl', function ($scope, $state, $location, subjectsService, user) {
+    $scope.user = user;
     $scope.totalSubjects = 0;
     $scope.currentPage = 1;
     $scope.subjectsPerPage = 8;

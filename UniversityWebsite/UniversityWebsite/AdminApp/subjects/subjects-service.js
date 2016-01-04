@@ -3,7 +3,7 @@
 ])
 
 .factory('Subjects', ['$resource', function ($resource) {
-    return $resource('/api/subjects', {}, {
+    return $resource('/api/subjects/:subjectId', { subjectId: '@subjectId' }, {
         query: { method: 'GET', isArray: true },
         post: { method: 'POST' },
         update: { method: 'PUT' },
@@ -50,6 +50,9 @@
 
     factory.post = Subjects.post;
     factory.update = Subjects.update;
+    factory.removeSubject = function(subjectId) {
+        return Subjects.remove({subjectId: subjectId}).$promise;
+    };
 
     factory.postNews = News.post;
     factory.updateNews = News.update;
