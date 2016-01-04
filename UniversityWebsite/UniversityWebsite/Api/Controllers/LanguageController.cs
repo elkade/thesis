@@ -13,6 +13,7 @@ namespace UniversityWebsite.Api.Controllers
     /// Kontroler odpowiedzialny za operacje CRUD na językach dostępnych w systemie.
     /// </summary>
     [RoutePrefix("api/languages")]
+    [Authorize(Roles = Consts.AdministratorRole)]
     public class LanguageController : ApiController
     {
         private readonly ILanguageService _languageService;

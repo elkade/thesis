@@ -196,6 +196,20 @@ namespace UniversityWebsite.Services
         /// <param name="subjectId">Id przedmiotu</param>
         /// <returns>Liczba naturalna</returns>
         int GetRequestsNumberBySubject(int subjectId);
+        /// <summary>
+        /// Sprawdza, czy nauczyciel ma prawa administracyjne do przedmiotu.
+        /// </summary>
+        /// <param name="userId">Id nauczyciela</param>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <returns>Wartość logiczna</returns>
+        bool HasTeacherAccessToSubject(string userId, int subjectId);
+        /// <summary>
+        /// Sprawdza, czy student ma dostęp do przedmiotu.
+        /// </summary>
+        /// <param name="userId">Id nauczyciela</param>
+        /// <param name="subjectId">Id przedmiotu</param>
+        /// <returns>Wartość logiczna</returns>
+        bool HasStudentAccessToSubject(string userId, int subjectId);
     }
     /// <summary>
     /// Implementacja serwisu realizującego logikę biznesową dotyczącą przedmiotów systemu.
@@ -563,6 +577,18 @@ namespace UniversityWebsite.Services
         public int GetRequestsNumberBySubject(int subjectId)
         {
             return _context.SignUpRequests.Count(r => r.Subject.Id == subjectId);
+        }
+
+        public bool HasTeacherAccessToSubject(string userId, int subjectId)
+        {
+            var subject = _context.Subjects.Find(subjectId);
+            return subject != null && subject.HasTeacher(userId);
+        }
+
+        public bool HasStudentAccessToSubject(string userId, int subjectId)
+        {
+            var subject = _context.Subjects.Find(subjectId);
+            return subject != null && subject.HasStudent(userId);
         }
 
         public IEnumerable<SignUpRequest> GetRequestsByTeacher(string teacherId, int limit, int offset)

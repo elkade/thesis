@@ -158,6 +158,17 @@ namespace UniversityWebsite.Core.Migrations
             _context.Phrases.Add(new Phrase { Key = "emailLink", CountryCode = "en", Value = "Email Link" });
             _context.Phrases.Add(new Phrase { Key = "emailLink", CountryCode = "pl", Value = "Wyślij" });
 
+            _context.Phrases.Add(new Phrase { Key = "resign", CountryCode = "en", Value = "Resign" });
+            _context.Phrases.Add(new Phrase { Key = "resign", CountryCode = "pl", Value = "Zrezygnuj" });
+
+            _context.Phrases.Add(new Phrase { Key = "teacherDuringAcceptation", CountryCode = "en", Value = "Acceptation in progress" });
+            _context.Phrases.Add(new Phrase { Key = "teacherDuringAcceptation", CountryCode = "pl", Value = "W trakcie akceptacji" });
+
+            _context.Phrases.Add(new Phrase { Key = "requestRejected", CountryCode = "en", Value = "Request rejected" });
+            _context.Phrases.Add(new Phrase { Key = "requestRejected", CountryCode = "pl", Value = "Wniosek odrzucony" });
+
+            _context.Phrases.Add(new Phrase { Key = "submit", CountryCode = "en", Value = "Submit" });
+            _context.Phrases.Add(new Phrase { Key = "submit", CountryCode = "pl", Value = "Wyślij" });
         }
 
         private void AddPagesAndMenus()

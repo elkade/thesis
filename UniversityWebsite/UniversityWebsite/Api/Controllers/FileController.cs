@@ -36,6 +36,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Plik lub NotFound, jeżeli plik o podanym id nie istnieje w systemie.</returns>
         [Route("{id:guid}")]
         [HttpGet]
+        [Authorize]
         public HttpResponseMessage Get(string id)
         {
             var userId = User.Identity.GetUserId();
@@ -57,6 +58,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Plik graficzny lub NotFound, jeżeli plik o podanym id nie istnieje w systemie.</returns>
         [Route("gallery/{id:guid}")]
         [HttpGet]
+        [AllowAnonymous]
         public HttpResponseMessage GetImage(string id)
         {
             var info = _fileService.GetPath(id, "");
@@ -75,7 +77,7 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         /// <summary>
-        /// Zwraza listę obiektów zawierających informacje o plikach będących materiałami dydaktycznymi danego przedmiotu.
+        /// Zwraca listę obiektów zawierających informacje o plikach będących materiałami dydaktycznymi danego przedmiotu.
         /// </summary>
         /// <param name="subjectId">Id przedmiotu</param>
         /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
@@ -84,6 +86,7 @@ namespace UniversityWebsite.Api.Controllers
         [Route("")]
         [Limit(50), Offset]
         [HttpGet]
+        [ValidateWriteAccessToSubject]
         public async Task<PaginationVm<FileDto>> GetInfoBySubject(int subjectId, int limit = 50, int offset = 0)
         {
             var files = await _fileService.GetBySubject(subjectId, limit, offset);
@@ -92,11 +95,12 @@ namespace UniversityWebsite.Api.Controllers
         }
 
         /// <summary>
-        /// Dodaje nowy plik zawarty w kontekście zapytania do pdanego przedmiotu.
+        /// Dodaje nowy plik zawarty w kontekście zapytania do danego przedmiotu.
         /// </summary>
         /// <param name="subjectId">Id przedmiotu</param>
         /// <returns>Dane dodanego pliku.</returns>
         [Route("")]
+        [ValidateWriteAccessToSubject]
         public async Task<IHttpActionResult> Post(int subjectId)
         {
             if (!Request.Content.IsMimeMultipartContent("form-data"))
@@ -107,23 +111,23 @@ namespace UniversityWebsite.Api.Controllers
             var file = await _fileService.Add(Request, subjectId, userId);
             return Ok(file);
         }
-        /// <summary>
-        /// Nadpisuje istniejący plik nową wersją, zachowując dane starego pliku.
-        /// </summary>
-        /// <param name="fileId">Id aktualizowanrgo pliku</param>
-        /// <returns>Dane zaktualizowanego pliku.</returns>
-        [Route("{fileId:guid}")]
-        [HttpPut]
-        public async Task<IHttpActionResult> Put(string fileId)
-        {
-            if (!Request.Content.IsMimeMultipartContent("form-data"))
-                return BadRequest("Unsupported media type");
+        ///// <summary>
+        ///// Nadpisuje istniejący plik nową wersją, zachowując dane starego pliku.
+        ///// </summary>
+        ///// <param name="fileId">Id aktualizowanrgo pliku</param>
+        ///// <returns>Dane zaktualizowanego pliku.</returns>
+        //[Route("{fileId:guid}")]
+        //[HttpPut]
+        //public async Task<IHttpActionResult> Put(string fileId)
+        //{
+        //    if (!Request.Content.IsMimeMultipartContent("form-data"))
+        //        return BadRequest("Unsupported media type");
 
-            var userId = User.Identity.GetUserId();
+        //    var userId = User.Identity.GetUserId();
 
-            var file = await _fileService.Update(Request, userId, fileId);
-            return Ok(file);
-        }
+        //    var file = await _fileService.Update(Request, userId, fileId);
+        //    return Ok(file);
+        //}
 
         /// <summary>
         /// Usuwa plik o podanym id z systemu.
@@ -147,6 +151,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Lista obiektów zawierających informacje o pliku graficznym</returns>
         [Limit(50), Offset]
         [Route("gallery")]
+        [Authorize(Roles=Consts.AdministratorRole)]
         public async Task<PaginationVm<FileDto>> GetGallery(int limit = 50, int offset = 0)
         {
             var images = await _fileService.GetGallery(limit, offset);
@@ -159,6 +164,7 @@ namespace UniversityWebsite.Api.Controllers
         /// </summary>
         /// <returns>Informacje o obrazku</returns>
         [Route("gallery")]
+        [Authorize(Roles=Consts.AdministratorRole)]
         public async Task<IHttpActionResult> PostGallery()
         {
             if (!Request.Content.IsMimeMultipartContent("form-data"))
@@ -167,19 +173,19 @@ namespace UniversityWebsite.Api.Controllers
             var file = await _fileService.AddToGallery(Request, userId);
             return Ok(file);
         }
-        /// <summary>
-        /// Nadpisuje istniejący obrazek nową wersją, zachowując dane starego pliku graficznego.
-        /// </summary>
-        /// <param name="fileId">Id aktualizowanrgo obrazka</param>
-        /// <returns>Dane zaktualizowanego obrazka.</returns>
-        [Route("gallery/{fileId:guid}")]
-        public async Task<IHttpActionResult> PutGallery(string fileId)
-        {
-            if (!Request.Content.IsMimeMultipartContent("form-data"))
-                return BadRequest("Unsupported media type");
-            var userId = User.Identity.GetUserId();
-            var file = await _fileService.UpdateInGallery(Request, userId, fileId);
-            return Ok(file);
-        }
+        ///// <summary>
+        ///// Nadpisuje istniejący obrazek nową wersją, zachowując dane starego pliku graficznego.
+        ///// </summary>
+        ///// <param name="fileId">Id aktualizowanrgo obrazka</param>
+        ///// <returns>Dane zaktualizowanego obrazka.</returns>
+        //[Route("gallery/{fileId:guid}")]
+        //public async Task<IHttpActionResult> PutGallery(string fileId)
+        //{
+        //    if (!Request.Content.IsMimeMultipartContent("form-data"))
+        //        return BadRequest("Unsupported media type");
+        //    var userId = User.Identity.GetUserId();
+        //    var file = await _fileService.UpdateInGallery(Request, userId, fileId);
+        //    return Ok(file);
+        //}
     }
 }

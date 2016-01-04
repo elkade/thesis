@@ -4,12 +4,13 @@ using System.Web.Http.Description;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
 
-namespace UniversityWebsite.ApiControllers
+namespace UniversityWebsite.Api.Controllers
 {
     /// <summary>
     /// Kontroler odpowiedzialny za operacje pobierania menu kafelków i edycję jego elementów.
     /// </summary>
     [RoutePrefix("api/tile")]
+    [Authorize(Roles = Consts.AdministratorRole)]
     //[AntiForgeryValidate]
     public class TileController : ApiController
     {

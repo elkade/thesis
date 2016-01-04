@@ -10,7 +10,7 @@ namespace UniversityWebsite.Api.Controllers
     /// Kontroler odpowiedzialny za operacje pobierania menu głównego i edycję jego elementów.
     /// </summary>
     [RoutePrefix("api/menu")]
-    
+    [Authorize(Roles = Consts.AdministratorRole)]
     //[AntiForgeryValidate]
     public class MenuController : ApiController
     {

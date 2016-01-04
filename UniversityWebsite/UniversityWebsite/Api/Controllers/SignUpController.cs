@@ -37,7 +37,7 @@ namespace UniversityWebsite.Api.Controllers
         [Limit(50),Offset]
         [Route("")]
         [HttpGet]
-        [Authorize(Roles=Consts.AdministratorRole + "," + Consts.TeacherRole)]
+        [ValidateWriteAccessToSubject]
         public PaginationVm<RequestVm> GetRequestsBySubject(int subjectId, int limit = 50, int offset = 0)
         {
             var requests = _subjectService.GetRequestsBySubject(subjectId, limit, offset);
@@ -49,7 +49,7 @@ namespace UniversityWebsite.Api.Controllers
 
 
         /// <summary>
-        /// Pobierz zbiór wniosków o zapisanie się na przedmioty administrowane przez zalogowanego nauczyciela.
+        /// Pobiera zbiór wniosków o zapisanie się na przedmioty administrowane przez zalogowanego nauczyciela.
         /// </summary>
         /// <param name="limit">Maksymalna liczba zwrócowych obiektów</param>
         /// <param name="offset">Numer porządkowy pierwszego obiektu listy</param>
@@ -57,7 +57,7 @@ namespace UniversityWebsite.Api.Controllers
         [Limit(50), Offset]
         [Route("")]
         [HttpGet]
-        //[Authorize(Roles=Consts.TeacherRole)]
+        [Authorize(Roles = Consts.AdministratorRole + ", " + Consts.TeacherRole)]
         public PaginationVm<RequestVm> GetRequestsByTeacher(int limit = 50, int offset = 0)
         {
             var userId = User.Identity.GetUserId();
@@ -76,7 +76,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Status HTTP</returns>
         [Route("approve")]
         [HttpPost]
-        //[Authorize(Roles=Consts.TeacherRole)]
+        [Authorize(Roles = Consts.AdministratorRole + ", " + Consts.TeacherRole)]
         public IHttpActionResult ApproveRequest(int[] requestIds)
         {
             var userId = User.Identity.GetUserId();
@@ -91,7 +91,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Status HTTP</returns>
         [Route("reject")]
         [HttpPost]
-        //[Authorize(Roles=Consts.TeacherRole)]
+        [Authorize(Roles = Consts.AdministratorRole + ", " + Consts.TeacherRole)]
         public IHttpActionResult RefuseRequest(int[] requestIds)
         {
             var userId = User.Identity.GetUserId();

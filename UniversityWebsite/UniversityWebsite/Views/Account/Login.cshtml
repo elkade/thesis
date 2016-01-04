@@ -40,7 +40,7 @@
                     <input type="submit" value="@logInString" class="button" />
                     <div class="row">
                         <div class="small-6 columns small-centered">
-                            @Html.ActionLink(forgotPasswordString, "ForgotPassword", "Account")
+                            <a href="@Url.Action("ForgotPassword", "Account")">@forgotPasswordString</a>
                         </div>
                     </div>
                 }

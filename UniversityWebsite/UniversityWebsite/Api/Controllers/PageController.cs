@@ -6,6 +6,7 @@ using AutoMapper;
 using UniversityWebsite.Api.Model;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Filters;
+using UniversityWebsite.Helper;
 using UniversityWebsite.Model.Page;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Model;
@@ -16,6 +17,7 @@ namespace UniversityWebsite.Api.Controllers
     /// Kontroler api służący do wykonywania operacji CRUD na stronach systemu.
     /// </summary>
     [RoutePrefix("api/page")]
+    [Authorize(Roles=Consts.AdministratorRole)]
     public class PageController : ApiController
     {
         private readonly ILanguageService _languageService;
@@ -80,8 +82,7 @@ namespace UniversityWebsite.Api.Controllers
             return allLanguages.Where(l => !usedLanguages.Contains(l.CountryCode));
         }
 
-        // GET api/Page/5
-        //[AntiForgeryValidate]
+        
         /// <summary>
         /// Zwraca stronę o danym id.
         /// </summary>
@@ -89,6 +90,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Dane strony o podanym id</returns>
         [Route("{id:int}", Name = "GetPage")]
         [ResponseType(typeof(PageDto))]
+        //[AntiForgeryValidate]
         public IHttpActionResult GetPage(int id)
         {
             PageDto page = _pageService.FindPage(id);

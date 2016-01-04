@@ -38,7 +38,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Zbiór obiektów reprezentujących przedmioty</returns>
         [Limit(50), Offset]
         [Route("")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(Roles=Consts.AdministratorRole+", "+Consts.TeacherRole)]
         //[AntiForgeryValidate]
         public PaginationVm<SubjectDto> GetSubjects(int limit = 50, int offset = 0)
         {
@@ -74,7 +74,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <param name="subject">Dane, którymi ma zostać nadpisany przedmiot</param>
         /// <returns>Dane nadpisanego przedmiotu</returns>
         [Route("")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [ValidateWriteAccessToSubject]
         public IHttpActionResult PutSubject(SubjectPut subject)
         {
             if (!ModelState.IsValid)
@@ -108,7 +108,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Zbiór obiektów reprezentujących aktualności</returns>
         [Limit(50), Offset]
         [Route("{subjectId:int}/news")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [AllowAnonymous]
         public PaginationVm<NewsDto> GetNews(int subjectId, int limit = 50, int offset = 0)
         {
             var news = _subjectService.GetNews(subjectId);
@@ -123,7 +123,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <param name="news">Dane aktualności</param>
         /// <returns>Dane dodanego wpisu</returns>
         [Route("{subjectId:int}/news")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [ValidateWriteAccessToSubject]
         public IHttpActionResult PostNews(int subjectId, [FromBody]NewsPost news)
         {
             if (!ModelState.IsValid)
@@ -141,7 +141,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <param name="news">Dane wpisu do nadpisania</param>
         /// <returns>Dane nadpisanego wpisu</returns>
         [Route("{subjectId:int}/news/{newsId:int}")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [ValidateWriteAccessToSubject]
         public IHttpActionResult PutNews(int subjectId, int newsId, [FromBody]NewsPut news)
         {
             if (newsId != news.Id)
@@ -161,7 +161,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <param name="newsId">Id wpisu w aktualnościach</param>
         /// <returns>Status HTTP</returns>
         [Route("{subjectId:int}/news/{newsId:int}")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [ValidateWriteAccessToSubject]
         public IHttpActionResult DeleteNews(int subjectId, int newsId)
         {
             _subjectService.DeleteNews(subjectId, newsId);
@@ -235,7 +235,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Zbiór obiektów reprezentujących studentów</returns>
         [Limit(50), Offset]
         [Route("{subjectId:int}/students")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [ValidateWriteAccessToSubject]
         public PaginationVm<UserTeachingVm> GetStudents(int subjectId, int limit = 50, int offset = 0)
         {
             var students = _subjectService.GetStudents(subjectId, limit, offset)

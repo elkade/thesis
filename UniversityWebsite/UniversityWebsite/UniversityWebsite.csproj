@@ -639,6 +639,7 @@
     <Compile Include="Filters\LanguageFilterAttribute.cs" />
     <Compile Include="Filters\LimitOffsetFilterAttributes.cs" />
     <Compile Include="Filters\MainMenuAttribute.cs" />
+    <Compile Include="Filters\SubjectAccessValidation.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

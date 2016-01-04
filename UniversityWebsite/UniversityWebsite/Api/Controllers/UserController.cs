@@ -2,10 +2,7 @@
 using System.Web.Http;
 using UniversityWebsite.Api.Model;
 using UniversityWebsite.Api.Model.Users;
-using UniversityWebsite.Domain.Model;
-using UniversityWebsite.Core;
 using Microsoft.AspNet.Identity;
-using System.Linq;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Services;
 using UniversityWebsite.Services.Exceptions;
@@ -14,6 +11,7 @@ using UniversityWebsite.Services.Model;
 namespace UniversityWebsite.Api.Controllers
 {
     [RoutePrefix("api/users")]
+    [Authorize(Roles = Consts.AdministratorRole)]
     public class UserController : ApiController
     {
         private readonly IUserService _userService;
@@ -123,7 +121,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userIds"></param>
         /// <returns></returns>
         [Route("disable")]
         [HttpPost]
@@ -143,7 +141,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userIds"></param>
         /// <returns></returns>
         [Route("activate")]
         [HttpPost]
@@ -160,7 +158,7 @@ namespace UniversityWebsite.Api.Controllers
             }
         }
 
-        protected IHttpActionResult GetErrorResult(IdentityResult result)
+        private IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
                 return InternalServerError();

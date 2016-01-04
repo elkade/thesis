@@ -56,6 +56,8 @@ namespace UniversityWebsite.Controllers
         /// <returns>Obiekt widoku</returns>
         public ActionResult Semester(int number)
         {
+            if(number<=0||number>Consts.SemestersNumber)
+                throw new Exception("Semester number out of range");
             var userId = User.Identity.GetUserId();
             var subjects = _subjectService.GetSubjectsBySemester(number, 100, 0);
 
@@ -97,7 +99,7 @@ namespace UniversityWebsite.Controllers
                 NumberOfPages = Convert.ToInt32(Math.Ceiling((double)subject.News.Count() / PageSize))
             };
 
-            if (userId == null || !subject.HasStudent(userId))
+            if (userId == null || !(subject.HasStudent(userId) || subject.HasTeacher(userId)))
                 subjectVm.Files.Clear();
 
             subjectVm.NavMenu = new NavMenuVm {Items = GetSiblings(), IsTopLevel = true};

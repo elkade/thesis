@@ -14,5 +14,6 @@
         public const string TeacherRole = "Teacher";
         public const string StudentRole = "Student";
         public const string HttpStatusCodeKey = "httpStatusCode";
+        public const int SemestersNumber = 10;
     }
 }

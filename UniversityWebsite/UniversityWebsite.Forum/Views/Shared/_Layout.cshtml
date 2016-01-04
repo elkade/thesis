@@ -43,6 +43,8 @@
     
     <nav class="pushy pushy-left">
         <ul>
+                        <li><a href="/Home">Home</a></li>
+
             @if (User.Identity.IsAuthenticated)
             {
                 @Html.Action("SideAdminPanel", "Members", new { isDropDown  = false})
@@ -80,6 +82,8 @@
                 <div class="collapse navbar-collapse" id="mvcforum-nav">
     
                     <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="/Home">Home</a></li>
+
                         @if (!User.Identity.IsAuthenticated)
                         {
                             @*if (Html.Settings().SuspendRegistration != true)

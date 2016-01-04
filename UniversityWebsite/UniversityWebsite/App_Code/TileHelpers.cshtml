@@ -45,14 +45,14 @@
     <div class="small-6 medium-4 columns columns-align-left tile">
         <div class="card" data-equalizer-watch="tile">
             <div class="content">
-                <div class="title" style="padding-bottom: 1rem; padding-top: 1rem;">
-                    <a href="@href" class="title">@title</a>
-                </div>
                 <div>
                     @if (action != null)
                     {
                         action();
                     }
+                </div>
+                <div class="title" style="padding-bottom: 1rem; padding-top: 1rem;">
+                    <a href="@href" class="title">@title</a>
                 </div>
             </div>
         </div>
