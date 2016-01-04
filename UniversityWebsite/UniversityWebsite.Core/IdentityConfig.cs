@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -22,7 +24,7 @@ namespace UniversityWebsite.Core
         /// </summary>
         public string SuperUserLogin
         {
-            get { return _superUserLogin;}
+            get { return _superUserLogin; }
         }
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace UniversityWebsite.Core
             get
             {
                 var su = this.FindByName(_superUserLogin);
-                if(su!=null)
+                if (su != null)
                     return su.Id;
                 throw new Exception("Cannot find superuser");
             }
@@ -103,7 +105,40 @@ namespace UniversityWebsite.Core
             }
             return manager;
         }
+        public override async Task SendEmailAsync(string userId, string subject, string body)
+        {
+            var user = await FindByIdAsync(userId);
+            if (user == null)
+                throw new ArgumentException("User does not exist.");
+            var fromAddress = new MailAddress("universitywebsite69@gmail.com", "Forgot password");
+            var toAddress = new MailAddress(user.Email, user.FirstName);
+            const string fromPassword = "su123456";
+            await Task.Run(() =>
+            {
+                using (var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                })
+                {
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+                }
+            });
+        }
     }
+
+
     /// <summary>
     /// Manager zarządzający uwierzytelnianiem użytkowników systemu.
     /// </summary>
