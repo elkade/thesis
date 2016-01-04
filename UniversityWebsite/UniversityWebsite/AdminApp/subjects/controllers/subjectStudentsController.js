@@ -15,6 +15,25 @@
         current: 1
     };
 
+    $scope.signOut = function() {
+        var selectedStudents = Enumerable.From($scope.students).Where(function(student) {
+            return student.selected;
+        }).Select(function(student) {
+            return student.Id;
+        }).ToArray();
+
+        if (selectedStudents.length > 0) {
+            subjectsService.signOutStudents($scope.subject.Id, selectedStudents).then(function () {
+                var alert = { type: 'success', msg: 'Selected students were successfully removed from the subject.' };
+                $scope.addAlert(alert);
+                getPage(1);
+            }, function (error) {
+                var alert = { type: 'alert', msg: 'Error: ' + error };
+                $scope.addAlert(alert);
+            });
+        }
+    };
+ 
     function getPage(pageNumber) {
         var offset = (pageNumber - 1) * $scope.studentsPerPage;
         subjectsService.queryStudents($scope.subject.Id, $scope.studentsPerPage, offset).$promise.then(function (resp){

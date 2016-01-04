@@ -25,27 +25,30 @@
 
     $scope.approve = function() {
         var selectedRequests = getSelectedRequestIds($scope.requests);
-        console.log(selectedRequests);
-        subjectsService.approveSignUpRequests(selectedRequests).then(function (response) {
-            var alert = { type: 'success', msg: 'Selected students were successfully added to the subject.' };
-            $scope.addAlert(alert);
-            getPage(1);
-        }, function(error) {
-            var alert = { type: 'alert', msg: 'Error: ' + error };
-            $scope.addAlert(alert);
-        });
+        if (selectedRequests.length > 0) {
+            subjectsService.approveSignUpRequests(selectedRequests).then(function (response) {
+                var alert = { type: 'success', msg: 'Selected students were successfully added to the subject.' };
+                $scope.addAlert(alert);
+                getPage(1);
+            }, function (error) {
+                var alert = { type: 'alert', msg: 'Error: ' + error };
+                $scope.addAlert(alert);
+            });
+        }
     };
 
     $scope.reject = function() {
         var selectedRequests = getSelectedRequestIds($scope.requests);
-        subjectsService.rejectSignUpRequests(selectedRequests).then(function (response) {
-            var alert = { type: 'success', msg: 'Requsts from selected students were successfully rejected.' };
-            $scope.addAlert(alert);
-            getPage(1);
-        }, function (error) {
-            var alert = { type: 'alert', msg: 'Error: ' + error };
-            $scope.addAlert(alert);
-        });
+        if (selectedRequests.length > 0) {
+            subjectsService.rejectSignUpRequests(selectedRequests).then(function (response) {
+                var alert = { type: 'success', msg: 'Requsts from selected students were successfully rejected.' };
+                $scope.addAlert(alert);
+                getPage(1);
+            }, function (error) {
+                var alert = { type: 'alert', msg: 'Error: ' + error };
+                $scope.addAlert(alert);
+            });
+        }
     };
 
     function getSelectedRequestIds(signUpRequests) {

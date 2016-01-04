@@ -22,13 +22,15 @@
             return teacher.Id;
         }).ToArray();
 
-        subjectsService.removeTeachers($scope.subject.Id, selectedTeachers).$promise.then(function(resp) {
-            loadTeachers();
-            var alert = { type: 'success', msg: 'Selected teachers were successfully removed from the subject.' };
-            $scope.addAlert(alert);
-        }, function(error) {
-            errorHandler(error);
-        });
+        if (selectedTeachers.length > 0) {
+            subjectsService.removeTeachers($scope.subject.Id, selectedTeachers).$promise.then(function (resp) {
+                loadTeachers();
+                var alert = { type: 'success', msg: 'Selected teachers were successfully removed from the subject.' };
+                $scope.addAlert(alert);
+            }, function (error) {
+                errorHandler(error);
+            });
+        }
     };
 
     $scope.add = function () {

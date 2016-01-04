@@ -62,6 +62,10 @@
         return Students.query({ subjectId: subjectId, limit: limit, offset: offset });
     };
 
+    factory.signOutStudents = function(subjectId, studentsIds) {
+        return Students.update({ subjectId: subjectId }, studentsIds).$promise;
+    };
+
     factory.querySignUpRequests = function(subjectId, limit, offset) {
         return $http.get('/api/signup', { params: { subjectId: subjectId, limit: limit, offset: offset } });
     };

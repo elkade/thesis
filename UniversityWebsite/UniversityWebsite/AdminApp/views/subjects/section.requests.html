@@ -13,7 +13,9 @@
     </ul>
     <table>
         <tr>
-            <th style="padding-left: 40px">Student names</th>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Index number</th>
             <th>Status</th>
         </tr>
@@ -23,7 +25,13 @@
             pagination-id="requests">
             <td>
                 <input type="checkbox" ng-model="request.selected" id="{{request.Id}}" />
-                <label for="{{request.Id}}">{{request.StudentLastName}} {{request.StudentFirstName}}</label>
+                <label for="{{request.Id}}"></label>
+            </td>
+            <td>
+                <span>{{request.StudentFirstName}}</span>
+            </td>
+            <td>
+                <span>{{request.StudentLastName}}</span>
             </td>
             <td>
                 <span>{{request.StudentIndex}}</span>

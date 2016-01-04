@@ -251,6 +251,15 @@ namespace UniversityWebsite.Api.Controllers
             return new PaginationVm<UserTeachingVm>(students, count, limit, offset);
         }
 
+        [HttpPut]
+        [Route("{subjectId:int}/students")]
+        [Authorize(Roles = Consts.AdministratorRole + "," + Consts.TeacherRole)]
+        public IHttpActionResult RemoveStudents(int subjectId, [FromBody]string[] studentsIds)
+        {
+            _subjectService.RemoveFromSubject(subjectId, studentsIds);
+            return Ok();
+        }
+
         private string PrepareUrlName(string name)
         {
             return HttpUtility.UrlEncode(name.Substring(0, 32 > name.Length ? name.Length : 32));

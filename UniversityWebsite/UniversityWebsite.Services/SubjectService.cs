@@ -196,6 +196,13 @@ namespace UniversityWebsite.Services
         /// <param name="subjectId">Id przedmiotu</param>
         /// <returns>Liczba naturalna</returns>
         int GetRequestsNumberBySubject(int subjectId);
+
+        /// <summary>
+        /// Usuwa listę podanych studentów z przedmiotu
+        /// </summary>
+        /// <param name="subjectId"></param>
+        /// <param name="studentsIds"></param>
+        void RemoveFromSubject(int subjectId, string[] studentsIds);
     }
     /// <summary>
     /// Implementacja serwisu realizującego logikę biznesową dotyczącą przedmiotów systemu.
@@ -492,6 +499,16 @@ namespace UniversityWebsite.Services
             _context.SaveChanges();
         }
 
+        public void RemoveFromSubject(int subjectId, string[] studentsIds)
+        {
+            var requests =
+                _context.SignUpRequests.Where(r => r.SubjectId == subjectId && studentsIds.Contains(r.StudentId));
+            foreach (var signUpRequest in requests)
+            {
+                _context.SetDeleted(signUpRequest);
+            }
+            _context.SaveChanges();
+        }
 
         public void ApproveRequests(IEnumerable<int> requestIds, string teacherId)
         {
