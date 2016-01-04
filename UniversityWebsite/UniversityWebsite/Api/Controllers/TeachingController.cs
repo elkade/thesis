@@ -92,6 +92,7 @@ namespace UniversityWebsite.Api.Controllers
         /// <returns>Status HTTP</returns>
         [Route("{subjectId:int}")]
         [Authorize(Roles = "Administrator")]
+        [HttpDelete]
         public IHttpActionResult DeleteSubject(int subjectId)
         {
             _subjectService.DeleteSubject(subjectId);

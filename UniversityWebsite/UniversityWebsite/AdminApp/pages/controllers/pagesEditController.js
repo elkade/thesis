@@ -65,14 +65,11 @@
      */
     $scope.openDeleteModal = function () {
         var modalInstance = $modal.open({
-            templateUrl: 'adminapp/views/pages/deletePageModal.html',
+            templateUrl: 'adminapp/views/partials/confirmation.modal.html',
             controller: 'deletePageModalCtrl',
             resolve: {
                 page: function() {
                     return $scope.page;
-                },
-                pages: function() {
-                    return $scope.pages;
                 }
             }
         });
