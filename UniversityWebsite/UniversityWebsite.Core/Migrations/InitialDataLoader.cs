@@ -149,6 +149,15 @@ namespace UniversityWebsite.Core.Migrations
             _context.Phrases.Add(new Phrase { Key = "confirmNewPassword", CountryCode = "en", Value = "Confirm new password" });
             _context.Phrases.Add(new Phrase { Key = "confirmNewPassword", CountryCode = "pl", Value = "Potwierdź nowe hasło" });
 
+            _context.Phrases.Add(new Phrase { Key = "forgotPassword", CountryCode = "en", Value = "Forgot password" });
+            _context.Phrases.Add(new Phrase { Key = "forgotPassword", CountryCode = "pl", Value = "Zapomniałem hasło" });
+
+            _context.Phrases.Add(new Phrase { Key = "forgotYourPassword", CountryCode = "en", Value = "Forgot your password?" });
+            _context.Phrases.Add(new Phrase { Key = "forgotYourPassword", CountryCode = "pl", Value = "Zapomniałeś hasło?" });
+
+            _context.Phrases.Add(new Phrase { Key = "emailLink", CountryCode = "en", Value = "Email Link" });
+            _context.Phrases.Add(new Phrase { Key = "emailLink", CountryCode = "pl", Value = "Wyślij" });
+
         }
 
         private void AddPagesAndMenus()
