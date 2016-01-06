@@ -154,6 +154,7 @@ namespace UniversityWebsite.Services
                         ? null
                         : new ParentDto
                         {
+                            Id = page.Parent.Id,
                             Title = page.Parent.Title, 
                             UrlName = page.Parent.UrlName
                         },

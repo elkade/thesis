@@ -28,7 +28,8 @@ configApp.directive('pageList', function() {
         templateUrl: "/adminapp/views/pages/pages.list.html",
         scope: {
             selected: '&',
-            showTitle: '='
+            changed: '&',
+            showTitle: '=',
         },
         controller: function ($scope, pagesService) {
             $scope.totalPages = 0;
@@ -51,6 +52,7 @@ configApp.directive('pageList', function() {
                 pagesService.queryPages($scope.pagesPerPage, offset).then(function (response) {
                     $scope.totalPages = response.data.Number;
                     $scope.pages = response.data.Elements;
+                    $scope.changed()($scope.pages);
                 });
             };
 

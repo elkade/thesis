@@ -1,6 +1,12 @@
 ﻿angular.module('configApp.pages')
 
 .controller('pagesEditCtrl', function ($scope, $stateParams, $modal, $location, utils, pagesService, page, $state) {
+    if (page != null && page.Parent != null) {
+        page.ParentId = page.Parent.Id;
+        $scope.selectedParent = page.Parent;
+    }
+    console.log(page.ParentId);
+    $scope.availableParents = findAvailableParents();
     $scope.page = page;
     $scope.availableLanguages = findAvailableLanguages($scope.languages, $scope.page.Translations);
     $scope.alerts = [];
@@ -9,6 +15,9 @@
         if (!page.UrlName) {
             page.UrlName = null;
         }
+        if ($scope.selectedParent != null) {
+            page.ParentId = $scope.selectedParent.Id;
+        }
     };
 
     /**
@@ -16,19 +25,25 @@
      */
     $scope.update = function () {
         $scope.errors = [];
-
+        console.log($scope.page.ParentId);
         if ($scope.pageForm.$valid) {
             preUpdatePage($scope.page);
 
             if ($scope.page != null && $scope.page.Id != null) {
                 pagesService.update({ id: $scope.page.Id }, $scope.page, function (response) {
                     addSuccesAlert();
+                    if (response != null && response.Parent != null) {
+                        response.ParentId = response.Parent.Id;
+                    }
                     $scope.page = response;
                 }, errorHandler);
             } else {
                 var page = $scope.page || new Object();
                 pagesService.post(page, function (response) {
                     addSuccesAlert();
+                    if (response.page != null && response.page.Parent != null) {
+                        response.ParentId = response.Parent.Id;
+                    }
                     $scope.page = response;
                 }, errorHandler);
             }
@@ -73,6 +88,15 @@
                 }
             }
         });
+    };
+
+    function findAvailableParents() {
+        var parents = Enumerable.From($scope.pages).Where(function(currentPage) {
+            return currentPage.Id != page.Id;
+        }).ToArray();
+
+        parents.unshift({ Id: null, Title: '---' });
+        return parents;
     };
 
     function findAvailableLanguages(languages, existingTranslations) {
