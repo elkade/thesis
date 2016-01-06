@@ -19,11 +19,11 @@
     //$scope.oneAtATime = true;
 
     $scope.tinymceOptions = {
-        lplugins: 'textcolor link code',
-        toolbar: "undo redo styleselect bold italic forecolor backcolor code",
-        menu: { // this is the complete default configuration
+        plugins: 'textcolor code advlist autolink lists link image charmap print preview anchor table',
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | forecolor backcolor | code",
+        menu: {
             edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
-            insert: { title: 'Insert', items: 'link media | template hr' },
+            insert: { title: 'Insert', items: 'link media | template hr | table' },
             format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
         },
 

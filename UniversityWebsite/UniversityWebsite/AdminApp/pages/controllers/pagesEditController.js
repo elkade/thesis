@@ -39,11 +39,11 @@
 
     $scope.tinymceOptions = {
         height: 500,
-        plugins: 'textcolor code advlist autolink lists link image charmap print preview anchor',
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor | code",
+        plugins: 'textcolor code advlist autolink lists link image charmap print preview anchor table',
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link image | forecolor backcolor | code",
         menu: {
             edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
-            insert: { title: 'Insert', items: 'link media | template hr' },
+            insert: { title: 'Insert', items: 'link media | template hr | table' },
             format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
         },
         file_browser_callback: function (field_name, url, type, win) {
