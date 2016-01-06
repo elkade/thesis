@@ -1,6 +1,12 @@
 ﻿angular.module('configApp.pages')
 
 .controller('pagesEditCtrl', function ($scope, $stateParams, $modal, $location, utils, pagesService, page, $state) {
+    if (page != null && page.Parent != null) {
+        page.ParentId = page.Parent.Id;
+        $scope.selectedParent = page.Parent;
+    }
+    console.log(page.ParentId);
+    $scope.availableParents = findAvailableParents();
     $scope.page = page;
     $scope.availableLanguages = findAvailableLanguages($scope.languages, $scope.page.Translations);
     $scope.alerts = [];
@@ -9,6 +15,9 @@
         if (!page.UrlName) {
             page.UrlName = null;
         }
+        if ($scope.selectedParent != null) {
+            page.ParentId = $scope.selectedParent.Id;
+        }
     };
 
     /**
@@ -16,19 +25,25 @@
      */
     $scope.update = function () {
         $scope.errors = [];
-
+        console.log($scope.page.ParentId);
         if ($scope.pageForm.$valid) {
             preUpdatePage($scope.page);
 
             if ($scope.page != null && $scope.page.Id != null) {
                 pagesService.update({ id: $scope.page.Id }, $scope.page, function (response) {
                     addSuccesAlert();
+                    if (response != null && response.Parent != null) {
+                        response.ParentId = response.Parent.Id;
+                    }
                     $scope.page = response;
                 }, errorHandler);
             } else {
                 var page = $scope.page || new Object();
                 pagesService.post(page, function (response) {
                     addSuccesAlert();
+                    if (response.page != null && response.page.Parent != null) {
+                        response.ParentId = response.Parent.Id;
+                    }
                     $scope.page = response;
                 }, errorHandler);
             }
@@ -39,11 +54,11 @@
 
     $scope.tinymceOptions = {
         height: 500,
-        plugins: 'textcolor code advlist autolink lists link image charmap print preview anchor',
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor | code",
+        plugins: 'textcolor code advlist autolink lists link image charmap print preview anchor table',
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link image | forecolor backcolor | code",
         menu: {
             edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
-            insert: { title: 'Insert', items: 'link media | template hr' },
+            insert: { title: 'Insert', items: 'link media | template hr | table' },
             format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
         },
         file_browser_callback: function (field_name, url, type, win) {
@@ -73,6 +88,15 @@
                 }
             }
         });
+    };
+
+    function findAvailableParents() {
+        var parents = Enumerable.From($scope.pages).Where(function(currentPage) {
+            return currentPage.Id != page.Id;
+        }).ToArray();
+
+        parents.unshift({ Id: null, Title: '---' });
+        return parents;
     };
 
     function findAvailableLanguages(languages, existingTranslations) {

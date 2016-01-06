@@ -23,6 +23,10 @@
                             $scope.add = function() {
                                 $state.go("pages.edit", { pageName: "newPage", page: { Id: null } });
                             };
+
+                            $scope.pageChanged = function (pages) {
+                                $scope.pages = pages;
+                            };
                         }
                     ]
                 })
