@@ -155,7 +155,8 @@ namespace UniversityWebsite.Services
                         : new ParentDto
                         {
                             Title = page.Parent.Title, 
-                            UrlName = page.Parent.UrlName
+                            UrlName = page.Parent.UrlName,
+                            Id = page.ParentId.Value
                         },
                 Translations = page.Group.Pages
                     .Where(translation => translation.Id != page.Id)

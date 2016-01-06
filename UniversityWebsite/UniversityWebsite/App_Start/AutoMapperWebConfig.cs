@@ -46,7 +46,7 @@ namespace UniversityWebsite
                 CountryCode = p.CountryCode,
                 Title = p.Title,
                 LastUpdateDate = p.LastUpdateDate,
-                CreationDate = p.CreationDate
+                CreationDate = p.CreationDate,
             });
             Mapper.CreateMap<PageViewModel, PageDto>().ConvertUsing(vm => new PageDto
             {
