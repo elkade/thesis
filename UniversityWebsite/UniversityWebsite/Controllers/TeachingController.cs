@@ -56,23 +56,41 @@ namespace UniversityWebsite.Controllers
         /// <returns>Obiekt widoku</returns>
         public ActionResult Semester(int number)
         {
-            if(number<=0||number>Consts.SemestersNumber)
+            if (number <= 0 || number > Consts.SemestersNumber)
                 throw new Exception("Semester number out of range");
-            var userId = User.Identity.GetUserId();
-            var subjects = _subjectService.GetSubjectsBySemester(number, 100, 0);
-
-            bool isStudent = _userManager.IsInRole(userId, Consts.StudentRole);
-
-            return View(new SemesterVm
+            List<SubjectListElementVm> subjects = new List<SubjectListElementVm>();
+            bool isStudent = false;
+            if (User.Identity.IsAuthenticated)
             {
-                Subjects = subjects.Select(s => new SubjectListElementVm
+                var userId = User.Identity.GetUserId();
+
+                isStudent = _userManager.IsInRole(userId, Consts.StudentRole);
+                if (isStudent)
+                {
+                    subjects =
+                        _subjectService.GetSubjectsBySemester(number, 100, 0).ToList().Select(s => new SubjectListElementVm
+                        {
+                            SubjectName = s.Name,
+                            SubjectUrlName = s.UrlName,
+                            SignUpAction = _subjectService.GetAvailableAction(userId, s.Id),
+                            SubjectId = s.Id
+                        }).ToList();
+                }
+            }
+            if (!isStudent)
+            {
+                subjects = _subjectService.GetSubjectsBySemester(number, 100, 0).ToList().Select(s => new SubjectListElementVm
                 {
                     SubjectName = s.Name,
                     SubjectUrlName = s.UrlName,
-                    SignUpAction = isStudent ? _subjectService.GetAvailableAction(userId, s.Id) : SignUpAction.None,
+                    SignUpAction = SignUpAction.None,
                     SubjectId = s.Id
-                }).ToList(),
-                NavMenu = new NavMenuVm{Items = GetSiblings(), IsTopLevel = true},
+                }).ToList();
+            }
+            return View(new SemesterVm
+            {
+                Subjects = subjects,
+                NavMenu = new NavMenuVm { Items = GetSiblings(), IsTopLevel = true },
                 Number = number
             });
         }
@@ -102,7 +120,7 @@ namespace UniversityWebsite.Controllers
             if (userId == null || !(subject.HasStudent(userId) || subject.HasTeacher(userId)))
                 subjectVm.Files.Clear();
 
-            subjectVm.NavMenu = new NavMenuVm {Items = GetSiblings(), IsTopLevel = true};
+            subjectVm.NavMenu = new NavMenuVm { Items = GetSiblings(), IsTopLevel = true };
 
             return View(subjectVm);
         }
@@ -121,7 +139,7 @@ namespace UniversityWebsite.Controllers
 
         private List<PageMenuItemVm> GetSiblings()
         {
-            var sib =  _pageService.GetParentlessPagesWithChildren((string)Session[Consts.SessionKeyLang]).ToList();
+            var sib = _pageService.GetParentlessPagesWithChildren((string)Session[Consts.SessionKeyLang]).ToList();
             return Mapper.Map<List<PageMenuItemVm>>(sib);
         }
     }

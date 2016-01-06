@@ -14,6 +14,7 @@ namespace UniversityWebsite
         /// <param name="bundles">Obiekt reprezentujący grupy danych</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
+            BundleTable.EnableOptimizations = false;
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 

@@ -277,7 +277,6 @@
     <Content Include="Content\images\invalid.png" />
     <Content Include="Content\images\semester.jpg" />
     <Content Include="Content\site.css" />
-    <Content Include="Content\images\foundation\foundation-icons.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />

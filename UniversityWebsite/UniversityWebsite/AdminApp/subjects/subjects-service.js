@@ -12,7 +12,7 @@
 }])
 
 .factory("News", ['$resource', function($resource) {
-        return $resource('/api/subjects/:subjectId/news/:id', {subjectId: '@id'}, {
+        return $resource('/api/subjects/:subjectId/news/:id', {subjectId: '@id', id: '@newsId'}, {
             query: { method: 'GET', isArray: true },
             post: { method: 'POST' },
             update: { method: 'PUT' },
@@ -56,7 +56,9 @@
 
     factory.postNews = News.post;
     factory.updateNews = News.update;
-    factory.removeNews = News.remove;
+    factory.removeNews = function(subjectId, newsId) {
+        return News.remove({ subjectId: subjectId, id: newsId }).$promise;
+    };
 
     factory.queryStudents = function(subjectId, limit, offset) {
         return Students.query({ subjectId: subjectId, limit: limit, offset: offset });

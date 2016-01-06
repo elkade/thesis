@@ -43,8 +43,12 @@
     };
 
     $scope.remove = function(subject, news) {
-        subjectsService.removeNews({ newsId: news.Id });
-        utils.removeByHeader(subject.News, news.Header);
+        subjectsService.removeNews(subject.Id, news.Id).then(function() {
+            utils.removeByHeader(subject.News, news.Header);
+            var alert = { type: 'success', msg: 'Selected news was successfully removed.' };
+            $scope.addAlert(alert);
+        }, errorHandler);
+        
     };
 
     $scope.html = function (content) {
