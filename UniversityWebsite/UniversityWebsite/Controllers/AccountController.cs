@@ -12,6 +12,7 @@ using UniversityWebsite.Core;
 using UniversityWebsite.Domain.Model;
 using UniversityWebsite.Filters;
 using UniversityWebsite.Model;
+using UniversityWebsite.Services;
 using UniversityWebsite.ViewModels;
 
 namespace UniversityWebsite.Controllers
@@ -23,23 +24,18 @@ namespace UniversityWebsite.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly IDictionaryService _dictionaryService;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-        /// <summary>
-        /// Tworzy nową instancję kontrolera.
-        /// </summary>
-        public AccountController()
-        {
-                
-        }
         /// <summary>
         /// Tworzy nową instancję kontrolera.
         /// </summary>
         /// <param name="userManager">Manager zarządzający bezpośrednio użytkownikami systemu.</param>
         /// <param name="signInManager">Manager zarządzający autentykacją w systemie</param>
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        /// <param name="dictionaryService">Serwis odpowiedzialny za tłumaczenia fraz.</param>
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IDictionaryService dictionaryService)
         {
+            _dictionaryService = dictionaryService;
             UserManager = userManager;
             SignInManager = signInManager;
         }
@@ -274,14 +270,20 @@ namespace UniversityWebsite.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, GetPhrase("resetPasswordTitle"),
+                    string.Format("{0} {1}", GetPhrase("resetPasswordLink"), callbackUrl));
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
+        private string GetPhrase(string key)
+        {
+            return _dictionaryService.GetTranslationCached(key, (string)Session[Consts.SessionKeyLang]);
+        }
+
         /// <summary>
         /// Zwraca widok potwierdzający wysłanie wniosku o reset hasła.
         /// </summary>

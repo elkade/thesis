@@ -68,6 +68,7 @@ namespace UniversityWebsite
                 //builder.RegisterType<UserStore<User>>().As<IUserStore<User>>().InstancePerRequest();
 
                 builder.Register(c => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()).InstancePerRequest();
+                builder.Register(c => HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>()).InstancePerRequest();
 
                 //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
                 //builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();

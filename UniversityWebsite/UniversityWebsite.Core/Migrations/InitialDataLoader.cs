@@ -169,6 +169,25 @@ namespace UniversityWebsite.Core.Migrations
 
             _context.Phrases.Add(new Phrase { Key = "submit", CountryCode = "en", Value = "Submit" });
             _context.Phrases.Add(new Phrase { Key = "submit", CountryCode = "pl", Value = "Wyślij" });
+
+            _context.Phrases.Add(new Phrase { Key = "checkEmail", CountryCode = "en", Value = "Please check your email to reset your password." });
+            _context.Phrases.Add(new Phrase { Key = "checkEmail", CountryCode = "pl", Value = "Sprawdź skrzynkę email, aby zresetować hasło." });
+
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordLink", CountryCode = "en", Value = "Please reset your password by clicking:" });
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordLink", CountryCode = "pl", Value = "Aby zresetować hasło kliknij link:" });
+
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordTitle", CountryCode = "en", Value = "Reset password" });
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordTitle", CountryCode = "pl", Value = "Zresetuj hasło" });
+            _context.Phrases.Add(new Phrase { Key = "confirm", CountryCode = "en", Value = "Confirm password" });
+            _context.Phrases.Add(new Phrase { Key = "confirm", CountryCode = "pl", Value = "Potwierdź hasło" });
+
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordConfirmation", CountryCode = "en", Value = "Reset password confirmation" });
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordConfirmation", CountryCode = "pl", Value = "Potwierdzenie zmiany hasła" });
+
+
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordConfirmationText", CountryCode = "en", Value = "Your password has been reset." });
+            _context.Phrases.Add(new Phrase { Key = "resetPasswordConfirmationText", CountryCode = "pl", Value = "Twoje hasło zostało zresetowane." });
+
         }
 
         private void AddPagesAndMenus()

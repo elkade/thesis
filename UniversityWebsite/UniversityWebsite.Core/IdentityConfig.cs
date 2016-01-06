@@ -110,7 +110,7 @@ namespace UniversityWebsite.Core
             var user = await FindByIdAsync(userId);
             if (user == null)
                 throw new ArgumentException("User does not exist.");
-            var fromAddress = new MailAddress("universitywebsite69@gmail.com", "Forgot password");
+            var fromAddress = new MailAddress("universitywebsite69@gmail.com", "University Website");
             var toAddress = new MailAddress(user.Email, user.FirstName);
             const string fromPassword = "su123456";
             await Task.Run(() =>
